@@ -1,10 +1,20 @@
 import HeroSlider from '../../components/HeroSlider';
+import AlbumsShowcase from '../../components/AlbumsShowcase';
+import VideoShowcase from '../../components/VideoShowcase';
+import ContactForm from '../../components/ContactForm';
+import Testimonials from '../../components/Testimonials';
 
 export default function Home() {
   return (
     <main>
       {/* Hero Slider Section */}
       <HeroSlider />
+
+      {/* Albums Showcase Section - 6 Albums with See More */}
+      <AlbumsShowcase />
+
+      {/* Video Showcase Section - Auto-playing Video */}
+      <VideoShowcase />
 
       {/* Services Section */}
       <section className="py-20 bg-white">
@@ -31,20 +41,11 @@ export default function Home() {
         </div>
       </section>
 
-      {/* More content to test scroll behavior */}
-      <section className="py-20 bg-gray-50">
-        <div className="w-full mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-text mb-8" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Test Scroll Behavior
-          </h2>
-          <p className="text-muted mb-8" style={{ fontFamily: 'Inter, sans-serif' }}>
-            Scroll up to see the navbar shadow effect in action.
-          </p>
-          <div className="h-96 bg-white rounded-lg border border-divider flex items-center justify-center">
-            <p className="text-muted">Sample content area</p>
-          </div>
-        </div>
-      </section>
+      {/* User Testimonials Section */}
+      <Testimonials />
+
+      {/* Contact Form Section */}
+      <ContactForm />
     </main>
   );
 }

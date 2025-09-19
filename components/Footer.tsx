@@ -72,26 +72,28 @@ export default function Footer() {
       <div className="relative z-10">
         {/* Main Footer Content */}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-6">
             
-            {/* Company Info */}
-            <div className="lg:col-span-1">
-              <div className="flex items-center space-x-3 mb-6">
+            {/* Company Info - More space */}
+            <div className="lg:col-span-4">
+              <div className="flex items-start space-x-3 mb-6">
                 <Image
                   src="/img/chabighar.png"
                   alt="Chabighar"
                   width={50}
                   height={50}
-                  className="rounded-lg shadow-lg"
+                  className="rounded-lg shadow-lg flex-shrink-0"
                 />
-                <div>
+                <div className="min-w-0">
                   <h3 
                     className="text-2xl font-bold text-white"
                     style={{ fontFamily: 'Playfair Display, serif' }}
                   >
                     Chabighar
                   </h3>
-                  <p className="text-red-200 text-sm">Creating Beautiful Memories</p>
+                  <p className="text-red-200 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                    (Art Direction and Design Studio)
+                  </p>
                 </div>
               </div>
               <p className="text-red-100 mb-6 leading-relaxed">
@@ -119,7 +121,7 @@ export default function Footer() {
             </div>
 
             {/* Quick Links */}
-            <div>
+            <div className="lg:col-span-2">
               <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
                 Quick Links
               </h4>
@@ -152,7 +154,7 @@ export default function Footer() {
             </div>
 
             {/* Services */}
-            <div>
+            <div className="lg:col-span-3">
               <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
                 Our Services
               </h4>
@@ -191,7 +193,7 @@ export default function Footer() {
             </div>
 
             {/* Contact Info */}
-            <div>
+            <div className="lg:col-span-3">
               <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
                 Get In Touch
               </h4>
@@ -265,11 +267,29 @@ export default function Footer() {
         <div className="border-t border-red-400/30">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="flex items-center space-x-2 text-red-100 text-sm">
+              <div className="text-red-100 text-sm">
                 <span>&copy; 2025 Chabighar. All rights reserved.</span>
-                <HeartIcon className="w-4 h-4 text-red-300" />
-                <span>Made with love in Bengal</span>
               </div>
+
+              {/* Center Love Sign with Taglines */}
+              <div className="flex flex-col items-center space-y-2">
+                <div className="flex items-center space-x-2 text-red-100">
+                  <HeartIcon className="w-5 h-5 text-red-300" />
+                  <span className="text-sm font-medium">Made with love in Bengal</span>
+                </div>
+                <div className="text-center">
+                  <p className="text-red-200 text-sm font-medium">
+                    "Your celebration, our arrangement"
+                  </p>
+                  <p className="text-red-200 text-xs mt-1" style={{ fontFamily: 'SolaimanLipi, Arial, sans-serif' }}>
+                    "আপনার উৎসব, আমাদের আয়োজন"
+                  </p>
+                  <p className="text-red-300 text-xs mt-1 tracking-wider">
+                    Events • Shopping • Memories
+                  </p>
+                </div>
+              </div>
+
               <div className="flex space-x-6 text-sm">
                 <Link href="/privacy" className="text-red-100 hover:text-white transition-colors">
                   Privacy Policy
