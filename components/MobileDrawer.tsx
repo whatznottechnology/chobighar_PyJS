@@ -16,9 +16,8 @@ const menuItems = [
   { name: 'Photoshoot', href: '/photoshoot' },
   { name: 'Films/Portfolio', href: '/portfolio' },
   { name: 'Associate Vendors', href: '/vendors' },
-  { name: 'Shopping', href: '/shopping' },
   { name: 'Contact Us', href: '/contact' },
-  { name: 'Policies', href: '/policies' },
+  { name: 'Shopping', href: '/shopping' },
 ];
 
 const socialIcons = [
@@ -202,6 +201,37 @@ export default function MobileDrawer({ isOpen, onClose }: MobileDrawerProps) {
             <ul className="space-y-1">
               {menuItems.map((item) => {
                 const isActive = pathname === item.href;
+                const isShopping = item.name === 'Shopping';
+                
+                if (isShopping) {
+                  return (
+                    <li key={item.name}>
+                      <Link
+                        href={item.href}
+                        className="flex items-center justify-center gap-3 bg-black text-white px-4 py-4 text-lg font-medium transition-all duration-300 rounded-lg hover:bg-gray-800 hover:scale-105 hover:shadow-lg transform"
+                        style={{ fontFamily: 'Inter, sans-serif' }}
+                        onClick={onClose}
+                      >
+                        {/* Shopping Bag SVG */}
+                        <svg 
+                          viewBox="0 0 24 24" 
+                          fill="none" 
+                          stroke="currentColor" 
+                          strokeWidth="2" 
+                          strokeLinecap="round" 
+                          strokeLinejoin="round"
+                          className="w-5 h-5"
+                        >
+                          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+                          <line x1="3" y1="6" x2="21" y2="6"/>
+                          <path d="M16 10a4 4 0 01-8 0"/>
+                        </svg>
+                        <span>{item.name}</span>
+                      </Link>
+                    </li>
+                  );
+                }
+                
                 return (
                   <li key={item.name}>
                     <Link

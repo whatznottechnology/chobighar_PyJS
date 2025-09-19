@@ -1,15 +1,161 @@
 ﻿'use client';
 
 import { useState } from 'react';
-import { ChevronDownIcon, ChevronUpIcon, ArrowRightIcon, MapPinIcon, CameraIcon, SparklesIcon, PaintBrushIcon, ComputerDesktopIcon, HandRaisedIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronUpIcon, ArrowRightIcon, MapPinIcon, CameraIcon, SparklesIcon, PaintBrushIcon, ComputerDesktopIcon, HandRaisedIcon, StarIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 
 export default function Vendors() {
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(prev => prev === categoryId ? null : categoryId);
   };
+
+  // Featured vendor profiles
+  const featuredVendors = [
+    {
+      id: 'royal-palace-banquets',
+      name: 'Royal Palace Banquets',
+      category: 'venues',
+      type: 'Banquet Hall',
+      location: 'Salt Lake, Kolkata',
+      rating: 4.8,
+      reviews: 156,
+      priceRange: '₹50,000 - ₹2,00,000',
+      image: 'https://images.unsplash.com/photo-1519167758481-83f29c8e8f35?w=400&h=300&fit=crop&auto=format',
+      description: 'Luxury banquet hall with modern amenities and traditional Bengali hospitality.',
+      services: ['AC Banquet Hall', 'Catering', 'Decoration', 'Parking'],
+      capacity: '200-800 guests',
+      phone: '+91 98765 43210',
+      email: 'info@royalpalacebanquets.com',
+      featured: true
+    },
+    {
+      id: 'moments-photography',
+      name: 'Moments Photography',
+      category: 'photographers',
+      type: 'Wedding Photography',
+      location: 'Park Street, Kolkata',
+      rating: 4.9,
+      reviews: 89,
+      priceRange: '₹25,000 - ₹1,50,000',
+      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=300&fit=crop&auto=format',
+      description: 'Award-winning photographers specializing in candid wedding moments.',
+      services: ['Wedding Photography', 'Pre-wedding Shoots', 'Videography', 'Drone Coverage'],
+      capacity: 'All event sizes',
+      phone: '+91 87654 32109',
+      email: 'hello@momentsphotography.com',
+      featured: true
+    },
+    {
+      id: 'beauty-bliss-makeup',
+      name: 'Beauty Bliss Makeup Studio',
+      category: 'makeup',
+      type: 'Bridal Makeup',
+      location: 'Camac Street, Kolkata',
+      rating: 4.7,
+      reviews: 234,
+      priceRange: '₹15,000 - ₹50,000',
+      image: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&h=300&fit=crop&auto=format',
+      description: 'Professional bridal makeup with premium products and latest techniques.',
+      services: ['Bridal Makeup', 'Hair Styling', 'Draping', 'Trial Session'],
+      capacity: 'Individual & Groups',
+      phone: '+91 76543 21098',
+      email: 'bookings@beautybliss.com',
+      featured: true
+    },
+    {
+      id: 'elegant-events',
+      name: 'Elegant Events & Decor',
+      category: 'planning',
+      type: 'Wedding Planner',
+      location: 'Ballygunge, Kolkata',
+      rating: 4.6,
+      reviews: 145,
+      priceRange: '₹50,000 - ₹5,00,000',
+      image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop&auto=format',
+      description: 'Complete wedding planning and decoration services for your dream wedding.',
+      services: ['Wedding Planning', 'Decoration', 'Coordination', 'Vendor Management'],
+      capacity: 'All event sizes',
+      phone: '+91 65432 10987',
+      email: 'contact@elegantevents.in',
+      featured: true
+    },
+    {
+      id: 'virtual-weddings-pro',
+      name: 'Virtual Weddings Pro',
+      category: 'virtual',
+      type: 'Virtual Planning',
+      location: 'Online Services',
+      rating: 4.5,
+      reviews: 67,
+      priceRange: '₹10,000 - ₹50,000',
+      image: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?w=400&h=300&fit=crop&auto=format',
+      description: 'Expert virtual wedding planning and live streaming services.',
+      services: ['Virtual Planning', 'Live Streaming', 'Digital Invitations', 'Remote Coordination'],
+      capacity: 'Unlimited online guests',
+      phone: '+91 54321 09876',
+      email: 'hello@virtualweddingspro.com',
+      featured: false
+    },
+    {
+      id: 'artistic-mehndi',
+      name: 'Artistic Mehndi Designs',
+      category: 'mehndi',
+      type: 'Mehndi Artist',
+      location: 'Gariahat, Kolkata',
+      rating: 4.8,
+      reviews: 178,
+      priceRange: '₹5,000 - ₹25,000',
+      image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop&auto=format',
+      description: 'Traditional and modern mehndi designs for all occasions.',
+      services: ['Bridal Mehndi', 'Arabic Designs', 'Traditional Patterns', 'Quick Designs'],
+      capacity: 'Individual & Groups',
+      phone: '+91 43210 98765',
+      email: 'book@artisticmehndi.com',
+      featured: true
+    },
+    {
+      id: 'golden-garden-venue',
+      name: 'Golden Garden Resort',
+      category: 'venues',
+      type: 'Wedding Resort',
+      location: 'New Town, Kolkata',
+      rating: 4.9,
+      reviews: 92,
+      priceRange: '₹1,00,000 - ₹5,00,000',
+      image: 'https://images.unsplash.com/photo-1519167758481-83f29c8e8f35?w=400&h=300&fit=crop&auto=format',
+      description: 'Luxury resort with beautiful gardens and modern amenities.',
+      services: ['Garden Venue', 'Accommodation', 'Catering', 'Event Management'],
+      capacity: '100-500 guests',
+      phone: '+91 32109 87654',
+      email: 'events@goldengarden.com',
+      featured: false
+    },
+    {
+      id: 'candid-captures',
+      name: 'Candid Captures Studio',
+      category: 'photographers',
+      type: 'Candid Photography',
+      location: 'Esplanade, Kolkata',
+      rating: 4.7,
+      reviews: 123,
+      priceRange: '₹20,000 - ₹1,00,000',
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&auto=format',
+      description: 'Specialists in capturing natural, candid moments of your special day.',
+      services: ['Candid Photography', 'Cinematic Videos', 'Same Day Edit', 'Photo Albums'],
+      capacity: 'All event sizes',
+      phone: '+91 21098 76543',
+      email: 'info@candidcaptures.in',
+      featured: false
+    }
+  ];
+
+  const filteredVendors = selectedCategory === 'all' 
+    ? featuredVendors 
+    : featuredVendors.filter(vendor => vendor.category === selectedCategory);
 
   const categories = [
     {
@@ -214,6 +360,180 @@ export default function Vendors() {
                 </div>
               );
             })}
+          </div>
+          
+          {/* Featured Vendors Section */}
+          <div className="mb-16">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Featured Vendors
+              </h2>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Handpicked professionals who have consistently delivered exceptional services for weddings.
+              </p>
+            </div>
+
+            {/* Category Filter for Vendors */}
+            <div className="flex flex-wrap justify-center gap-4 mb-12">
+              {[
+                { id: 'all', name: 'All Vendors', icon: ArrowRightIcon },
+                { id: 'venues', name: 'Venues', icon: MapPinIcon },
+                { id: 'photographers', name: 'Photographers', icon: CameraIcon },
+                { id: 'makeup', name: 'Makeup Artists', icon: SparklesIcon },
+                { id: 'planning', name: 'Planners', icon: PaintBrushIcon },
+                { id: 'virtual', name: 'Virtual Services', icon: ComputerDesktopIcon },
+                { id: 'mehndi', name: 'Mehndi Artists', icon: HandRaisedIcon }
+              ].map((category) => {
+                const IconComponent = category.icon;
+                return (
+                  <button
+                    key={category.id}
+                    onClick={() => setSelectedCategory(category.id)}
+                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
+                      selectedCategory === category.id
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transform scale-105'
+                        : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-600 shadow-md hover:shadow-lg'
+                    }`}
+                  >
+                    <IconComponent className="w-4 h-4" />
+                    {category.name}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Vendor Profiles Grid */}
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredVendors.map((vendor) => (
+                <div key={vendor.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
+                  {/* Vendor Image */}
+                  <div className="relative h-48 overflow-hidden">
+                    <Image
+                      src={vendor.image}
+                      alt={vendor.name}
+                      width={400}
+                      height={300}
+                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                    
+                    {/* Featured Badge */}
+                    {vendor.featured && (
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
+                          FEATURED
+                        </span>
+                      </div>
+                    )}
+
+                    {/* Rating Badge */}
+                    <div className="absolute top-4 right-4">
+                      <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1">
+                        <StarIconSolid className="w-4 h-4 text-yellow-500" />
+                        <span className="text-sm font-semibold text-gray-900">{vendor.rating}</span>
+                      </div>
+                    </div>
+
+                    {/* Category Badge */}
+                    <div className="absolute bottom-4 left-4">
+                      <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium">
+                        {vendor.type}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Vendor Info */}
+                  <div className="p-6">
+                    {/* Header */}
+                    <div className="mb-4">
+                      <h3 
+                        className="text-xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors mb-2"
+                        style={{ fontFamily: 'Playfair Display, serif' }}
+                      >
+                        {vendor.name}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
+                        <MapPinIcon className="w-4 h-4" />
+                        <span>{vendor.location}</span>
+                      </div>
+                      <p className="text-gray-600 text-sm leading-relaxed mb-3">
+                        {vendor.description}
+                      </p>
+                    </div>
+
+                    {/* Rating & Reviews */}
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="flex items-center gap-1">
+                        {Array.from({ length: 5 }, (_, i) => (
+                          <StarIconSolid
+                            key={i}
+                            className={`w-4 h-4 ${i < Math.floor(vendor.rating) ? 'text-yellow-500' : 'text-gray-300'}`}
+                          />
+                        ))}
+                        <span className="text-sm font-semibold text-gray-900 ml-1">
+                          {vendor.rating}
+                        </span>
+                      </div>
+                      <span className="text-sm text-gray-500">
+                        ({vendor.reviews} reviews)
+                      </span>
+                    </div>
+
+                    {/* Services */}
+                    <div className="mb-4">
+                      <h4 className="text-sm font-semibold text-gray-900 mb-2">Services:</h4>
+                      <div className="flex flex-wrap gap-1">
+                        {vendor.services.slice(0, 3).map((service, idx) => (
+                          <span 
+                            key={idx}
+                            className="bg-purple-50 text-purple-600 px-2 py-1 rounded text-xs font-medium"
+                          >
+                            {service}
+                          </span>
+                        ))}
+                        {vendor.services.length > 3 && (
+                          <span className="text-xs text-gray-500 px-2 py-1">
+                            +{vendor.services.length - 3} more
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Price & Capacity */}
+                    <div className="flex justify-between items-center mb-4 text-sm">
+                      <div>
+                        <span className="text-gray-500">Price: </span>
+                        <span className="font-semibold text-green-600">{vendor.priceRange}</span>
+                      </div>
+                      <div>
+                        <span className="text-gray-500">Capacity: </span>
+                        <span className="font-semibold text-gray-900">{vendor.capacity}</span>
+                      </div>
+                    </div>
+
+                    {/* Contact Actions */}
+                    <div className="flex gap-2">
+                      <button className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105">
+                        View Details
+                      </button>
+                      <button className="bg-white border-2 border-purple-200 text-purple-600 p-2 rounded-lg hover:bg-purple-50 transition-colors">
+                        <PhoneIcon className="w-4 h-4" />
+                      </button>
+                      <button className="bg-white border-2 border-purple-200 text-purple-600 p-2 rounded-lg hover:bg-purple-50 transition-colors">
+                        <EnvelopeIcon className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Load More Button */}
+            <div className="text-center mt-12">
+              <button className="bg-white border-2 border-purple-200 text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl">
+                Load More Vendors
+              </button>
+            </div>
           </div>
           
           {/* Call to Action */}

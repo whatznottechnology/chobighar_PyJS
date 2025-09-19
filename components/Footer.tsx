@@ -53,9 +53,9 @@ function WhatsAppIcon({ className }: { className?: string }) {
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-br from-royal-red via-red-800 to-red-900 text-white relative overflow-hidden">
+    <footer className="bg-black text-white relative overflow-hidden border-t border-gray-800">
       {/* Decorative Pattern Background */}
-      <div className="absolute inset-0 opacity-10">
+      <div className="absolute inset-0 opacity-3">
         <div className="absolute top-0 left-0 w-full h-full">
           <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
             <defs>
@@ -91,30 +91,30 @@ export default function Footer() {
                   >
                     Chabighar
                   </h3>
-                  <p className="text-red-200 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  <p className="text-red-400 text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
                     (Art Direction and Design Studio)
                   </p>
                 </div>
               </div>
-              <p className="text-red-100 mb-6 leading-relaxed">
+              <p className="text-gray-400 mb-6 leading-relaxed">
                 Professional photography and videography services capturing your most precious moments with artistic excellence and cultural authenticity.
               </p>
               
               {/* Social Media */}
               <div className="flex space-x-4">
-                <a href="#" className="text-red-200 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                <a href="#" className="text-gray-500 hover:text-red-400 transition-colors duration-200 transform hover:scale-110">
                   <FacebookIcon className="w-6 h-6" />
                 </a>
-                <a href="#" className="text-red-200 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                <a href="#" className="text-gray-500 hover:text-red-400 transition-colors duration-200 transform hover:scale-110">
                   <InstagramIcon className="w-6 h-6" />
                 </a>
-                <a href="#" className="text-red-200 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                <a href="#" className="text-gray-500 hover:text-red-400 transition-colors duration-200 transform hover:scale-110">
                   <TwitterIcon className="w-6 h-6" />
                 </a>
-                <a href="#" className="text-red-200 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                <a href="#" className="text-gray-500 hover:text-red-400 transition-colors duration-200 transform hover:scale-110">
                   <YouTubeIcon className="w-6 h-6" />
                 </a>
-                <a href="https://wa.me/919647966765" className="text-red-200 hover:text-white transition-colors duration-200 transform hover:scale-110">
+                <a href="https://wa.me/919647966765" className="text-gray-500 hover:text-red-400 transition-colors duration-200 transform hover:scale-110">
                   <WhatsAppIcon className="w-6 h-6" />
                 </a>
               </div>
@@ -122,31 +122,31 @@ export default function Footer() {
 
             {/* Quick Links */}
             <div className="lg:col-span-2">
-              <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
+              <h4 className="text-lg font-semibold text-white mb-6 border-b border-gray-700 pb-2">
                 Quick Links
               </h4>
               <ul className="space-y-3">
                 <li>
-                  <Link href="/" className="text-red-100 hover:text-white transition-colors duration-200 flex items-center group">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                  <Link href="/" className="text-gray-400 hover:text-red-400 transition-colors duration-200 flex items-center group">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-red-400 transition-colors"></span>
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link href="/photoshoot" className="text-red-100 hover:text-white transition-colors duration-200 flex items-center group">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                  <Link href="/photoshoot" className="text-gray-400 hover:text-red-400 transition-colors duration-200 flex items-center group">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-red-400 transition-colors"></span>
                     Photography
                   </Link>
                 </li>
                 <li>
-                  <Link href="/vendors" className="text-red-100 hover:text-white transition-colors duration-200 flex items-center group">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                  <Link href="/vendors" className="text-gray-400 hover:text-red-400 transition-colors duration-200 flex items-center group">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-red-400 transition-colors"></span>
                     Wedding Vendors
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="text-red-100 hover:text-white transition-colors duration-200 flex items-center group">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                  <Link href="/contact" className="text-gray-400 hover:text-red-400 transition-colors duration-200 flex items-center group">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3 group-hover:bg-red-400 transition-colors"></span>
                     Contact Us
                   </Link>
                 </li>
@@ -155,37 +155,37 @@ export default function Footer() {
 
             {/* Services */}
             <div className="lg:col-span-3">
-              <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
+              <h4 className="text-lg font-semibold text-white mb-6 border-b border-gray-700 pb-2">
                 Our Services
               </h4>
               <ul className="space-y-3">
                 <li>
-                  <span className="text-red-100 flex items-center">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+                  <span className="text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3"></span>
                     Wedding Photography
                   </span>
                 </li>
                 <li>
-                  <span className="text-red-100 flex items-center">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+                  <span className="text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3"></span>
                     Pre-Wedding Shoots
                   </span>
                 </li>
                 <li>
-                  <span className="text-red-100 flex items-center">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+                  <span className="text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3"></span>
                     Event Videography
                   </span>
                 </li>
                 <li>
-                  <span className="text-red-100 flex items-center">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+                  <span className="text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3"></span>
                     Portrait Sessions
                   </span>
                 </li>
                 <li>
-                  <span className="text-red-100 flex items-center">
-                    <span className="w-2 h-2 bg-red-400 rounded-full mr-3"></span>
+                  <span className="text-gray-400 flex items-center">
+                    <span className="w-2 h-2 bg-gray-600 rounded-full mr-3"></span>
                     Vendor Directory
                   </span>
                 </li>
@@ -194,14 +194,14 @@ export default function Footer() {
 
             {/* Contact Info */}
             <div className="lg:col-span-3">
-              <h4 className="text-lg font-semibold text-white mb-6 border-b border-red-400 pb-2">
+              <h4 className="text-lg font-semibold text-white mb-6 border-b border-gray-700 pb-2">
                 Get In Touch
               </h4>
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
-                  <MapPinIcon className="w-5 h-5 text-red-300 mt-1 flex-shrink-0" />
+                  <MapPinIcon className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="text-red-100 text-sm leading-relaxed">
+                    <p className="text-gray-400 text-sm leading-relaxed">
                       Kolkata, West Bengal<br />
                       India
                     </p>
@@ -209,23 +209,23 @@ export default function Footer() {
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <PhoneIcon className="w-5 h-5 text-red-300 flex-shrink-0" />
-                  <a href="tel:+919647966765" className="text-red-100 hover:text-white transition-colors text-sm">
+                  <PhoneIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                  <a href="tel:+919647966765" className="text-gray-400 hover:text-red-400 transition-colors text-sm">
                     +91 96479 66765
                   </a>
                 </div>
                 
                 <div className="flex items-center space-x-3">
-                  <EnvelopeIcon className="w-5 h-5 text-red-300 flex-shrink-0" />
-                  <a href="mailto:info@chabighar.com" className="text-red-100 hover:text-white transition-colors text-sm">
+                  <EnvelopeIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                  <a href="mailto:info@chabighar.com" className="text-gray-400 hover:text-red-400 transition-colors text-sm">
                     info@chabighar.com
                   </a>
                 </div>
                 
                 <div className="flex items-start space-x-3">
-                  <ClockIcon className="w-5 h-5 text-red-300 mt-1 flex-shrink-0" />
+                  <ClockIcon className="w-5 h-5 text-gray-500 mt-1 flex-shrink-0" />
                   <div>
-                    <p className="text-red-100 text-sm">
+                    <p className="text-gray-400 text-sm">
                       Mon - Sat: 9:00 AM - 8:00 PM<br />
                       Sunday: By Appointment
                     </p>
@@ -236,68 +236,91 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* Newsletter Section */}
-        <div className="border-t border-red-400/30">
+        {/* Contact Details Section */}
+        <div className="border-t border-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div className="text-center">
               <h4 
                 className="text-xl font-semibold text-white mb-4"
                 style={{ fontFamily: 'Playfair Display, serif' }}
               >
-                Stay Updated with Our Latest Work
+                Ready to Capture Your Special Moments?
               </h4>
-              <p className="text-red-100 mb-6 max-w-2xl mx-auto">
-                Subscribe to our newsletter to get updates on our latest photography sessions, wedding stories, and exclusive offers.
+              <p className="text-gray-400 mb-6 max-w-2xl mx-auto">
+                Contact us today to discuss your photography needs and let us create beautiful memories together.
               </p>
-              <div className="flex flex-col sm:flex-row max-w-md mx-auto gap-3">
-                <input
-                  type="email"
-                  placeholder="Enter your email"
-                  className="flex-1 px-4 py-3 rounded-lg bg-white/10 border border-red-300/30 text-white placeholder-red-200 focus:outline-none focus:ring-2 focus:ring-white/50 backdrop-blur-sm"
-                />
-                <button className="bg-white text-royal-red px-6 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors whitespace-nowrap">
-                  Subscribe
-                </button>
+              
+              {/* Contact Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                {/* Phone Card */}
+                <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:bg-gray-800/50 hover:border-red-500/50 transition-all duration-300 transform hover:scale-105">
+                  <PhoneIcon className="w-8 h-8 text-red-400 mx-auto mb-3" />
+                  <h5 className="text-white font-semibold mb-2">Call Us</h5>
+                  <a href="tel:+919647966765" className="text-gray-300 hover:text-red-400 transition-colors text-lg font-medium">
+                    +91 96479 66765
+                  </a>
+                  <p className="text-gray-500 text-sm mt-1">Mon - Sat: 9 AM - 8 PM</p>
+                </div>
+
+                {/* WhatsApp Card */}
+                <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:bg-gray-800/50 hover:border-red-500/50 transition-all duration-300 transform hover:scale-105">
+                  <WhatsAppIcon className="w-8 h-8 text-red-400 mx-auto mb-3" />
+                  <h5 className="text-white font-semibold mb-2">WhatsApp</h5>
+                  <a href="https://wa.me/919647966765" className="text-gray-300 hover:text-red-400 transition-colors text-lg font-medium">
+                    +91 96479 66765
+                  </a>
+                  <p className="text-gray-500 text-sm mt-1">Quick Response</p>
+                </div>
+
+                {/* Email Card */}
+                <div className="bg-gray-900/50 backdrop-blur-sm border border-gray-700 rounded-xl p-6 hover:bg-gray-800/50 hover:border-red-500/50 transition-all duration-300 transform hover:scale-105 sm:col-span-2 lg:col-span-1">
+                  <EnvelopeIcon className="w-8 h-8 text-red-400 mx-auto mb-3" />
+                  <h5 className="text-white font-semibold mb-2">Email Us</h5>
+                  <a href="mailto:info@chabighar.com" className="text-gray-300 hover:text-red-400 transition-colors text-lg font-medium">
+                    info@chabighar.com
+                  </a>
+                  <p className="text-gray-500 text-sm mt-1">24/7 Support</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-red-400/30">
+        <div className="border-t border-gray-800">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-red-100 text-sm">
+              <div className="text-gray-400 text-sm">
                 <span>&copy; 2025 Chabighar. All rights reserved.</span>
               </div>
 
               {/* Center Love Sign with Taglines */}
               <div className="flex flex-col items-center space-y-2">
-                <div className="flex items-center space-x-2 text-red-100">
-                  <HeartIcon className="w-5 h-5 text-red-300" />
+                <div className="flex items-center space-x-2 text-gray-400">
+                  <HeartIcon className="w-5 h-5 text-red-400" />
                   <span className="text-sm font-medium">Made with love in Bengal</span>
                 </div>
                 <div className="text-center">
-                  <p className="text-red-200 text-sm font-medium">
+                  <p className="text-gray-300 text-sm font-medium">
                     "Your celebration, our arrangement"
                   </p>
-                  <p className="text-red-200 text-xs mt-1" style={{ fontFamily: 'SolaimanLipi, Arial, sans-serif' }}>
+                  <p className="text-gray-400 text-xs mt-1" style={{ fontFamily: 'SolaimanLipi, Arial, sans-serif' }}>
                     "আপনার উৎসব, আমাদের আয়োজন"
                   </p>
-                  <p className="text-red-300 text-xs mt-1 tracking-wider">
+                  <p className="text-red-400 text-xs mt-1 tracking-wider">
                     Events • Shopping • Memories
                   </p>
                 </div>
               </div>
 
               <div className="flex space-x-6 text-sm">
-                <Link href="/privacy" className="text-red-100 hover:text-white transition-colors">
+                <Link href="/privacy" className="text-gray-400 hover:text-red-400 transition-colors">
                   Privacy Policy
                 </Link>
-                <Link href="/terms" className="text-red-100 hover:text-white transition-colors">
+                <Link href="/terms" className="text-gray-400 hover:text-red-400 transition-colors">
                   Terms of Service
                 </Link>
-                <Link href="/sitemap" className="text-red-100 hover:text-white transition-colors">
+                <Link href="/sitemap" className="text-gray-400 hover:text-red-400 transition-colors">
                   Sitemap
                 </Link>
               </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { 
   PhotoIcon, 
@@ -8,13 +8,36 @@ import {
   XMarkIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
-  MagnifyingGlassIcon
+  MagnifyingGlassIcon,
+  ArrowUpIcon
 } from '@heroicons/react/24/outline';
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [currentAlbum, setCurrentAlbum] = useState<string | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Back to top visibility handler
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const categories = [
     { id: 'all', name: 'All Work', count: 45 },
@@ -279,12 +302,12 @@ export default function Portfolio() {
                   </div>
 
                   {/* View Album Button */}
-                  <button
-                    onClick={() => openLightbox(album.id, 0)}
-                    className="w-full mt-4 bg-gray-100 hover:bg-royal-red hover:text-white text-gray-700 font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg"
+                  <a
+                    href={`/portfolio/${album.id}`}
+                    className="block w-full mt-4 bg-black hover:bg-royal-red text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg text-center"
                   >
-                    View Full Album
-                  </button>
+                    View Portfolio Details
+                  </a>
                 </div>
               </div>
             ))}
@@ -297,6 +320,454 @@ export default function Portfolio() {
               <p className="text-gray-400">Try selecting a different category.</p>
             </div>
           )}
+        </div>
+      </section>
+
+      {/* Featured Videos Gallery */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 
+              className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              Featured Wedding Videos
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Experience the magic through our cinematic wedding highlights and emotional moments captured on film.
+            </p>
+          </div>
+
+          {/* Masonry Layout for Videos */}
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+            {/* Video 1 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-video">
+                  <Image
+                    src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
+                    alt="Wedding Highlight Video"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Romantic Wedding Highlights</h3>
+                  <p className="text-gray-600 text-sm mb-3">A beautiful cinematic journey of love and celebration</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>December 2024</span>
+                    <span>3:45 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Video 2 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-[9/16]">
+                  <Image
+                    src="https://img.youtube.com/vi/kJQP7kiw5Fk/maxresdefault.jpg"
+                    alt="Pre-Wedding Story"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Pre-Wedding Love Story</h3>
+                  <p className="text-gray-600 text-sm mb-3">Capturing the journey before the big day</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>November 2024</span>
+                    <span>2:30 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Video 3 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-video">
+                  <Image
+                    src="https://img.youtube.com/vi/ZZ5LpwO-An4/maxresdefault.jpg"
+                    alt="Wedding Reception"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Wedding Reception Highlights</h3>
+                  <p className="text-gray-600 text-sm mb-3">Dancing, joy, and unforgettable moments</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>October 2024</span>
+                    <span>4:15 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Video 4 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-[4/5]">
+                  <Image
+                    src="https://img.youtube.com/vi/ALZHF5UqnU4/maxresdefault.jpg"
+                    alt="Traditional Ceremony"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Traditional Bengali Wedding</h3>
+                  <p className="text-gray-600 text-sm mb-3">Cultural rituals and sacred moments</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>September 2024</span>
+                    <span>5:20 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Video 5 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-video">
+                  <Image
+                    src="https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg"
+                    alt="Mehndi Ceremony"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Mehndi Night Celebrations</h3>
+                  <p className="text-gray-600 text-sm mb-3">Colorful traditions and joyful moments</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>August 2024</span>
+                    <span>3:10 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Video 6 */}
+            <div className="break-inside-avoid mb-6">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                <div className="relative aspect-[3/4]">
+                  <Image
+                    src="https://img.youtube.com/vi/PSH0eRKq1lE/maxresdefault.jpg"
+                    alt="Wedding Teaser"
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
+                <div className="p-4 bg-white">
+                  <h3 className="font-bold text-lg text-gray-900 mb-2">Cinematic Wedding Teaser</h3>
+                  <p className="text-gray-600 text-sm mb-3">A glimpse into the perfect wedding day</p>
+                  <div className="flex justify-between items-center text-xs text-gray-500">
+                    <span>July 2024</span>
+                    <span>1:45 mins</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* View All Videos Button */}
+          <div className="text-center mt-12">
+            <a
+              href="/portfolio/videos"
+              className="bg-black hover:bg-royal-red text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+              View All Wedding Videos
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Individual Photos Gallery */}
+      <section className="py-16 bg-gray-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 
+              className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              Individual Photos Gallery
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Explore our collection of stunning individual photographs captured across various events and occasions.
+            </p>
+          </div>
+
+          {/* Masonry Layout for Individual Photos */}
+          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            {/* First Column Photos */}
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=600&fit=crop&crop=center"
+                  alt="Elegant Wedding Portrait"
+                  width={400}
+                  height={600}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Wedding Ceremony</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&crop=center"
+                  alt="Romantic Pre-Wedding"
+                  width={400}
+                  height={300}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Pre-Wedding Shoot</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=700&fit=crop&crop=center"
+                  alt="Stunning Bridal Portrait"
+                  width={400}
+                  height={700}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Bridal Portrait</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=450&fit=crop&crop=center"
+                  alt="Handsome Groom"
+                  width={400}
+                  height={450}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Groom Portrait</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=320&fit=crop&crop=center"
+                  alt="Beautiful Mehndi Art"
+                  width={400}
+                  height={320}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Mehndi Celebration</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=650&fit=crop&crop=center"
+                  alt="Professional Bridal Makeup"
+                  width={400}
+                  height={650}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Bridal Makeup</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=380&fit=crop&crop=center"
+                  alt="Exquisite Bridal Jewellery"
+                  width={400}
+                  height={380}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Bridal Jewellery</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&h=580&fit=crop&crop=center"
+                  alt="Intimate Pre-Wedding Moments"
+                  width={400}
+                  height={580}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Pre-Wedding Moments</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&h=280&fit=crop&crop=center"
+                  alt="Professional Photography Session"
+                  width={400}
+                  height={280}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Behind the Scenes</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=720&fit=crop&crop=center"
+                  alt="Stunning Wedding Venue"
+                  width={400}
+                  height={720}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Venue Details</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=350&fit=crop&crop=center"
+                  alt="Delicious Wedding Cuisine"
+                  width={400}
+                  height={350}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Culinary Delights</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="break-inside-avoid mb-4">
+              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                <Image
+                  src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=550&fit=crop&crop=center"
+                  alt="Live Wedding Music"
+                  width={400}
+                  height={550}
+                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute bottom-4 left-4 right-4">
+                    <p className="text-white text-sm font-medium">Musical Celebrations</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Load More Button */}
+          <div className="text-center mt-12">
+            <button className="bg-black hover:bg-royal-red text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2 hover:scale-105 transform">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+              </svg>
+              Load More Photos
+            </button>
+          </div>
         </div>
       </section>
 
@@ -315,7 +786,7 @@ export default function Portfolio() {
             {/* Previous Button */}
             <button
               onClick={prevImage}
-              className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 transition-colors"
+              className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-yellow-400 hover:bg-white/20 hover:text-yellow-300 active:bg-black active:text-white transition-colors"
             >
               <ChevronLeftIcon className="w-6 h-6" />
             </button>
@@ -323,7 +794,7 @@ export default function Portfolio() {
             {/* Next Button */}
             <button
               onClick={nextImage}
-              className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 transition-colors"
+              className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-yellow-400 hover:bg-white/20 hover:text-yellow-300 active:bg-black active:text-white transition-colors"
             >
               <ChevronRightIcon className="w-6 h-6" />
             </button>
@@ -382,6 +853,17 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-6 z-40 bg-royal-red hover:bg-red-700 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform"
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

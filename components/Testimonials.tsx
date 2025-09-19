@@ -121,120 +121,137 @@ export default function Testimonials() {
   };
 
   return (
-    <section className="py-20 bg-soft-white">
-      <div className="w-full mx-auto px-6">
+    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 opacity-5">
+        <div className="absolute top-10 left-10 w-32 h-32 bg-royal-red rounded-full"></div>
+        <div className="absolute top-1/2 right-20 w-20 h-20 bg-gold rounded-full"></div>
+        <div className="absolute bottom-20 left-1/3 w-16 h-16 bg-royal-red rounded-full"></div>
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 
-            className="text-4xl md:text-5xl font-bold text-text mb-4" 
+            className="text-4xl md:text-5xl font-bold text-royal-red mb-6" 
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            What Our Couples Say
+            Love Stories From Our Couples
           </h2>
           <p 
-            className="text-lg text-muted max-w-2xl mx-auto" 
+            className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed" 
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
-            Read testimonials from our happy couples who trusted us to capture their most precious moments
+            Read heartfelt testimonials from couples who trusted us to capture their most precious moments and create lasting memories
           </p>
         </div>
 
         {/* Main Testimonial Display */}
-        <div className="max-w-4xl mx-auto mb-12">
+        <div className="mb-16">
           <div className="relative">
             {/* Large Quote Mark */}
-            <div className="absolute -top-6 -left-4 text-6xl text-royal-red opacity-20 font-serif">"</div>
+            <div className="absolute -top-8 -left-6 text-8xl text-royal-red opacity-10 font-serif z-0">"</div>
             
             {/* Current Testimonial */}
-            <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl relative">
-              <div className="grid md:grid-cols-3 gap-8 items-center">
-                {/* Testimonial Content */}
-                <div className="md:col-span-2">
-                  {/* Rating */}
-                  <div className="flex items-center mb-4">
-                    {renderStars(testimonials[currentTestimonial].rating)}
-                    <span 
-                      className="ml-2 text-sm text-muted" 
-                      style={{ fontFamily: 'Inter, sans-serif' }}
-                    >
-                      ({testimonials[currentTestimonial].rating}.0)
-                    </span>
-                  </div>
-
-                  {/* Testimonial Text */}
-                  <blockquote 
-                    className="text-lg md:text-xl text-text leading-relaxed mb-6" 
-                    style={{ fontFamily: 'Inter, sans-serif' }}
-                  >
-                    {testimonials[currentTestimonial].text}
-                  </blockquote>
-
-                  {/* Client Info */}
-                  <div className="border-t border-gray-200 pt-4">
-                    <h4 
-                      className="text-xl font-bold text-text mb-1" 
-                      style={{ fontFamily: 'Playfair Display, serif' }}
-                    >
-                      {testimonials[currentTestimonial].name}
-                    </h4>
-                    <p 
-                      className="text-muted text-sm mb-2" 
-                      style={{ fontFamily: 'Inter, sans-serif' }}
-                    >
-                      {testimonials[currentTestimonial].location}
-                    </p>
-                    <div className="flex items-center text-sm text-royal-red">
-                      <span style={{ fontFamily: 'Inter, sans-serif' }}>
-                        {testimonials[currentTestimonial].event}
-                      </span>
-                      <span className="mx-2">•</span>
-                      <span style={{ fontFamily: 'Inter, sans-serif' }}>
-                        {testimonials[currentTestimonial].date}
+            <div className="relative z-10">
+              <div className="bg-white rounded-3xl p-8 md:p-12 shadow-2xl border-t-4 border-royal-red">
+                <div className="grid lg:grid-cols-5 gap-8 items-center">
+                  {/* Testimonial Content */}
+                  <div className="lg:col-span-3">
+                    {/* Rating */}
+                    <div className="flex items-center mb-6">
+                      <div className="flex">{renderStars(testimonials[currentTestimonial].rating)}</div>
+                      <span 
+                        className="ml-3 text-sm text-gray-500 font-medium" 
+                        style={{ fontFamily: 'Inter, sans-serif' }}
+                      >
+                        Perfect Rating ({testimonials[currentTestimonial].rating}.0/5)
                       </span>
                     </div>
-                  </div>
-                </div>
 
-                {/* Client Image */}
-                <div className="relative">
-                  <div className="relative w-full h-64 md:h-80 rounded-xl overflow-hidden shadow-lg">
-                    <Image
-                      src={testimonials[currentTestimonial].image}
-                      alt={testimonials[currentTestimonial].name}
-                      fill
-                      className="object-cover"
-                    />
+                    {/* Testimonial Text */}
+                    <blockquote 
+                      className="text-lg md:text-xl text-gray-800 leading-relaxed mb-8 italic" 
+                      style={{ fontFamily: 'Inter, sans-serif' }}
+                    >
+                      "{testimonials[currentTestimonial].text}"
+                    </blockquote>
+
+                    {/* Client Info */}
+                    <div className="border-t border-gray-100 pt-6">
+                      <h4 
+                        className="text-xl font-bold text-gray-900 mb-2" 
+                        style={{ fontFamily: 'Playfair Display, serif' }}
+                      >
+                        {testimonials[currentTestimonial].name}
+                      </h4>
+                      <div className="flex flex-wrap items-center text-sm text-gray-600 gap-4">
+                        <span className="flex items-center">
+                          <svg className="w-4 h-4 mr-1 text-royal-red" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                          </svg>
+                          {testimonials[currentTestimonial].location}
+                        </span>
+                        <span className="flex items-center">
+                          <svg className="w-4 h-4 mr-1 text-royal-red" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                          </svg>
+                          {testimonials[currentTestimonial].event}
+                        </span>
+                        <span className="text-royal-red font-medium">
+                          {testimonials[currentTestimonial].date}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  {/* Decorative border */}
-                  <div className="absolute -inset-2 bg-gradient-to-r from-royal-red to-gold rounded-xl -z-10 opacity-20"></div>
+
+                  {/* Client Image */}
+                  <div className="lg:col-span-2 relative">
+                    <div className="relative w-full h-80 lg:h-96 rounded-2xl overflow-hidden shadow-xl">
+                      <Image
+                        src={testimonials[currentTestimonial].image}
+                        alt={testimonials[currentTestimonial].name}
+                        fill
+                        className="object-cover"
+                      />
+                      {/* Gradient overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                    {/* Decorative border with gradient */}
+                    <div className="absolute -inset-3 bg-gradient-to-r from-royal-red via-gold to-royal-red rounded-2xl -z-10 opacity-20"></div>
+                    {/* Floating badge */}
+                    <div className="absolute -top-4 -right-4 bg-royal-red text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
+                      ⭐ {testimonials[currentTestimonial].rating}.0
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-center mt-8 space-x-4">
+          <div className="flex items-center justify-center mt-8 space-x-6">
             {/* Previous Button */}
             <button
               onClick={prevTestimonial}
-              className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-royal-red hover:text-white group"
+              className="p-4 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-royal-red hover:text-white group border-2 border-gray-100 hover:border-royal-red"
               aria-label="Previous testimonial"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
 
             {/* Dots Indicators */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-3">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => goToTestimonial(index)}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                  className={`transition-all duration-300 ${
                     index === currentTestimonial 
-                      ? 'bg-royal-red scale-125' 
-                      : 'bg-gray-300 hover:bg-gray-400'
+                      ? 'w-12 h-4 bg-royal-red rounded-full' 
+                      : 'w-4 h-4 bg-gray-300 hover:bg-gray-400 rounded-full'
                   }`}
                   aria-label={`Go to testimonial ${index + 1}`}
                 />
@@ -244,39 +261,107 @@ export default function Testimonials() {
             {/* Next Button */}
             <button
               onClick={nextTestimonial}
-              className="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-royal-red hover:text-white group"
+              className="p-4 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-royal-red hover:text-white group border-2 border-gray-100 hover:border-royal-red"
               aria-label="Next testimonial"
             >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
         </div>
 
-        {/* Stats Section */}
-        <div className="grid md:grid-cols-4 gap-8 mt-16 max-w-4xl mx-auto">
-          {[
-            { number: '500+', label: 'Happy Couples' },
-            { number: '1000+', label: 'Events Covered' },
-            { number: '5.0', label: 'Average Rating' },
-            { number: '98%', label: 'Client Satisfaction' }
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div 
-                className="text-3xl md:text-4xl font-bold text-royal-red mb-2" 
-                style={{ fontFamily: 'Playfair Display, serif' }}
-              >
-                {stat.number}
+        {/* Testimonial Grid - Preview of other testimonials */}
+        <div className="grid md:grid-cols-3 gap-6 mb-16">
+          {testimonials.slice(0, 3).map((testimonial, index) => (
+            <div 
+              key={index} 
+              className={`bg-white rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-1 ${
+                index === currentTestimonial ? 'ring-2 ring-royal-red ring-opacity-50' : ''
+              }`}
+              onClick={() => goToTestimonial(index)}
+            >
+              <div className="flex items-center mb-4">
+                <div className="relative w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <Image
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <h5 className="font-semibold text-gray-900 text-sm">{testimonial.name}</h5>
+                  <div className="flex">{renderStars(testimonial.rating)}</div>
+                </div>
               </div>
-              <p 
-                className="text-muted" 
-                style={{ fontFamily: 'Inter, sans-serif' }}
-              >
-                {stat.label}
+              <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                "{testimonial.text}"
               </p>
             </div>
           ))}
+        </div>
+
+        {/* Enhanced Stats Section */}
+        <div className="bg-gradient-to-r from-royal-red via-red-800 to-red-900 rounded-3xl p-8 md:p-12 text-white">
+          <div className="grid md:grid-cols-4 gap-8">
+            {[
+              { 
+                number: '500+', 
+                label: 'Happy Couples',
+                icon: (
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+                  </svg>
+                )
+              },
+              { 
+                number: '1000+', 
+                label: 'Events Covered',
+                icon: (
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+                  </svg>
+                )
+              },
+              { 
+                number: '5.0', 
+                label: 'Average Rating',
+                icon: (
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                )
+              },
+              { 
+                number: '98%', 
+                label: 'Client Satisfaction',
+                icon: (
+                  <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                  </svg>
+                )
+              }
+            ].map((stat, index) => (
+              <div key={index} className="text-center group">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-full mb-4 group-hover:bg-white/30 transition-colors duration-300">
+                  {stat.icon}
+                </div>
+                <div 
+                  className="text-3xl md:text-4xl font-bold mb-2" 
+                  style={{ fontFamily: 'Playfair Display, serif' }}
+                >
+                  {stat.number}
+                </div>
+                <p 
+                  className="text-red-100 font-medium" 
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
