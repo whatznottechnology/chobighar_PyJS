@@ -144,20 +144,20 @@ export default function Contact() {
       </section>
 
       {/* Contact Form Section - Moved to be second */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-gradient-to-br from-red-600 to-red-700">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
-              <div className="bg-white rounded-3xl border border-gray-100 p-8 md:p-12 shadow-sm">
+              <div className="bg-white rounded-3xl border border-gray-100 p-8 md:p-12 shadow-xl">
                 <div className="mb-8">
                   <h2 
-                    className="text-3xl md:text-4xl font-bold text-royal-red mb-4"
+                    className="text-3xl md:text-4xl font-bold text-red-600 mb-4"
                     style={{ fontFamily: 'Playfair Display, serif' }}
                   >
                     Start Your Journey
                   </h2>
-                  <p className="text-lg text-elegant-gray">
+                  <p className="text-lg text-gray-700">
                     Tell us about your vision, and we'll create a personalized experience just for you.
                   </p>
                 </div>
@@ -172,52 +172,52 @@ export default function Contact() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-charcoal mb-2">Your Name *</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">Your Name *</label>
                       <input
                         type="text"
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
                         placeholder="Enter your full name"
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-charcoal mb-2">Phone Number *</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">Phone Number *</label>
                       <input
                         type="tel"
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
                         placeholder="+91 XXXXX XXXXX"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-charcoal mb-2">Email Address *</label>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">Email Address *</label>
                     <input
                       type="email"
                       name="email"
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all"
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
                       placeholder="your.email@example.com"
                     />
                   </div>
 
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-charcoal mb-2">Service Interested In</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">Service Interested In</label>
                       <select
                         name="service"
                         value={formData.service}
                         onChange={handleInputChange}
-                        className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white text-gray-900"
                       >
                         <option value="">Select a service</option>
                         <option value="wedding">Wedding Photography</option>
@@ -230,32 +230,32 @@ export default function Contact() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-semibold text-charcoal mb-2">Event Date</label>
+                      <label className="block text-sm font-semibold text-gray-800 mb-2">Event Date</label>
                       <input
                         type="date"
                         name="event_date"
                         value={formData.event_date}
                         onChange={handleInputChange}
-                        className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white text-gray-900"
                       />
                     </div>
                   </div>
 
                   <div>
-                    <label className="block text-sm font-semibold text-charcoal mb-2">Tell Us About Your Vision</label>
+                    <label className="block text-sm font-semibold text-gray-800 mb-2">Tell Us About Your Vision</label>
                     <textarea
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
                       rows={5}
-                      className="w-full p-4 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-royal-red focus:border-transparent transition-all resize-none"
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all resize-none bg-white text-gray-900"
                       placeholder="Describe your event, preferred style, special requirements, or any questions you have..."
                     ></textarea>
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-royal-red text-white py-4 px-8 rounded-xl hover:bg-royal-red-hover font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
+                    className="w-full bg-red-600 text-white py-4 px-8 rounded-xl hover:bg-red-700 font-semibold text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all"
                   >
                     Send Message & Get Quote
                   </button>
@@ -265,52 +265,52 @@ export default function Contact() {
 
             {/* Sidebar with Why Choose Us */}
             <div className="space-y-8">
-              <div className="bg-gradient-to-br from-royal-red to-royal-red-hover rounded-3xl p-8 text-white">
-                <h3 className="text-2xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+                <h3 className="text-2xl font-bold mb-4 text-red-600" style={{ fontFamily: 'Playfair Display, serif' }}>
                   Why Choose Chabighar?
                 </h3>
                 <ul className="space-y-4">
                   <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-golden mt-0.5 flex-shrink-0" />
-                    <span>5+ years of professional experience</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">5+ years of professional experience</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-golden mt-0.5 flex-shrink-0" />
-                    <span>Bengali traditional artistry with modern techniques</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Bengali traditional artistry with modern techniques</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-golden mt-0.5 flex-shrink-0" />
-                    <span>Personalized packages for every budget</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Personalized packages for every budget</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-golden mt-0.5 flex-shrink-0" />
-                    <span>Quick turnaround with high-quality results</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">Quick turnaround with high-quality results</span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-golden mt-0.5 flex-shrink-0" />
-                    <span>500+ happy clients across Bengal</span>
+                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span className="text-gray-700">500+ happy clients across Bengal</span>
                   </li>
                 </ul>
               </div>
 
               {/* Quick Contact Card */}
-              <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-                <h3 className="text-xl font-bold text-royal-red mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
+                <h3 className="text-xl font-bold text-red-600 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
                   Need Immediate Help?
                 </h3>
                 <div className="space-y-3">
-                  <a href="tel:+919647966765" className="flex items-center gap-3 p-3 bg-royal-red/5 rounded-lg hover:bg-royal-red/10 transition-colors">
-                    <PhoneIcon className="w-5 h-5 text-royal-red" />
+                  <a href="tel:+919647966765" className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                    <PhoneIcon className="w-5 h-5 text-red-600" />
                     <div>
-                      <p className="font-medium text-charcoal">Call Us Now</p>
-                      <p className="text-sm text-elegant-gray">+91 96479 66765</p>
+                      <p className="font-medium text-gray-800">Call Us Now</p>
+                      <p className="text-sm text-gray-600">+91 96479 66765</p>
                     </div>
                   </a>
-                  <a href="mailto:booking@chabighar.com" className="flex items-center gap-3 p-3 bg-royal-red/5 rounded-lg hover:bg-royal-red/10 transition-colors">
-                    <EnvelopeIcon className="w-5 h-5 text-royal-red" />
+                  <a href="mailto:booking@chabighar.com" className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                    <EnvelopeIcon className="w-5 h-5 text-red-600" />
                     <div>
-                      <p className="font-medium text-charcoal">Email Us</p>
-                      <p className="text-sm text-elegant-gray">booking@chabighar.com</p>
+                      <p className="font-medium text-gray-800">Email Us</p>
+                      <p className="text-sm text-gray-600">booking@chabighar.com</p>
                     </div>
                   </a>
                 </div>

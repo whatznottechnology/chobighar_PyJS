@@ -1,16 +1,24 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { ChevronDownIcon, ChevronUpIcon, ArrowRightIcon, MapPinIcon, CameraIcon, SparklesIcon, PaintBrushIcon, ComputerDesktopIcon, HandRaisedIcon, StarIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 
 export default function Vendors() {
+  const router = useRouter();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(prev => prev === categoryId ? null : categoryId);
+  };
+
+  const handleSubcategoryClick = (subcategoryName: string) => {
+    // Convert subcategory name to URL-friendly format
+    const categorySlug = subcategoryName.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
+    router.push(`/${categorySlug}`);
   };
 
   // Featured vendor profiles
@@ -23,7 +31,7 @@ export default function Vendors() {
       location: 'Salt Lake, Kolkata',
       rating: 4.8,
       reviews: 156,
-      priceRange: '₹50,000 - ₹2,00,000',
+      priceRange: '₹50,000+',
       image: 'https://images.unsplash.com/photo-1519167758481-83f29c8e8f35?w=400&h=300&fit=crop&auto=format',
       description: 'Luxury banquet hall with modern amenities and traditional Bengali hospitality.',
       services: ['AC Banquet Hall', 'Catering', 'Decoration', 'Parking'],
@@ -40,216 +48,175 @@ export default function Vendors() {
       location: 'Park Street, Kolkata',
       rating: 4.9,
       reviews: 89,
-      priceRange: '₹25,000 - ₹1,50,000',
-      image: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=300&fit=crop&auto=format',
-      description: 'Award-winning photographers specializing in candid wedding moments.',
-      services: ['Wedding Photography', 'Pre-wedding Shoots', 'Videography', 'Drone Coverage'],
-      capacity: 'All event sizes',
-      phone: '+91 87654 32109',
-      email: 'hello@momentsphotography.com',
+      priceRange: '₹25,000+',
+      image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=300&fit=crop&auto=format',
+      description: 'Capturing beautiful moments with artistic vision and professional expertise.',
+      services: ['Wedding Photography', 'Pre-Wedding', 'Candid', 'Traditional'],
+      capacity: null,
+      phone: '+91 98765 43211',
+      email: 'info@momentsphotography.com',
       featured: true
     },
     {
-      id: 'beauty-bliss-makeup',
-      name: 'Beauty Bliss Makeup Studio',
+      id: 'glamour-makeup-studio',
+      name: 'Glamour Makeup Studio',
       category: 'makeup',
       type: 'Bridal Makeup',
-      location: 'Camac Street, Kolkata',
+      location: 'Ballygunge, Kolkata',
       rating: 4.7,
-      reviews: 234,
-      priceRange: '₹15,000 - ₹50,000',
-      image: 'https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?w=400&h=300&fit=crop&auto=format',
-      description: 'Professional bridal makeup with premium products and latest techniques.',
-      services: ['Bridal Makeup', 'Hair Styling', 'Draping', 'Trial Session'],
-      capacity: 'Individual & Groups',
-      phone: '+91 76543 21098',
-      email: 'bookings@beautybliss.com',
-      featured: true
+      reviews: 134,
+      priceRange: '₹15,000+',
+      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=300&fit=crop&auto=format',
+      description: 'Professional bridal makeup with premium products and expert techniques.',
+      services: ['Bridal Makeup', 'Hair Styling', 'Saree Draping', 'Nail Art'],
+      capacity: null,
+      phone: '+91 98765 43212',
+      email: 'info@glamourmakeup.com',
+      featured: false
     },
     {
       id: 'elegant-events',
       name: 'Elegant Events & Decor',
       category: 'planning',
-      type: 'Wedding Planner',
-      location: 'Ballygunge, Kolkata',
+      type: 'Wedding Planning',
+      location: 'New Town, Kolkata',
       rating: 4.6,
-      reviews: 145,
-      priceRange: '₹50,000 - ₹5,00,000',
+      reviews: 98,
+      priceRange: '₹30,000+',
       image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=300&fit=crop&auto=format',
-      description: 'Complete wedding planning and decoration services for your dream wedding.',
-      services: ['Wedding Planning', 'Decoration', 'Coordination', 'Vendor Management'],
-      capacity: 'All event sizes',
-      phone: '+91 65432 10987',
-      email: 'contact@elegantevents.in',
-      featured: true
-    },
-    {
-      id: 'virtual-weddings-pro',
-      name: 'Virtual Weddings Pro',
-      category: 'virtual',
-      type: 'Virtual Planning',
-      location: 'Online Services',
-      rating: 4.5,
-      reviews: 67,
-      priceRange: '₹10,000 - ₹50,000',
-      image: 'https://images.unsplash.com/photo-1515169067868-5387ec356754?w=400&h=300&fit=crop&auto=format',
-      description: 'Expert virtual wedding planning and live streaming services.',
-      services: ['Virtual Planning', 'Live Streaming', 'Digital Invitations', 'Remote Coordination'],
-      capacity: 'Unlimited online guests',
-      phone: '+91 54321 09876',
-      email: 'hello@virtualweddingspro.com',
+      description: 'Complete wedding planning and decoration services with attention to detail.',
+      services: ['Event Planning', 'Decoration', 'Coordination', 'Vendor Management'],
+      capacity: null,
+      phone: '+91 98765 43213',
+      email: 'info@elegantevents.com',
       featured: false
     },
     {
-      id: 'artistic-mehndi',
-      name: 'Artistic Mehndi Designs',
+      id: 'mehndi-artistry',
+      name: 'Mehndi Artistry',
       category: 'mehndi',
-      type: 'Mehndi Artist',
+      type: 'Bridal Mehndi',
       location: 'Gariahat, Kolkata',
       rating: 4.8,
-      reviews: 178,
-      priceRange: '₹5,000 - ₹25,000',
-      image: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=300&fit=crop&auto=format',
-      description: 'Traditional and modern mehndi designs for all occasions.',
-      services: ['Bridal Mehndi', 'Arabic Designs', 'Traditional Patterns', 'Quick Designs'],
-      capacity: 'Individual & Groups',
-      phone: '+91 43210 98765',
-      email: 'book@artisticmehndi.com',
-      featured: true
-    },
-    {
-      id: 'golden-garden-venue',
-      name: 'Golden Garden Resort',
-      category: 'venues',
-      type: 'Wedding Resort',
-      location: 'New Town, Kolkata',
-      rating: 4.9,
-      reviews: 92,
-      priceRange: '₹1,00,000 - ₹5,00,000',
-      image: 'https://images.unsplash.com/photo-1519167758481-83f29c8e8f35?w=400&h=300&fit=crop&auto=format',
-      description: 'Luxury resort with beautiful gardens and modern amenities.',
-      services: ['Garden Venue', 'Accommodation', 'Catering', 'Event Management'],
-      capacity: '100-500 guests',
-      phone: '+91 32109 87654',
-      email: 'events@goldengarden.com',
+      reviews: 76,
+      priceRange: '₹8,000+',
+      image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=300&fit=crop&auto=format',
+      description: 'Intricate bridal mehndi designs with traditional and contemporary patterns.',
+      services: ['Bridal Mehndi', 'Family Mehndi', 'Floral Designs', 'Arabic Patterns'],
+      capacity: null,
+      phone: '+91 98765 43214',
+      email: 'info@mehndiartistry.com',
       featured: false
     },
     {
-      id: 'candid-captures',
-      name: 'Candid Captures Studio',
-      category: 'photographers',
-      type: 'Candid Photography',
-      location: 'Esplanade, Kolkata',
-      rating: 4.7,
-      reviews: 123,
-      priceRange: '₹20,000 - ₹1,00,000',
-      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&auto=format',
-      description: 'Specialists in capturing natural, candid moments of your special day.',
-      services: ['Candid Photography', 'Cinematic Videos', 'Same Day Edit', 'Photo Albums'],
-      capacity: 'All event sizes',
-      phone: '+91 21098 76543',
-      email: 'info@candidcaptures.in',
+      id: 'virtual-ceremonies',
+      name: 'Virtual Ceremonies',
+      category: 'virtual',
+      type: 'Live Streaming',
+      location: 'Online Services',
+      rating: 4.5,
+      reviews: 45,
+      priceRange: '₹5,000+',
+      image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&h=300&fit=crop&auto=format',
+      description: 'Professional live streaming services for virtual wedding ceremonies.',
+      services: ['Live Streaming', 'Virtual Ceremonies', 'Recording', 'Multi-Camera Setup'],
+      capacity: null,
+      phone: '+91 98765 43215',
+      email: 'info@virtualceremonies.com',
       featured: false
     }
   ];
 
+  // Filter vendors based on selected category
   const filteredVendors = selectedCategory === 'all' 
     ? featuredVendors 
     : featuredVendors.filter(vendor => vendor.category === selectedCategory);
 
+  // Wedding categories data
   const categories = [
     {
       id: 'venues',
-      title: 'Venues',
-      description: 'Banquet Halls, Marriage Garden / Lawns...',
-      image: '/img/venues.jpg',
-      vendorCount: '250+',
+      title: 'Venues & Spaces',
+      description: 'Beautiful locations for your special day',
+      image: 'https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&h=400&fit=crop&auto=format',
       icon: MapPinIcon,
-      gradient: 'from-blue-400 to-purple-600',
+      gradient: 'from-blue-900/80 to-purple-900/80',
+      vendorCount: 250,
       subcategories: [
-        { name: 'View All Venues', count: 250, price: 'Starting ₹25,000' },
-        { name: 'Banquet Halls', count: 85, price: '₹50,000+' },
-        { name: 'Marriage Garden / Lawns', count: 62, price: '₹30,000+' },
-        { name: 'Small Function / Party Halls', count: 45, price: '₹15,000+' },
-        { name: 'Kalyana Mandapams', count: 38, price: '₹40,000+' },
-        { name: 'Wedding Resorts', count: 25, price: '₹1,00,000+' },
-        { name: 'Destination Wedding Venues', count: 18, price: '₹2,00,000+' },
-        { name: '4 Star & Above Wedding Hotels', count: 12, price: '₹1,50,000+' }
+        { name: 'Banquet Halls', count: 120 },
+        { name: 'Marriage Garden / Lawns', count: 80 },
+        { name: 'Resorts', count: 30 },
+        { name: 'Hotels', count: 20 }
       ]
     },
     {
       id: 'photographers',
-      title: 'Photographers',
-      description: 'Photographers',
-      image: '/img/photographers.jpg',
-      vendorCount: '180+',
+      title: 'Photography & Videography',
+      description: 'Capture your precious moments forever',
+      image: 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=600&h=400&fit=crop&auto=format',
       icon: CameraIcon,
-      gradient: 'from-pink-400 to-orange-400',
+      gradient: 'from-green-900/80 to-teal-900/80',
+      vendorCount: 180,
       subcategories: [
-        { name: 'Wedding Photography', count: 95, price: '₹25,000+' },
-        { name: 'Pre Wedding Shoots', count: 48, price: '₹15,000+' },
-        { name: 'Candid Photography', count: 62, price: '₹20,000+' },
-        { name: 'Traditional Photography', count: 35, price: '₹18,000+' },
-        { name: 'Drone Photography', count: 22, price: '₹30,000+' }
+        { name: 'Wedding Photographers', count: 100 },
+        { name: 'Cinematographers', count: 50 },
+        { name: 'Pre-Wedding Specialists', count: 30 }
       ]
     },
     {
       id: 'makeup',
-      title: 'Makeup',
-      description: 'Bridal Makeup, Family Makeup',
-      image: '/img/makeup.jpg',
-      vendorCount: '150+',
+      title: 'Makeup & Beauty',
+      description: 'Look stunning on your big day',
+      image: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&h=400&fit=crop&auto=format',
       icon: SparklesIcon,
-      gradient: 'from-rose-400 to-pink-500',
+      gradient: 'from-pink-900/80 to-rose-900/80',
+      vendorCount: 150,
       subcategories: [
-        { name: 'Bridal Makeup', count: 85, price: '₹15,000+' },
-        { name: 'Family Makeup', count: 65, price: '₹3,000+' },
-        { name: 'Engagement Makeup', count: 45, price: '₹8,000+' },
-        { name: 'Party Makeup', count: 55, price: '₹2,500+' }
+        { name: 'Bridal Makeup Artists', count: 80 },
+        { name: 'Hair Stylists', count: 40 },
+        { name: 'Nail Artists', count: 30 }
       ]
     },
     {
       id: 'planning',
       title: 'Planning & Decor',
-      description: 'Wedding Planners, Decorators',
-      image: '/img/planning.jpg',
-      vendorCount: '120+',
+      description: 'Expert planning for a perfect celebration',
+      image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop&auto=format',
       icon: PaintBrushIcon,
-      gradient: 'from-orange-400 to-red-500',
+      gradient: 'from-purple-900/80 to-indigo-900/80',
+      vendorCount: 120,
       subcategories: [
-        { name: 'Wedding Planners', count: 65, price: '₹50,000+' },
-        { name: 'Wedding Decorators', count: 55, price: '₹25,000+' },
-        { name: 'Flower Decorators', count: 40, price: '₹15,000+' },
-        { name: 'Lighting Decorators', count: 30, price: '₹20,000+' }
-      ]
-    },
-    {
-      id: 'virtual',
-      title: 'Virtual Planning',
-      description: 'Virtual planning',
-      image: '/img/virtual.jpg',
-      vendorCount: '50+',
-      icon: ComputerDesktopIcon,
-      gradient: 'from-teal-400 to-blue-500',
-      subcategories: [
-        { name: 'Virtual Wedding Planning', count: 25, price: '₹10,000+' },
-        { name: 'Online Consultations', count: 20, price: '₹2,000+' },
-        { name: 'Digital Invitations', count: 15, price: '₹5,000+' }
+        { name: 'Wedding Planners', count: 60 },
+        { name: 'Decorators', count: 40 },
+        { name: 'Florists', count: 20 }
       ]
     },
     {
       id: 'mehndi',
-      title: 'Mehndi',
-      description: 'Mehendi Artist',
-      image: '/img/mehndi.jpg',
-      vendorCount: '80+',
+      title: 'Mehndi Artists',
+      description: 'Beautiful henna designs for brides',
+      image: 'https://images.unsplash.com/photo-1606800052052-a08af7148866?w=600&h=400&fit=crop&auto=format',
       icon: HandRaisedIcon,
-      gradient: 'from-amber-400 to-orange-500',
+      gradient: 'from-orange-900/80 to-red-900/80',
+      vendorCount: 80,
       subcategories: [
-        { name: 'Bridal Mehndi', count: 50, price: '₹8,000+' },
-        { name: 'Family Mehndi', count: 30, price: '₹500+' },
-        { name: 'Arabic Mehndi', count: 25, price: '₹3,000+' },
-        { name: 'Traditional Mehndi', count: 20, price: '₹2,000+' }
+        { name: 'Bridal Mehndi', count: 40 },
+        { name: 'Arabic Mehndi', count: 25 },
+        { name: 'Traditional Mehndi', count: 15 }
+      ]
+    },
+    {
+      id: 'virtual',
+      title: 'Virtual Services',
+      description: 'Modern solutions for contemporary weddings',
+      image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop&auto=format',
+      icon: ComputerDesktopIcon,
+      gradient: 'from-gray-900/80 to-slate-900/80',
+      vendorCount: 50,
+      subcategories: [
+        { name: 'Live Streaming Services', count: 25 },
+        { name: 'Virtual Ceremonies', count: 15 },
+        { name: 'Online Invitations', count: 10 }
       ]
     }
   ];
@@ -268,8 +235,8 @@ export default function Vendors() {
         </div>
         
         {/* Categories Grid */}
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {categories.map((category) => {
               const IconComponent = category.icon;
               const isExpanded = expandedCategory === category.id;
@@ -277,46 +244,43 @@ export default function Vendors() {
               return (
                 <div 
                   key={category.id} 
-                  className={`group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden ${
-                    isExpanded ? 'md:col-span-2 transform scale-[1.02]' : 'hover:scale-[1.02]'
+                  className={`group relative bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden cursor-pointer ${
+                    isExpanded ? 'lg:col-span-3 transform scale-[1.02] z-10' : 'hover:scale-[1.02]'
                   }`}
+                  onClick={() => toggleCategory(category.id)}
                 >
                   {/* Card Header with Image */}
-                  <div className="relative h-64 overflow-hidden">
+                  <div className="relative h-48 overflow-hidden">
                     <Image
                       src={category.image}
                       alt={category.title}
-                      width={600}
-                      height={300}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      width={400}
+                      height={200}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-80`}></div>
+                    <div className={`absolute inset-0 bg-gradient-to-t ${category.gradient} opacity-75`}></div>
                     
                     {/* Overlay Content */}
-                    <div className="absolute inset-0 p-6 flex flex-col justify-between text-white">
+                    <div className="absolute inset-0 p-4 flex flex-col justify-between text-white">
                       <div className="flex items-start justify-between">
-                        <div className="bg-white/20 backdrop-blur-sm rounded-full p-3">
-                          <IconComponent className="w-8 h-8" />
+                        <div className="bg-white/20 backdrop-blur-sm rounded-lg p-2">
+                          <IconComponent className="w-6 h-6" />
                         </div>
-                        <button 
-                          onClick={() => toggleCategory(category.id)}
-                          className="bg-white/20 backdrop-blur-sm rounded-full p-2 hover:bg-white/30 transition-colors"
-                        >
+                        <div className="bg-white/20 backdrop-blur-sm rounded-lg p-1.5 transform transition-transform group-hover:rotate-180">
                           {isExpanded ? 
-                            <ChevronUpIcon className="w-6 h-6" /> : 
-                            <ChevronDownIcon className="w-6 h-6" />
+                            <ChevronUpIcon className="w-4 h-4" /> : 
+                            <ChevronDownIcon className="w-4 h-4" />
                           }
-                        </button>
+                        </div>
                       </div>
                       
                       <div>
-                        <h3 className="text-2xl font-bold mb-2">{category.title}</h3>
-                        <p className="text-white/90 mb-3">{category.description}</p>
-                        <div className="flex items-center gap-3">
-                          <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-medium">
+                        <h3 className="text-lg font-bold mb-1">{category.title}</h3>
+                        <p className="text-white/90 text-sm mb-2 line-clamp-2">{category.description}</p>
+                        <div className="flex items-center gap-2">
+                          <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-medium">
                             {category.vendorCount} vendors
                           </span>
-                          <ArrowRightIcon className="w-5 h-5 transform group-hover:translate-x-1 transition-transform" />
                         </div>
                       </div>
                     </div>
@@ -324,9 +288,9 @@ export default function Vendors() {
                   
                   {/* Expanded Content */}
                   {isExpanded && (
-                    <div className="p-8 bg-gradient-to-br from-gray-50 to-white">
-                      <h4 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
-                        <IconComponent className="w-6 h-6 text-purple-600" />
+                    <div className="p-6 bg-gradient-to-br from-gray-50 to-white">
+                      <h4 className="text-xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <IconComponent className="w-5 h-5 text-purple-600" />
                         Explore {category.title}
                       </h4>
                       
@@ -334,26 +298,22 @@ export default function Vendors() {
                         {category.subcategories.map((sub, idx) => (
                           <div 
                             key={idx} 
-                            className="group/sub bg-white rounded-xl p-5 shadow-md hover:shadow-lg transition-all duration-300 border-l-4 border-purple-300 hover:border-purple-500 cursor-pointer"
+                            className="group/sub bg-white rounded-lg p-3 shadow-sm hover:shadow-md transition-all duration-200 border border-gray-100 hover:border-red-200 cursor-pointer"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSubcategoryClick(sub.name);
+                            }}
                           >
-                            <div className="flex items-center justify-between mb-3">
-                              <h5 className="font-semibold text-gray-800 group-hover/sub:text-purple-600 transition-colors">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 bg-gradient-to-br from-red-100 to-red-200 rounded-lg flex items-center justify-center group-hover/sub:from-red-200 group-hover/sub:to-red-300 transition-colors flex-shrink-0">
+                                <IconComponent className="w-4 h-4 text-red-600" />
+                              </div>
+                              <h5 className="font-medium text-gray-800 text-sm group-hover/sub:text-red-600 transition-colors">
                                 {sub.name}
                               </h5>
-                              <ArrowRightIcon className="w-4 h-4 text-gray-400 group-hover/sub:text-purple-500 group-hover/sub:translate-x-1 transition-all" />
-                            </div>
-                            <div className="flex items-center justify-between text-sm">
-                              <span className="text-gray-500">{sub.count} vendors</span>
-                              <span className="font-semibold text-green-600">{sub.price}</span>
                             </div>
                           </div>
                         ))}
-                      </div>
-                      
-                      <div className="mt-8 text-center">
-                        <button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-8 py-3 rounded-full font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                          View All {category.title}
-                        </button>
                       </div>
                     </div>
                   )}
@@ -363,188 +323,130 @@ export default function Vendors() {
           </div>
           
           {/* Featured Vendors Section */}
-          <div className="mb-16">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-                Featured Vendors
+          <div className="mb-12">
+            <div className="text-center mb-8">
+              <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                Wedding Vendors
               </h2>
-              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-                Handpicked professionals who have consistently delivered exceptional services for weddings.
+              <p className="text-gray-600 max-w-xl mx-auto">
+                Handpicked professionals who deliver exceptional wedding services.
               </p>
             </div>
 
-            {/* Category Filter for Vendors */}
-            <div className="flex flex-wrap justify-center gap-4 mb-12">
-              {[
-                { id: 'all', name: 'All Vendors', icon: ArrowRightIcon },
-                { id: 'venues', name: 'Venues', icon: MapPinIcon },
-                { id: 'photographers', name: 'Photographers', icon: CameraIcon },
-                { id: 'makeup', name: 'Makeup Artists', icon: SparklesIcon },
-                { id: 'planning', name: 'Planners', icon: PaintBrushIcon },
-                { id: 'virtual', name: 'Virtual Services', icon: ComputerDesktopIcon },
-                { id: 'mehndi', name: 'Mehndi Artists', icon: HandRaisedIcon }
-              ].map((category) => {
-                const IconComponent = category.icon;
-                return (
-                  <button
-                    key={category.id}
-                    onClick={() => setSelectedCategory(category.id)}
-                    className={`inline-flex items-center gap-2 px-6 py-3 rounded-full font-semibold text-sm transition-all duration-300 ${
-                      selectedCategory === category.id
-                        ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg transform scale-105'
-                        : 'bg-white text-gray-600 hover:bg-purple-50 hover:text-purple-600 shadow-md hover:shadow-lg'
-                    }`}
-                  >
-                    <IconComponent className="w-4 h-4" />
-                    {category.name}
-                  </button>
-                );
-              })}
-            </div>
-
-            {/* Vendor Profiles Grid */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredVendors.map((vendor) => (
-                <div key={vendor.id} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden">
-                  {/* Vendor Image */}
-                  <div className="relative h-48 overflow-hidden">
-                    <Image
-                      src={vendor.image}
-                      alt={vendor.name}
-                      width={400}
-                      height={300}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    
-                    {/* Featured Badge */}
-                    {vendor.featured && (
-                      <div className="absolute top-4 left-4">
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
-                          FEATURED
-                        </span>
-                      </div>
-                    )}
-
-                    {/* Rating Badge */}
-                    <div className="absolute top-4 right-4">
-                      <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1">
-                        <StarIconSolid className="w-4 h-4 text-yellow-500" />
-                        <span className="text-sm font-semibold text-gray-900">{vendor.rating}</span>
-                      </div>
-                    </div>
-
-                    {/* Category Badge */}
-                    <div className="absolute bottom-4 left-4">
-                      <span className="bg-white/20 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-medium">
-                        {vendor.type}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Vendor Info */}
-                  <div className="p-6">
-                    {/* Header */}
-                    <div className="mb-4">
-                      <h3 
-                        className="text-xl font-bold text-gray-900 group-hover:text-purple-600 transition-colors mb-2"
-                        style={{ fontFamily: 'Playfair Display, serif' }}
-                      >
-                        {vendor.name}
-                      </h3>
-                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-2">
-                        <MapPinIcon className="w-4 h-4" />
-                        <span>{vendor.location}</span>
-                      </div>
-                      <p className="text-gray-600 text-sm leading-relaxed mb-3">
-                        {vendor.description}
-                      </p>
-                    </div>
-
-                    {/* Rating & Reviews */}
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="flex items-center gap-1">
-                        {Array.from({ length: 5 }, (_, i) => (
-                          <StarIconSolid
-                            key={i}
-                            className={`w-4 h-4 ${i < Math.floor(vendor.rating) ? 'text-yellow-500' : 'text-gray-300'}`}
-                          />
-                        ))}
-                        <span className="text-sm font-semibold text-gray-900 ml-1">
-                          {vendor.rating}
-                        </span>
-                      </div>
-                      <span className="text-sm text-gray-500">
-                        ({vendor.reviews} reviews)
-                      </span>
-                    </div>
-
-                    {/* Services */}
-                    <div className="mb-4">
-                      <h4 className="text-sm font-semibold text-gray-900 mb-2">Services:</h4>
-                      <div className="flex flex-wrap gap-1">
-                        {vendor.services.slice(0, 3).map((service, idx) => (
-                          <span 
-                            key={idx}
-                            className="bg-purple-50 text-purple-600 px-2 py-1 rounded text-xs font-medium"
-                          >
-                            {service}
-                          </span>
-                        ))}
-                        {vendor.services.length > 3 && (
-                          <span className="text-xs text-gray-500 px-2 py-1">
-                            +{vendor.services.length - 3} more
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Price & Capacity */}
-                    <div className="flex justify-between items-center mb-4 text-sm">
-                      <div>
-                        <span className="text-gray-500">Price: </span>
-                        <span className="font-semibold text-green-600">{vendor.priceRange}</span>
-                      </div>
-                      <div>
-                        <span className="text-gray-500">Capacity: </span>
-                        <span className="font-semibold text-gray-900">{vendor.capacity}</span>
-                      </div>
-                    </div>
-
-                    {/* Contact Actions */}
-                    <div className="flex gap-2">
-                      <button className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white py-2 px-4 rounded-lg text-sm font-semibold hover:from-purple-700 hover:to-pink-700 transition-all duration-300 transform hover:scale-105">
-                        View Details
-                      </button>
-                      <button className="bg-white border-2 border-purple-200 text-purple-600 p-2 rounded-lg hover:bg-purple-50 transition-colors">
-                        <PhoneIcon className="w-4 h-4" />
-                      </button>
-                      <button className="bg-white border-2 border-purple-200 text-purple-600 p-2 rounded-lg hover:bg-purple-50 transition-colors">
-                        <EnvelopeIcon className="w-4 h-4" />
-                      </button>
-                    </div>
+            {/* Full Width Layout with Left Sidebar Filter */}
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left Sidebar - Category Filter */}
+              <div className="lg:w-64 flex-shrink-0">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sticky top-4">
+                  <h3 className="font-semibold text-gray-900 mb-4">Filter by Category</h3>
+                  <div className="space-y-2">
+                    {[
+                      { id: 'all', name: 'All Vendors', icon: ArrowRightIcon },
+                      { id: 'venues', name: 'Venues', icon: MapPinIcon },
+                      { id: 'photographers', name: 'Photography', icon: CameraIcon },
+                      { id: 'makeup', name: 'Makeup Artists', icon: SparklesIcon },
+                      { id: 'planning', name: 'Event Planning', icon: PaintBrushIcon },
+                      { id: 'virtual', name: 'Virtual Services', icon: ComputerDesktopIcon },
+                      { id: 'mehndi', name: 'Mehndi Artists', icon: HandRaisedIcon }
+                    ].map((category) => {
+                      const IconComponent = category.icon;
+                      return (
+                        <button
+                          key={category.id}
+                          onClick={() => setSelectedCategory(category.id)}
+                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-left ${
+                            selectedCategory === category.id
+                              ? 'bg-red-600 text-white shadow-md'
+                              : 'text-gray-600 hover:bg-red-50 hover:text-red-600'
+                          }`}
+                        >
+                          <IconComponent className="w-4 h-4" />
+                          {category.name}
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
 
-            {/* Load More Button */}
-            <div className="text-center mt-12">
-              <button className="bg-white border-2 border-purple-200 text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-purple-50 transition-all duration-300 shadow-lg hover:shadow-xl">
-                Load More Vendors
-              </button>
+              {/* Right Content - Vendor Cards */}
+              <div className="flex-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredVendors.map((vendor) => (
+                    <div 
+                      key={vendor.id} 
+                      className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-red-200 cursor-pointer"
+                      onClick={() => {
+                        // Navigate to vendor page - will implement later
+                        console.log(`Navigate to vendor: ${vendor.name}`);
+                      }}
+                    >
+                      {/* Vendor Image */}
+                      <div className="relative aspect-[4/3] overflow-hidden">
+                        <Image
+                          src={vendor.image}
+                          alt={vendor.name}
+                          width={300}
+                          height={225}
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
+                        
+                        {/* Featured Badge */}
+                        {vendor.featured && (
+                          <div className="absolute top-3 left-3">
+                            <span className="bg-yellow-500 text-white px-2 py-1 rounded-md text-xs font-bold">
+                              FEATURED
+                            </span>
+                          </div>
+                        )}
+
+                        {/* Rating Badge */}
+                        <div className="absolute top-3 right-3">
+                          <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
+                            <StarIconSolid className="w-3 h-3 text-yellow-500" />
+                            <span className="text-xs font-semibold text-gray-900">{vendor.rating}</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Vendor Info */}
+                      <div className="p-4">
+                        <h3 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-1 text-sm">
+                          {vendor.name}
+                        </h3>
+                        <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
+                          <MapPinIcon className="w-3 h-3" />
+                          <span>{vendor.location}</span>
+                        </div>
+                        
+                        {/* Services */}
+                        <div className="mb-3">
+                          <span className="inline-block bg-red-50 text-red-600 px-2 py-1 rounded-md text-xs font-medium">
+                            {vendor.type}
+                          </span>
+                        </div>
+
+                        {/* Contact Actions */}
+                        <div className="flex items-center justify-between">
+                          <button className="text-sm font-semibold text-red-600 hover:text-red-700 transition-colors">
+                            View Profile
+                          </button>
+                          <div className="flex items-center gap-2">
+                            <button className="p-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
+                              <PhoneIcon className="w-3 h-3 text-red-600" />
+                            </button>
+                            <button className="p-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
+                              <EnvelopeIcon className="w-3 h-3 text-red-600" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-          
-          {/* Call to Action */}
-          <div className="text-center bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-12 text-white">
-            <h2 className="text-3xl font-bold mb-4">Can&apos;t find what you&apos;re looking for?</h2>
-            <p className="text-lg mb-8 opacity-90">
-              Our wedding experts are here to help you find the perfect vendors for your special day.
-            </p>
-            <button className="bg-white text-purple-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-              Contact Our Experts
-            </button>
           </div>
         </div>
       </div>
