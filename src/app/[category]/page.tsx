@@ -39,7 +39,13 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const categoryName = decodeURIComponent(params.category).replace(/-/g, ' ');
 
   // Category data mapping
-  const categoryData: { [key: string]: any } = {
+  const categoryData: { [key: string]: {
+    title: string;
+    description: string;
+    heroImage: string;
+    icon: string;
+    totalCount: number;
+  } } = {
     'banquet halls': {
       title: 'Banquet Halls',
       description: 'Premium banquet halls for your dream wedding celebration',
