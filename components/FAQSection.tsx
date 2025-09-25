@@ -50,6 +50,22 @@ export default function FAQSection() {
 
   return (
     <section className="py-16 lg:py-20 bg-white relative overflow-hidden">
+      {/* Background Images */}
+      <div className="absolute top-0 left-0 w-1/3 lg:w-1/4">
+        <img
+          src="/img/12873194_7666-removebg-preview.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-10"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-1/3 lg:w-2/5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-10"
+        />
+      </div>
+
       {/* Enhanced Decorative Background Elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-royal-red/3 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-royal-red/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>

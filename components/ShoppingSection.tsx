@@ -166,8 +166,24 @@ const ShoppingSection = () => {
     : products.filter(product => product.category === activeCategory);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50">
-      <div className="w-full">
+    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
+      {/* Background Images */}
+      <div className="absolute top-0 left-0 w-1/3 lg:w-1/4">
+        <img
+          src="/img/12873194_7666-removebg-preview.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-8"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-1/3 lg:w-2/5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-8"
+        />
+      </div>
+
+      <div className="w-full relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">

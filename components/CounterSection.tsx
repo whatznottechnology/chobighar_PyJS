@@ -130,6 +130,24 @@ const CounterSection = () => {
         isSticky ? 'fixed inset-0 z-10' : 'relative'
       }`}
     >
+      {/* Background Images */}
+      <div className="absolute top-0 left-0 w-1/4 lg:w-1/5 z-5">
+        <img
+          src="/img/12873194_7666-removebg-preview.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-20"
+          style={{ transform: `translateY(${scrollY * 0.2}px)` }}
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-1/3 lg:w-2/5 z-5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-15"
+          style={{ transform: `translateY(${scrollY * -0.1}px)` }}
+        />
+      </div>
+
       {/* Parallax Background Images */}
       <div className="absolute inset-0">
         {/* Base background */}

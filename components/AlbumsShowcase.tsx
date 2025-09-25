@@ -4,10 +4,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MagnifyingGlassIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import MasonryGallery from './MasonryGallery';
 
 interface Album {
-  id: number;
+  id: string;
   title: string;
   subtitle: string;
   image: string;
@@ -21,7 +22,7 @@ interface Album {
 
 const albums: Album[] = [
   {
-    id: 1,
+    id: 'priya-arjun-wedding',
     title: 'Priya & Arjun Wedding',
     subtitle: 'Traditional Bengali Wedding',
     image: '/img/bridalwear.jpg',
@@ -33,7 +34,7 @@ const albums: Album[] = [
     location: 'Kolkata'
   },
   {
-    id: 2,
+    id: 'sneha-rahul-prewedding',
     title: 'Sneha & Rahul',
     subtitle: 'Pre-Wedding Shoot',
     image: '/img/prewedding.jpg',
@@ -45,23 +46,23 @@ const albums: Album[] = [
     location: 'Darjeeling'
   },
   {
-    id: 3,
-    title: 'Ananya Portrait Session',
-    subtitle: 'Bridal Portraits',
+    id: 'kavya-portrait',
+    title: 'Kavya Portrait Session',
+    subtitle: 'Individual Portraits',
     image: '/img/groomwear.jpg',
     category: 'Portrait',
     photos: 28,
-    description: 'Elegant bridal portrait session showcasing grace, beauty and traditional attire.',
+    description: 'Elegant portrait session showcasing grace, beauty and traditional attire.',
     previewImages: ['/img/groomwear.jpg', '/img/makeup.jpg', '/img/jewellery.jpg', '/img/bridalwear.jpg'],
     date: 'October 2024',
     location: 'Studio'
   },
   {
-    id: 4,
-    title: 'Royal Palace Wedding',
-    subtitle: 'Destination Wedding',
+    id: 'ravi-meera-destination',
+    title: 'Ravi & Meera Destination Wedding',
+    subtitle: 'Royal Palace Wedding',
     image: '/img/venues.jpg',
-    category: 'Venue',
+    category: 'Destination Wedding',
     photos: 120,
     description: 'Grand destination wedding at a royal palace with magnificent architecture.',
     previewImages: ['/img/venues.jpg', '/img/planning.jpg', '/img/food.jpg', '/img/photographers.jpg'],
@@ -69,21 +70,21 @@ const albums: Album[] = [
     location: 'Rajasthan'
   },
   {
-    id: 5,
-    title: 'Mehendi Celebration',
-    subtitle: 'Traditional Ceremony',
+    id: 'traditional-ceremonies',
+    title: 'Traditional Ceremonies Collection',
+    subtitle: 'Mehendi & Sangeet',
     image: '/img/mehndi.jpg',
     category: 'Ceremony',
     photos: 42,
-    description: 'Vibrant mehendi ceremony filled with music, dance and intricate henna designs.',
+    description: 'Vibrant traditional ceremonies filled with music, dance and intricate henna designs.',
     previewImages: ['/img/mehndi.jpg', '/img/music.jpg', '/img/makeup.jpg', '/img/jewellery.jpg'],
     date: 'August 2024',
     location: 'Mumbai'
   },
   {
-    id: 6,
-    title: 'Luxury Wedding Details',
-    subtitle: 'Wedding Jewelry & Decor',
+    id: 'luxury-details',
+    title: 'Luxury Wedding Details',  
+    subtitle: 'Jewelry & Decor Focus',
     image: '/img/jewellery.jpg',
     category: 'Details',
     photos: 25,
@@ -95,6 +96,7 @@ const albums: Album[] = [
 ];
 
 export default function AlbumsShowcase() {
+  const router = useRouter();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -121,6 +123,22 @@ export default function AlbumsShowcase() {
 
   return (
     <section className="py-20 bg-white relative overflow-hidden">
+      {/* Background Images */}
+      <div className="absolute top-0 left-0 w-1/3 lg:w-1/4">
+        <img
+          src="/img/12873194_7666-removebg-preview.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-10"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-1/3 lg:w-2/5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-10"
+        />
+      </div>
+
       {/* Enhanced Decorative Background Elements - Same as FAQ */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-royal-red/3 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
       <div className="absolute bottom-0 right-0 w-80 h-80 bg-royal-red/5 rounded-full blur-3xl translate-x-1/2 translate-y-1/2"></div>
@@ -193,7 +211,10 @@ export default function AlbumsShowcase() {
             {albums.map((album) => (
               <div key={album.id} className="group flex-shrink-0">
                 {/* Compact Card Container */}
-                <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 w-80">
+                <div 
+                  className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 w-80 cursor-pointer"
+                  onClick={() => router.push(`/portfolio/${album.id}`)}
+                >
                   {/* Album Cover */}
                   <div className="relative overflow-hidden rounded-t-2xl aspect-[4/3]">
                     <Image
@@ -223,7 +244,13 @@ export default function AlbumsShowcase() {
 
                     {/* View Button Overlay */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <button className="bg-white/20 backdrop-blur-md border border-white/30 text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-110">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(`/portfolio/${album.id}`);
+                        }}
+                        className="bg-white/20 backdrop-blur-md border border-white/30 text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-110"
+                      >
                         <MagnifyingGlassIcon className="w-5 h-5" />
                       </button>
                     </div>
@@ -273,13 +300,16 @@ export default function AlbumsShowcase() {
                     </div>
 
                     {/* Compact CTA Button */}
-                    <Link
-                      href={`/portfolio/${album.id}`}
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        router.push(`/portfolio/${album.id}`);
+                      }}
                       className="group/btn w-full bg-black hover:bg-royal-red text-white font-medium py-2 px-3 rounded-xl text-sm transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-md"
                     >
                       <span>View Gallery</span>
                       <ArrowRightIcon className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform duration-300" />
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

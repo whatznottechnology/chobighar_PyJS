@@ -64,26 +64,36 @@ export default function ContactForm() {
 
   if (submitted) {
     return (
-      <section className="py-12 md:py-16 bg-charcoal relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 bg-bengali-pattern opacity-30"></div>
+      <section className="py-12 md:py-16 relative overflow-hidden" style={{ backgroundColor: '#B22222' }}>
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div className="absolute right-0 top-0 bottom-0 w-1/3 lg:w-2/5">
+            <img
+              src="/img/62569719_9509225.png"
+              alt="Background decoration"
+              className="w-full h-full object-contain object-right opacity-20"
+            />
+          </div>
+          {/* Gradient overlay for better text contrast */}
+          <div className="absolute inset-0 bg-gradient-to-r from-[#B22222] via-[#B22222]/95 to-[#B22222]/80"></div>
+        </div>
         
-        <div className="relative w-full mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-2xl border border-white/20">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
+            <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-8 md:p-12 shadow-2xl border border-white/30">
+              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg">
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <h3 
-                className="text-2xl md:text-3xl font-bold text-white mb-4" 
+                className="text-2xl md:text-3xl font-bold text-white mb-4 drop-shadow-lg" 
                 style={{ fontFamily: 'Playfair Display, serif' }}
               >
                 Thank You!
               </h3>
               <p 
-                className="text-white/80 text-base md:text-lg" 
+                className="text-white text-base md:text-lg drop-shadow-md" 
                 style={{ fontFamily: 'Inter, sans-serif' }}
               >
                 We've received your inquiry and will contact you within 24 hours to discuss your photography needs.
@@ -96,26 +106,36 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="py-16 md:py-20 bg-charcoal relative overflow-hidden">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-bengali-pattern opacity-30"></div>
+    <section className="py-16 md:py-20 relative overflow-hidden" style={{ backgroundColor: '#B22222' }}>
+      {/* Background Image */}
+      <div className="absolute inset-0">
+        <div className="absolute right-0 top-0 bottom-0 w-1/3 lg:w-2/5">
+          <img
+            src="/img/62569719_9509225.png"
+            alt="Background decoration"
+            className="w-full h-full object-contain object-right opacity-20"
+          />
+        </div>
+        {/* Gradient overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#B22222] via-[#B22222]/95 to-[#B22222]/80"></div>
+      </div>
       
-      <div className="relative w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header - More Compact */}
         <div className="text-center mb-10 md:mb-12">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-royal-red rounded-2xl mb-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 shadow-lg transform hover:scale-105 transition-transform duration-300 border border-white/30">
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
             </svg>
           </div>
           <h2 
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4" 
+            className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4 drop-shadow-lg" 
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            LET'S PLAN YOUR <span className="text-royal-red">MARRIAGE PHOTOGRAPHY</span>
+            LET'S PLAN YOUR <span className="text-yellow-300 drop-shadow-lg">MARRIAGE PHOTOGRAPHY</span>
           </h2>
           <p 
-            className="text-white/80 text-lg max-w-2xl mx-auto" 
+            className="text-white text-lg max-w-2xl mx-auto font-semibold drop-shadow-md" 
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
             IN KOLKATA NOW!
@@ -124,12 +144,12 @@ export default function ContactForm() {
 
         {/* Contact Form - More Professional & Compact */}
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="bg-white/15 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/20">
+          <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/30">
             {/* Main Form Fields - Compact Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
               {/* Type of Shoot */}
               <div className="space-y-2">
-                <label className="text-white/90 text-sm font-medium block" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
                   Type of Shoot
                 </label>
                 <select
@@ -137,12 +157,12 @@ export default function ContactForm() {
                   value={formData.shootType}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-white/30 rounded-xl bg-white/10 text-white placeholder-white/70 focus:ring-2 focus:ring-royal-red focus:border-royal-red transition-all backdrop-blur-sm text-sm"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                 >
-                  <option value="" className="text-gray-800">Select type</option>
+                  <option value="" className="text-gray-800 bg-white">Select type</option>
                   {shootTypes.map((type) => (
-                    <option key={type} value={type} className="text-gray-800">
+                    <option key={type} value={type} className="text-gray-800 bg-white">
                       {type}
                     </option>
                   ))}
@@ -151,7 +171,7 @@ export default function ContactForm() {
 
               {/* Date */}
               <div className="space-y-2">
-                <label className="text-white/90 text-sm font-medium block" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
                   Preferred Date
                 </label>
                 <input
@@ -160,7 +180,7 @@ export default function ContactForm() {
                   value={formData.date}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-white/30 rounded-xl bg-white/10 text-white focus:ring-2 focus:ring-royal-red focus:border-royal-red transition-all backdrop-blur-sm text-sm"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                   min={new Date().toISOString().split('T')[0]}
                 />
@@ -168,7 +188,7 @@ export default function ContactForm() {
 
               {/* Phone */}
               <div className="space-y-2">
-                <label className="text-white/90 text-sm font-medium block" style={{ fontFamily: 'Inter, sans-serif' }}>
+                <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
                   Phone Number
                 </label>
                 <input
@@ -178,7 +198,7 @@ export default function ContactForm() {
                   onChange={handleInputChange}
                   required
                   placeholder="+91 98765 43210"
-                  className="w-full px-4 py-3 border border-white/30 rounded-xl bg-white/10 text-white placeholder-white/60 focus:ring-2 focus:ring-royal-red focus:border-royal-red transition-all backdrop-blur-sm text-sm"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                 />
               </div>
@@ -186,7 +206,7 @@ export default function ContactForm() {
 
             {/* Message Field - Compact */}
             <div className="space-y-2 mb-6">
-              <label className="text-white/90 text-sm font-medium block" style={{ fontFamily: 'Inter, sans-serif' }}>
+              <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
                 Your Requirements
               </label>
               <textarea
@@ -195,7 +215,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 rows={3}
                 placeholder="Tell us about your requirements, budget, venue details, or any special requests..."
-                className="w-full px-4 py-3 border border-white/30 rounded-xl bg-white/10 text-white placeholder-white/60 focus:ring-2 focus:ring-royal-red focus:border-royal-red transition-all resize-none backdrop-blur-sm text-sm"
+                className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all resize-none backdrop-blur-sm text-sm font-medium"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               ></textarea>
             </div>
@@ -205,7 +225,7 @@ export default function ContactForm() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="bg-gradient-to-r from-royal-red to-red-600 hover:from-red-600 hover:to-red-700 text-white font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]"
+                className="bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-red-800 font-bold py-4 px-8 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none min-w-[200px]"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               >
                 {isSubmitting ? (
@@ -228,25 +248,25 @@ export default function ContactForm() {
             </div>
 
             {/* Contact Info - Compact */}
-            <div className="mt-8 pt-6 border-t border-white/20">
+            <div className="mt-8 pt-6 border-t border-white/30">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
                 <div className="flex items-center justify-center space-x-2">
-                  <svg className="w-4 h-4 text-royal-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  <span className="text-white/90 text-sm">+91 96479 66765</span>
+                  <span className="text-white text-sm font-medium drop-shadow-sm">+91 96479 66765</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
-                  <svg className="w-4 h-4 text-royal-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-white/90 text-sm">info@chabighar.com</span>
+                  <span className="text-white text-sm font-medium drop-shadow-sm">info@chabighar.com</span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
-                  <svg className="w-4 h-4 text-royal-red" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  <span className="text-white/90 text-sm">24/7 Response</span>
+                  <span className="text-white text-sm font-medium drop-shadow-sm">24/7 Response</span>
                 </div>
               </div>
             </div>

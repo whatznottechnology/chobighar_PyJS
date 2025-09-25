@@ -55,6 +55,22 @@ export default function VideoShowcase() {
 
   return (
     <section className="relative bg-charcoal overflow-hidden">
+      {/* Background Images */}
+      <div className="absolute top-0 left-0 w-1/4 lg:w-1/5">
+        <img
+          src="/img/12873194_7666-removebg-preview.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-20"
+        />
+      </div>
+      <div className="absolute bottom-0 right-0 w-1/3 lg:w-2/5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-15"
+        />
+      </div>
+
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-charcoal via-gray-900 to-black">
         <div className="absolute inset-0 opacity-10 bg-bengali-pattern"></div>

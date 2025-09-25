@@ -1,8 +1,10 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 
 const VendorSection = () => {
+  const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -29,82 +31,82 @@ const VendorSection = () => {
 
   const vendors = [
     {
-      id: 1,
-      name: 'Royal Heritage Banquets',
+      id: 'royal-palace-banquets',
+      name: 'Royal Palace Banquets',
       category: 'venues',
       image: '/img/venues.jpg',
-      profileImage: '/img/vendor-profiles/royal-heritage-profile.jpg',
-      location: 'Kolkata, West Bengal',
+      profileImage: '/img/2.jpg',
+      location: 'Salt Lake, Kolkata',
       rating: 4.8,
-      reviews: 245,
-      price: '₹45,000+',
+      reviews: 156,
+      price: '₹50,000+',
       verified: true,
-      specialty: 'Traditional Architecture'
+      specialty: 'Where Dreams Meet Reality'
     },
     {
-      id: 2,
-      name: 'Priya Makeup Studio',
+      id: 'moments-photography',
+      name: 'Moments Photography',
+      category: 'photographers',
+      image: '/img/photographers.jpg',
+      profileImage: '/img/2.jpg',
+      location: 'Park Street, Kolkata',
+      rating: 4.9,
+      reviews: 89,
+      price: '₹25,000+',
+      verified: true,
+      specialty: 'Capturing Life\'s Beautiful Moments'
+    },
+    {
+      id: 'glamour-makeup-studio',
+      name: 'Glamour Makeup Studio',
       category: 'makeup',
       image: '/img/makeup.jpg',
-      profileImage: '/img/vendor-profiles/priya-makeup-profile.jpg',
-      location: 'Delhi, India',
-      rating: 4.9,
-      reviews: 180,
-      price: '₹18,000+',
+      profileImage: '/img/2.jpg',
+      location: 'Ballygunge, Kolkata',
+      rating: 4.7,
+      reviews: 134,
+      price: '₹15,000+',
       verified: true,
-      specialty: 'Bridal Makeup'
+      specialty: 'Enhancing Your Natural Beauty'
     },
     {
-      id: 3,
+      id: 'elegant-events',
       name: 'Elegant Events & Decor',
       category: 'planning',
       image: '/img/planning.jpg',
-      profileImage: '/img/vendor-profiles/elegant-events-profile.jpg',
-      location: 'Mumbai, Maharashtra',
-      rating: 4.7,
-      reviews: 156,
-      price: '₹35,000+',
+      profileImage: '/img/2.jpg',
+      location: 'New Town, Kolkata',
+      rating: 4.6,
+      reviews: 98,
+      price: '₹30,000+',
       verified: true,
-      specialty: 'Complete Planning'
+      specialty: 'Creating Unforgettable Celebrations'
     },
     {
-      id: 4,
-      name: 'Artistry Mehndi Designs',
+      id: 'mehndi-artistry',
+      name: 'Mehndi Artistry',
       category: 'mehndi',
       image: '/img/mehndi.jpg',
-      profileImage: '/img/vendor-profiles/artistry-mehndi-profile.jpg',
-      location: 'Pune, Maharashtra',
+      profileImage: '/img/2.jpg',
+      location: 'Gariahat, Kolkata',
       rating: 4.8,
-      reviews: 128,
+      reviews: 76,
       price: '₹8,000+',
       verified: true,
-      specialty: 'Intricate Designs'
+      specialty: 'Traditional Art, Modern Designs'
     },
     {
-      id: 5,
-      name: 'Virtual Wedding Solutions',
+      id: 'virtual-ceremonies',
+      name: 'Virtual Ceremonies',
       category: 'virtual',
       image: '/img/virtual.jpg',
-      profileImage: '/img/vendor-profiles/virtual-wedding-profile.jpg',
-      location: 'Bangalore, Karnataka',
-      rating: 4.6,
-      reviews: 89,
-      price: '₹12,000+',
+      profileImage: '/img/2.jpg',
+      location: 'Online Services',
+      rating: 4.5,
+      reviews: 45,
+      price: '₹5,000+',
       verified: true,
-      specialty: 'Live Streaming'
-    },
-    {
-      id: 6,
-      name: 'Garden Paradise Lawns',
-      category: 'venues',
-      image: '/img/venues.jpg',
-      profileImage: '/img/vendor-profiles/garden-paradise-profile.jpg',
-      location: 'Jaipur, Rajasthan',
-      rating: 4.7,
-      reviews: 198,
-      price: '₹32,000+',
-      verified: true,
-      specialty: 'Garden Weddings'
+      specialty: 'Connecting Hearts Across Distances'
     }
   ];
 
@@ -114,8 +116,17 @@ const VendorSection = () => {
     : vendors.filter(vendor => vendor.category === activeCategory);
 
   return (
-    <section className="py-20 bg-white">
-      <div className="w-full">
+    <section className="py-20 bg-white relative overflow-hidden">
+      {/* Background Images */}
+      <div className="absolute top-0 right-0 w-1/3 lg:w-2/5">
+        <img
+          src="/img/62569719_9509225.png"
+          alt="Background decoration"
+          className="w-full h-auto object-contain opacity-8"
+        />
+      </div>
+      
+      <div className="w-full relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">
@@ -150,10 +161,10 @@ const VendorSection = () => {
                 <button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`px-4 py-2.5 rounded-xl font-medium text-sm transition-all duration-300 whitespace-nowrap ${
+                  className={`px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 whitespace-nowrap ${
                     activeCategory === category.id
-                      ? 'bg-royal-red text-white shadow-md' 
-                      : 'text-gray-600 hover:text-royal-red hover:bg-white hover:shadow-sm'
+                      ? 'bg-royal-red text-white shadow-lg transform scale-105' 
+                      : 'text-gray-700 hover:text-royal-red hover:bg-white hover:shadow-sm'
                   }`}
                 >
                   <span>{category.name}</span>
@@ -194,7 +205,10 @@ const VendorSection = () => {
             {filteredVendors.map((vendor) => (
               <div key={vendor.id} className="group flex-shrink-0">
                 {/* Compact Profile Card */}
-                <div className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 w-80">
+                <div 
+                  className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 w-80 cursor-pointer"
+                  onClick={() => router.push(`/${vendor.id}`)}
+                >
                   {/* Vendor Image */}
                   <div className="relative h-40 overflow-hidden">
                     <div 
@@ -288,10 +302,19 @@ const VendorSection = () => {
 
                     {/* Action Buttons */}
                     <div className="flex gap-2">
-                      <button className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-300 transform hover:scale-105">
+                      <button 
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          router.push(`/${vendor.id}`);
+                        }}
+                        className="flex-1 bg-gray-900 hover:bg-gray-800 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-300 transform hover:scale-105"
+                      >
                         View Profile
                       </button>
-                      <button className="flex-1 bg-royal-red hover:bg-red-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-300">
+                      <button 
+                        onClick={(e) => e.stopPropagation()}
+                        className="flex-1 bg-royal-red hover:bg-red-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-300"
+                      >
                         Contact
                       </button>
                     </div>
@@ -302,7 +325,10 @@ const VendorSection = () => {
 
             {/* View All Card */}
             <div className="flex-shrink-0 w-80">
-              <div className="h-full bg-gradient-to-br from-royal-red via-red-800 to-red-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 flex items-center justify-center">
+              <div 
+                className="h-full bg-gradient-to-br from-royal-red via-red-800 to-red-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 flex items-center justify-center cursor-pointer"
+                onClick={() => router.push('/vendors')}
+              >
                 <div className="text-center p-6">
                   <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -315,7 +341,13 @@ const VendorSection = () => {
                   <p className="text-white/80 text-xs mb-4">
                     650+ verified professionals
                   </p>
-                  <button className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 text-sm">
+                  <button 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      router.push('/vendors');
+                    }}
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white font-medium py-2 px-4 rounded-lg transition-all duration-300 text-sm"
+                  >
                     Explore More
                   </button>
                 </div>

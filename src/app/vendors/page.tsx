@@ -378,14 +378,13 @@ export default function Vendors() {
 
             {/* Right Content - Vendor Cards */}
             <div className="flex-1">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredVendors.map((vendor) => (
                   <div 
                     key={vendor.id} 
                     className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-red-200 cursor-pointer transform hover:-translate-y-1"
                     onClick={() => {
-                      // Navigate to vendor page - will implement later
-                      console.log(`Navigate to vendor: ${vendor.name}`);
+                      router.push(`/${vendor.id}`);
                     }}
                   >
                     {/* Vendor Image */}
@@ -463,10 +462,19 @@ export default function Vendors() {
 
                       {/* Contact Actions */}
                       <div className="flex gap-2">
-                        <button className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-105">
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(`/${vendor.id}`);
+                          }}
+                          className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-105"
+                        >
                           View Profile
                         </button>
-                        <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold transition-colors">
+                        <button 
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold transition-colors"
+                        >
                           Contact
                         </button>
                       </div>

@@ -210,6 +210,458 @@ export default function VendorProfile() {
           features: ['Hall Rental (12 hours)', 'Luxury Decoration', 'Premium Sound & Lighting', 'Full Catering Service', 'Valet Parking', '24/7 Support', 'Bridal Suite', 'Photography Area', 'Guest Coordination']
         }
       ]
+    },
+    'moments-photography': {
+      id: 'moments-photography',
+      name: 'Moments Photography',
+      tagline: 'Capturing Life\'s Beautiful Moments',
+      category: 'photographers',
+      type: 'Wedding Photography',
+      location: 'Park Street, Kolkata',
+      rating: 4.9,
+      reviews: 89,
+      priceRange: '₹25,000 - ₹75,000',
+      coverImage: '/img/photographers.jpg',
+      profileImage: '/img/2.jpg',
+      description: 'Capturing beautiful moments with artistic vision and professional expertise. We specialize in wedding photography with a blend of traditional and contemporary styles.',
+      story: 'Founded by passionate photographers, we have been documenting love stories for over 8 years. Our team believes in capturing not just images, but emotions and memories that last a lifetime.',
+      experience: '8+ Years',
+      specialties: ['Wedding Photography', 'Pre-Wedding Shoots', 'Candid Photography', 'Traditional Portraits'],
+      services: ['Wedding Photography', 'Pre-Wedding Shoots', 'Candid Photography', 'Traditional Photography', 'Album Design', 'Video Coverage'],
+      highlights: ['Award-winning photographers', 'Premium equipment', 'Same-day highlights', 'Custom albums', 'Drone photography', 'Professional editing'],
+      phone: '+91 98765 43211',
+      email: 'info@momentsphotography.com',
+      website: 'www.momentsphotography.com',
+      socialMedia: {
+        instagram: '@momentsphotography',
+        facebook: 'Moments Photography',
+        youtube: 'Moments Studio'
+      },
+      businessHours: {
+        'Monday': '10:00 AM - 8:00 PM',
+        'Tuesday': '10:00 AM - 8:00 PM',
+        'Wednesday': '10:00 AM - 8:00 PM',
+        'Thursday': '10:00 AM - 8:00 PM',
+        'Friday': '10:00 AM - 8:00 PM',
+        'Saturday': '9:00 AM - 9:00 PM',
+        'Sunday': '9:00 AM - 9:00 PM'
+      },
+      portfolio: [
+        {
+          id: 'wedding-shoot-1',
+          title: 'Romantic Wedding',
+          image: '/img/photographers.jpg',
+          category: 'Wedding'
+        },
+        {
+          id: 'prewedding-shoot-1',
+          title: 'Pre-Wedding Story',
+          image: '/img/prewedding.jpg',
+          category: 'Pre-Wedding'
+        },
+        {
+          id: 'candid-moments',
+          title: 'Candid Captures',
+          image: '/img/1.jpg',
+          category: 'Candid'
+        }
+      ],
+      testimonials: [
+        {
+          name: 'Riya & Aman',
+          rating: 5,
+          review: 'Absolutely stunning photography! They captured every emotion perfectly. Highly recommend Moments Photography!',
+          date: '1 month ago',
+          event: 'Wedding Photography'
+        },
+        {
+          name: 'Sneha Gupta',
+          rating: 5,
+          review: 'Amazing pre-wedding shoot! The team was professional and made us feel comfortable throughout.',
+          date: '2 weeks ago',
+          event: 'Pre-Wedding'
+        }
+      ],
+      gallery: [
+        '/img/photographers.jpg',
+        '/img/prewedding.jpg',
+        '/img/1.jpg',
+        '/img/2.jpg',
+        '/img/venues.jpg',
+        '/img/makeup.jpg'
+      ],
+      videos: ['hT_nvWreIhg'],
+      packages: [
+        {
+          name: 'Basic Package',
+          price: '₹25,000',
+          features: ['6 hours coverage', 'Edited photos (200+)', 'Online gallery', 'Basic album']
+        },
+        {
+          name: 'Premium Package',
+          price: '₹45,000',
+          features: ['8 hours coverage', 'Edited photos (400+)', 'Online gallery', 'Premium album', 'Same day highlights'],
+          popular: true
+        },
+        {
+          name: 'Luxury Package',
+          price: '₹75,000',
+          features: ['Full day coverage', 'Edited photos (600+)', 'Video coverage', 'Premium album', 'Same day highlights', 'Drone shots']
+        }
+      ]
+    },
+    'glamour-makeup-studio': {
+      id: 'glamour-makeup-studio',
+      name: 'Glamour Makeup Studio',
+      tagline: 'Enhancing Your Natural Beauty',
+      category: 'makeup',
+      type: 'Bridal Makeup',
+      location: 'Ballygunge, Kolkata',
+      rating: 4.7,
+      reviews: 134,
+      priceRange: '₹15,000 - ₹40,000',
+      coverImage: '/img/makeup.jpg',
+      profileImage: '/img/2.jpg',
+      description: 'Professional bridal makeup with premium products and expert techniques. We specialize in creating stunning bridal looks that enhance your natural beauty.',
+      story: 'With over 10 years of experience in the beauty industry, our team of skilled makeup artists has transformed countless brides. We use only premium, long-lasting products to ensure you look perfect throughout your special day.',
+      experience: '10+ Years',
+      specialties: ['Bridal Makeup', 'Hair Styling', 'Saree Draping', 'Nail Art'],
+      services: ['Bridal Makeup', 'Hair Styling', 'Saree Draping', 'Nail Art', 'Pre-Wedding Grooming', 'Family Makeup'],
+      highlights: ['Premium makeup brands', 'Skilled artists', 'Trial sessions', 'On-location service', 'Hair styling included', 'Long-lasting finish'],
+      phone: '+91 98765 43212',
+      email: 'info@glamourmakeup.com',
+      website: 'www.glamourmakeup.com',
+      socialMedia: {
+        instagram: '@glamourmakeup',
+        facebook: 'Glamour Makeup Studio'
+      },
+      businessHours: {
+        'Monday': '9:00 AM - 7:00 PM',
+        'Tuesday': '9:00 AM - 7:00 PM',
+        'Wednesday': '9:00 AM - 7:00 PM',
+        'Thursday': '9:00 AM - 7:00 PM',
+        'Friday': '9:00 AM - 7:00 PM',
+        'Saturday': '8:00 AM - 8:00 PM',
+        'Sunday': '8:00 AM - 8:00 PM'
+      },
+      portfolio: [
+        {
+          id: 'bridal-look-1',
+          title: 'Classic Bridal Look',
+          image: '/img/makeup.jpg',
+          category: 'Bridal'
+        },
+        {
+          id: 'modern-bride',
+          title: 'Modern Bridal Style',
+          image: '/img/bridalwear.jpg',
+          category: 'Bridal'
+        }
+      ],
+      testimonials: [
+        {
+          name: 'Priyanka Sharma',
+          rating: 5,
+          review: 'Amazing makeup! I felt like a princess on my wedding day. The team was professional and skilled.',
+          date: '3 weeks ago',
+          event: 'Bridal Makeup'
+        },
+        {
+          name: 'Kavita Devi',
+          rating: 4,
+          review: 'Great service and beautiful results. The makeup lasted the entire day without touch-ups.',
+          date: '1 month ago',
+          event: 'Wedding Makeup'
+        }
+      ],
+      gallery: [
+        '/img/makeup.jpg',
+        '/img/bridalwear.jpg',
+        '/img/2.jpg',
+        '/img/1.jpg'
+      ],
+      packages: [
+        {
+          name: 'Basic Bridal',
+          price: '₹15,000',
+          features: ['Bridal makeup', 'Basic hairstyle', '1 touch-up']
+        },
+        {
+          name: 'Premium Bridal',
+          price: '₹25,000',
+          features: ['Bridal makeup', 'Hair styling', 'Saree draping', '2 touch-ups', 'Trial session'],
+          popular: true
+        },
+        {
+          name: 'Luxury Bridal',
+          price: '₹40,000',
+          features: ['Bridal makeup', 'Hair styling', 'Saree draping', 'Nail art', '3 touch-ups', 'Trial session', 'Family makeup (2 people)']
+        }
+      ]
+    },
+    'elegant-events': {
+      id: 'elegant-events',
+      name: 'Elegant Events & Decor',
+      tagline: 'Creating Unforgettable Celebrations',
+      category: 'planning',
+      type: 'Wedding Planning',
+      location: 'New Town, Kolkata',
+      rating: 4.6,
+      reviews: 98,
+      priceRange: '₹30,000 - ₹2,00,000',
+      coverImage: '/img/planning.jpg',
+      profileImage: '/img/2.jpg',
+      description: 'Complete wedding planning and decoration services with attention to detail. We handle every aspect of your wedding to make it a memorable celebration.',
+      story: 'With a passion for creating magical moments, we have been planning dream weddings for over 7 years. Our experienced team ensures that every detail is perfectly executed.',
+      experience: '7+ Years',
+      specialties: ['Wedding Planning', 'Event Decoration', 'Vendor Coordination', 'Theme Weddings'],
+      services: ['Event Planning', 'Decoration', 'Coordination', 'Vendor Management', 'Theme Design', 'Logistics Management'],
+      highlights: ['End-to-end planning', 'Experienced team', 'Vendor network', 'Custom themes', '24/7 coordination', 'Budget management'],
+      phone: '+91 98765 43213',
+      email: 'info@elegantevents.com',
+      website: 'www.elegantevents.com',
+      socialMedia: {
+        instagram: '@elegantevents',
+        facebook: 'Elegant Events & Decor'
+      },
+      businessHours: {
+        'Monday': '9:00 AM - 8:00 PM',
+        'Tuesday': '9:00 AM - 8:00 PM',
+        'Wednesday': '9:00 AM - 8:00 PM',
+        'Thursday': '9:00 AM - 8:00 PM',
+        'Friday': '9:00 AM - 8:00 PM',
+        'Saturday': '9:00 AM - 9:00 PM',
+        'Sunday': '10:00 AM - 6:00 PM'
+      },
+      portfolio: [
+        {
+          id: 'royal-wedding',
+          title: 'Royal Theme Wedding',
+          image: '/img/planning.jpg',
+          category: 'Wedding'
+        },
+        {
+          id: 'garden-wedding',
+          title: 'Garden Wedding Setup',
+          image: '/img/venues.jpg',
+          category: 'Outdoor'
+        }
+      ],
+      testimonials: [
+        {
+          name: 'Arjun & Meera',
+          rating: 5,
+          review: 'Elegant Events made our wedding absolutely perfect! They handled everything flawlessly and we could just enjoy our day.',
+          date: '2 months ago',
+          event: 'Wedding Planning'
+        },
+        {
+          name: 'Rakesh Kumar',
+          rating: 4,
+          review: 'Professional team with great attention to detail. The decoration was exactly what we envisioned.',
+          date: '1 month ago',
+          event: 'Event Planning'
+        }
+      ],
+      gallery: [
+        '/img/planning.jpg',
+        '/img/venues.jpg',
+        '/img/1.jpg',
+        '/img/2.jpg'
+      ],
+      packages: [
+        {
+          name: 'Basic Planning',
+          price: '₹30,000',
+          features: ['Event timeline', 'Vendor coordination', 'Basic decoration', 'Day-of coordination']
+        },
+        {
+          name: 'Premium Planning',
+          price: '₹75,000',
+          features: ['Complete planning', 'Vendor management', 'Custom decoration', 'Full coordination', 'Budget management'],
+          popular: true
+        },
+        {
+          name: 'Luxury Planning',
+          price: '₹2,00,000',
+          features: ['End-to-end planning', 'Premium vendors', 'Luxury decoration', 'Full coordination', 'Guest management', 'Destination wedding support']
+        }
+      ]
+    },
+    'mehndi-artistry': {
+      id: 'mehndi-artistry',
+      name: 'Mehndi Artistry',
+      tagline: 'Traditional Art, Modern Designs',
+      category: 'mehndi',
+      type: 'Bridal Mehndi',
+      location: 'Gariahat, Kolkata',
+      rating: 4.8,
+      reviews: 76,
+      priceRange: '₹8,000 - ₹25,000',
+      coverImage: '/img/mehndi.jpg',
+      profileImage: '/img/2.jpg',
+      description: 'Intricate bridal mehndi designs with traditional and contemporary patterns. Our skilled artists create beautiful henna designs that complement your special day.',
+      story: 'Specializing in the ancient art of mehndi for over 12 years, we blend traditional techniques with modern designs. Each design is crafted with love and precision.',
+      experience: '12+ Years',
+      specialties: ['Bridal Mehndi', 'Arabic Patterns', 'Floral Designs', 'Contemporary Art'],
+      services: ['Bridal Mehndi', 'Family Mehndi', 'Floral Designs', 'Arabic Patterns', 'Traditional Designs', 'Party Mehndi'],
+      highlights: ['Natural henna', 'Intricate designs', 'Quick service', 'Dark stain guaranteed', 'Bridal packages', 'Home service available'],
+      phone: '+91 98765 43214',
+      email: 'info@mehndiartistry.com',
+      socialMedia: {
+        instagram: '@mehndiartistry',
+        facebook: 'Mehndi Artistry'
+      },
+      businessHours: {
+        'Monday': '10:00 AM - 8:00 PM',
+        'Tuesday': '10:00 AM - 8:00 PM',
+        'Wednesday': '10:00 AM - 8:00 PM',
+        'Thursday': '10:00 AM - 8:00 PM',
+        'Friday': '10:00 AM - 8:00 PM',
+        'Saturday': '9:00 AM - 9:00 PM',
+        'Sunday': '9:00 AM - 9:00 PM'
+      },
+      portfolio: [
+        {
+          id: 'bridal-mehndi-1',
+          title: 'Intricate Bridal Design',
+          image: '/img/mehndi.jpg',
+          category: 'Bridal'
+        },
+        {
+          id: 'arabic-design',
+          title: 'Arabic Patterns',
+          image: '/img/1.jpg',
+          category: 'Arabic'
+        }
+      ],
+      testimonials: [
+        {
+          name: 'Sunita Rani',
+          rating: 5,
+          review: 'Beautiful mehndi design! The color was perfect and lasted for weeks. Highly recommended!',
+          date: '2 weeks ago',
+          event: 'Bridal Mehndi'
+        },
+        {
+          name: 'Pooja Sharma',
+          rating: 5,
+          review: 'Amazing artistry! The design was exactly what I wanted. Very professional service.',
+          date: '1 month ago',
+          event: 'Wedding Mehndi'
+        }
+      ],
+      gallery: [
+        '/img/mehndi.jpg',
+        '/img/1.jpg',
+        '/img/2.jpg'
+      ],
+      packages: [
+        {
+          name: 'Basic Mehndi',
+          price: '₹8,000',
+          features: ['Simple bridal design', 'Both hands', 'Natural henna']
+        },
+        {
+          name: 'Premium Mehndi',
+          price: '₹15,000',
+          features: ['Intricate bridal design', 'Hands and feet', 'Natural henna', 'Design consultation'],
+          popular: true
+        },
+        {
+          name: 'Luxury Mehndi',
+          price: '₹25,000',
+          features: ['Elaborate bridal design', 'Hands, feet and arms', 'Premium henna', 'Design consultation', 'Family mehndi (2 people)']
+        }
+      ]
+    },
+    'virtual-ceremonies': {
+      id: 'virtual-ceremonies',
+      name: 'Virtual Ceremonies',
+      tagline: 'Connecting Hearts Across Distances',
+      category: 'virtual',
+      type: 'Live Streaming',
+      location: 'Online Services',
+      rating: 4.5,
+      reviews: 45,
+      priceRange: '₹5,000 - ₹20,000',
+      coverImage: '/img/virtual.jpg',
+      profileImage: '/img/2.jpg',
+      description: 'Professional live streaming services for virtual wedding ceremonies. We help you connect with loved ones who cannot attend in person.',
+      story: 'In today\'s connected world, we specialize in bringing families together through technology. Our team ensures high-quality streaming so no one misses your special moments.',
+      experience: '5+ Years',
+      specialties: ['Live Streaming', 'Virtual Ceremonies', 'Multi-Camera Setup', 'Recording Services'],
+      services: ['Live Streaming', 'Virtual Ceremonies', 'Recording', 'Multi-Camera Setup', 'Audio Management', 'Online Invitations'],
+      highlights: ['HD streaming', 'Multiple camera angles', 'Professional audio', 'Recording included', 'Technical support', 'Platform flexibility'],
+      phone: '+91 98765 43215',
+      email: 'info@virtualceremonies.com',
+      website: 'www.virtualceremonies.com',
+      socialMedia: {
+        instagram: '@virtualceremonies',
+        facebook: 'Virtual Ceremonies'
+      },
+      businessHours: {
+        'Monday': '9:00 AM - 9:00 PM',
+        'Tuesday': '9:00 AM - 9:00 PM',
+        'Wednesday': '9:00 AM - 9:00 PM',
+        'Thursday': '9:00 AM - 9:00 PM',
+        'Friday': '9:00 AM - 9:00 PM',
+        'Saturday': '8:00 AM - 10:00 PM',
+        'Sunday': '8:00 AM - 10:00 PM'
+      },
+      portfolio: [
+        {
+          id: 'virtual-wedding-1',
+          title: 'Online Wedding Ceremony',
+          image: '/img/virtual.jpg',
+          category: 'Virtual Wedding'
+        },
+        {
+          id: 'hybrid-event',
+          title: 'Hybrid Celebration',
+          image: '/img/1.jpg',
+          category: 'Hybrid Event'
+        }
+      ],
+      testimonials: [
+        {
+          name: 'Rohit & Priya',
+          rating: 5,
+          review: 'Excellent service! Our family members abroad could participate in our wedding through their streaming service.',
+          date: '1 month ago',
+          event: 'Virtual Wedding'
+        },
+        {
+          name: 'Amit Kumar',
+          rating: 4,
+          review: 'Professional setup and great quality streaming. Made our celebration truly inclusive.',
+          date: '3 weeks ago',
+          event: 'Live Streaming'
+        }
+      ],
+      gallery: [
+        '/img/virtual.jpg',
+        '/img/1.jpg',
+        '/img/2.jpg'
+      ],
+      packages: [
+        {
+          name: 'Basic Streaming',
+          price: '₹5,000',
+          features: ['Single camera', '2 hours streaming', 'HD quality', 'Recording included']
+        },
+        {
+          name: 'Premium Streaming',
+          price: '₹12,000',
+          features: ['Multi-camera setup', '4 hours streaming', 'HD quality', 'Recording included', 'Audio optimization'],
+          popular: true
+        },
+        {
+          name: 'Professional Streaming',
+          price: '₹20,000',
+          features: ['Multi-camera setup', 'Full day streaming', '4K quality', 'Recording included', 'Audio optimization', 'Technical support', 'Live interaction features']
+        }
+      ]
     }
   };
 
@@ -381,46 +833,46 @@ export default function VendorProfile() {
               <div className="relative">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-4">
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       <Image
                         src={vendor.gallery[0]}
                         alt="Venue 1"
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-110 transition-transform duration-500"
                       />
                     </div>
-                    <div className="aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       <Image
                         src={vendor.gallery[1]}
                         alt="Venue 2"
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                   </div>
                   <div className="space-y-4 pt-8">
-                    <div className="aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 transition-transform duration-500">
+                    <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       <Image
                         src={vendor.gallery[2]}
                         alt="Venue 3"
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-110 transition-transform duration-500"
                       />
                     </div>
-                    <div className="aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       <Image
                         src={vendor.gallery[3]}
                         alt="Venue 4"
                         fill
-                        className="object-cover"
+                        className="object-cover hover:scale-110 transition-transform duration-500"
                       />
                     </div>
                   </div>
                 </div>
                 {/* Floating Stats */}
-                <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100">
+                <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600">500+</div>
+                    <div className="text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">500+</div>
                     <div className="text-sm text-gray-600">Events Completed</div>
                   </div>
                 </div>
@@ -863,29 +1315,37 @@ export default function VendorProfile() {
                       <span className="font-semibold text-gray-900">{vendor.rating}</span>
                     </div>
                   </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Events Done</span>
+                    <span className="font-semibold text-gray-900">500+</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Capacity</span>
+                    <span className="font-semibold text-gray-900">800 Guests</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Response Time</span>
+                    <span className="font-semibold text-green-600">2 Hours</span>
+                  </div>
                 </div>
               </div>
 
-              {/* Contact Card */}
-              <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-3xl p-6 text-white">
-                <h3 className="text-lg font-semibold mb-4">Ready to Book?</h3>
-                <div className="space-y-3 mb-6">
-                  <a href={`tel:${vendor.phone}`} className="flex items-center gap-3 hover:text-red-200 transition-colors">
-                    <PhoneIcon className="w-5 h-5" />
-                    <span>{vendor.phone}</span>
-                  </a>
-                  <a href={`mailto:${vendor.email}`} className="flex items-center gap-3 hover:text-red-200 transition-colors">
-                    <EnvelopeIcon className="w-5 h-5" />
-                    <span className="truncate">{vendor.email}</span>
-                  </a>
+              {/* Specialties Card */}
+              <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-3xl border border-red-100 p-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                  <SparklesIcon className="w-5 h-5 text-red-600" />
+                  Specialties
+                </h3>
+                <div className="space-y-2">
+                  {vendor.specialties.map((specialty, index) => (
+                    <div key={index} className="flex items-center gap-2">
+                      <CheckCircleIcon className="w-4 h-4 text-red-600 flex-shrink-0" />
+                      <span className="text-sm text-gray-700">{specialty}</span>
+                    </div>
+                  ))}
                 </div>
-                <button 
-                  onClick={() => scrollToSection('contact')}
-                  className="w-full bg-white text-red-600 py-3 px-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors"
-                >
-                  Send Inquiry
-                </button>
               </div>
+
             </div>
           </div>
         </div>
