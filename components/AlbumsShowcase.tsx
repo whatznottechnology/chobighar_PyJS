@@ -175,7 +175,7 @@ export default function AlbumsShowcase() {
         </div>
 
         {/* Scrollable Albums Container */}
-        <div className="relative">
+        <div className="relative mb-16">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
@@ -353,9 +353,119 @@ export default function AlbumsShowcase() {
           </div>
         </div>
 
-        {/* Integrated Masonry Gallery */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <MasonryGallery />
+        {/* Masonry Gallery - 2 Rows Full Width */}
+        <div className="mb-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto">            
+            {/* Gallery Grid - 2 Rows */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
+              {/* Row 1 - Top Row */}
+              <div className="col-span-1 md:col-span-2 lg:col-span-2">
+                <div className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/bridalwear.jpg"
+                    alt="Wedding ceremony"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-sm">Traditional Wedding</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/jewellery.jpg"
+                    alt="Bridal jewelry"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-xs">Jewelry Details</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/makeup.jpg"
+                    alt="Bridal makeup"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-xs">Bridal Makeup</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-1 md:col-span-1 lg:col-span-2">
+                <div className="group relative aspect-[3/2] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/venues.jpg"
+                    alt="Wedding venue"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-sm">Elegant Venues</h4>
+                  </div>
+                </div>
+              </div>
+
+              {/* Row 2 - Bottom Row */}
+              <div className="col-span-1">
+                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/mehndi.jpg"
+                    alt="Mehndi ceremony"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-xs">Mehndi Art</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-1 md:col-span-2 lg:col-span-3">
+                <div className="group relative aspect-[2/1] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/prewedding.jpg"
+                    alt="Pre-wedding shoot"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-sm">Pre-Wedding Romance</h4>
+                  </div>
+                </div>
+              </div>
+
+              <div className="col-span-1 md:col-span-1 lg:col-span-2">
+                <div className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
+                  <Image
+                    src="/img/groomwear.jpg"
+                    alt="Groom portrait"
+                    fill
+                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h4 className="font-semibold text-sm">Groom Style</h4>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
