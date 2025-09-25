@@ -5,13 +5,13 @@
   --foreground: #1C1C1C;  /* Charcoal Black */
 }
 
-@theme inline {
+/* Chabighar Premium Color Palette */
+:root {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-inter);
   --font-serif: var(--font-playfair);
   
-  /* Chabighar Premium Color Palette */
   --color-royal-red: #B22222;         /* Primary - Royal Red (Logo Core) */
   --color-royal-red-hover: #8B0000;   /* Darker red for hover states */
   --color-royal-red-light: #DC143C;   /* Lighter red for accents */
@@ -45,6 +45,15 @@
   background-image: 
     url('data:image/svg+xml;utf8,<svg width="60" height="40" viewBox="0 0 60 40" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="bengali-decorative" x="0" y="0" width="60" height="40" patternUnits="userSpaceOnUse"><g fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"><path d="M10,20 Q20,12 30,20 Q40,28 50,20" fill="none" opacity="0.8"/><path d="M15,20 Q25,16 35,20 Q45,24 55,20" fill="none" opacity="0.6"/><circle cx="20" cy="20" r="2.5" fill="rgba(255,255,255,0.12)" opacity="0.9"/><circle cx="40" cy="20" r="2.5" fill="rgba(255,255,255,0.12)" opacity="0.9"/><path d="M8,15 Q12,12 16,15 Q20,18 24,15" fill="none" opacity="0.5"/><path d="M36,15 Q40,12 44,15 Q48,18 52,15" fill="none" opacity="0.5"/><path d="M8,25 Q12,28 16,25 Q20,22 24,25" fill="none" opacity="0.5"/><path d="M36,25 Q40,28 44,25 Q48,22 52,25" fill="none" opacity="0.5"/><circle cx="12" cy="12" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/><circle cx="30" cy="10" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/><circle cx="48" cy="12" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/><circle cx="12" cy="28" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/><circle cx="30" cy="30" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/><circle cx="48" cy="28" r="1.2" fill="rgba(255,255,255,0.08)" opacity="0.9"/></g></pattern></defs><rect width="60" height="40" fill="url(%23bengali-decorative)"/></svg>') !important;
   color: white !important;
+}
+
+/* Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Safari and Chrome */
 }
 
 /* Emergency fallback for Royal Red background */
@@ -99,6 +108,7 @@ html {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
 }
 
 .line-clamp-3 {
@@ -106,6 +116,7 @@ html {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
 }
 
 /* Enhanced hover effects for cards */
@@ -136,16 +147,6 @@ html {
   background: var(--color-royal-red-hover);
 }
 
-/* Hide scrollbar utility class */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
 /* Focus states for accessibility */
 *:focus {
   outline: 2px solid var(--color-royal-red);
@@ -169,16 +170,4 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
-}
-
-/* Custom scrollbar utilities */
-.scrollbar-hide {
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  /* Hide scrollbar for Chrome, Safari and Opera */
-  display: none;
 }

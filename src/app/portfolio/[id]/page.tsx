@@ -406,7 +406,7 @@ export default function PortfolioDetails() {
       </div>
 
       {/* Content Section */}
-      <section className="py-16 bg-white">
+      <section className="py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Main Content */}
@@ -442,6 +442,25 @@ export default function PortfolioDetails() {
 
             {/* Sidebar with CTA */}
             <div className="lg:col-span-1">
+              {/* Services Section */}
+              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <TagIcon className="w-5 h-5 text-royal-red" />
+                  <h3 className="text-lg font-bold text-gray-900">Services Included</h3>
+                </div>
+                
+                <div className="flex flex-wrap gap-2">
+                  {portfolio.services.map((service, index) => (
+                    <span
+                      key={index}
+                      className="inline-block bg-royal-red/10 text-royal-red px-3 py-2 rounded-full text-sm font-medium border border-royal-red/20 hover:bg-royal-red hover:text-white transition-all duration-300 cursor-default"
+                    >
+                      {service}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
               {/* CTA Form */}
               <div className="bg-gradient-to-br from-royal-red via-red-800 to-red-900 rounded-2xl p-6 shadow-lg">
                 <div className="text-center mb-6">

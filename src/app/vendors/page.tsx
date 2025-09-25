@@ -18,7 +18,7 @@ export default function Vendors() {
   const handleSubcategoryClick = (subcategoryName: string) => {
     // Convert subcategory name to URL-friendly format
     const categorySlug = subcategoryName.toLowerCase().replace(/ /g, '-').replace(/\//g, '-');
-    router.push(`/${categorySlug}`);
+    router.push(`/vendors/${categorySlug}`);
   };
 
   // Featured vendor profiles
@@ -277,11 +277,6 @@ export default function Vendors() {
                       <div>
                         <h3 className="text-lg font-bold mb-1">{category.title}</h3>
                         <p className="text-white/90 text-sm mb-2 line-clamp-2">{category.description}</p>
-                        <div className="flex items-center gap-2">
-                          <span className="bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg text-xs font-medium">
-                            {category.vendorCount} vendors
-                          </span>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -322,129 +317,169 @@ export default function Vendors() {
             })}
           </div>
           
-          {/* Featured Vendors Section */}
-          <div className="mb-12">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                Wedding Vendors
-              </h2>
-              <p className="text-gray-600 max-w-xl mx-auto">
-                Handpicked professionals who deliver exceptional wedding services.
-              </p>
-            </div>
+        </div>
+      </div>
 
-            {/* Full Width Layout with Left Sidebar Filter */}
-            <div className="flex flex-col lg:flex-row gap-8">
-              {/* Left Sidebar - Category Filter */}
-              <div className="lg:w-64 flex-shrink-0">
-                <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sticky top-4">
-                  <h3 className="font-semibold text-gray-900 mb-4">Filter by Category</h3>
-                  <div className="space-y-2">
-                    {[
-                      { id: 'all', name: 'All Vendors', icon: ArrowRightIcon },
-                      { id: 'venues', name: 'Venues', icon: MapPinIcon },
-                      { id: 'photographers', name: 'Photography', icon: CameraIcon },
-                      { id: 'makeup', name: 'Makeup Artists', icon: SparklesIcon },
-                      { id: 'planning', name: 'Event Planning', icon: PaintBrushIcon },
-                      { id: 'virtual', name: 'Virtual Services', icon: ComputerDesktopIcon },
-                      { id: 'mehndi', name: 'Mehndi Artists', icon: HandRaisedIcon }
-                    ].map((category) => {
-                      const IconComponent = category.icon;
-                      return (
-                        <button
-                          key={category.id}
-                          onClick={() => setSelectedCategory(category.id)}
-                          className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 text-left ${
-                            selectedCategory === category.id
-                              ? 'bg-red-600 text-white shadow-md'
-                              : 'text-gray-600 hover:bg-red-50 hover:text-red-600'
-                          }`}
-                        >
-                          <IconComponent className="w-4 h-4" />
-                          {category.name}
-                        </button>
-                      );
-                    })}
-                  </div>
+      {/* Wedding Vendors Section - Full Width */}
+      <div className="bg-white py-16">
+        <div className="text-center mb-12">
+          <h2 className="text-3xl font-bold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+            Wedding Vendors
+          </h2>
+          <p className="text-gray-600 max-w-xl mx-auto">
+            Handpicked professionals who deliver exceptional wedding services.
+          </p>
+        </div>
+
+        {/* Full Width Layout with Left Sidebar Filter */}
+        <div className="w-full px-4">
+          <div className="flex flex-col lg:flex-row gap-8 max-w-none">
+            {/* Left Sidebar - Category Filter */}
+            <div className="lg:w-80 flex-shrink-0">
+              <div className="bg-white rounded-xl shadow-lg border border-gray-100 p-6 sticky top-4">
+                <h3 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  Filter by Category
+                </h3>
+                <div className="space-y-3">
+                  {[
+                    { id: 'all', name: 'All Vendors', icon: ArrowRightIcon },
+                    { id: 'venues', name: 'Venues & Spaces', icon: MapPinIcon },
+                    { id: 'photographers', name: 'Photography', icon: CameraIcon },
+                    { id: 'makeup', name: 'Makeup Artists', icon: SparklesIcon },
+                    { id: 'planning', name: 'Event Planning', icon: PaintBrushIcon },
+                    { id: 'virtual', name: 'Virtual Services', icon: ComputerDesktopIcon },
+                    { id: 'mehndi', name: 'Mehndi Artists', icon: HandRaisedIcon }
+                  ].map((category) => {
+                    const IconComponent = category.icon;
+                    return (
+                      <button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.id)}
+                        className={`w-full flex items-center gap-4 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-left group ${
+                          selectedCategory === category.id
+                            ? 'bg-red-600 text-white shadow-lg transform scale-105'
+                            : 'text-gray-600 hover:bg-red-50 hover:text-red-600 hover:transform hover:scale-102'
+                        }`}
+                      >
+                        <div className={`p-2 rounded-lg transition-all duration-300 ${
+                          selectedCategory === category.id
+                            ? 'bg-white/20'
+                            : 'bg-gray-100 group-hover:bg-red-100'
+                        }`}>
+                          <IconComponent className="w-5 h-5" />
+                        </div>
+                        <span className="font-semibold">{category.name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
               </div>
+            </div>
 
-              {/* Right Content - Vendor Cards */}
-              <div className="flex-1">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {filteredVendors.map((vendor) => (
-                    <div 
-                      key={vendor.id} 
-                      className="group bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden border border-gray-100 hover:border-red-200 cursor-pointer"
-                      onClick={() => {
-                        // Navigate to vendor page - will implement later
-                        console.log(`Navigate to vendor: ${vendor.name}`);
-                      }}
-                    >
-                      {/* Vendor Image */}
-                      <div className="relative aspect-[4/3] overflow-hidden">
-                        <Image
-                          src={vendor.image}
-                          alt={vendor.name}
-                          width={300}
-                          height={225}
-                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                        
-                        {/* Featured Badge */}
-                        {vendor.featured && (
-                          <div className="absolute top-3 left-3">
-                            <span className="bg-yellow-500 text-white px-2 py-1 rounded-md text-xs font-bold">
-                              FEATURED
-                            </span>
-                          </div>
-                        )}
+            {/* Right Content - Vendor Cards */}
+            <div className="flex-1">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-6">
+                {filteredVendors.map((vendor) => (
+                  <div 
+                    key={vendor.id} 
+                    className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-red-200 cursor-pointer transform hover:-translate-y-1"
+                    onClick={() => {
+                      // Navigate to vendor page - will implement later
+                      console.log(`Navigate to vendor: ${vendor.name}`);
+                    }}
+                  >
+                    {/* Vendor Image */}
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <Image
+                        src={vendor.image}
+                        alt={vendor.name}
+                        width={300}
+                        height={225}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                      
+                      {/* Featured Badge */}
+                      {vendor.featured && (
+                        <div className="absolute top-3 left-3">
+                          <span className="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-lg">
+                            FEATURED
+                          </span>
+                        </div>
+                      )}
 
-                        {/* Rating Badge */}
-                        <div className="absolute top-3 right-3">
-                          <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-md flex items-center gap-1">
-                            <StarIconSolid className="w-3 h-3 text-yellow-500" />
-                            <span className="text-xs font-semibold text-gray-900">{vendor.rating}</span>
-                          </div>
+                      {/* Rating Badge */}
+                      <div className="absolute top-3 right-3">
+                        <div className="bg-white/95 backdrop-blur-sm px-3 py-1 rounded-full flex items-center gap-1 shadow-lg">
+                          <StarIconSolid className="w-4 h-4 text-yellow-500" />
+                          <span className="text-sm font-bold text-gray-900">{vendor.rating}</span>
                         </div>
                       </div>
 
-                      {/* Vendor Info */}
-                      <div className="p-4">
-                        <h3 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-1 text-sm">
-                          {vendor.name}
-                        </h3>
-                        <div className="flex items-center gap-1 text-xs text-gray-500 mb-2">
-                          <MapPinIcon className="w-3 h-3" />
-                          <span>{vendor.location}</span>
-                        </div>
-                        
-                        {/* Services */}
-                        <div className="mb-3">
-                          <span className="inline-block bg-red-50 text-red-600 px-2 py-1 rounded-md text-xs font-medium">
-                            {vendor.type}
-                          </span>
-                        </div>
-
-                        {/* Contact Actions */}
-                        <div className="flex items-center justify-between">
-                          <button className="text-sm font-semibold text-red-600 hover:text-red-700 transition-colors">
-                            View Profile
+                      {/* Quick Actions Overlay */}
+                      <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                        <div className="flex gap-3">
+                          <button className="bg-white/90 hover:bg-white p-3 rounded-full transition-colors shadow-lg">
+                            <PhoneIcon className="w-5 h-5 text-red-600" />
                           </button>
-                          <div className="flex items-center gap-2">
-                            <button className="p-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
-                              <PhoneIcon className="w-3 h-3 text-red-600" />
-                            </button>
-                            <button className="p-1.5 bg-red-50 hover:bg-red-100 rounded-lg transition-colors">
-                              <EnvelopeIcon className="w-3 h-3 text-red-600" />
-                            </button>
-                          </div>
+                          <button className="bg-white/90 hover:bg-white p-3 rounded-full transition-colors shadow-lg">
+                            <EnvelopeIcon className="w-5 h-5 text-red-600" />
+                          </button>
                         </div>
                       </div>
                     </div>
-                  ))}
-                </div>
+
+                    {/* Vendor Info */}
+                    <div className="p-5">
+                      <h3 className="font-bold text-gray-900 group-hover:text-red-600 transition-colors mb-2 text-base line-clamp-1">
+                        {vendor.name}
+                      </h3>
+                      <div className="flex items-center gap-2 text-sm text-gray-500 mb-3">
+                        <MapPinIcon className="w-4 h-4 text-red-600" />
+                        <span>{vendor.location}</span>
+                      </div>
+                      
+                      {/* Services */}
+                      <div className="mb-4">
+                        <span className="inline-block bg-red-50 text-red-600 px-3 py-1 rounded-full text-sm font-medium">
+                          {vendor.type}
+                        </span>
+                      </div>
+
+                      {/* Rating */}
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="flex">
+                          {Array.from({ length: 5 }, (_, i) => (
+                            <StarIconSolid
+                              key={i}
+                              className={`w-4 h-4 ${i < Math.floor(vendor.rating) ? 'text-yellow-400' : 'text-gray-300'}`}
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm font-medium text-gray-600">
+                          {vendor.rating} ({vendor.reviews} reviews)
+                        </span>
+                      </div>
+
+                      {/* Contact Actions */}
+                      <div className="flex gap-2">
+                        <button className="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-3 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-105">
+                          View Profile
+                        </button>
+                        <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold transition-colors">
+                          Contact
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More Button */}
+              <div className="text-center mt-12">
+                <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                  Load More Vendors
+                </button>
               </div>
             </div>
           </div>
