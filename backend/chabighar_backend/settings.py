@@ -39,12 +39,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
+    'django_filters',
     'header',
     'footer',
     'contact',
     'homepage',
     'aboutpage',
     'photoshootpage',
+    'portfolio',
 ]
 
 MIDDLEWARE = [
