@@ -304,7 +304,7 @@ export default function Portfolio() {
                   {/* View Album Button */}
                   <a
                     href={`/portfolio/${album.id}`}
-                    className="block w-full mt-4 bg-black hover:bg-royal-red text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg text-center"
+                    className="block w-full mt-4 bg-royal-red hover:bg-red-700 text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg text-center"
                   >
                     View Portfolio Details
                   </a>
@@ -525,7 +525,7 @@ export default function Portfolio() {
           <div className="text-center mt-12">
             <a
               href="/portfolio/videos"
-              className="bg-black hover:bg-royal-red text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2"
+              className="bg-royal-red hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2"
             >
               <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M8 5v14l11-7z"/>
@@ -761,7 +761,7 @@ export default function Portfolio() {
 
           {/* Load More Button */}
           <div className="text-center mt-12">
-            <button className="bg-black hover:bg-royal-red text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2 hover:scale-105 transform">
+            <button className="bg-royal-red hover:bg-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-lg inline-flex items-center gap-2 hover:scale-105 transform">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
               </svg>

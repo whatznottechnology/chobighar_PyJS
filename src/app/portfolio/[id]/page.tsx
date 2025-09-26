@@ -446,14 +446,15 @@ export default function PortfolioDetails() {
               <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
                 <div className="flex items-center gap-2 mb-4">
                   <TagIcon className="w-5 h-5 text-royal-red" />
-                  <h3 className="text-lg font-bold text-gray-900">Services Included</h3>
+                  <h3 className="text-lg font-bold" style={{ color: '#B22222' }}>Services Included</h3>
                 </div>
                 
                 <div className="flex flex-wrap gap-2">
                   {portfolio.services.map((service, index) => (
                     <span
                       key={index}
-                      className="inline-block bg-royal-red/10 text-royal-red px-3 py-2 rounded-full text-sm font-medium border border-royal-red/20 hover:bg-royal-red hover:text-white transition-all duration-300 cursor-default"
+                      className="inline-block bg-royal-red/10 px-3 py-2 rounded-full text-sm font-medium border border-royal-red/20 hover:bg-royal-red hover:text-white transition-all duration-300 cursor-default"
+                      style={{ color: '#B22222' }}
                     >
                       {service}
                     </span>
@@ -538,9 +539,25 @@ export default function PortfolioDetails() {
                 onClick={() => setActiveTab('photos')}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   activeTab === 'photos'
-                    ? 'bg-royal-red text-white shadow-lg'
-                    : 'text-gray-600 hover:text-royal-red'
+                    ? 'text-white shadow-lg'
+                    : 'hover:text-white'
                 }`}
+                style={{
+                  backgroundColor: activeTab === 'photos' ? '#B22222' : 'transparent',
+                  color: activeTab === 'photos' ? 'white' : '#B22222'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== 'photos') {
+                    e.currentTarget.style.backgroundColor = '#B22222';
+                    e.currentTarget.style.color = 'white';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== 'photos') {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#B22222';
+                  }
+                }}
               >
                 <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
@@ -551,9 +568,25 @@ export default function PortfolioDetails() {
                 onClick={() => setActiveTab('videos')}
                 className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
                   activeTab === 'videos'
-                    ? 'bg-royal-red text-white shadow-lg'
-                    : 'text-gray-600 hover:text-royal-red'
+                    ? 'text-white shadow-lg'
+                    : 'hover:text-white'
                 }`}
+                style={{
+                  backgroundColor: activeTab === 'videos' ? '#B22222' : 'transparent',
+                  color: activeTab === 'videos' ? 'white' : '#B22222'
+                }}
+                onMouseEnter={(e) => {
+                  if (activeTab !== 'videos') {
+                    e.currentTarget.style.backgroundColor = '#B22222';
+                    e.currentTarget.style.color = 'white';
+                  }
+                }}
+                onMouseLeave={(e) => {
+                  if (activeTab !== 'videos') {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#B22222';
+                  }
+                }}
               >
                 <svg className="w-5 h-5 inline-block mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -596,8 +629,11 @@ export default function PortfolioDetails() {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
                         <div className="absolute inset-0 flex items-center justify-center">
                           {/* Zoom Icon */}
-                          <div className="bg-white/90 backdrop-blur-sm p-3 rounded-full group-hover:bg-royal-red group-hover:text-white transition-all duration-300 shadow-lg">
-                            <svg className="w-6 h-6 text-royal-red group-hover:text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <div 
+                            className="bg-white/90 backdrop-blur-sm p-3 rounded-full transition-all duration-300 shadow-lg"
+                            style={{ backgroundColor: 'rgba(178, 34, 34, 0.95)' }}
+                          >
+                            <svg className="w-6 h-6 text-white transition-colors duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
                             </svg>
                           </div>
@@ -766,13 +802,37 @@ export default function PortfolioDetails() {
           {/* Horizontal Scrolling Albums */}
           <div className="relative">
             {/* Scroll Left Button */}
-            <button className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-yellow-400 hover:bg-yellow-500 active:bg-black backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors">
-              <ChevronLeftIcon className="w-5 h-5 text-black hover:text-black active:text-white transition-colors" />
+            <button 
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors"
+              style={{ 
+                backgroundColor: '#B22222',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#8B0000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#B22222';
+              }}
+            >
+              <ChevronLeftIcon className="w-5 h-5" />
             </button>
             
             {/* Scroll Right Button */}
-            <button className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-yellow-400 hover:bg-yellow-500 active:bg-black backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors">
-              <ChevronRightIcon className="w-5 h-5 text-black hover:text-black active:text-white transition-colors" />
+            <button 
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors"
+              style={{ 
+                backgroundColor: '#B22222',
+                color: 'white'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#8B0000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#B22222';
+              }}
+            >
+              <ChevronRightIcon className="w-5 h-5" />
             </button>
 
             {/* Scrollable Container */}
@@ -836,7 +896,16 @@ export default function PortfolioDetails() {
                         <span>•</span>
                         <span>{relatedPortfolio.location}</span>
                       </div>
-                      <span className="inline-block bg-black text-white px-4 py-2 rounded-lg text-sm font-medium group-hover:bg-royal-red transition-colors">
+                      <span 
+                        className="inline-block text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                        style={{ backgroundColor: '#B22222' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = '#8B0000';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = '#B22222';
+                        }}
+                      >
                         View Album
                       </span>
                     </div>
@@ -876,7 +945,14 @@ export default function PortfolioDetails() {
             {/* Previous Button */}
             <button
               onClick={prevImage}
-              className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-yellow-400 hover:bg-white/20 hover:text-yellow-300 active:bg-black active:text-white transition-colors"
+              className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors"
+              style={{ color: '#B22222' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#8B0000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#B22222';
+              }}
             >
               <ChevronLeftIcon className="w-6 h-6" />
             </button>
@@ -884,7 +960,14 @@ export default function PortfolioDetails() {
             {/* Next Button */}
             <button
               onClick={nextImage}
-              className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-yellow-400 hover:bg-white/20 hover:text-yellow-300 active:bg-black active:text-white transition-colors"
+              className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full hover:bg-white/20 transition-colors"
+              style={{ color: '#B22222' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = '#8B0000';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#B22222';
+              }}
             >
               <ChevronRightIcon className="w-6 h-6" />
             </button>
