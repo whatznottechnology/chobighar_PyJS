@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { MagnifyingGlassIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import MasonryGallery from './MasonryGallery';
+import { useShowcaseImages } from '../hooks/useHomepageData';
 
 interface Album {
   id: string;
@@ -100,6 +100,9 @@ export default function AlbumsShowcase() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  
+  // Fetch showcase images from backend
+  const { images: showcaseImages, loading: showcaseLoading } = useShowcaseImages();
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -122,7 +125,7 @@ export default function AlbumsShowcase() {
   };
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-12 bg-white relative overflow-hidden">
       {/* Background Images */}
       <div className="absolute top-0 left-0 w-1/3 lg:w-1/4">
         <img
@@ -149,7 +152,7 @@ export default function AlbumsShowcase() {
       
       <div className="w-full relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="inline-flex items-center gap-3 mb-4">
             <div className="w-8 h-0.5 bg-gradient-to-r from-transparent to-royal-red"></div>
             <span 
@@ -175,7 +178,7 @@ export default function AlbumsShowcase() {
         </div>
 
         {/* Scrollable Albums Container */}
-        <div className="relative mb-16">
+        <div className="relative mb-10">
           {/* Left Arrow */}
           <button
             onClick={() => scroll('left')}
@@ -353,120 +356,70 @@ export default function AlbumsShowcase() {
           </div>
         </div>
 
-        {/* Masonry Gallery - 2 Rows Full Width */}
-        <div className="mb-8 px-4 sm:px-6 lg:px-8">
-          <div className="max-w-7xl mx-auto">            
-            {/* Gallery Grid - 2 Rows */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 md:gap-4">
-              {/* Row 1 - Top Row */}
-              <div className="col-span-1 md:col-span-2 lg:col-span-2">
-                <div className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/bridalwear.jpg"
-                    alt="Wedding ceremony"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-sm">Traditional Wedding</h4>
-                  </div>
-                </div>
+        {/* Backend Gallery Section */}
+        {!showcaseLoading && showcaseImages && showcaseImages.length > 0 && (
+          <div className="px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto mt-10">
+            {/* Gallery Header */}
+            <div className="text-center mb-8">
+              <div className="inline-flex items-center gap-3 mb-4">
+                <div className="w-8 h-0.5 bg-gradient-to-r from-transparent to-royal-red"></div>
+                <span 
+                  className="text-royal-red font-medium tracking-wider uppercase text-sm"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                >
+                  Recent Works
+                </span>
+                <div className="w-8 h-0.5 bg-gradient-to-l from-transparent to-royal-red"></div>
               </div>
-
-              <div className="col-span-1">
-                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/jewellery.jpg"
-                    alt="Bridal jewelry"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-xs">Jewelry Details</h4>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-1">
-                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/makeup.jpg"
-                    alt="Bridal makeup"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-xs">Bridal Makeup</h4>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                <div className="group relative aspect-[3/2] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/venues.jpg"
-                    alt="Wedding venue"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-sm">Elegant Venues</h4>
-                  </div>
-                </div>
-              </div>
-
-              {/* Row 2 - Bottom Row */}
-              <div className="col-span-1">
-                <div className="group relative aspect-square rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/mehndi.jpg"
-                    alt="Mehndi ceremony"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-2 left-2 right-2 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-xs">Mehndi Art</h4>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-1 md:col-span-2 lg:col-span-3">
-                <div className="group relative aspect-[2/1] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/prewedding.jpg"
-                    alt="Pre-wedding shoot"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-sm">Pre-Wedding Romance</h4>
-                  </div>
-                </div>
-              </div>
-
-              <div className="col-span-1 md:col-span-1 lg:col-span-2">
-                <div className="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer hover:shadow-xl transition-all duration-500">
-                  <Image
-                    src="/img/groomwear.jpg"
-                    alt="Groom portrait"
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute bottom-3 left-3 right-3 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <h4 className="font-semibold text-sm">Groom Style</h4>
-                  </div>
-                </div>
-              </div>
+              <h3 
+                className="text-3xl md:text-4xl font-bold text-gray-900" 
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Gallery <span className="text-royal-red">Highlights</span>
+              </h3>
             </div>
+
+            {/* Gallery Grid - 5 images on desktop, 2 on mobile */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-1.5 md:gap-2">
+              {showcaseImages.slice(0, 10).map((image, index) => (
+                <div
+                  key={image.id}
+                  className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
+                >
+                  <Image
+                    src={image.image_url || '/img/placeholder.jpg'}
+                    alt={image.alt_text}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(min-width: 768px) 20vw, 50vw"
+                  />
+                  
+                  {/* Hover Overlay */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="bg-white/20 backdrop-blur-sm p-2 rounded-full">
+                        <MagnifyingGlassIcon className="w-5 h-5 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* View More Button */}
+            {showcaseImages.length > 10 && (
+              <div className="text-center mt-8">
+                <Link
+                  href="/portfolio"
+                  className="inline-flex items-center gap-2 bg-royal-red hover:bg-red-700 text-white font-medium px-6 py-3 rounded-full transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  <span>View All Gallery</span>
+                  <ArrowRightIcon className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </section>
   );

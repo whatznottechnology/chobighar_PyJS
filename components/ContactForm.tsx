@@ -106,7 +106,7 @@ export default function ContactForm() {
   }
 
   return (
-    <section className="py-16 md:py-20 relative overflow-hidden" style={{ backgroundColor: '#B22222' }}>
+    <section className="py-12 md:py-16 relative overflow-hidden" style={{ backgroundColor: '#B22222' }}>
       {/* Background Image */}
       <div className="absolute inset-0">
         <div className="absolute right-0 top-0 bottom-0 w-1/3 lg:w-2/5">

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { useContactData } from '../../../hooks/useContactData';
 import { 
   PhoneIcon, 
   EnvelopeIcon, 
@@ -14,6 +15,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function Contact() {
+  const { contactData, loading, error } = useContactData();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -47,105 +49,69 @@ export default function Contact() {
     { name: 'Commercial Photography', icon: CameraIcon }
   ];
 
-  const contactInfo = [
-    {
-      icon: PhoneIcon,
-      title: 'Call Us',
-      primary: '+91 96479 66765',
-      secondary: '+91 98765 43210',
-      href: 'tel:+919647966765',
-      description: 'Available 9 AM - 9 PM'
-    },
-    {
-      icon: EnvelopeIcon,
-      title: 'Email Us',
-      primary: 'booking@chabighar.com',
-      secondary: 'info@chabighar.com',
-      href: 'mailto:booking@chabighar.com',
-      description: 'We respond within 24 hours'
-    },
-    {
-      icon: MapPinIcon,
-      title: 'Visit Us',
-      primary: 'Sector 5, Salt Lake City',
-      secondary: 'Kolkata, West Bengal 700091',
-      href: '#',
-      description: 'By appointment only'
-    },
-    {
-      icon: ClockIcon,
-      title: 'Office Hours',
-      primary: 'Mon - Sat: 10 AM - 7 PM',
-      secondary: 'Sun: 11 AM - 5 PM',
-      href: '#',
-      description: 'Emergency shoots available'
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: 'Priya & Arjun',
-      service: 'Wedding Photography',
-      rating: 5,
-      comment: 'Chabighar captured our special day beautifully! Their Bengali traditional touch made our photos truly memorable.'
-    },
-    {
-      name: 'Rohan Das',
-      service: 'Portrait Session',
-      rating: 5,
-      comment: 'Professional, creative, and understanding. They knew exactly how to bring out the best in every shot.'
-    },
-    {
-      name: 'Anita Sharma',
-      service: 'Pre-Wedding Shoot',
-      rating: 5,
-      comment: 'The team is incredibly talented. Our pre-wedding photos exceeded all expectations!'
-    }
-  ];
-
   return (
-    <main className="min-h-screen bg-soft-white">
+    <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative pt-20 pb-16 overflow-hidden bg-gradient-to-b from-white to-soft-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-royal-red/3 via-transparent to-golden/5"></div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative pt-20 pb-20 overflow-hidden min-h-[80vh] flex items-center">
+        {/* Hero Background Image */}
+        <div className="absolute inset-0">
+          {contactData?.hero?.hero_image_url && (
+            <div 
+              className="w-full h-full bg-cover bg-center bg-no-repeat"
+              style={{ 
+                backgroundImage: `url('${contactData.hero.hero_image_url}')`
+              }}
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-red-600/50 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <div className="inline-block mb-6">
-            <div className="flex items-center gap-3 bg-white/95 backdrop-blur-sm px-6 py-3 rounded-full border border-gray-100 shadow-sm">
-              <CameraIcon className="w-6 h-6 text-royal-red" />
-              <span className="text-sm font-medium text-charcoal">Contact Chabighar</span>
+            <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 shadow-lg">
+              <CameraIcon className="w-6 h-6 text-golden" />
+              <span className="text-sm font-medium text-white">Contact Chabighar</span>
             </div>
           </div>
           
           <h1 
-            className="text-5xl md:text-7xl font-bold text-royal-red mb-8 tracking-tight"
+            className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight drop-shadow-lg"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            Let's Create
-            <span className="block text-golden"> Something Beautiful</span>
+            {loading ? "Let's Create Something Beautiful" : contactData?.hero?.main_title || "Let's Create Something Beautiful"}
           </h1>
           
           <p 
-            className="text-xl md:text-2xl text-elegant-gray mb-12 max-w-4xl mx-auto leading-relaxed"
+            className="text-xl md:text-2xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed drop-shadow-md"
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
-            Ready to capture your precious moments? Get in touch with our creative team 
-            and let's discuss how we can bring your vision to life with our signature Bengali artistry.
+            {loading ? "Ready to capture your precious moments? Get in touch with our creative team and let's discuss how we can bring your vision to life with our signature Bengali artistry." : contactData?.hero?.description || "Ready to capture your precious moments? Get in touch with our creative team and let's discuss how we can bring your vision to life with our signature Bengali artistry."}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-16">
             {services.map((service, index) => (
-              <div key={index} className="flex items-center gap-2 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-full border border-gray-100 hover:border-royal-red transition-colors shadow-sm">
-                <service.icon className="w-4 h-4 text-royal-red" />
-                <span className="text-sm font-medium text-charcoal">{service.name}</span>
+              <div key={index} className="flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full border border-white/20 hover:border-golden transition-colors shadow-lg hover:bg-white/20">
+                <service.icon className="w-4 h-4 text-golden" />
+                <span className="text-sm font-medium text-white">{service.name}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Contact Form Section - Moved to be second */}
-      <section className="py-20 bg-gradient-to-br from-red-600 to-red-700">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Contact Form Section */}
+      <section className="relative py-20 overflow-hidden">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat"
+            style={{ backgroundImage: `url('/img/12873194_7666-removebg-preview.png')` }}
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-red-900/90 to-red-700/90" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/30" />
+        </div>
+        
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="grid lg:grid-cols-3 gap-12">
             {/* Contact Form */}
             <div className="lg:col-span-2">
@@ -265,52 +231,54 @@ export default function Contact() {
 
             {/* Sidebar with Why Choose Us */}
             <div className="space-y-8">
-              <div className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/20">
+              <div className="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-200">
                 <h3 className="text-2xl font-bold mb-4 text-red-600" style={{ fontFamily: 'Playfair Display, serif' }}>
                   Why Choose Chabighar?
                 </h3>
                 <ul className="space-y-4">
-                  <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">5+ years of professional experience</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Bengali traditional artistry with modern techniques</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Personalized packages for every budget</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">Quick turnaround with high-quality results</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span className="text-gray-700">500+ happy clients across Bengal</span>
-                  </li>
+                  {(contactData?.why_choose_us || [
+                    { id: 1, point: "5+ years of professional experience", order: 1, is_active: true },
+                    { id: 2, point: "Bengali traditional artistry with modern techniques", order: 2, is_active: true },
+                    { id: 3, point: "Personalized packages for every budget", order: 3, is_active: true },
+                    { id: 4, point: "Quick turnaround with high-quality results", order: 4, is_active: true },
+                    { id: 5, point: "500+ happy clients across Bengal", order: 5, is_active: true }
+                  ]).map((point) => (
+                    <li key={point.id} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-800">{point.point}</span>
+                    </li>
+                  ))}
                 </ul>
               </div>
 
               {/* Quick Contact Card */}
-              <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-6 shadow-xl border border-white/20">
+              <div className="bg-white rounded-2xl p-6 shadow-xl border-2 border-gray-200">
                 <h3 className="text-xl font-bold text-red-600 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
                   Need Immediate Help?
                 </h3>
                 <div className="space-y-3">
-                  <a href="tel:+919647966765" className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                  <a 
+                    href={`tel:${contactData?.contact_info?.primary_phone || "+919647966765"}`} 
+                    className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                  >
                     <PhoneIcon className="w-5 h-5 text-red-600" />
                     <div>
-                      <p className="font-medium text-gray-800">Call Us Now</p>
-                      <p className="text-sm text-gray-600">+91 96479 66765</p>
+                      <p className="font-medium text-gray-900">Call Us Now</p>
+                      <p className="text-sm text-gray-700">
+                        {contactData?.contact_info?.primary_phone || "+91 96479 66765"}
+                      </p>
                     </div>
                   </a>
-                  <a href="mailto:booking@chabighar.com" className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors">
+                  <a 
+                    href={`mailto:${contactData?.contact_info?.primary_email || "booking@chabighar.com"}`} 
+                    className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                  >
                     <EnvelopeIcon className="w-5 h-5 text-red-600" />
                     <div>
-                      <p className="font-medium text-gray-800">Email Us</p>
-                      <p className="text-sm text-gray-600">booking@chabighar.com</p>
+                      <p className="font-medium text-gray-900">Email Us</p>
+                      <p className="text-sm text-gray-700">
+                        {contactData?.contact_info?.primary_email || "booking@chabighar.com"}
+                      </p>
                     </div>
                   </a>
                 </div>
@@ -320,93 +288,193 @@ export default function Contact() {
         </div>
       </section>
 
+      {/* Google Map Section */}
+      <section className="relative py-0 overflow-hidden">
+        <div className="w-full">
+          <div 
+            className="w-full bg-gray-200 rounded-none"
+            style={{ height: '300px' }}
+          >
+            <iframe
+              src={contactData?.contact_info?.google_map_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0929455463855!2d88.36320731495713!3d22.576484185188667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027579f4b6c5e3%3A0x5d9f4a1a5d9e8a1a!2sSector%20V%2C%20Bidhannagar%2C%20Kolkata%2C%20West%20Bengal%20700091!5e0!3m2!1sen!2sin!4v1635746400000!5m2!1sen!2sin"}
+              className="w-full h-full rounded-none border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="Chabighar Location"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Contact Information Grid */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 overflow-hidden bg-gray-100">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat opacity-10"
+            style={{ backgroundImage: `url('/img/62569719_9509225.png')` }}
+          />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-royal-red mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-red-600 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               Get In Touch
             </h2>
-            <p className="text-lg text-elegant-gray max-w-2xl mx-auto">
+            <p className="text-lg text-gray-700 max-w-2xl mx-auto">
               Multiple ways to reach us. Choose what's most convenient for you.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {contactInfo.map((info, index) => (
-              <a
-                key={index}
-                href={info.href}
-                className="group bg-white p-8 rounded-2xl border border-gray-100 hover:border-royal-red hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1"
-              >
-                <div className="bg-royal-red/10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-royal-red/20 transition-colors">
-                  <info.icon className="w-8 h-8 text-royal-red" />
-                </div>
-                <h3 className="text-xl font-semibold text-charcoal mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                  {info.title}
-                </h3>
-                <p className="text-lg font-medium text-royal-red mb-1">{info.primary}</p>
-                <p className="text-md text-elegant-gray mb-3">{info.secondary}</p>
-                <p className="text-sm text-elegant-gray">{info.description}</p>
-              </a>
-            ))}
+            {/* Phone Contact */}
+            <a
+              href={`tel:${contactData?.contact_info?.primary_phone || "+919647966765"}`}
+              className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
+            >
+              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                <PhoneIcon className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                {contactData?.contact_info?.phone_label || "Call Us"}
+              </h3>
+              <p className="text-lg font-medium text-red-600 mb-1">
+                {contactData?.contact_info?.primary_phone || "+91 96479 66765"}
+              </p>
+              {contactData?.contact_info?.secondary_phone && (
+                <p className="text-md text-gray-700 mb-3">
+                  {contactData.contact_info.secondary_phone}
+                </p>
+              )}
+              <p className="text-sm text-gray-700">
+                {contactData?.contact_info?.phone_description || "Available 9 AM - 9 PM"}
+              </p>
+            </a>
+
+            {/* Email Contact */}
+            <a
+              href={`mailto:${contactData?.contact_info?.primary_email || "booking@chabighar.com"}`}
+              className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
+            >
+              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                <EnvelopeIcon className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                {contactData?.contact_info?.email_label || "Email Us"}
+              </h3>
+              <p className="text-lg font-medium text-red-600 mb-1">
+                {contactData?.contact_info?.primary_email || "booking@chabighar.com"}
+              </p>
+              {contactData?.contact_info?.secondary_email && (
+                <p className="text-md text-gray-700 mb-3">
+                  {contactData.contact_info.secondary_email}
+                </p>
+              )}
+              <p className="text-sm text-gray-700">
+                {contactData?.contact_info?.email_description || "We respond within 24 hours"}
+              </p>
+            </a>
+
+            {/* Address Contact */}
+            <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
+              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                <MapPinIcon className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                {contactData?.contact_info?.address_label || "Visit Us"}
+              </h3>
+              <p className="text-lg font-medium text-red-600 mb-1">
+                {contactData?.contact_info?.address_line1 || "Sector 5, Salt Lake City"}
+              </p>
+              <p className="text-md text-gray-700 mb-3">
+                {contactData?.contact_info?.address_line2 || "Kolkata, West Bengal 700091"}
+              </p>
+              <p className="text-sm text-gray-700">
+                {contactData?.contact_info?.address_description || "By appointment only"}
+              </p>
+            </div>
+
+            {/* Office Hours */}
+            <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
+              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                <ClockIcon className="w-8 h-8 text-red-600" />
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                {contactData?.contact_info?.hours_label || "Office Hours"}
+              </h3>
+              <p className="text-lg font-medium text-red-600 mb-1">
+                {contactData?.contact_info?.weekday_hours || "Mon - Sat: 10 AM - 7 PM"}
+              </p>
+              <p className="text-md text-gray-700 mb-3">
+                {contactData?.contact_info?.weekend_hours || "Sun: 11 AM - 5 PM"}
+              </p>
+              <p className="text-sm text-gray-700">
+                {contactData?.contact_info?.emergency_note || "Emergency shoots available"}
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Client Testimonials Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative py-20 overflow-hidden bg-white">
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          <div 
+            className="w-full h-full bg-cover bg-center bg-no-repeat opacity-5"
+            style={{ backgroundImage: `url('/img/12873194_7666-removebg-preview.png')` }}
+          />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-royal-red mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
               What Our Clients Say
             </h2>
-            <p className="text-lg text-elegant-gray max-w-2xl mx-auto">
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
               Real stories from couples and families who trusted us with their precious moments.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <div key={index} className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
+            {(contactData?.testimonials || [
+              {
+                id: 1,
+                name: 'Priya & Arjun',
+                service: 'Wedding Photography',
+                rating: 5,
+                comment: 'Chabighar captured our special day beautifully! Their Bengali traditional touch made our photos truly memorable.',
+                order: 1,
+                is_active: true
+              },
+              {
+                id: 2,
+                name: 'Rohan Das',
+                service: 'Portrait Session',
+                rating: 5,
+                comment: 'Professional, creative, and understanding. They knew exactly how to bring out the best in every shot.',
+                order: 2,
+                is_active: true
+              },
+              {
+                id: 3,
+                name: 'Anita Sharma',
+                service: 'Pre-Wedding Shoot',
+                rating: 5,
+                comment: 'The team is incredibly talented. Our pre-wedding photos exceeded all expectations!',
+                order: 3,
+                is_active: true
+              }
+            ]).map((testimonial) => (
+              <div key={testimonial.id} className="bg-white rounded-2xl p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
                 <div className="flex items-center gap-1 mb-3">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <StarIcon key={i} className="w-5 h-5 text-golden fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-charcoal mb-4 italic">"{testimonial.comment}"</p>
-                    <div>
-                      <p className="font-semibold text-royal-red">{testimonial.name}</p>
-                      <p className="text-sm text-elegant-gray">{testimonial.service}</p>
-                    </div>
-                  </div>
-                ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-16 bg-gradient-to-r from-royal-red to-royal-red-hover text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl md:text-5xl font-bold mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
-            Ready to Begin Your Story?
-          </h2>
-          <p className="text-xl mb-8 opacity-90">
-            Don't wait – your perfect moments are just a call away!
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="tel:+919647966765"
-              className="bg-white text-royal-red px-8 py-4 rounded-xl font-semibold hover:bg-golden-light transition-colors inline-flex items-center justify-center gap-2"
-            >
-              <PhoneIcon className="w-5 h-5" />
-              Call Now: +91 96479 66765
-            </a>
-            <a
-              href="mailto:booking@chabighar.com"
-              className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-royal-red transition-colors inline-flex items-center justify-center gap-2"
-            >
-              <EnvelopeIcon className="w-5 h-5" />
-              Email Us
-            </a>
+                  {[...Array(testimonial.rating)].map((_, i) => (
+                    <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                  ))}
+                </div>
+                <p className="text-gray-800 mb-4 italic">"{testimonial.comment}"</p>
+                <div>
+                  <p className="font-semibold text-red-600">{testimonial.name}</p>
+                  <p className="text-sm text-gray-700">{testimonial.service}</p>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>

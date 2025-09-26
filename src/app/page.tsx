@@ -17,7 +17,7 @@ export default function Home() {
       {/* Albums Showcase Section - 6 Albums with See More */}
       <AlbumsShowcase />
 
-      {/* Video Showcase Section - Auto-playing Video */}
+      {/* Full Width Video Showcase Section */}
       <VideoShowcase />
 
       {/* Associate Vendors Section - Interactive */}

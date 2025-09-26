@@ -166,7 +166,7 @@ const ShoppingSection = () => {
     : products.filter(product => product.category === activeCategory);
 
   return (
-    <section className="py-20 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
+    <section className="py-12 bg-gradient-to-br from-gray-50 via-white to-purple-50 relative overflow-hidden">
       {/* Background Images */}
       <div className="absolute top-0 left-0 w-1/3 lg:w-1/4">
         <img

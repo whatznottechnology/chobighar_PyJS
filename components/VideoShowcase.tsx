@@ -1,57 +1,63 @@
 'use client';
 
 import { useRef, useEffect, useState } from 'react';
+import { useVideoShowcase } from '../hooks/useHomepageData';
 
 export default function VideoShowcase() {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const [isInView, setIsInView] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { videoShowcase, loading, error } = useVideoShowcase();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
+  // Function to open video in modal
+  const openVideoModal = () => {
+    setIsModalOpen(true);
+  };
+
+  // Function to close video modal
+  const closeVideoModal = () => {
+    setIsModalOpen(false);
+  };
+
+  // Handle escape key to close modal
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeVideoModal();
+      }
+    };
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        setIsInView(entry.isIntersecting);
-        
-        // Only try to play if video has actual sources
-        if (entry.isIntersecting && video.children.length > 0) {
-          video.play().then(() => {
-            setIsPlaying(true);
-            // Show video controls when video is playing
-            const controls = video.parentElement?.querySelector('.video-controls') as HTMLElement;
-            if (controls) controls.classList.remove('hidden');
-          }).catch((error) => {
-            console.log('Auto-play prevented:', error);
-          });
-        } else if (video.children.length > 0) {
-          video.pause();
-          setIsPlaying(false);
-        }
-      },
-      { threshold: 0.5 }
-    );
-
-    observer.observe(video);
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
 
     return () => {
-      observer.disconnect();
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
     };
-  }, []);
+  }, [isModalOpen]);
 
-  const togglePlay = () => {
-    const video = videoRef.current;
-    if (!video) return;
+  if (loading) {
+    return (
+      <section className="relative bg-charcoal overflow-hidden py-20">
+        <div className="flex items-center justify-center min-h-[400px]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-royal-red"></div>
+        </div>
+      </section>
+    );
+  }
 
-    if (video.paused) {
-      video.play().then(() => setIsPlaying(true));
-    } else {
-      video.pause();
-      setIsPlaying(false);
-    }
-  };
+  if (error || !videoShowcase) {
+    return (
+      <section className="relative bg-charcoal overflow-hidden py-20">
+        <div className="text-center text-white">
+          <p>Video showcase unavailable</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative bg-charcoal overflow-hidden">
@@ -96,84 +102,48 @@ export default function VideoShowcase() {
         {/* Full-Width Video Container */}
         <div className="relative w-full">
           <div className="relative aspect-video lg:aspect-[21/9] xl:aspect-[24/10]">
-            {/* Placeholder Background (shown when no video) */}
+            {/* YouTube Video Embed - Autoplay, Loop, Muted, No Controls */}
+            <iframe
+              ref={iframeRef}
+              src={videoShowcase.youtube_embed_url}
+              className="w-full h-full object-cover"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen={false}
+              title={videoShowcase.alt_text}
+              style={{
+                border: 'none',
+                pointerEvents: 'none', // Prevent interaction with iframe
+              }}
+            />
+
+            {/* Clickable Overlay */}
             <div 
-              className="absolute inset-0 bg-cover bg-center"
-              style={{ backgroundImage: 'url(/img/1.jpg)' }}
+              className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-all duration-500 cursor-pointer group"
+              onClick={openVideoModal}
+              role="button"
+              aria-label="Open video in full screen"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  openVideoModal();
+                }
+              }}
             >
-              <div className="absolute inset-0 bg-black/60"></div>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center text-white">
-                  <div className="w-24 h-24 mx-auto mb-6 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm hover:bg-white/30 transition-all duration-300 cursor-pointer transform hover:scale-110">
-                    <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl md:text-3xl font-bold mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                    Wedding Cinematic Showcase
-                  </h3>
-                  <p className="text-lg opacity-90 mb-4" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    Coming Soon - Preview our wedding films
-                  </p>
-                  <div className="flex flex-wrap justify-center gap-4 text-sm text-white/80">
-                    <span className="bg-white/10 px-3 py-1 rounded-full">4K Quality</span>
-                    <span className="bg-white/10 px-3 py-1 rounded-full">Cinematic</span>
-                    <span className="bg-white/10 px-3 py-1 rounded-full">Professional</span>
-                  </div>
+              <div className="flex items-center justify-center h-full">
+                <div className="bg-white/20 backdrop-blur-sm rounded-full p-6 hover:bg-white/40 transition-all duration-500 transform group-hover:scale-125 group-hover:rotate-12 shadow-lg hover:shadow-2xl border border-white/20 hover:border-white/60">
+                  <svg className="w-10 h-10 text-white transition-all duration-300 group-hover:drop-shadow-lg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z"/>
+                  </svg>
                 </div>
               </div>
             </div>
 
-            {/* Video Element (hidden by default until video is available) */}
-            <video
-              ref={videoRef}
-              className="w-full h-full object-cover hidden"
-              muted
-              loop
-              playsInline
-              poster="/img/1.jpg"
-              onLoadedData={() => {
-                // Show video when it loads successfully
-                const video = videoRef.current;
-                if (video) {
-                  video.classList.remove('hidden');
-                  const placeholder = video.parentElement?.querySelector('.absolute.inset-0.bg-cover') as HTMLElement;
-                  if (placeholder) placeholder.style.display = 'none';
-                }
-              }}
-            >
-              {/* Add your video source here when available */}
-              {/* <source src="/videos/wedding-showcase.mp4" type="video/mp4" /> */}
-              {/* <source src="/videos/wedding-showcase.webm" type="video/webm" /> */}
-            </video>
-
-            {/* Video Overlay Controls - Only show when video is available */}
-            <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 video-controls hidden">
-              <div className="flex items-center justify-center h-full">
-                <button
-                  onClick={togglePlay}
-                  className="bg-white/20 backdrop-blur-sm rounded-full p-6 hover:bg-white/30 transition-all duration-300 transform hover:scale-110"
-                  aria-label={isPlaying ? 'Pause video' : 'Play video'}
-                >
-                  {isPlaying ? (
-                    <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
-                    </svg>
-                  ) : (
-                    <svg className="w-10 h-10 text-white" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Gradient Overlays for better text readability */}
+            {/* Gradient Overlays */}
             <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/50 to-transparent pointer-events-none"></div>
             <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"></div>
 
             {/* Video Info Overlay */}
-            <div className="absolute bottom-0 left-0 right-0 p-8">
+            <div className="absolute bottom-0 left-0 right-0 p-8 pointer-events-none">
               <div className="max-w-4xl mx-auto text-white">
                 <div className="grid md:grid-cols-2 gap-8 items-end">
                   <div>
@@ -181,19 +151,14 @@ export default function VideoShowcase() {
                       className="text-2xl md:text-3xl font-bold mb-3" 
                       style={{ fontFamily: 'Playfair Display, serif' }}
                     >
-                      Wedding Cinematic Reel
+                      {videoShowcase.title}
                     </h3>
                     <p 
                       className="text-lg opacity-90 leading-relaxed" 
                       style={{ fontFamily: 'Inter, sans-serif' }}
                     >
-                      A glimpse into our wedding photography and videography excellence, capturing emotions that last forever
+                      {videoShowcase.description}
                     </p>
-                  </div>
-                  <div className="text-right">
-                    <button className="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-lg hover:bg-white/30 transition-all duration-300 font-semibold">
-                      Watch Full Reel
-                    </button>
                   </div>
                 </div>
               </div>
@@ -243,22 +208,26 @@ export default function VideoShowcase() {
                   description: 'Capturing authentic moments and genuine emotions'
                 }
               ].map((feature, index) => (
-                <div key={index} className="text-center text-white group">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-royal-red rounded-full mb-6 text-white group-hover:bg-white group-hover:text-royal-red transition-all duration-300 transform group-hover:scale-110">
-                    {feature.icon}
+                <div key={index} className="text-center text-white group cursor-pointer">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-royal-red rounded-full mb-6 transition-all duration-500 transform group-hover:scale-125 group-hover:-translate-y-2 shadow-lg group-hover:shadow-2xl group-hover:shadow-royal-red/30 border-2 border-transparent group-hover:border-gold/50 group-hover:bg-white">
+                    <div className="text-white group-hover:text-black transition-colors duration-300">
+                      {feature.icon}
+                    </div>
                   </div>
                   <h3 
-                    className="text-xl font-semibold mb-3 group-hover:text-gold transition-colors duration-300" 
+                    className="text-xl font-semibold mb-3 group-hover:text-gold transition-all duration-300 transform group-hover:scale-105" 
                     style={{ fontFamily: 'Playfair Display, serif' }}
                   >
                     {feature.title}
                   </h3>
                   <p 
-                    className="text-gray-300 leading-relaxed" 
+                    className="text-gray-300 leading-relaxed group-hover:text-white transition-all duration-300 transform group-hover:scale-102" 
                     style={{ fontFamily: 'Inter, sans-serif' }}
                   >
                     {feature.description}
                   </p>
+                  {/* Subtle underline animation */}
+                  <div className="w-0 h-0.5 bg-gradient-to-r from-royal-red to-gold mx-auto mt-4 group-hover:w-16 transition-all duration-500 ease-out"></div>
                 </div>
               ))}
             </div>
@@ -278,11 +247,13 @@ export default function VideoShowcase() {
                 Let us capture your love story with our cinematic approach to wedding videography
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-royal-red hover:bg-royal-red-hover text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                  Book Video Package
+                <button className="bg-royal-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-royal-red/50 transform hover:scale-110 hover:-translate-y-1 border-2 border-transparent hover:border-gold/50 relative overflow-hidden group">
+                  <span className="relative z-20 text-white group-hover:text-black transition-colors duration-300">Book Video Package</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
                 </button>
-                <button className="border-2 border-white text-white hover:bg-white hover:text-charcoal px-8 py-4 rounded-xl font-semibold transition-all duration-300">
-                  View Our Work
+                <button className="border-2 border-white text-white hover:bg-white px-8 py-4 rounded-xl font-semibold transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-white/30 transform hover:scale-110 hover:-translate-y-1 relative overflow-hidden group">
+                  <span className="relative z-20 text-white group-hover:text-black transition-colors duration-300">View Our Work</span>
+                  <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10"></div>
                 </button>
               </div>
             </div>
@@ -290,10 +261,37 @@ export default function VideoShowcase() {
         </div>
       </div>
 
+      {/* Video Modal */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+          <div className="relative w-full max-w-6xl aspect-video">
+            {/* Close Button */}
+            <button
+              onClick={closeVideoModal}
+              className="absolute -top-12 right-0 text-white hover:text-royal-red transition-all duration-300 z-10 p-2 rounded-full hover:bg-white/10 transform hover:scale-110 hover:rotate-90"
+              aria-label="Close video"
+            >
+              <svg className="w-8 h-8 drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            
+            {/* Full Video with Controls */}
+            <iframe
+              src={`https://www.youtube.com/embed/${videoShowcase.youtube_video_id}?autoplay=1&controls=1&modestbranding=1&rel=0`}
+              className="w-full h-full rounded-lg"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title={`${videoShowcase.title} - Full Video`}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Decorative Elements */}
-      <div className="absolute top-10 left-10 w-20 h-20 bg-royal-red rounded-full opacity-10 animate-pulse"></div>
-      <div className="absolute top-1/2 right-10 w-32 h-32 bg-gold rounded-full opacity-5 animate-pulse delay-1000"></div>
-      <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-royal-red rounded-full opacity-10 animate-pulse delay-500"></div>
+      <div className="absolute top-10 left-10 w-20 h-20 bg-royal-red rounded-full opacity-10 animate-pulse hover:opacity-20 hover:scale-110 transition-all duration-500"></div>
+      <div className="absolute top-1/2 right-10 w-32 h-32 bg-gold rounded-full opacity-5 animate-pulse delay-1000 hover:opacity-15 hover:scale-110 transition-all duration-500"></div>
+      <div className="absolute bottom-20 left-1/4 w-16 h-16 bg-royal-red rounded-full opacity-10 animate-pulse delay-500 hover:opacity-20 hover:scale-110 transition-all duration-500"></div>
     </section>
   );
 }

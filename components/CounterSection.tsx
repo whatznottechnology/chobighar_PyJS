@@ -1,68 +1,151 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
+import { useAchievements } from '../hooks/useHomepageData';
 
 interface CounterData {
-  number: string;
-  label: string;
+  id: number;
+  title: string;
+  count_value: number;
+  suffix: string;
   description: string;
-  icon: React.ReactElement;
+  icon_type: string;
 }
+
+// Function to get icon based on type
+const getIcon = (iconType: string): React.ReactElement => {
+  switch (iconType) {
+    case 'heart':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
+        </svg>
+      );
+    case 'video':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
+        </svg>
+      );
+    case 'star':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      );
+    case 'check':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        </svg>
+      );
+    case 'camera':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+        </svg>
+      );
+    case 'award':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      );
+    case 'users':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
+        </svg>
+      );
+    case 'calendar':
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
+        </svg>
+      );
+    default:
+      return (
+        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+        </svg>
+      );
+  }
+};
 
 const CounterSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [animatedNumbers, setAnimatedNumbers] = useState<number[]>([0, 0, 0, 0]);
+  const [animatedNumbers, setAnimatedNumbers] = useState<number[]>([]);
+  const [particles, setParticles] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([]);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  // Fetch achievements data from backend
+  const { achievements, loading, error } = useAchievements();
 
-  const counters: CounterData[] = [
+  // Fallback data if backend is not available
+  const fallbackCounters: CounterData[] = [
     { 
-      number: '500+', 
-      label: 'Happy Couples',
+      id: 1,
+      title: 'Happy Couples',
+      count_value: 500,
+      suffix: '+',
       description: 'Beautiful love stories captured',
-      icon: (
-        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" />
-        </svg>
-      )
+      icon_type: 'heart'
     },
     { 
-      number: '50+', 
-      label: 'Video Reviews',
+      id: 2,
+      title: 'Video Reviews',
+      count_value: 50,
+      suffix: '+',
       description: 'Authentic client testimonials',
-      icon: (
-        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z" />
-        </svg>
-      )
+      icon_type: 'video'
     },
     { 
-      number: '5.0', 
-      label: 'Average Rating',
+      id: 3,
+      title: 'Average Rating',
+      count_value: 5.0,
+      suffix: '',
       description: 'Consistently excellent service',
-      icon: (
-        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
-          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-        </svg>
-      )
+      icon_type: 'star'
     },
     { 
-      number: '98%', 
-      label: 'Client Satisfaction',
+      id: 4,
+      title: 'Client Satisfaction',
+      count_value: 98,
+      suffix: '%',
       description: 'Exceeding expectations always',
-      icon: (
-        <svg className="w-full h-full" fill="currentColor" viewBox="0 0 20 20">
-          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-        </svg>
-      )
+      icon_type: 'check'
     }
   ];
 
+  // Use backend data if available, otherwise fall back to hardcoded data
+  const displayCounters = achievements || fallbackCounters;
+
+  // Initialize particles on client side only
+  useEffect(() => {
+    const particleArray = Array.from({ length: 20 }, (_, i) => ({
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 3,
+      duration: 3 + Math.random() * 2
+    }));
+    setParticles(particleArray);
+    setIsMounted(true);
+  }, []);
+
+  // Initialize animated numbers array based on displayCounters length
+  useEffect(() => {
+    if (displayCounters) {
+      setAnimatedNumbers(new Array(displayCounters.length).fill(0));
+    }
+  }, [displayCounters]);
+
   // Animated number counting effect
   useEffect(() => {
-    if (isVisible) {
-      const targets = [500, 50, 5.0, 98];
+    if (isVisible && displayCounters) {
+      const targets = displayCounters.map(counter => counter.count_value);
       const duration = 2000; // 2 seconds
       const steps = 60;
       const increment = duration / steps;
@@ -72,11 +155,8 @@ const CounterSection = () => {
         currentStep++;
         const progress = currentStep / steps;
         
-        setAnimatedNumbers(targets.map((target, index) => {
-          if (index === 2) { // Rating (5.0)
-            return Math.min(target, progress * target);
-          }
-          return Math.min(target, Math.floor(progress * target));
+        setAnimatedNumbers(targets.map((target) => {
+          return Math.min(target, progress * target);
         }));
 
         if (currentStep >= steps) {
@@ -86,7 +166,7 @@ const CounterSection = () => {
 
       return () => clearInterval(timer);
     }
-  }, [isVisible]);
+  }, [isVisible, displayCounters]);
 
   // Parallax and sticky scroll effect
   useEffect(() => {
@@ -126,7 +206,7 @@ const CounterSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-1000 py-16 md:py-24 lg:py-32 ${
+      className={`relative min-h-screen flex items-center justify-center overflow-hidden transition-all duration-1000 py-12 md:py-16 lg:py-20 ${
         isSticky ? 'fixed inset-0 z-10' : 'relative'
       }`}
     >
@@ -181,21 +261,23 @@ const CounterSection = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/60" />
       </div>
 
-      {/* Floating particles effect */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 3}s`,
-              animationDuration: `${3 + Math.random() * 2}s`,
-            }}
-          />
-        ))}
-      </div>
+      {/* Floating particles effect - Only render on client side */}
+      {isMounted && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {particles.map((particle, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 bg-white/20 rounded-full animate-pulse"
+              style={{
+                left: `${particle.left}%`,
+                top: `${particle.top}%`,
+                animationDelay: `${particle.delay}s`,
+                animationDuration: `${particle.duration}s`,
+              }}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
@@ -215,7 +297,19 @@ const CounterSection = () => {
 
         {/* Counter Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 md:gap-10 lg:gap-12">
-          {counters.map((counter, index) => (
+          {loading ? (
+            <div className="col-span-full text-center py-8">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
+              <p className="mt-4 text-white">Loading achievements...</p>
+            </div>
+          ) : error ? (
+            <div className="col-span-full text-center py-8">
+              <p className="text-red-400">Error loading achievements: {error}</p>
+              <p className="text-gray-300 mt-2">Showing fallback content</p>
+            </div>
+          ) : null}
+          
+          {displayCounters.map((counter, index) => (
             <div 
               key={index}
               className={`text-center group transform transition-all duration-1000 ${
@@ -227,7 +321,7 @@ const CounterSection = () => {
               <div className="relative mb-4 md:mb-6">
                 <div className="inline-flex items-center justify-center w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 bg-gradient-to-br from-royal-red to-red-700 rounded-full shadow-2xl group-hover:shadow-royal-red/50 group-hover:scale-110 transition-all duration-500">
                   <div className="text-white group-hover:scale-110 transition-transform duration-300 w-6 h-6 sm:w-8 sm:h-8 md:w-10 md:h-10">
-                    {counter.icon}
+                    {getIcon(counter.icon_type)}
                   </div>
                 </div>
                 {/* Floating ring effect */}
@@ -239,11 +333,11 @@ const CounterSection = () => {
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 md:mb-3 group-hover:text-yellow-400 transition-colors duration-500"
                 style={{ fontFamily: 'Playfair Display, serif' }}
               >
-                {index === 2 
-                  ? animatedNumbers[index].toFixed(1) 
-                  : index === 3 
-                    ? `${Math.round(animatedNumbers[index])}%`
-                    : `${Math.round(animatedNumbers[index])}+`
+                {animatedNumbers[index] !== undefined 
+                  ? counter.suffix === '' && counter.count_value % 1 !== 0
+                    ? animatedNumbers[index].toFixed(1)
+                    : `${Math.round(animatedNumbers[index])}${counter.suffix}`
+                  : `${counter.count_value}${counter.suffix}`
                 }
               </div>
 
@@ -252,7 +346,7 @@ const CounterSection = () => {
                 className="text-sm sm:text-base md:text-lg lg:text-xl font-semibold text-white mb-1 md:mb-2"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               >
-                {counter.label}
+                {counter.title}
               </h3>
 
               {/* Description */}

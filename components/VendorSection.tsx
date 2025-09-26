@@ -116,7 +116,7 @@ const VendorSection = () => {
     : vendors.filter(vendor => vendor.category === activeCategory);
 
   return (
-    <section className="py-20 bg-white relative overflow-hidden">
+    <section className="py-12 bg-white relative overflow-hidden">
       {/* Background Images */}
       <div className="absolute top-0 right-0 w-1/3 lg:w-2/5">
         <img
