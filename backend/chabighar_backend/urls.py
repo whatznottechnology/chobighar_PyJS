@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/contact/', include('contact.urls')),
     path('api/homepage/', include('homepage.urls')),
     path('api/aboutpage/', include('aboutpage.urls')),
+    path('api/photoshootpage/', include('photoshootpage.urls')),
 ]
 
 # Serve media files during development

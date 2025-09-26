@@ -81,8 +81,28 @@ export default function AboutPage() {
       </section>
 
       {/* Our Story Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white relative overflow-hidden">
+        {/* Background Decorations */}
+        <div className="absolute top-10 left-6 opacity-25 z-0">
+          <Image
+            src="/img/12873194_7666-removebg-preview.png"
+            alt="Decoration"
+            width={320}
+            height={320}
+            className="object-contain"
+          />
+        </div>
+        <div className="absolute bottom-10 right-6 opacity-25 z-0">
+          <Image
+            src="/img/62569719_9509225.png"
+            alt="Decoration"
+            width={290}
+            height={290}
+            className="object-contain"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {storyLoading ? (
             <div className="animate-pulse">
               <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -164,8 +184,28 @@ export default function AboutPage() {
       </section>
 
       {/* Our Mission & Values */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-gray-50 relative overflow-hidden">
+        {/* Background Decorations */}
+        <div className="absolute top-20 left-10 opacity-20 z-0 rotate-12">
+          <Image
+            src="/img/12873194_7666-removebg-preview.png"
+            alt="Decoration"
+            width={275}
+            height={275}
+            className="object-contain"
+          />
+        </div>
+        <div className="absolute bottom-20 right-10 opacity-20 z-0 -rotate-12">
+          <Image
+            src="/img/62569719_9509225.png"
+            alt="Decoration"
+            width={305}
+            height={305}
+            className="object-contain"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 
               className="text-3xl md:text-4xl font-bold mb-6"
@@ -242,8 +282,28 @@ export default function AboutPage() {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white relative overflow-hidden">
+        {/* Background Decorations */}
+        <div className="absolute top-16 left-8 opacity-20 z-0">
+          <Image
+            src="/img/12873194_7666-removebg-preview.png"
+            alt="Decoration"
+            width={285}
+            height={285}
+            className="object-contain rotate-45"
+          />
+        </div>
+        <div className="absolute bottom-16 right-8 opacity-20 z-0">
+          <Image
+            src="/img/62569719_9509225.png"
+            alt="Decoration"
+            width={265}
+            height={265}
+            className="object-contain -rotate-45"
+          />
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <h2 
               className="text-3xl md:text-4xl font-bold mb-6"

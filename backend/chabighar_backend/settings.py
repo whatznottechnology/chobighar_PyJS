@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'contact',
     'homepage',
     'aboutpage',
+    'photoshootpage',
 ]
 
 MIDDLEWARE = [
