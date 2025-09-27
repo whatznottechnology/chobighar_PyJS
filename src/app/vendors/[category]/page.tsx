@@ -13,7 +13,8 @@ import {
   CalendarIcon,
   UserIcon,
   CheckCircleIcon,
-  TagIcon
+  TagIcon,
+  ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
@@ -554,19 +555,26 @@ export default function VendorCategoryPage() {
                 {currentCategory.description}
               </p>
               
-              <div className="flex flex-wrap gap-6 text-sm">
+              <div className="flex flex-wrap gap-6 text-sm items-center">
                 <div className="flex items-center gap-2">
-                  <StarIconSolid className="w-5 h-5 text-yellow-400" />
-                  <span>4.8+ Average Rating</span>
+                  <CheckCircleIcon className="w-5 h-5 text-green-400" />
+                  <span>Verified Vendors</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <MapPinIcon className="w-5 h-5" />
-                  <span>Kolkata & Nearby Areas</span>
-                </div>
-                <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => {
+                    const form = document.querySelector('form');
+                    form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                  }}
+                  className="bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-3 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl flex items-center gap-3 text-sm"
+                  style={{
+                    background: 'linear-gradient(45deg, #B22222, #DC143C)',
+                    boxShadow: '0 4px 15px rgba(178, 34, 34, 0.3)'
+                  }}
+                >
                   <PhoneIcon className="w-5 h-5" />
-                  <span>Instant Response</span>
-                </div>
+                  Get Instant Response
+                  <ArrowRightIcon className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
               </div>
             </div>
 
