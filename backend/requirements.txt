@@ -1,0 +1,23 @@
+# Chabighar Backend Requirements
+# Photography studio website backend built with Django
+
+# Core Framework
+Django==5.2.6
+djangorestframework==3.16.1
+
+# Database & Models
+sqlparse==0.5.3
+
+# API & CORS
+django-cors-headers==4.9.0
+django-filter==25.1
+
+# File Handling & Image Processing
+Pillow==11.3.0
+
+# Utilities
+pytz==2025.2
+asgiref==3.9.1
+
+# Development (optional)
+# django-jazzmin==3.0.1  # Admin interface enhancement

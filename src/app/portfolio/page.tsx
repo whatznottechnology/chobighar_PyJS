@@ -11,7 +11,8 @@ import {
   MagnifyingGlassIcon,
   ArrowUpIcon
 } from '@heroicons/react/24/outline';
-import { usePortfolios, useCategoriesWithCount } from '@/hooks/usePortfolio';
+import { usePortfolios, useCategoriesWithCount, usePortfolioVideos } from '@/hooks/usePortfolio';
+import { useShowcaseImages } from '@/hooks/useHomepageData';
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -22,6 +23,8 @@ export default function Portfolio() {
   // Fetch data using custom hooks
   const { portfolios, loading: portfoliosLoading } = usePortfolios({ category: selectedCategory });
   const { categories, loading: categoriesLoading } = useCategoriesWithCount();
+  const { videos: portfolioVideos, loading: videosLoading } = usePortfolioVideos();
+  const { images: showcaseImages, loading: showcaseLoading } = useShowcaseImages();
 
   // Back to top visibility handler
   useEffect(() => {
@@ -81,7 +84,7 @@ export default function Portfolio() {
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-gradient-to-br from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="text-center">
             <h1 
               className="text-4xl md:text-6xl font-bold mb-6 tracking-tight"
@@ -101,7 +104,7 @@ export default function Portfolio() {
 
       {/* Category Filter */}
       <section className="py-8 bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="flex flex-wrap justify-center gap-4">
             {categoriesLoading ? (
               <div className="flex gap-4">
@@ -134,9 +137,9 @@ export default function Portfolio() {
 
       {/* Portfolio Albums Grid */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12">
           {portfoliosLoading ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
               {[...Array(6)].map((_, i) => (
                 <div key={i} className="group">
                   <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-[4/3] bg-gray-200 animate-pulse"></div>
@@ -149,17 +152,23 @@ export default function Portfolio() {
               ))}
             </div>
           ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
               {filteredAlbums.map((album) => (
                 <div key={album.id} className="group">
                   {/* Album Cover */}
                   <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-[4/3]">
-                    <Image
-                      src={album.cover_image}
-                      alt={album.title}
-                      fill
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
-                    />
+                    {album.cover_image ? (
+                      <Image
+                        src={album.cover_image}
+                        alt={album.title}
+                        fill
+                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                        <PhotoIcon className="w-16 h-16 text-gray-400" />
+                      </div>
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-4 left-4 right-4">
                         <div className="flex justify-between items-end">
@@ -211,24 +220,32 @@ export default function Portfolio() {
                     </div>
 
                     {/* Photo Preview Grid */}
-                    <div className="grid grid-cols-4 gap-1 mt-4">
-                      {album.images && album.images.slice(0, 4).map((image, idx) => (
-                        <div
-                          key={idx}
-                          className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group/img"
-                          onClick={() => openLightbox(album.id, idx)}
-                        >
-                          <Image
-                            src={image.image}
-                            alt={`${album.title} ${idx + 1}`}
-                            fill
-                            className="object-cover transition-transform duration-300 group-hover/img:scale-110"
-                            sizes="(max-width: 768px) 25vw, (max-width: 1200px) 16vw, 12vw"
-                          />
-                          <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-200"></div>
-                        </div>
-                      ))}
-                    </div>
+                    {album.images && album.images.length > 0 && (
+                      <div className="grid grid-cols-4 gap-1 mt-4">
+                        {album.images.slice(0, 4).map((image, idx) => (
+                          <div
+                            key={idx}
+                            className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group/img"
+                            onClick={() => openLightbox(album.id, idx)}
+                          >
+                            {image.image ? (
+                              <Image
+                                src={image.image}
+                                alt={`${album.title} ${idx + 1}`}
+                                fill
+                                className="object-cover transition-transform duration-300 group-hover/img:scale-110"
+                                sizes="(max-width: 768px) 25vw, (max-width: 1200px) 16vw, 12vw"
+                              />
+                            ) : (
+                              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                <PhotoIcon className="w-4 h-4 text-gray-400" />
+                              </div>
+                            )}
+                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-200"></div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
 
                     {/* View Album Button */}
                     <a
@@ -258,7 +275,7 @@ export default function Portfolio() {
 
       {/* Featured Videos Gallery */}
       <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="text-center mb-12">
             <h2 
               className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
@@ -274,188 +291,67 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {/* Masonry Layout for Videos */}
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
-            {/* Video 1 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-video">
-                  <Image
-                    src="https://img.youtube.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"
-                    alt="Wedding Highlight Video"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+          {videosLoading ? (
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6 space-y-6">
+              {[...Array(6)].map((_, i) => (
+                <div key={i} className="break-inside-avoid mb-6">
+                  <div className="rounded-xl shadow-lg bg-gray-200 animate-pulse">
+                    <div className="aspect-video bg-gray-300 rounded-t-xl"></div>
+                    <div className="p-4">
+                      <div className="h-6 bg-gray-300 rounded mb-2"></div>
+                      <div className="h-4 bg-gray-300 rounded mb-3"></div>
+                      <div className="flex justify-between">
+                        <div className="h-3 bg-gray-300 rounded w-20"></div>
+                        <div className="h-3 bg-gray-300 rounded w-16"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Romantic Wedding Highlights</h3>
-                  <p className="text-gray-600 text-sm mb-3">A beautiful cinematic journey of love and celebration</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>December 2024</span>
-                    <span>3:45 mins</span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-
-            {/* Video 2 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-[9/16]">
-                  <Image
-                    src="https://img.youtube.com/vi/kJQP7kiw5Fk/maxresdefault.jpg"
-                    alt="Pre-Wedding Story"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6 space-y-6">
+              {portfolioVideos && portfolioVideos.map((video, index) => (
+                <div key={video.id} className="break-inside-avoid mb-6">
+                  <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
+                    <div className={`relative ${index % 4 === 0 ? 'aspect-video' : 
+                                               index % 4 === 1 ? 'aspect-[9/16]' : 
+                                               index % 4 === 2 ? 'aspect-video' : 'aspect-[4/5]'}`}>
+                      <Image
+                        src={video.thumbnail}
+                        alt={`${video.title} thumbnail`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                          <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="p-4 bg-white">
+                      <h3 className="font-bold text-lg text-gray-900 mb-2">{video.title}</h3>
+                      <p className="text-gray-600 text-sm mb-3">{video.description}</p>
+                      <div className="flex justify-between items-center text-xs text-gray-500">
+                        <span>Wedding Video</span>
+                        <a 
+                          href={`https://www.youtube.com/watch?v=${video.video_id}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-red-600 hover:text-red-700 font-medium"
+                        >
+                          Watch Now
+                        </a>
+                      </div>
                     </div>
                   </div>
                 </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Pre-Wedding Love Story</h3>
-                  <p className="text-gray-600 text-sm mb-3">Capturing the journey before the big day</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>November 2024</span>
-                    <span>2:30 mins</span>
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
-
-            {/* Video 3 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-video">
-                  <Image
-                    src="https://img.youtube.com/vi/ZZ5LpwO-An4/maxresdefault.jpg"
-                    alt="Wedding Reception"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Wedding Reception Highlights</h3>
-                  <p className="text-gray-600 text-sm mb-3">Dancing, joy, and unforgettable moments</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>October 2024</span>
-                    <span>4:15 mins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Video 4 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-[4/5]">
-                  <Image
-                    src="https://img.youtube.com/vi/ALZHF5UqnU4/maxresdefault.jpg"
-                    alt="Traditional Ceremony"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Traditional Bengali Wedding</h3>
-                  <p className="text-gray-600 text-sm mb-3">Cultural rituals and sacred moments</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>September 2024</span>
-                    <span>5:20 mins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Video 5 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-video">
-                  <Image
-                    src="https://img.youtube.com/vi/9bZkp7q19f0/maxresdefault.jpg"
-                    alt="Mehndi Ceremony"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Mehndi Night Celebrations</h3>
-                  <p className="text-gray-600 text-sm mb-3">Colorful traditions and joyful moments</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>August 2024</span>
-                    <span>3:10 mins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Video 6 */}
-            <div className="break-inside-avoid mb-6">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                <div className="relative aspect-[3/4]">
-                  <Image
-                    src="https://img.youtube.com/vi/PSH0eRKq1lE/maxresdefault.jpg"
-                    alt="Wedding Teaser"
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                      <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4 bg-white">
-                  <h3 className="font-bold text-lg text-gray-900 mb-2">Cinematic Wedding Teaser</h3>
-                  <p className="text-gray-600 text-sm mb-3">A glimpse into the perfect wedding day</p>
-                  <div className="flex justify-between items-center text-xs text-gray-500">
-                    <span>July 2024</span>
-                    <span>1:45 mins</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* View All Videos Button */}
           <div className="text-center mt-12">
@@ -477,7 +373,7 @@ export default function Portfolio() {
 
       {/* Individual Photos Gallery */}
       <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12">
           <div className="text-center mb-12">
             <h2 
               className="text-3xl md:text-4xl font-bold mb-4"
@@ -493,213 +389,45 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {/* Masonry Layout for Individual Photos */}
-          <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-            {/* First Column Photos */}
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=400&h=600&fit=crop&crop=center"
-                  alt="Elegant Wedding Portrait"
-                  width={400}
-                  height={600}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Wedding Ceremony</p>
+          {showcaseLoading ? (
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 space-y-4">
+              {[...Array(12)].map((_, i) => (
+                <div key={i} className="break-inside-avoid mb-4">
+                  <div className="rounded-xl shadow-lg bg-gray-200 animate-pulse" style={{ height: `${200 + (i % 4) * 100}px` }}>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&crop=center"
-                  alt="Romantic Pre-Wedding"
-                  width={400}
-                  height={300}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Pre-Wedding Shoot</p>
+          ) : (
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 space-y-4">
+              {showcaseImages && showcaseImages.map((image, index) => (
+                <div key={image.id} className="break-inside-avoid mb-4">
+                  <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                    {image.image ? (
+                      <Image
+                        src={image.image}
+                        alt={image.caption || `Gallery Image ${index + 1}`}
+                        width={400}
+                        height={index % 4 === 0 ? 600 : index % 4 === 1 ? 300 : index % 4 === 2 ? 700 : 450}
+                        className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                    ) : (
+                      <div className="w-full bg-gray-200 flex items-center justify-center" style={{ height: `${index % 4 === 0 ? 600 : index % 4 === 1 ? 300 : index % 4 === 2 ? 700 : 450}px` }}>
+                        <PhotoIcon className="w-16 h-16 text-gray-400" />
+                      </div>
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute bottom-4 left-4 right-4">
+                        <p className="text-white text-sm font-medium">
+                          {image.caption}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              ))}
             </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1594736797933-d0401ba2fe65?w=400&h=700&fit=crop&crop=center"
-                  alt="Stunning Bridal Portrait"
-                  width={400}
-                  height={700}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Bridal Portrait</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=450&fit=crop&crop=center"
-                  alt="Handsome Groom"
-                  width={400}
-                  height={450}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Groom Portrait</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1606800052052-a08af7148866?w=400&h=320&fit=crop&crop=center"
-                  alt="Beautiful Mehndi Art"
-                  width={400}
-                  height={320}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Mehndi Celebration</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=400&h=650&fit=crop&crop=center"
-                  alt="Professional Bridal Makeup"
-                  width={400}
-                  height={650}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Bridal Makeup</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=400&h=380&fit=crop&crop=center"
-                  alt="Exquisite Bridal Jewellery"
-                  width={400}
-                  height={380}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Bridal Jewellery</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=400&h=580&fit=crop&crop=center"
-                  alt="Intimate Pre-Wedding Moments"
-                  width={400}
-                  height={580}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Pre-Wedding Moments</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=400&h=280&fit=crop&crop=center"
-                  alt="Professional Photography Session"
-                  width={400}
-                  height={280}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Behind the Scenes</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&h=720&fit=crop&crop=center"
-                  alt="Stunning Wedding Venue"
-                  width={400}
-                  height={720}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Venue Details</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&h=350&fit=crop&crop=center"
-                  alt="Delicious Wedding Cuisine"
-                  width={400}
-                  height={350}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Culinary Delights</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="break-inside-avoid mb-4">
-              <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                <Image
-                  src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=550&fit=crop&crop=center"
-                  alt="Live Wedding Music"
-                  width={400}
-                  height={550}
-                  className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <p className="text-white text-sm font-medium">Musical Celebrations</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          )}
 
           {/* Load More Button */}
           <div className="text-center mt-12">
@@ -788,7 +516,7 @@ export default function Portfolio() {
           background: 'linear-gradient(135deg, #B22222 0%, #8B0000 50%, #B22222 100%)'
         }}
       >
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="px-4 sm:px-6 lg:px-8 xl:px-12 text-center">
           <HeartIcon className="w-16 h-16 mx-auto mb-6" style={{ color: '#f87171' }} />
           <h2 
             className="text-3xl md:text-4xl font-bold mb-6"

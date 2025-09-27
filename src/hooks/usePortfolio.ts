@@ -144,3 +144,47 @@ export const useRelatedPortfolios = (id: string) => {
 
   return { portfolios, loading, error };
 };
+
+// Portfolio videos interface
+interface PortfolioVideo {
+  id: number;
+  video_id: string;
+  title: string;
+  description: string;
+  duration: string;
+  thumbnail: string;
+  order: number;
+}
+
+// Hook for getting portfolio videos
+export const usePortfolioVideos = () => {
+  const [videos, setVideos] = useState<PortfolioVideo[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchVideos = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('http://localhost:8000/api/portfolio/videos/');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data: PortfolioVideo[] = await response.json();
+      setVideos(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch portfolio videos');
+      console.error('Error fetching portfolio videos:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  return { videos, loading, error, refetch: fetchVideos };
+};

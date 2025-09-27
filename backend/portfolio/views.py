@@ -1,12 +1,12 @@
 from rest_framework import viewsets, status, filters
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
-from .models import Category, Portfolio, PortfolioInquiry
+from .models import Category, Portfolio, PortfolioInquiry, PortfolioImage, PortfolioVideo
 from .serializers import (
     CategorySerializer, PortfolioListSerializer, PortfolioDetailSerializer, 
-    PortfolioInquirySerializer
+    PortfolioInquirySerializer, PortfolioImageSerializer, PortfolioVideoSerializer
 )
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -150,3 +150,27 @@ class PortfolioInquiryViewSet(viewsets.ModelViewSet):
             'converted': converted,
             'conversion_rate': round((converted / total * 100), 2) if total > 0 else 0
         })
+
+
+@api_view(['GET'])
+def showcase_images(request):
+    """Get all active portfolio images for showcase display"""
+    images = PortfolioImage.objects.filter(
+        is_active=True,
+        portfolio__is_active=True
+    ).order_by('?')[:20]  # Random order, limit to 20 images
+    
+    serializer = PortfolioImageSerializer(images, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def portfolio_videos(request):
+    """Get all active portfolio videos for video showcase"""
+    videos = PortfolioVideo.objects.filter(
+        is_active=True,
+        portfolio__is_active=True
+    ).order_by('-portfolio__date', 'order')[:8]  # Latest portfolios first, limit to 8 videos
+    
+    serializer = PortfolioVideoSerializer(videos, many=True)
+    return Response(serializer.data)

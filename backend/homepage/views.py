@@ -100,7 +100,7 @@ def achievements(request):
 @api_view(['GET'])
 def video_showcase(request):
     """
-    Get active video showcase - returns the first active video
+    Get active video showcase - returns the first active video for homepage
     """
     try:
         video = VideoShowcase.objects.filter(is_active=True).first()
@@ -112,5 +112,20 @@ def video_showcase(request):
     except Exception as e:
         return Response(
             {'error': f'Failed to fetch video showcase: {str(e)}'}, 
+            status=status.HTTP_500_INTERNAL_SERVER_ERROR
+        )
+
+@api_view(['GET'])
+def video_showcases(request):
+    """
+    Get all active video showcases for portfolio page
+    """
+    try:
+        videos = VideoShowcase.objects.filter(is_active=True).order_by('-created_at')
+        serializer = VideoShowcaseSerializer(videos, many=True, context={'request': request})
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    except Exception as e:
+        return Response(
+            {'error': f'Failed to fetch video showcases: {str(e)}'}, 
             status=status.HTTP_500_INTERNAL_SERVER_ERROR
         )

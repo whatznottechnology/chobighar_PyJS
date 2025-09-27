@@ -13,9 +13,15 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class PortfolioImageSerializer(serializers.ModelSerializer):
+    image = serializers.SerializerMethodField()
+    
     class Meta:
         model = PortfolioImage
         fields = ['id', 'image', 'caption', 'order', 'is_cover']
+    
+    def get_image(self, obj):
+        """Return the image URL (either uploaded file or URL)"""
+        return obj.image
 
 
 class PortfolioVideoSerializer(serializers.ModelSerializer):
