@@ -6,94 +6,9 @@ import { MagnifyingGlassIcon, ArrowRightIcon, ArrowLeftIcon } from '@heroicons/r
 import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useShowcaseImages } from '../hooks/useHomepageData';
+import { useFeaturedPortfolios } from '@/hooks/usePortfolio';
 
-interface Album {
-  id: string;
-  title: string;
-  subtitle: string;
-  image: string;
-  category: string;
-  photos: number;
-  description: string;
-  previewImages: string[];
-  date: string;
-  location: string;
-}
 
-const albums: Album[] = [
-  {
-    id: 'priya-arjun-wedding',
-    title: 'Priya & Arjun Wedding',
-    subtitle: 'Traditional Bengali Wedding',
-    image: '/img/bridalwear.jpg',
-    category: 'Wedding Photography',
-    photos: 85,
-    description: 'A beautiful traditional Bengali wedding celebration filled with rituals, colors, and joy.',
-    previewImages: ['/img/bridalwear.jpg', '/img/groomwear.jpg', '/img/venues.jpg', '/img/jewellery.jpg'],
-    date: 'December 2024',
-    location: 'Kolkata'
-  },
-  {
-    id: 'sneha-rahul-prewedding',
-    title: 'Sneha & Rahul',
-    subtitle: 'Pre-Wedding Shoot',
-    image: '/img/prewedding.jpg',
-    category: 'Pre-Wedding',
-    photos: 45,
-    description: 'Romantic pre-wedding session in the beautiful hills capturing love and connection.',
-    previewImages: ['/img/prewedding.jpg', '/img/1.jpg', '/img/2.jpg', '/img/venues.jpg'],
-    date: 'November 2024',
-    location: 'Darjeeling'
-  },
-  {
-    id: 'kavya-portrait',
-    title: 'Kavya Portrait Session',
-    subtitle: 'Individual Portraits',
-    image: '/img/groomwear.jpg',
-    category: 'Portrait',
-    photos: 28,
-    description: 'Elegant portrait session showcasing grace, beauty and traditional attire.',
-    previewImages: ['/img/groomwear.jpg', '/img/makeup.jpg', '/img/jewellery.jpg', '/img/bridalwear.jpg'],
-    date: 'October 2024',
-    location: 'Studio'
-  },
-  {
-    id: 'ravi-meera-destination',
-    title: 'Ravi & Meera Destination Wedding',
-    subtitle: 'Royal Palace Wedding',
-    image: '/img/venues.jpg',
-    category: 'Destination Wedding',
-    photos: 120,
-    description: 'Grand destination wedding at a royal palace with magnificent architecture.',
-    previewImages: ['/img/venues.jpg', '/img/planning.jpg', '/img/food.jpg', '/img/photographers.jpg'],
-    date: 'September 2024',
-    location: 'Rajasthan'
-  },
-  {
-    id: 'traditional-ceremonies',
-    title: 'Traditional Ceremonies Collection',
-    subtitle: 'Mehendi & Sangeet',
-    image: '/img/mehndi.jpg',
-    category: 'Ceremony',
-    photos: 42,
-    description: 'Vibrant traditional ceremonies filled with music, dance and intricate henna designs.',
-    previewImages: ['/img/mehndi.jpg', '/img/music.jpg', '/img/makeup.jpg', '/img/jewellery.jpg'],
-    date: 'August 2024',
-    location: 'Mumbai'
-  },
-  {
-    id: 'luxury-details',
-    title: 'Luxury Wedding Details',  
-    subtitle: 'Jewelry & Decor Focus',
-    image: '/img/jewellery.jpg',
-    category: 'Details',
-    photos: 25,
-    description: 'Exquisite details of luxury wedding jewelry, decor and intricate craftsmanship.',
-    previewImages: ['/img/jewellery.jpg', '/img/invites.jpg', '/img/planning.jpg', '/img/venues.jpg'],
-    date: 'July 2024',
-    location: 'Delhi'
-  }
-];
 
 export default function AlbumsShowcase() {
   const router = useRouter();
@@ -101,8 +16,13 @@ export default function AlbumsShowcase() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   
-  // Fetch showcase images from backend
+  // Fetch data from backend
   const { images: showcaseImages, loading: showcaseLoading } = useShowcaseImages();
+  const { portfolios: featuredPortfolios, loading: portfoliosLoading } = useFeaturedPortfolios();
+  
+  // Use backend data instead of hardcoded albums
+  const displayAlbums = featuredPortfolios || [];
+  const isLoading = portfoliosLoading || showcaseLoading;
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -211,21 +131,39 @@ export default function AlbumsShowcase() {
               msOverflowStyle: 'none'
             }}
           >
-            {albums.map((album) => (
-              <div key={album.id} className="group flex-shrink-0">
+            {isLoading ? (
+              // Loading skeleton
+              Array.from({ length: 3 }).map((_, index) => (
+                <div key={index} className="flex-shrink-0 w-80">
+                  <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
+                    <div className="aspect-[4/3] bg-gray-200 animate-pulse"></div>
+                    <div className="p-4">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse mb-2"></div>
+                      <div className="h-3 bg-gray-200 rounded animate-pulse mb-3 w-3/4"></div>
+                      <div className="h-8 bg-gray-200 rounded animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : displayAlbums.length > 0 ? (
+              <>
+                {displayAlbums.map((portfolio) => (
+              <div key={portfolio.id} className="group flex-shrink-0">
                 {/* Compact Card Container */}
                 <div 
                   className="relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 w-80 cursor-pointer"
-                  onClick={() => router.push(`/portfolio/${album.id}`)}
+                  onClick={() => router.push(`/portfolio/${portfolio.id}`)}
                 >
                   {/* Album Cover */}
                   <div className="relative overflow-hidden rounded-t-2xl aspect-[4/3]">
-                    <Image
-                      src={album.image}
-                      alt={album.title}
-                      fill
-                      className="object-cover transition-all duration-700 group-hover:scale-110"
-                    />
+                    {portfolio.cover_image && (
+                      <Image
+                        src={portfolio.cover_image}
+                        alt={portfolio.title}
+                        fill
+                        className="object-cover transition-all duration-700 group-hover:scale-110"
+                      />
+                    )}
                     
                     {/* Gradient Overlay */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
@@ -233,7 +171,7 @@ export default function AlbumsShowcase() {
                     {/* Photo Count Badge */}
                     <div className="absolute top-3 left-3">
                       <div className="bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-md">
-                        <span className="text-royal-red font-bold text-xs">{album.photos}</span>
+                        <span className="text-royal-red font-bold text-xs">{portfolio.image_count}</span>
                         <span className="text-gray-600 text-xs ml-1">photos</span>
                       </div>
                     </div>
@@ -241,7 +179,7 @@ export default function AlbumsShowcase() {
                     {/* Category Badge */}
                     <div className="absolute top-3 right-3">
                       <span className="bg-royal-red/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-medium">
-                        {album.category}
+                        {portfolio.category.name}
                       </span>
                     </div>
 
@@ -250,7 +188,7 @@ export default function AlbumsShowcase() {
                       <button 
                         onClick={(e) => {
                           e.stopPropagation();
-                          router.push(`/portfolio/${album.id}`);
+                          router.push(`/portfolio/${portfolio.id}`);
                         }}
                         className="bg-white/20 backdrop-blur-md border border-white/30 text-white p-3 rounded-full hover:bg-white/30 transition-all duration-300 hover:scale-110"
                       >
@@ -266,11 +204,11 @@ export default function AlbumsShowcase() {
                       className="text-lg font-bold text-gray-900 group-hover:text-royal-red transition-colors duration-300 mb-1 line-clamp-1"
                       style={{ fontFamily: 'Playfair Display, serif' }}
                     >
-                      {album.title}
+                      {portfolio.title}
                     </h3>
                     
                     {/* Subtitle */}
-                    <p className="text-royal-red/80 font-medium text-sm mb-2 line-clamp-1">{album.subtitle}</p>
+                    <p className="text-royal-red/80 font-medium text-sm mb-2 line-clamp-1">{portfolio.subtitle}</p>
                     
                     {/* Location & Date */}
                     <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
@@ -278,20 +216,20 @@ export default function AlbumsShowcase() {
                         <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                           <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
                         </svg>
-                        {album.location}
+                        {portfolio.location}
                       </span>
-                      <span>{album.date}</span>
+                      <span>{new Date(portfolio.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
                     </div>
 
-                    {/* Mini Preview Images */}
+                    {/* Mini Preview Images - Show from portfolio images if available */}
                     <div className="flex items-center gap-2 mb-3">
-                      {album.previewImages.slice(0, 3).map((image, idx) => (
+                      {portfolio.images && portfolio.images.slice(0, 3).map((image, idx) => (
                         <div
                           key={idx}
                           className="w-8 h-8 rounded-lg overflow-hidden cursor-pointer group/img border border-gray-200 shadow-sm"
                         >
                           <Image
-                            src={image}
+                            src={image.image}
                             alt={`Preview ${idx + 1}`}
                             width={32}
                             height={32}
@@ -299,14 +237,14 @@ export default function AlbumsShowcase() {
                           />
                         </div>
                       ))}
-                      <span className="text-xs text-gray-500 ml-auto font-medium">+{album.photos - 3} more</span>
+                      <span className="text-xs text-gray-500 ml-auto font-medium">+{portfolio.image_count > 3 ? portfolio.image_count - 3 : 0} more</span>
                     </div>
 
                     {/* Compact CTA Button */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
-                        router.push(`/portfolio/${album.id}`);
+                        router.push(`/portfolio/${portfolio.id}`);
                       }}
                       className="group/btn w-full bg-black hover:bg-royal-red text-white font-medium py-2 px-3 rounded-xl text-sm transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-md"
                     >
@@ -318,7 +256,7 @@ export default function AlbumsShowcase() {
               </div>
             ))}
 
-            {/* View All Card */}
+                {/* View All Card */}
             <div className="flex-shrink-0 w-80">
               <div className="h-full bg-gradient-to-br from-royal-red via-red-800 to-red-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden transform hover:-translate-y-1 flex items-center justify-center">
                 <div className="text-center p-8">
@@ -329,7 +267,7 @@ export default function AlbumsShowcase() {
                     View All
                   </h3>
                   <p className="text-white/80 text-sm mb-6">
-                    Explore our complete portfolio with {albums.length * 15}+ collections
+                    Explore our complete portfolio with {displayAlbums.length > 0 ? displayAlbums.length * 5 : 50}+ collections
                   </p>
                   <Link
                     href="/portfolio"
@@ -341,13 +279,22 @@ export default function AlbumsShowcase() {
                 </div>
               </div>
             </div>
+              </>
+            ) : (
+              // Empty state
+              <div className="flex-shrink-0 w-80 flex items-center justify-center">
+                <div className="text-center text-gray-500">
+                  <p>No portfolio albums available</p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Mobile Scroll Indicator */}
         <div className="flex justify-center mt-6 md:hidden">
           <div className="flex gap-2">
-            {albums.map((_, index) => (
+            {featuredPortfolios.map((_, index: number) => (
               <div
                 key={index}
                 className="w-2 h-2 rounded-full bg-gray-300"
@@ -387,8 +334,8 @@ export default function AlbumsShowcase() {
                   className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
                 >
                   <Image
-                    src={image.image_url || '/img/placeholder.jpg'}
-                    alt={image.alt_text}
+                    src={image.image || '/img/placeholder.jpg'}
+                    alt={image.caption || 'Gallery image'}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(min-width: 768px) 20vw, 50vw"

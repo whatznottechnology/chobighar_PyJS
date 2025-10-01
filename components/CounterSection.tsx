@@ -84,44 +84,8 @@ const CounterSection = () => {
   // Fetch achievements data from backend
   const { achievements, loading, error } = useAchievements();
 
-  // Fallback data if backend is not available
-  const fallbackCounters: CounterData[] = [
-    { 
-      id: 1,
-      title: 'Happy Couples',
-      count_value: 500,
-      suffix: '+',
-      description: 'Beautiful love stories captured',
-      icon_type: 'heart'
-    },
-    { 
-      id: 2,
-      title: 'Video Reviews',
-      count_value: 50,
-      suffix: '+',
-      description: 'Authentic client testimonials',
-      icon_type: 'video'
-    },
-    { 
-      id: 3,
-      title: 'Average Rating',
-      count_value: 5.0,
-      suffix: '',
-      description: 'Consistently excellent service',
-      icon_type: 'star'
-    },
-    { 
-      id: 4,
-      title: 'Client Satisfaction',
-      count_value: 98,
-      suffix: '%',
-      description: 'Exceeding expectations always',
-      icon_type: 'check'
-    }
-  ];
-
-  // Use backend data if available, otherwise fall back to hardcoded data
-  const displayCounters = achievements || fallbackCounters;
+  // Use only backend data
+  const displayCounters = achievements;
 
   // Initialize particles on client side only
   useEffect(() => {
@@ -309,7 +273,7 @@ const CounterSection = () => {
             </div>
           ) : null}
           
-          {displayCounters.map((counter, index) => (
+          {displayCounters && displayCounters.map((counter, index) => (
             <div 
               key={index}
               className={`text-center group transform transition-all duration-1000 ${

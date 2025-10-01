@@ -71,45 +71,7 @@ const useFooterData = () => {
       } catch (err) {
         console.error('Error fetching footer data:', err);
         setError('Failed to load footer data');
-        
-        // Fallback data
-        setFooterData({
-          brand_info: {
-            id: 1,
-            logo_image: null,
-            logo_image_url: null,
-            main_text: "Chabighar",
-            sub_text: "(Art Direction and Design Studio)",
-            description: "Your trusted partner for creating memorable wedding experiences. From planning to execution, we make your special day perfect.",
-            is_active: true
-          },
-          contact_info: {
-            id: 1,
-            phone: "+91 96479 66765",
-            email: "booking@chabighar.com",
-            whatsapp_number: "+91 96479 66765",
-            address_line1: "123 Wedding Street",
-            address_line2: "Kolkata, West Bengal 700001",
-            weekday_hours: "Mon-Fri: 10:00 AM - 8:00 PM",
-            weekend_hours: "Sat-Sun: 11:00 AM - 6:00 PM",
-            phone_text: "Call us anytime",
-            whatsapp_text: "Chat with us",
-            email_text: "Send us an email",
-            is_active: true
-          },
-          social_media: [
-            { id: 1, name: 'instagram', display_name: 'Instagram', url: 'https://instagram.com/chabighar', icon_svg: '', is_active: true, order: 1 },
-            { id: 2, name: 'facebook', display_name: 'Facebook', url: 'https://facebook.com/chabighar', icon_svg: '', is_active: true, order: 2 },
-            { id: 3, name: 'youtube', display_name: 'YouTube', url: 'https://youtube.com/chabighar', icon_svg: '', is_active: true, order: 3 }
-          ],
-          copyright_info: {
-            id: 1,
-            text: "© 2024 Chabighar. All rights reserved.",
-            company_name: "Chabighar",
-            company_url: null,
-            is_active: true
-          }
-        });
+        setFooterData(null);
       } finally {
         setLoading(false);
       }

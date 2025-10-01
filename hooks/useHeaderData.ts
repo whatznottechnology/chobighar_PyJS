@@ -62,24 +62,7 @@ export function useHeaderData() {
       } catch (err) {
         console.error('Error fetching header data:', err);
         setError('Failed to load header data');
-        // Fallback to static data if API fails
-        setHeaderData({
-          social_media: [],
-          contact_info: {
-            id: 1,
-            phone: '+91 96479 66765',
-            email: 'booking@chabighar.com',
-            is_active: true
-          },
-          brand_info: {
-            id: 1,
-            logo_image: null,
-            logo_image_url: null,
-            main_text: 'Chabighar',
-            sub_text: '(Art Direction and Design Studio)',
-            is_active: true
-          }
-        });
+        setHeaderData(null);
       } finally {
         setLoading(false);
       }

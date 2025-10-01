@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'aboutpage',
     'photoshootpage',
     'portfolio',
+    'vendor',
 ]
 
 MIDDLEWARE = [

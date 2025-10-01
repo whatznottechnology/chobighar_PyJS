@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/homepage/', include('homepage.urls')),
     path('api/aboutpage/', include('aboutpage.urls')),
     path('api/photoshootpage/', include('photoshootpage.urls')),
+    path('api/vendor/', include('vendor.urls')),  # Vendor APIs
     path('', include('portfolio.urls')),  # Portfolio APIs
 ]
 
