@@ -12,7 +12,7 @@ class SocialMediaSerializer(serializers.ModelSerializer):
 class ContactInfoSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactInfo
-        fields = ['id', 'phone', 'email', 'is_active']
+        fields = ['id', 'phone', 'email', 'whatsapp_number', 'is_active']
 
 class BrandInfoSerializer(serializers.ModelSerializer):
     logo_image_url = serializers.SerializerMethodField()

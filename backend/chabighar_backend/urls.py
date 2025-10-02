@@ -18,9 +18,28 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.shortcuts import redirect
+from django.http import HttpResponseRedirect
+from .health_views import HealthCheckView, ReadinessCheckView, LivenessCheckView
+
+# Redirect function for root URL
+def redirect_to_admin(request):
+    """Redirect root URL to admin panel"""
+    return HttpResponseRedirect('/admin/')
 
 urlpatterns = [
+    # Root URL - Redirect to Admin Panel
+    path('', redirect_to_admin, name='root_redirect'),
+    
+    # Admin Panel
     path('admin/', admin.site.urls),
+    
+    # Health Check Endpoints for Production Monitoring
+    path('health/', HealthCheckView.as_view(), name='health_check'),
+    path('health/ready/', ReadinessCheckView.as_view(), name='readiness_check'),
+    path('health/live/', LivenessCheckView.as_view(), name='liveness_check'),
+    
+    # API Endpoints
     path('api/header/', include('header.urls')),
     path('api/footer/', include('footer.urls')),
     path('api/contact/', include('contact.urls')),
@@ -28,8 +47,9 @@ urlpatterns = [
     path('api/aboutpage/', include('aboutpage.urls')),
     path('api/photoshootpage/', include('photoshootpage.urls')),
     path('api/vendor/', include('vendor.urls')),  # Vendor APIs
-    path('api/search/', include('search.urls')),  # Global Search API
-    path('', include('portfolio.urls')),  # Portfolio APIs
+    path('api/search/', include('search.urls')),
+    path('api/inquiry/', include('inquiry.urls')),  # Inquiry APIs
+    path('api/portfolio/', include('portfolio.urls')),  # Portfolio APIs
 ]
 
 # Serve media files during development

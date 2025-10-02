@@ -1,14 +1,23 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import Category, Portfolio, PortfolioImage, PortfolioVideo, PortfolioHighlight, PortfolioService, PortfolioInquiry
 
 class PortfolioImageInline(admin.TabularInline):
     model = PortfolioImage
     extra = 1
-    fields = ('image_file', 'image_url', 'caption', 'order', 'is_cover', 'is_active')
+    fields = ('image_preview', 'image_file', 'image_url', 'caption', 'order', 'is_cover', 'is_active')
+    readonly_fields = ('image_preview',)
     
-    def get_readonly_fields(self, request, obj=None):
-        # Make fields read-only based on which is used
-        return []
+    def image_preview(self, obj):
+        """Display image thumbnail in inline"""
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="80" height="80" style="border-radius: 6px; object-fit: cover; border: 2px solid #ddd;" />',
+                obj.image
+            )
+        return "No image"
+    image_preview.short_description = 'Preview'
 
 class PortfolioVideoInline(admin.TabularInline):
     model = PortfolioVideo
@@ -34,40 +43,106 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Portfolio)
 class PortfolioAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'date', 'location', 'image_count', 'featured', 'is_active')
+    list_display = ('cover_preview', 'title', 'category', 'date', 'location', 'image_count', 'featured_status', 'active_status')
     list_filter = ('category', 'featured', 'is_active', 'date', 'created_at')
     search_fields = ('title', 'subtitle', 'location', 'description')
     prepopulated_fields = {'id': ('title',)}
     date_hierarchy = 'date'
     ordering = ('order', '-date')
     
+    def cover_preview(self, obj):
+        """Display cover image thumbnail"""
+        if obj.cover_image:
+            return format_html(
+                '<img src="{}" width="60" height="60" style="border-radius: 8px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
+                obj.cover_image
+            )
+        return "No cover"
+    cover_preview.short_description = 'Cover'
+    
+    def featured_status(self, obj):
+        """Display featured status with styling"""
+        if obj.featured:
+            return format_html('<span style="color: #ff6b35; font-weight: bold;">🌟 Featured</span>')
+        return ''
+    featured_status.short_description = 'Featured'
+    
+    def active_status(self, obj):
+        """Display active status with styling"""
+        if obj.is_active:
+            return format_html('<span style="color: #28a745;">✅ Active</span>')
+        return format_html('<span style="color: #dc3545;">❌ Inactive</span>')
+    active_status.short_description = 'Status'
+    
     fieldsets = (
-        ('Basic Information', {
-            'fields': ('id', 'title', 'subtitle', 'category')
+        ('📷 Portfolio Information', {
+            'fields': ('id', 'title', 'subtitle', 'category'),
+            'classes': ('wide',)
         }),
-        ('Cover Image', {
-            'fields': ('cover_image_file', 'cover_image_url'),
+        ('🖼️ Cover Image', {
+            'fields': ('cover_image_preview', 'cover_image_file', 'cover_image_url'),
             'description': 'Upload a file OR provide a URL (file takes priority)'
         }),
-        ('Event Details', {
+        ('📅 Event Details', {
             'fields': ('date', 'location', 'duration', 'guests', 'image_count')
         }),
-        ('Content', {
-            'fields': ('description', 'story')
+        ('📝 Content', {
+            'fields': ('description', 'story'),
+            'classes': ('wide',)
         }),
-        ('Settings', {
+        ('⚙️ Settings', {
             'fields': ('featured', 'is_active', 'order')
         })
     )
+    
+    readonly_fields = ('cover_image_preview',)
+    
+    def cover_image_preview(self, obj):
+        """Display larger cover image preview in form"""
+        if obj.cover_image:
+            return format_html(
+                '<div class="responsive-image-container">'
+                '<img src="{}" style="max-width: 300px; max-height: 200px; border-radius: 12px; '
+                'box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer;" '
+                'onclick="window.open(this.src, \'_blank\')" title="Click to view full size" />'
+                '</div>',
+                obj.cover_image
+            )
+        return "No cover image uploaded"
+    cover_image_preview.short_description = 'Current Cover Image'
     
     inlines = [PortfolioImageInline, PortfolioVideoInline, PortfolioHighlightInline, PortfolioServiceInline]
 
 @admin.register(PortfolioImage)
 class PortfolioImageAdmin(admin.ModelAdmin):
-    list_display = ('portfolio', 'caption', 'order', 'is_cover', 'is_active', 'has_file', 'has_url')
+    list_display = ('image_thumbnail', 'portfolio', 'caption', 'order', 'cover_status', 'active_status', 'has_file', 'has_url')
     list_filter = ('portfolio', 'is_cover', 'is_active', 'created_at')
     search_fields = ('portfolio__title', 'caption')
     ordering = ('portfolio', 'order')
+    
+    def image_thumbnail(self, obj):
+        """Display image thumbnail in list view"""
+        if obj.image:
+            return format_html(
+                '<img src="{}" width="50" height="50" style="border-radius: 6px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
+                obj.image
+            )
+        return "No image"
+    image_thumbnail.short_description = 'Image'
+    
+    def cover_status(self, obj):
+        """Display cover status with styling"""
+        if obj.is_cover:
+            return format_html('<span style="color: #ff6b35; font-weight: bold;">📌 Cover</span>')
+        return ''
+    cover_status.short_description = 'Cover'
+    
+    def active_status(self, obj):
+        """Display active status"""
+        if obj.is_active:
+            return format_html('<span style="color: #28a745;">✅</span>')
+        return format_html('<span style="color: #dc3545;">❌</span>')
+    active_status.short_description = 'Active'
     
     fieldsets = (
         ('Portfolio', {

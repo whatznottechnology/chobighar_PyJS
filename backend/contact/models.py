@@ -74,6 +74,7 @@ class ContactUsInfo(models.Model):
     
     # Google Map
     google_map_url = models.URLField(
+        max_length=600,
         blank=True, null=True,
         help_text="Google Maps embed URL for location",
         default="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0929455463855!2d88.36320731495713!3d22.576484185188667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027579f4b6c5e3%3A0x5d9f4a1a5d9e8a1a!2sSector%20V%2C%20Bidhannagar%2C%20Kolkata%2C%20West%20Bengal%20700091!5e0!3m2!1sen!2sin!4v1635746400000!5m2!1sen!2sin"

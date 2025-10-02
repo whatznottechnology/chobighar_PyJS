@@ -9,7 +9,7 @@ router.register(r'portfolios', PortfolioViewSet, basename='portfolio')
 router.register(r'inquiries', PortfolioInquiryViewSet, basename='inquiry')
 
 urlpatterns = [
-    path('api/portfolio/', include(router.urls)),
-    path('api/portfolio/showcase-images/', showcase_images, name='showcase-images'),
-    path('api/portfolio/videos/', portfolio_videos, name='portfolio-videos'),
+    path('', include(router.urls)),
+    path('showcase-images/', showcase_images, name='showcase-images'),
+    path('videos/', portfolio_videos, name='portfolio-videos'),
 ]

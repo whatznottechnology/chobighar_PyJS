@@ -27,6 +27,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { useVendorProfile } from '../../hooks/useVendorData';
+import { useHeaderData } from '../../../hooks/useHeaderData';
+import InquiryModal from '../../../components/InquiryModal';
 
 export default function VendorProfile() {
   const params = useParams();
@@ -35,12 +37,14 @@ export default function VendorProfile() {
   
   // Use the API hook to fetch vendor data
   const { vendor, loading, error } = useVendorProfile(vendorSlug);
+  const { headerData } = useHeaderData();
   
   const [activeSection, setActiveSection] = useState('about');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeGalleryTab, setActiveGalleryTab] = useState<'photos' | 'videos'>('photos');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -102,11 +106,42 @@ export default function VendorProfile() {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    alert('Thank you for your inquiry! We will get back to you soon.');
-    setFormData({ name: '', phone: '', email: '', eventDate: '', message: '' });
+    
+    if (!vendor) return;
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inquiry_type: 'vendor',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: `Vendor Inquiry - ${vendor.name}`,
+          message: formData.message || `I am interested in your services for my event on ${formData.eventDate}`,
+          service_name: vendor.name,
+          service_id: vendor.id,
+          event_date: formData.eventDate || null,
+          source: 'vendor_detail_page'
+        })
+      });
+
+      if (response.ok) {
+        alert('Thank you for your inquiry! We will get back to you soon.');
+        setFormData({ name: '', phone: '', email: '', eventDate: '', message: '' });
+      } else {
+        console.error('Failed to submit inquiry');
+        alert('Sorry, something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      alert('Sorry, something went wrong. Please try again.');
+    }
   };
 
   // Handle loading state
@@ -838,6 +873,34 @@ export default function VendorProfile() {
         </div>
       )}
 
+      {/* Contact CTA Section */}
+      <div className="bg-gradient-to-r from-red-600 to-red-700 py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Ready to Book {vendor?.name}?
+          </h2>
+          <p className="text-red-100 mb-8 max-w-2xl mx-auto">
+            Get in touch with us to discuss your requirements and get a personalized quote for your special day.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="bg-white text-red-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
+            >
+              <EnvelopeIcon className="w-5 h-5" />
+              Send Inquiry
+            </button>
+            <a
+              href={`tel:${vendor?.phone || headerData?.contact_info?.phone || '+919647966765'}`}
+              className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-red-600 transition-colors inline-flex items-center justify-center gap-2"
+            >
+              <PhoneIcon className="w-5 h-5" />
+              Call Now
+            </a>
+          </div>
+        </div>
+      </div>
+
       {/* Back to Top Button */}
       {showBackToTop && (
         <button
@@ -847,6 +910,21 @@ export default function VendorProfile() {
           <ArrowUpIcon className="w-6 h-6" />
         </button>
       )}
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="vendor"
+        serviceName={vendor?.name || ''}
+        serviceId={vendor?.id?.toString() || ''}
+        prefilledData={{
+          subject: vendor ? `Inquiry about ${vendor.name}` : 'Vendor Inquiry',
+          message: vendor 
+            ? `Hi, I'm interested in your ${vendor.subcategory_name} services for my upcoming event. Please provide more details about availability and pricing.`
+            : 'I would like to know more about your services.'
+        }}
+      />
     </main>
   );
 }

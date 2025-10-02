@@ -221,7 +221,7 @@ export default function SearchBar({ isMobile = false, onExpandedChange }: Search
         {isExpanded && (
           <div 
             ref={resultsRef}
-            className="absolute top-full right-0 mt-2 w-80 max-w-[90vw] border rounded-lg shadow-lg z-50 max-h-96 overflow-hidden"
+            className="absolute top-full right-0 mt-2 w-80 max-w-[90vw] border rounded-lg shadow-lg z-[90] max-h-96 overflow-hidden"
             style={{ 
               backgroundColor: '#FAF9F6',
               borderColor: '#707070'
@@ -426,7 +426,7 @@ export default function SearchBar({ isMobile = false, onExpandedChange }: Search
       {isExpanded && (showResults || (!searchQuery && suggestions.length > 0)) && (
         <div 
           ref={resultsRef}
-          className="absolute top-full left-0 right-0 mt-2 border rounded-lg shadow-lg z-50 max-h-96 overflow-hidden"
+          className="absolute top-full left-0 right-0 mt-2 border rounded-lg shadow-lg z-[90] max-h-96 overflow-hidden"
           style={{ 
             backgroundColor: '#FAF9F6',
             borderColor: '#707070'

@@ -7,11 +7,14 @@ import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useVendorCategories, useFeaturedVendors, useVendorProfiles } from '../../hooks/useVendorData';
 import { getIconComponent } from '../../../utils/vendorIcons';
+import InquiryModal from '../../../components/InquiryModal';
 
 export default function Vendors() {
   const router = useRouter();
   const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVendor, setSelectedVendor] = useState<any>(null);
   
   // Load categories and vendors from API
   const { categories, loading: categoriesLoading, error: categoriesError } = useVendorCategories();
@@ -332,7 +335,11 @@ export default function Vendors() {
                             View Profile
                           </button>
                           <button 
-                            onClick={(e) => e.stopPropagation()}
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              setSelectedVendor(vendor);
+                              setIsModalOpen(true);
+                            }}
                             className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-2 px-3 rounded-lg text-sm font-semibold transition-colors"
                           >
                             Contact
@@ -367,6 +374,21 @@ export default function Vendors() {
           </div>
         </div>
       </div>
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="vendor"
+        serviceName={selectedVendor?.name || ''}
+        serviceId={selectedVendor?.id?.toString() || ''}
+        prefilledData={{
+          subject: selectedVendor ? `Inquiry about ${selectedVendor.name}` : 'Vendor Inquiry',
+          message: selectedVendor 
+            ? `Hi, I'm interested in your ${selectedVendor.subcategory_name} services. Please provide more details about availability and pricing.`
+            : 'I would like to know more about your services.'
+        }}
+      />
     </main>
   );
 }

@@ -3,11 +3,14 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useVendorCategories, useFeaturedVendors, useVendorProfiles } from '../src/hooks/useVendorData';
+import InquiryModal from './InquiryModal';
 
 const VendorSection = () => {
   const router = useRouter();
   const [activeCategory, setActiveCategory] = useState('all');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedVendor, setSelectedVendor] = useState<any>(null);
 
   // Fetch data from backend
   const { categories: backendCategories, loading: categoriesLoading } = useVendorCategories();
@@ -107,7 +110,6 @@ const VendorSection = () => {
                   }`}
                 >
                   <span>{category.name}</span>
-                  <span className="ml-2 text-xs opacity-75">({category.count})</span>
                 </button>
               ))}
             </div>
@@ -292,7 +294,11 @@ const VendorSection = () => {
                           View Profile
                         </button>
                         <button 
-                          onClick={(e) => e.stopPropagation()}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedVendor(vendor);
+                            setIsModalOpen(true);
+                          }}
                           className="flex-1 bg-royal-red hover:bg-red-700 text-white py-2 px-3 rounded-lg text-xs font-medium transition-all duration-300"
                         >
                           Contact
@@ -337,6 +343,21 @@ const VendorSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="vendor"
+        serviceName={selectedVendor?.name || ''}
+        serviceId={selectedVendor?.id?.toString() || ''}
+        prefilledData={{
+          subject: selectedVendor ? `Inquiry about ${selectedVendor.name}` : 'Vendor Inquiry',
+          message: selectedVendor 
+            ? `Hi, I'm interested in your ${selectedVendor.subcategory_name} services. Please provide more details about availability and pricing.`
+            : 'I would like to know more about your services.'
+        }}
+      />
     </section>
   );
 };

@@ -101,10 +101,47 @@ export default function VendorCategoryPage() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inquiry_type: 'vendor',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: `Vendor Inquiry - ${subcategory.name}`,
+          message: formData.message || `I am interested in ${subcategory.name} services for my event.`,
+          service_name: subcategory.name,
+          service_id: categorySlug,
+          event_date: formData.date || null,
+          source: 'vendor_category_page'
+        })
+      });
+
+      if (response.ok) {
+        // Show success message and reset form
+        alert('Thank you! We will get back to you with quotes within 24 hours.');
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          date: '',
+          message: ''
+        });
+      } else {
+        console.error('Failed to submit inquiry');
+        alert('Sorry, something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      alert('Sorry, something went wrong. Please try again.');
+    }
   };
 
 

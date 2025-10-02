@@ -247,14 +247,46 @@ export default function VideoShowcase() {
                 Let us capture your love story with our cinematic approach to wedding videography
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-royal-red hover:bg-red-700 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-royal-red/50 transform hover:scale-110 hover:-translate-y-1 border-2 border-transparent hover:border-gold/50 relative overflow-hidden group">
-                  <span className="relative z-20 text-white group-hover:text-black transition-colors duration-300">Book Video Package</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-red-700 to-red-800 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10"></div>
-                </button>
-                <button className="border-2 border-white text-white hover:bg-white px-8 py-4 rounded-xl font-semibold transition-all duration-500 shadow-lg hover:shadow-2xl hover:shadow-white/30 transform hover:scale-110 hover:-translate-y-1 relative overflow-hidden group">
-                  <span className="relative z-20 text-white group-hover:text-black transition-colors duration-300">View Our Work</span>
-                  <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left z-10"></div>
-                </button>
+                <a 
+                  href="/photoshoot?service=videography"
+                  className="bg-royal-red text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-royal-red/50 transform hover:scale-105 hover:-translate-y-1 border-2 border-transparent hover:border-gold/30 relative overflow-hidden group inline-flex items-center justify-center gap-2"
+                  style={{ backgroundColor: '#B22222' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#8B0000';
+                    e.currentTarget.style.transform = 'scale(1.05) translateY(-4px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '#B22222';
+                    e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                  }}
+                >
+                  <span className="relative z-20 text-white transition-colors duration-300">Book Video Package</span>
+                  <svg className="w-5 h-5 relative z-20 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <div className="absolute inset-0 bg-gradient-to-r from-red-800 to-red-900 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10"></div>
+                </a>
+                <a 
+                  href="/portfolio"
+                  className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-2xl hover:shadow-white/30 transform hover:scale-105 hover:-translate-y-1 relative overflow-hidden group inline-flex items-center justify-center gap-2"
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = '#FFFFFF';
+                    e.currentTarget.style.color = '#000000';
+                    e.currentTarget.style.transform = 'scale(1.05) translateY(-4px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = '#FFFFFF';
+                    e.currentTarget.style.transform = 'scale(1) translateY(0)';
+                  }}
+                >
+                  <span className="relative z-20 transition-colors duration-300">View Our Work</span>
+                  <svg className="w-5 h-5 relative z-20 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                  <div className="absolute inset-0 bg-white scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-10"></div>
+                </a>
               </div>
             </div>
           </div>
@@ -263,7 +295,7 @@ export default function VideoShowcase() {
 
       {/* Video Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/90 z-[9998] flex items-center justify-center p-4">
           <div className="relative w-full max-w-6xl aspect-video">
             {/* Close Button */}
             <button

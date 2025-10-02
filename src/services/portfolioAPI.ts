@@ -72,6 +72,7 @@ export interface CategoryWithCount {
 export interface PortfolioInquiry {
   name: string;
   phone: string;
+  email?: string;
   event_date: string;
   portfolio?: string;
   message?: string;
@@ -153,10 +154,21 @@ class PortfolioAPI {
   }
 
   // Submit portfolio inquiry
-  async submitInquiry(inquiry: PortfolioInquiry): Promise<{ message: string; inquiry_id: number }> {
-    return this.fetchAPI('/inquiries/', {
+  async submitInquiry(inquiry: PortfolioInquiry): Promise<{ message: string; inquiry_id: string }> {
+    return this.fetchAPI('/inquiry/create/', {
       method: 'POST',
-      body: JSON.stringify(inquiry),
+      body: JSON.stringify({
+        inquiry_type: 'portfolio',
+        name: inquiry.name,
+        email: inquiry.email || 'contact@portfolio.com', // fallback email
+        phone: inquiry.phone,
+        subject: `Portfolio Inquiry - ${inquiry.portfolio}`,
+        message: `I'm interested in this portfolio style for my event on ${inquiry.event_date}`,
+        service_name: 'Portfolio Style',
+        service_id: inquiry.portfolio,
+        event_date: inquiry.event_date,
+        source: 'portfolio_page'
+      }),
     });
   }
 }

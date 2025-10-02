@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { 
@@ -12,10 +12,22 @@ import {
   SparklesIcon
 } from '@heroicons/react/24/outline';
 import { usePhotoshootPageData, PhotoshootService, PortfolioAlbum } from '../../../hooks/usePhotoshootData';
+import { useHeaderData } from '../../../hooks/useHeaderData';
+import InquiryModal from '../../../components/InquiryModal';
 
 export default function PhotoshootPage() {
   const { data, loading, error } = usePhotoshootPageData();
+  const { headerData } = useHeaderData();
   const router = useRouter();
+  
+  // Modal state
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<PhotoshootService | null>(null);
+
+  const handleBookService = (service: PhotoshootService) => {
+    setSelectedService(service);
+    setIsModalOpen(true);
+  };
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -56,6 +68,10 @@ export default function PhotoshootPage() {
             <button 
               className="text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 shadow-lg"
               style={{ backgroundColor: '#B22222' }}
+              onClick={() => {
+                setSelectedService(null);
+                setIsModalOpen(true);
+              }}
             >
               {data.hero?.primary_button_text || "Book Your Session"}
               <ArrowRightIcon className="w-5 h-5" />
@@ -112,7 +128,11 @@ export default function PhotoshootPage() {
 
           <div className="grid lg:grid-cols-2 gap-12">
             {(data.services || []).map((service: PhotoshootService, index: number) => (
-              <div key={index} className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+              <div 
+                key={index} 
+                className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 cursor-pointer group"
+                onClick={() => handleBookService(service)}
+              >
                 <div className="relative h-80">
                   <Image
                     src={service.image_url || "https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=600&h=400&fit=crop&auto=format"}
@@ -195,6 +215,10 @@ export default function PhotoshootPage() {
                     <button 
                       className="flex-1 text-white py-4 rounded-xl font-semibold hover:opacity-90 transition-all inline-flex items-center justify-center gap-2"
                       style={{ backgroundColor: '#B22222' }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleBookService(service);
+                      }}
                     >
                       Book This Package
                       <ArrowRightIcon className="w-5 h-5" />
@@ -205,6 +229,7 @@ export default function PhotoshootPage() {
                         borderColor: '#B22222',
                         color: '#B22222'
                       }}
+                      onClick={(e) => e.stopPropagation()}
                       onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#B22222'}
                       onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
                     >
@@ -497,16 +522,19 @@ export default function PhotoshootPage() {
             Let's discuss your photography needs and create a customized package that perfectly captures your vision and style.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
+            <button
               className="text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-colors inline-flex items-center justify-center gap-2 shadow-lg"
               style={{ backgroundColor: '#B22222' }}
+              onClick={() => {
+                setSelectedService(null);
+                setIsModalOpen(true);
+              }}
             >
               Get Quote
               <ArrowRightIcon className="w-5 h-5" />
-            </a>
+            </button>
             <a
-              href="tel:+919647966765"
+              href={`tel:${headerData?.contact_info?.phone || '+919647966765'}`}
               className="border-2 px-8 py-4 rounded-xl font-semibold hover:text-white transition-colors inline-flex items-center justify-center gap-2"
               style={{ 
                 borderColor: '#B22222',
@@ -527,6 +555,23 @@ export default function PhotoshootPage() {
           </div>
         </div>
       </section>
+      
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="photoshoot"
+        serviceName={selectedService?.title || ''}
+        serviceId={selectedService?.id?.toString() || ''}
+        prefilledData={{
+          subject: selectedService 
+            ? `Inquiry about ${selectedService.title}` 
+            : 'Photography Service Inquiry',
+          message: selectedService 
+            ? `I'm interested in your ${selectedService.title} package. Please provide more details about availability and pricing.`
+            : 'I would like to know more about your photography services.'
+        }}
+      />
     </main>
   );
 }

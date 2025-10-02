@@ -12,12 +12,14 @@ import {
   ArrowUpIcon
 } from '@heroicons/react/24/outline';
 import { usePortfolios, useCategoriesWithCount, usePortfolioVideos, usePortfolioImages } from '@/hooks/usePortfolio';
+import InquiryModal from '../../../components/InquiryModal';
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [currentAlbum, setCurrentAlbum] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Fetch data using custom hooks
   const { portfolios, loading: portfoliosLoading } = usePortfolios({ category: selectedCategory });
@@ -523,8 +525,8 @@ export default function Portfolio() {
             Let's capture your special moments and create beautiful memories that will last a lifetime. Get in touch with us to discuss your photography needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="/contact"
+            <button
+              onClick={() => setIsModalOpen(true)}
               className="px-8 py-4 rounded-xl font-semibold transition-colors inline-flex items-center justify-center gap-2 shadow-lg hover:opacity-90"
               style={{
                 backgroundColor: 'white',
@@ -532,7 +534,7 @@ export default function Portfolio() {
               }}
             >
               Book a Session
-            </a>
+            </button>
             <a
               href="/photoshoot"
               className="border-2 text-white px-8 py-4 rounded-xl font-semibold hover:text-current transition-colors inline-flex items-center justify-center gap-2"
@@ -567,6 +569,19 @@ export default function Portfolio() {
           <ArrowUpIcon className="w-6 h-6" />
         </button>
       )}
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="photoshoot"
+        serviceName="Photography Session"
+        serviceId=""
+        prefilledData={{
+          subject: 'Photography Session Booking',
+          message: 'Hi, I would like to book a photography session. Please provide more details about availability and pricing.'
+        }}
+      />
     </main>
   );
 }

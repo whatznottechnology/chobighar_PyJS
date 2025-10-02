@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { useAchievements } from '../hooks/useHomepageData';
+import InquiryModal from './InquiryModal';
 
 interface CounterData {
   id: number;
@@ -80,6 +81,7 @@ const CounterSection = () => {
   const [animatedNumbers, setAnimatedNumbers] = useState<number[]>([]);
   const [particles, setParticles] = useState<Array<{left: number, top: number, delay: number, duration: number}>>([]);
   const [isMounted, setIsMounted] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   
   // Fetch achievements data from backend
   const { achievements, loading, error } = useAchievements();
@@ -326,14 +328,30 @@ const CounterSection = () => {
 
         {/* Bottom CTA */}
         <div className="text-center mt-12 md:mt-16">
-          <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 hover:bg-white/20 transition-all duration-300">
-            <span className="text-white font-medium text-sm sm:text-base">Scroll to continue</span>
-            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          <button 
+            className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-4 sm:px-6 py-2 sm:py-3 hover:bg-white/20 transition-all duration-300 cursor-pointer group"
+            onClick={() => setIsModalOpen(true)}
+          >
+            <span className="text-white font-medium text-sm sm:text-base">Contact Now</span>
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-white group-hover:rotate-45 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
             </svg>
-          </div>
+          </button>
         </div>
       </div>
+
+      {/* Inquiry Modal */}
+      <InquiryModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        inquiryType="general"
+        serviceName=""
+        serviceId=""
+        prefilledData={{
+          subject: 'General Inquiry',
+          message: 'Hi, I would like to know more about your services.'
+        }}
+      />
     </section>
   );
 };

@@ -16,6 +16,7 @@ interface ContactInfo {
   id: number;
   phone: string;
   email: string;
+  whatsapp_number?: string;
   is_active: boolean;
 }
 

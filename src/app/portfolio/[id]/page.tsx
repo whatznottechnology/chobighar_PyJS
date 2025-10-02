@@ -57,6 +57,7 @@ export default function PortfolioDetails() {
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
+    email: '',
     event_date: ''
   });
   const [submitLoading, setSubmitLoading] = useState(false);
@@ -159,6 +160,7 @@ export default function PortfolioDetails() {
       setFormData({
         name: '',
         phone: '',
+        email: '',
         event_date: ''
       });
     } catch (error) {
@@ -354,6 +356,18 @@ export default function PortfolioDetails() {
                       required
                       className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-200"
                       placeholder="Phone number"
+                    />
+                  </div>
+
+                  <div>
+                    <input
+                      type="email"
+                      name="email"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      required
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-white focus:border-transparent transition-all duration-200"
+                      placeholder="Email address"
                     />
                   </div>
 

@@ -1,19 +1,23 @@
 'use client';
 
 import { useState } from 'react';
+import { useHeaderData } from '../hooks/useHeaderData';
 
 interface FormData {
   shootType: string;
   date: string;
   phone: string;
+  email: string;
   message: string;
 }
 
 export default function ContactForm() {
+  const { headerData } = useHeaderData();
   const [formData, setFormData] = useState<FormData>({
     shootType: '',
     date: '',
     phone: '',
+    email: '',
     message: ''
   });
 
@@ -45,21 +49,48 @@ export default function ContactForm() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inquiry_type: 'photoshoot',
+          name: 'Photography Client', // We'll use this as a placeholder since no name field exists
+          email: formData.email,
+          phone: formData.phone,
+          subject: `${formData.shootType} - Photography Inquiry`,
+          message: `${formData.message}\n\nEvent Date: ${formData.date}\nType: ${formData.shootType}`,
+          service_name: formData.shootType,
+          event_date: formData.date || null,
+          source: 'contact_form'
+        })
+      });
+
+      if (response.ok) {
+        setSubmitted(true);
+        // Reset form after 3 seconds
+        setTimeout(() => {
+          setSubmitted(false);
+          setFormData({
+            shootType: '',
+            date: '',
+            phone: '',
+            email: '',
+            message: ''
+          });
+        }, 3000);
+      } else {
+        console.error('Failed to submit inquiry');
+        // You might want to show an error message here
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      // You might want to show an error message here
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-      // Reset form after 3 seconds
-      setTimeout(() => {
-        setSubmitted(false);
-        setFormData({
-          shootType: '',
-          date: '',
-          phone: '',
-          message: ''
-        });
-      }, 3000);
-    }, 1000);
+    }
   };
 
   if (submitted) {
@@ -146,7 +177,7 @@ export default function ContactForm() {
         <div className="max-w-4xl mx-auto">
           <form onSubmit={handleSubmit} className="bg-white/20 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-2xl border border-white/30">
             {/* Main Form Fields - Compact Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {/* Type of Shoot */}
               <div className="space-y-2">
                 <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
@@ -183,6 +214,23 @@ export default function ContactForm() {
                   className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                   min={new Date().toISOString().split('T')[0]}
+                />
+              </div>
+
+              {/* Email */}
+              <div className="space-y-2">
+                <label className="text-white text-sm font-semibold block drop-shadow-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
+                  style={{ fontFamily: 'Inter, sans-serif' }}
+                  placeholder="your@email.com"
                 />
               </div>
 
@@ -254,13 +302,17 @@ export default function ContactForm() {
                   <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                  <span className="text-white text-sm font-medium drop-shadow-sm">+91 96479 66765</span>
+                  <span className="text-white text-sm font-medium drop-shadow-sm">
+                    {headerData?.contact_info?.phone || '+91 96479 66765'}
+                  </span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-white text-sm font-medium drop-shadow-sm">info@chabighar.com</span>
+                  <span className="text-white text-sm font-medium drop-shadow-sm">
+                    {headerData?.contact_info?.email || 'info@chabighar.com'}
+                  </span>
                 </div>
                 <div className="flex items-center justify-center space-x-2">
                   <svg className="w-4 h-4 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">

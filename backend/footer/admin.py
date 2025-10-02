@@ -1,4 +1,6 @@
 from django.contrib import admin
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
 from .models import (
     FooterBrandInfo, FooterContactInfo, FooterSocialMedia, 
     FooterCopyright
@@ -6,27 +8,75 @@ from .models import (
 
 @admin.register(FooterBrandInfo)
 class FooterBrandInfoAdmin(admin.ModelAdmin):
-    list_display = ['main_text', 'sub_text', 'is_active', 'updated_at']
+    list_display = ['logo_preview', 'brand_text_preview', 'active_status', 'updated_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['main_text', 'sub_text', 'description']
-    readonly_fields = ['created_at', 'updated_at']
+    readonly_fields = ['created_at', 'updated_at', 'full_logo_preview']
     
     fieldsets = (
-        ('Brand Information', {
-            'fields': ('main_text', 'sub_text', 'logo_image')
+        ('🏷️ Brand Information', {
+            'fields': ('main_text', 'sub_text', 'logo_image', 'full_logo_preview'),
+            'classes': ('wide',)
         }),
-        ('Description', {
+        ('📝 Description', {
             'fields': ('description',),
             'classes': ('wide',)
         }),
-        ('Status', {
+        ('⚙️ Status', {
             'fields': ('is_active',)
         }),
-        ('Timestamps', {
+        ('🕒 Timestamps', {
             'fields': ('created_at', 'updated_at'),
             'classes': ('collapse',)
         }),
     )
+    
+    def logo_preview(self, obj):
+        """Display logo thumbnail"""
+        if obj.logo_image:
+            return format_html(
+                '<img src="{}" width="40" height="40" style="border-radius: 6px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
+                obj.logo_image.url
+            )
+        return "🏷️ No logo"
+    logo_preview.short_description = 'Logo'
+    
+    def full_logo_preview(self, obj):
+        """Display full logo preview"""
+        if obj.logo_image:
+            return format_html(
+                '<div class="image-preview-container">'
+                '<img src="{}" style="max-width: 200px; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);" />'
+                '</div>',
+                obj.logo_image.url
+            )
+        return "No logo available"
+    full_logo_preview.short_description = 'Logo Preview'
+    
+    def brand_text_preview(self, obj):
+        """Display brand text"""
+        return format_html(
+            '<div style="text-align: center;">'
+            '<div style="color: #B22222; font-weight: bold;">{}</div>'
+            '<div style="color: #666; font-size: 12px;">{}</div>'
+            '</div>',
+            obj.main_text or 'No main text',
+            obj.sub_text or 'No sub text'
+        )
+    brand_text_preview.short_description = 'Brand Text'
+    
+    def active_status(self, obj):
+        """Display active status"""
+        if obj.is_active:
+            return format_html('<span style="color: #28a745;">✅</span>')
+        return format_html('<span style="color: #dc3545;">❌</span>')
+    active_status.short_description = 'Active'
+    
+    class Media:
+        css = {
+            'all': ('admin/css/custom_admin.css',)
+        }
+        js = ('admin/js/custom_admin.js',)
 
 @admin.register(FooterContactInfo)
 class FooterContactInfoAdmin(admin.ModelAdmin):

@@ -2,7 +2,7 @@ import HeroSlider from '../../components/HeroSlider';
 import AlbumsShowcase from '../../components/AlbumsShowcase';
 import VideoShowcase from '../../components/VideoShowcase';
 import VendorSection from '../../components/VendorSection';
-import ShoppingSection from '../../components/ShoppingSection';
+// import ShoppingSection from '../../components/ShoppingSection';
 import CounterSection from '../../components/CounterSection';
 import ContactForm from '../../components/ContactForm';
 import TestimonialsSection from '../../components/TestimonialsSection';
@@ -24,7 +24,7 @@ export default function Home() {
       <VendorSection />
 
       {/* Shopping Section - Interactive */}
-      <ShoppingSection />
+      {/* <ShoppingSection /> */}
 
       {/* Enhanced Counter Section with Parallax */}
       <CounterSection />

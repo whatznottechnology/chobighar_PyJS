@@ -26,11 +26,49 @@ export default function Contact() {
     message: ''
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    
+    try {
+      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          inquiry_type: 'general',
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          subject: `Contact Form - ${formData.service}`,
+          message: formData.message,
+          service_name: formData.service,
+          event_date: formData.event_date || null,
+          source: 'contact_page'
+        })
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            name: '',
+            email: '',
+            phone: '',
+            service: '',
+            event_date: '',
+            message: ''
+          });
+        }, 3000);
+      } else {
+        console.error('Failed to submit inquiry');
+        // You might want to show an error message here
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      // You might want to show an error message here
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
