@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('title', models.CharField(help_text='Image title for display', max_length=200)),
                 ('image', models.ImageField(help_text='Gallery image (recommended: high resolution for best quality)', upload_to='homepage/gallery/')),
-                ('alt_text', models.CharField(default='Chabighar Photography', help_text='Alt text for accessibility', max_length=200)),
+                ('alt_text', models.CharField(default='chobighar Photography', help_text='Alt text for accessibility', max_length=200)),
                 ('category', models.CharField(choices=[('Wedding', 'Wedding Photography'), ('Pre-Wedding', 'Pre-Wedding Shoots'), ('Portrait', 'Portrait Photography'), ('Event', 'Event Photography'), ('Traditional', 'Traditional Ceremonies'), ('Details', 'Wedding Details'), ('Couple', 'Couple Photography'), ('Family', 'Family Photography'), ('Other', 'Other')], default='Wedding', help_text='Image category for filtering', max_length=50)),
                 ('order', models.PositiveIntegerField(default=0, help_text='Display order (lower numbers first)')),
                 ('is_active', models.BooleanField(default=True, help_text='Show this image in gallery')),

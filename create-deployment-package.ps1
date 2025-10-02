@@ -1,7 +1,7 @@
-# Chabighar Deployment Package Creator
+# chobighar Deployment Package Creator
 # This script creates a production-ready deployment package
 
-Write-Host "🚀 Creating Chabighar Deployment Package..." -ForegroundColor Cyan
+Write-Host "🚀 Creating chobighar Deployment Package..." -ForegroundColor Cyan
 Write-Host ""
 
 # Step 1: Clean old build
@@ -10,8 +10,8 @@ if (Test-Path ".next") {
     Remove-Item -Recurse -Force .next
     Write-Host "   ✓ Cleaned old .next folder" -ForegroundColor Green
 }
-if (Test-Path "chabighar-deployment.zip") {
-    Remove-Item -Force chabighar-deployment.zip
+if (Test-Path "chobighar-deployment.zip") {
+    Remove-Item -Force chobighar-deployment.zip
     Write-Host "   ✓ Removed old deployment package" -ForegroundColor Green
 }
 Write-Host ""
@@ -60,17 +60,17 @@ if ($missing.Count -gt 0) {
 
 # Create the zip file
 $existingFiles = $files | Where-Object { Test-Path $_ }
-Compress-Archive -Path $existingFiles -DestinationPath 'chabighar-deployment.zip' -Force
+Compress-Archive -Path $existingFiles -DestinationPath 'chobighar-deployment.zip' -Force
 
-$zipSize = (Get-Item 'chabighar-deployment.zip').Length / 1MB
-Write-Host "   ✓ Deployment package created: chabighar-deployment.zip ($([math]::Round($zipSize, 2)) MB)" -ForegroundColor Green
+$zipSize = (Get-Item 'chobighar-deployment.zip').Length / 1MB
+Write-Host "   ✓ Deployment package created: chobighar-deployment.zip ($([math]::Round($zipSize, 2)) MB)" -ForegroundColor Green
 Write-Host ""
 
 # Step 4: Show deployment instructions
 Write-Host "✅ DEPLOYMENT PACKAGE READY!" -ForegroundColor Green
 Write-Host ""
 Write-Host "📋 Next Steps:" -ForegroundColor Cyan
-Write-Host "   1. Upload 'chabighar-deployment.zip' to your cPanel server" -ForegroundColor White
+Write-Host "   1. Upload 'chobighar-deployment.zip' to your cPanel server" -ForegroundColor White
 Write-Host "   2. Extract the zip file in your application directory" -ForegroundColor White
 Write-Host "   3. Run: npm install --production" -ForegroundColor White
 Write-Host "   4. Configure Node.js app in cPanel:" -ForegroundColor White

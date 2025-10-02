@@ -1,7 +1,7 @@
 # Quick Deploy to Vercel Script
-# Run this to deploy your Chabighar site to Vercel
+# Run this to deploy your chobighar site to Vercel
 
-Write-Host "🚀 Chabighar - Quick Deploy to Vercel" -ForegroundColor Cyan
+Write-Host "🚀 chobighar - Quick Deploy to Vercel" -ForegroundColor Cyan
 Write-Host "=====================================" -ForegroundColor Cyan
 Write-Host ""
 

@@ -1,4 +1,4 @@
-# 🚀 Deploy Chabighar to Vercel
+# 🚀 Deploy chobighar to Vercel
 
 ## Why Vercel is Perfect for This Project
 

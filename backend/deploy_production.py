@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 """
-Production deployment script for Chabighar backend
+Production deployment script for chobighar backend
 This script prepares the application for deployment on admin.chobighar.com
 """
 
@@ -30,7 +30,7 @@ def run_command(command, description):
 
 def main():
     """Run all deployment preparation steps"""
-    print("🚀 CHABIGHAR BACKEND DEPLOYMENT PREPARATION")
+    print("🚀 chobighar BACKEND DEPLOYMENT PREPARATION")
     print("=" * 60)
     
     # Check if we're in the right directory
@@ -42,7 +42,7 @@ def main():
     print(f"📁 Working directory: {backend_dir}")
     
     # Set environment for production
-    os.environ['DJANGO_SETTINGS_MODULE'] = 'chabighar_backend.settings_production'
+    os.environ['DJANGO_SETTINGS_MODULE'] = 'chobighar_backend.settings_production'
     
     deployment_steps = [
         # Install production dependencies
@@ -53,25 +53,25 @@ def main():
         
         # Collect static files
         {
-            'command': 'python manage.py collectstatic --noinput --settings=chabighar_backend.settings_production',
+            'command': 'python manage.py collectstatic --noinput --settings=chobighar_backend.settings_production',
             'description': 'Collecting static files for production'
         },
         
         # Run migrations
         {
-            'command': 'python manage.py migrate --settings=chabighar_backend.settings_production',
+            'command': 'python manage.py migrate --settings=chobighar_backend.settings_production',
             'description': 'Running database migrations'
         },
         
         # Check deployment readiness
         {
-            'command': 'python manage.py check --deploy --settings=chabighar_backend.settings_production',
+            'command': 'python manage.py check --deploy --settings=chobighar_backend.settings_production',
             'description': 'Checking deployment configuration'
         },
         
         # Create superuser (optional)
         # {
-        #     'command': 'python manage.py createsuperuser --settings=chabighar_backend.settings_production',
+        #     'command': 'python manage.py createsuperuser --settings=chobighar_backend.settings_production',
         #     'description': 'Creating superuser account'
         # },
     ]
@@ -100,7 +100,7 @@ def main():
         print("5. Set environment variables:")
         print("   - DJANGO_SECRET_KEY (generate a new one for production)")
         print("   - DJANGO_DEBUG=False")
-        print("   - DJANGO_SETTINGS_MODULE=chabighar_backend.settings_production")
+        print("   - DJANGO_SETTINGS_MODULE=chobighar_backend.settings_production")
         
         print("\n🔧 PRODUCTION CHECKLIST:")
         print("✅ Static files collected")
@@ -117,7 +117,7 @@ def main():
         print("\n📝 ENVIRONMENT VARIABLES FOR PRODUCTION:")
         print("export DJANGO_SECRET_KEY='your-new-secret-key-here'")
         print("export DJANGO_DEBUG=False")
-        print("export DJANGO_SETTINGS_MODULE=chabighar_backend.settings_production")
+        print("export DJANGO_SETTINGS_MODULE=chobighar_backend.settings_production")
         
     else:
         print(f"\n⚠️  Some steps failed. Please review the errors above.")

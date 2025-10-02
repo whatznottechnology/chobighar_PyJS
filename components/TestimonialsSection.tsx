@@ -109,7 +109,7 @@ export default function TestimonialsSection() {
             className="text-xl text-gray-600 leading-relaxed" 
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
-            Hear directly from our couples about their amazing experience with Chabighar Photography
+            Hear directly from our couples about their amazing experience with chobighar Photography
           </p>
         </div>
 

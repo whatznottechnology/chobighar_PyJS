@@ -69,11 +69,11 @@ class Command(BaseCommand):
     def add_social_media(self):
         """Add social media links"""
         social_links = [
-            ('instagram', 'https://instagram.com/chabighar'),
-            ('facebook', 'https://facebook.com/chabighar'),
-            ('youtube', 'https://youtube.com/@chabighar'),
-            ('pinterest', 'https://pinterest.com/chabighar'),
-            ('linkedin', 'https://linkedin.com/company/chabighar'),
+            ('instagram', 'https://instagram.com/chobighar'),
+            ('facebook', 'https://facebook.com/chobighar'),
+            ('youtube', 'https://youtube.com/@chobighar'),
+            ('pinterest', 'https://pinterest.com/chobighar'),
+            ('linkedin', 'https://linkedin.com/company/chobighar'),
         ]
         
         for name, url in social_links:
@@ -141,7 +141,7 @@ class Command(BaseCommand):
                 'location': 'Mumbai, Maharashtra',
                 'event': 'Wedding Photography',
                 'date': 'December 2024',
-                'text': 'Chabighar captured our wedding beautifully. Every moment was preserved with such artistic vision. The team was professional, creative, and made us feel so comfortable. Our photos are absolutely stunning!',
+                'text': 'chobighar captured our wedding beautifully. Every moment was preserved with such artistic vision. The team was professional, creative, and made us feel so comfortable. Our photos are absolutely stunning!',
                 'rating': 5,
                 'order': 1
             },
@@ -150,7 +150,7 @@ class Command(BaseCommand):
                 'location': 'Kolkata, West Bengal',
                 'event': 'Pre-Wedding Shoot',
                 'date': 'November 2024',
-                'text': 'The pre-wedding shoot with Chabighar exceeded all our expectations. They found the most beautiful locations and captured our love story perfectly. Highly recommended for couples!',
+                'text': 'The pre-wedding shoot with chobighar exceeded all our expectations. They found the most beautiful locations and captured our love story perfectly. Highly recommended for couples!',
                 'rating': 5,
                 'order': 2
             },
@@ -168,7 +168,7 @@ class Command(BaseCommand):
                 'location': 'Ahmedabad, Gujarat',
                 'event': 'Wedding Photography',
                 'date': 'October 2024',
-                'text': 'From engagement to wedding, Chabighar documented our entire journey. Their attention to detail and ability to capture emotions is remarkable. Thank you for giving us memories to cherish forever!',
+                'text': 'From engagement to wedding, chobighar documented our entire journey. Their attention to detail and ability to capture emotions is remarkable. Thank you for giving us memories to cherish forever!',
                 'rating': 5,
                 'order': 4
             },
@@ -177,7 +177,7 @@ class Command(BaseCommand):
                 'location': 'Bangalore, Karnataka',
                 'event': 'Corporate Headshots',
                 'date': 'February 2025',
-                'text': 'Needed professional headshots for my business and Chabighar delivered excellence. The lighting, composition, and final editing were perfect. Very professional service!',
+                'text': 'Needed professional headshots for my business and chobighar delivered excellence. The lighting, composition, and final editing were perfect. Very professional service!',
                 'rating': 5,
                 'order': 5
             }
@@ -514,7 +514,7 @@ class Command(BaseCommand):
             {
                 'name': 'Rajesh Kumar',
                 'position': 'Lead Photographer & Founder',
-                'bio': 'With over 8 years of experience in photography, Rajesh founded Chabighar with a vision to capture life\'s most precious moments. His artistic eye and technical expertise ensure every shot tells a story.',
+                'bio': 'With over 8 years of experience in photography, Rajesh founded chobighar with a vision to capture life\'s most precious moments. His artistic eye and technical expertise ensure every shot tells a story.',
                 'alt_text': 'Rajesh Kumar - Lead Photographer',
                 'order': 1
             },
@@ -601,7 +601,7 @@ class Command(BaseCommand):
         """Add contact information"""
         contact_data = {
             'phone': '+91 98765 43210',
-            'email': 'hello@chabighar.com',
+            'email': 'hello@chobighar.com',
             'address': 'Studio 123, Photography Lane, Artist Quarter, Mumbai, Maharashtra 400001',
             'business_hours': 'Monday to Saturday: 10:00 AM - 7:00 PM, Sunday: By Appointment',
             'is_active': True
@@ -653,12 +653,12 @@ class Command(BaseCommand):
     def add_footer_info(self):
         """Add footer information"""
         footer_data = {
-            'company_name': 'Chabighar Photography',
+            'company_name': 'chobighar Photography',
             'description': 'Professional photography services specializing in weddings, pre-wedding shoots, portraits, and events. Capturing life\'s precious moments with artistic excellence.',
             'address': 'Studio 123, Photography Lane, Mumbai, Maharashtra 400001',
             'phone': '+91 98765 43210',
-            'email': 'hello@chabighar.com',
-            'copyright_text': '© 2025 Chabighar Photography. All rights reserved.',
+            'email': 'hello@chobighar.com',
+            'copyright_text': '© 2025 chobighar Photography. All rights reserved.',
             'is_active': True
         }
         

@@ -140,7 +140,7 @@ class PhotoshootPageSettings(models.Model):
     # SEO Settings
     meta_title = models.CharField(
         max_length=200,
-        default="Professional Photography Services | Chabighar",
+        default="Professional Photography Services | chobighar",
         help_text="SEO meta title"
     )
     meta_description = models.TextField(

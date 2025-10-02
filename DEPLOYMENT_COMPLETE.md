@@ -1,6 +1,6 @@
 # 🎉 DEPLOYMENT SUCCESSFUL!
 
-## ✅ Your Chabighar Website is LIVE on Vercel!
+## ✅ Your chobighar Website is LIVE on Vercel!
 
 ---
 

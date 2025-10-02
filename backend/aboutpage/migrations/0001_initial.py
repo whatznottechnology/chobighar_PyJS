@@ -35,10 +35,10 @@ class Migration(migrations.Migration):
             name='AboutHero',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(default='About Chabighar', help_text="Hero section title (e.g., 'About Chabighar')", max_length=200)),
+                ('title', models.CharField(default='About chobighar', help_text="Hero section title (e.g., 'About chobighar')", max_length=200)),
                 ('subtitle', models.TextField(help_text='Hero section subtitle/description')),
                 ('hero_image', models.ImageField(help_text='Hero section background image (full width, 50vh height recommended)', upload_to='about/hero/')),
-                ('alt_text', models.CharField(default='About Chabighar hero image', help_text='Alt text for accessibility', max_length=200)),
+                ('alt_text', models.CharField(default='About chobighar hero image', help_text='Alt text for accessibility', max_length=200)),
                 ('is_active', models.BooleanField(default=True, help_text='Show this hero section')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),

@@ -1,4 +1,4 @@
-// Custom Admin JavaScript for Chabighar
+// Custom Admin JavaScript for chobighar
 
 document.addEventListener('DOMContentLoaded', function() {
     // Image Preview Functionality

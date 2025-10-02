@@ -16,7 +16,7 @@ class HeroSlide(models.Model):
     alt_text = models.CharField(
         max_length=200,
         help_text="Alt text for accessibility",
-        default="Chabighar Photography"
+        default="chobighar Photography"
     )
     order = models.PositiveIntegerField(
         default=0, 
@@ -58,7 +58,7 @@ class ShowcaseImage(models.Model):
     alt_text = models.CharField(
         max_length=200,
         help_text="Alt text for accessibility",
-        default="Chabighar Photography Showcase"
+        default="chobighar Photography Showcase"
     )
     order = models.PositiveIntegerField(
         default=0, 

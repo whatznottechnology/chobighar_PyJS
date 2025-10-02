@@ -29,7 +29,7 @@ class Command(BaseCommand):
             defaults={
                 'services_section_title': 'Our Photography Services',
                 'services_section_description': 'From intimate portraits to grand celebrations, we specialize in capturing life\'s most precious moments with artistic excellence and cultural authenticity.',
-                'meta_title': 'Professional Photography Services | Chabighar',
+                'meta_title': 'Professional Photography Services | chobighar',
                 'meta_description': 'Professional photography services including Bengali wedding photography, pre-wedding shoots, portraits, and cultural events. Book your session today.',
                 'is_active': True,
             }

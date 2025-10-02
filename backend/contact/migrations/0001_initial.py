@@ -55,7 +55,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('primary_phone', models.CharField(default='+91 96479 66765', max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')])),
                 ('secondary_phone', models.CharField(blank=True, max_length=17, null=True, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')])),
-                ('primary_email', models.EmailField(default='booking@chabighar.com', max_length=254)),
+                ('primary_email', models.EmailField(default='booking@chobighar.com', max_length=254)),
                 ('secondary_email', models.EmailField(blank=True, max_length=254, null=True)),
                 ('whatsapp_number', models.CharField(default='+91 96479 66765', max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')])),
                 ('address_line1', models.CharField(default='Sector 5, Salt Lake City', max_length=200)),
@@ -90,7 +90,7 @@ class Migration(migrations.Migration):
             name='WhyChooseUs',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(default='Why Choose Chabighar?', max_length=200)),
+                ('title', models.CharField(default='Why Choose chobighar?', max_length=200)),
                 ('point', models.CharField(help_text='A reason why clients should choose us', max_length=300)),
                 ('order', models.PositiveIntegerField(default=0, help_text='Display order (lower numbers first)')),
                 ('is_active', models.BooleanField(default=True)),

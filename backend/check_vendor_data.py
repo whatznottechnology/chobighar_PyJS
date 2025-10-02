@@ -7,7 +7,7 @@ from pathlib import Path
 # Setup Django
 backend_dir = Path(__file__).parent
 sys.path.insert(0, str(backend_dir))
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chabighar_backend.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chobighar_backend.settings')
 django.setup()
 
 from vendor.models import VendorProfile, VendorSubCategory, VendorCategory

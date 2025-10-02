@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from homepage.models import FAQ
 
 class Command(BaseCommand):
-    help = 'Create demo FAQ data for Chabighar website'
+    help = 'Create demo FAQ data for chobighar website'
 
     def handle(self, *args, **options):
         # Clear existing FAQs

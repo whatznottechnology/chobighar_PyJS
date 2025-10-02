@@ -44,7 +44,7 @@ class ContactUsInfo(models.Model):
     # Primary Contact Information
     primary_phone = models.CharField(validators=[phone_regex], max_length=17, default="+91 96479 66765")
     secondary_phone = models.CharField(validators=[phone_regex], max_length=17, blank=True, null=True)
-    primary_email = models.EmailField(default="booking@chabighar.com")
+    primary_email = models.EmailField(default="booking@chobighar.com")
     secondary_email = models.EmailField(blank=True, null=True)
     whatsapp_number = models.CharField(validators=[phone_regex], max_length=17, default="+91 96479 66765")
     

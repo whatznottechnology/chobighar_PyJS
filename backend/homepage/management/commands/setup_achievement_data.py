@@ -2,7 +2,7 @@ from django.core.management.base import BaseCommand
 from homepage.models import Achievement
 
 class Command(BaseCommand):
-    help = 'Create demo achievement data for Chabighar website'
+    help = 'Create demo achievement data for chobighar website'
 
     def handle(self, *args, **options):
         # Clear existing achievements

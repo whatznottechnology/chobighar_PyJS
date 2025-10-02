@@ -85,7 +85,7 @@ def create_deployment_package():
         'manage.py',
         '.env',
         'requirements_production.txt',
-        'chabighar_backend/',
+        'chobighar_backend/',
         'staticfiles/',
         'media/',
         'db.sqlite3',
@@ -128,7 +128,7 @@ def create_deployment_package():
 def create_deployment_instructions():
     """Create deployment instructions file"""
     instructions = """
-# CHABIGHAR BACKEND DEPLOYMENT INSTRUCTIONS
+# chobighar BACKEND DEPLOYMENT INSTRUCTIONS
 
 ## 🚀 Production Deployment Steps
 
@@ -189,7 +189,7 @@ Your APIs will be accessible from:
 4. For 500 errors: Check server error logs
 
 ## ✅ Deployment Complete!
-Your Chabighar backend is now live at admin.chobighar.com
+Your chobighar backend is now live at admin.chobighar.com
 """
     
     with open('deployment_package/DEPLOYMENT_INSTRUCTIONS.md', 'w') as f:
@@ -198,7 +198,7 @@ Your Chabighar backend is now live at admin.chobighar.com
 
 def main():
     """Main deployment setup function"""
-    print("🚀 CHABIGHAR BACKEND PRODUCTION SETUP")
+    print("🚀 chobighar BACKEND PRODUCTION SETUP")
     print("=" * 60)
     
     # Check if we're in the right directory

@@ -31,7 +31,7 @@ We have received your message:
 Our team will get back to you within 24 hours.
 
 Best regards,
-Chabighar Team
+chobighar Team
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[inquiry.email],
@@ -64,7 +64,7 @@ Budget: {inquiry.budget_range or 'N/A'}
 View in admin: http://localhost:8000/admin/inquiry/inquiry/{inquiry.id}/change/
                 ''',
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=['admin@chabighar.com'],  # Replace with actual admin email
+                recipient_list=['admin@chobighar.com'],  # Replace with actual admin email
                 fail_silently=True,
             )
         except Exception as e:

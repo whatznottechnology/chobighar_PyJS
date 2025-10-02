@@ -39,6 +39,6 @@
 	Clean up the copilot-instructions.md file in the .github directory by removing all HTML comments.
 	 -->
 
-## Project: Chabighar Website Navbar
+## Project: chobighar Website Navbar
 Framework: Next.js 14 App Router with Tailwind CSS
 Purpose: Fully responsive header/navbar component with mobile drawer

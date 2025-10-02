@@ -4,7 +4,7 @@ from django.core.validators import RegexValidator
 class FooterBrandInfo(models.Model):
     """Footer brand information including logo and text"""
     logo_image = models.ImageField(upload_to='footer/logos/', blank=True, null=True)
-    main_text = models.CharField(max_length=100, default="Chabighar")
+    main_text = models.CharField(max_length=100, default="chobighar")
     sub_text = models.CharField(max_length=200, default="(Art Direction and Design Studio)")
     description = models.TextField(
         default="Your trusted partner for creating memorable wedding experiences. From planning to execution, we make your special day perfect.",
@@ -31,7 +31,7 @@ class FooterContactInfo(models.Model):
     
     # Contact Information
     phone = models.CharField(validators=[phone_regex], max_length=17, default="+91 96479 66765")
-    email = models.EmailField(default="booking@chabighar.com")
+    email = models.EmailField(default="booking@chobighar.com")
     whatsapp_number = models.CharField(validators=[phone_regex], max_length=17, default="+91 96479 66765")
     
     # Address Information
@@ -110,10 +110,10 @@ class FooterCopyright(models.Model):
     """Footer copyright information"""
     text = models.CharField(
         max_length=200, 
-        default="© 2024 Chabighar. All rights reserved.",
+        default="© 2024 chobighar. All rights reserved.",
         help_text="Copyright text displayed at the bottom"
     )
-    company_name = models.CharField(max_length=100, default="Chabighar")
+    company_name = models.CharField(max_length=100, default="chobighar")
     company_url = models.URLField(blank=True, null=True, help_text="Company website URL")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

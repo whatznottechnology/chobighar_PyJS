@@ -10,7 +10,7 @@ class Command(BaseCommand):
             id=1,
             defaults={
                 'title': 'Our Story',
-                'content': '''<p>Founded with a passion for capturing life's most precious moments, Chabighar has become a trusted name in wedding photography and event management. Our journey began with a simple belief: every love story deserves to be told beautifully.</p>
+                'content': '''<p>Founded with a passion for capturing life's most precious moments, chobighar has become a trusted name in wedding photography and event management. Our journey began with a simple belief: every love story deserves to be told beautifully.</p>
                 
 <p>We specialize in blending traditional Bengali culture with contemporary artistry, creating timeless memories that families treasure for generations. From intimate ceremonies to grand celebrations, we bring creativity, professionalism, and cultural authenticity to every project.</p>
 
@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 'happy_couples': 500,
                 'years_experience': 5,
                 'photos_captured': '50k+',
-                'alt_text': 'Chabighar team capturing beautiful wedding moments',
+                'alt_text': 'chobighar team capturing beautiful wedding moments',
                 'is_active': True,
             }
         )

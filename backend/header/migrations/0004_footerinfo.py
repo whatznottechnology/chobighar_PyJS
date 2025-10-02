@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
                 ('address_line1', models.CharField(default='Kolkata, West Bengal', max_length=100)),
                 ('address_line2', models.CharField(default='India', max_length=100)),
                 ('phone', models.CharField(default='+91 96479 66765', max_length=20)),
-                ('email', models.EmailField(default='info@chabighar.com', max_length=254)),
+                ('email', models.EmailField(default='info@chobighar.com', max_length=254)),
                 ('whatsapp_number', models.CharField(default='+91 96479 66765', max_length=20)),
                 ('weekday_hours', models.CharField(default='Mon - Sat: 9:00 AM - 8:00 PM', max_length=50)),
                 ('weekend_hours', models.CharField(default='Sunday: By Appointment', max_length=50)),

@@ -2,11 +2,11 @@
 
 """
 
-Simple deployment checklist for Chabighar backend""""""
+Simple deployment checklist for chobighar backend""""""
 
 """
 
-Deployment checklist for Chabighar backendPre-deployment checklist for Chabighar Backend
+Deployment checklist for chobighar backendPre-deployment checklist for chobighar Backend
 
 import os
 
@@ -20,7 +20,7 @@ from pathlib import Path""""""
 
 def main():
 
-    print("🚀 CHABIGHAR BACKEND DEPLOYMENT CHECKLIST")
+    print("🚀 chobighar BACKEND DEPLOYMENT CHECKLIST")
 
     print("="*60)import osimport os
 
@@ -58,11 +58,11 @@ def main():
 
     # Check required files
 
-    required_files = ['manage.py', 'requirements_production.txt', 'chabighar_backend/settings.py']    required_vars = ['DJANGO_DEBUG', 'DJANGO_SECRET_KEY']# Set up Django
+    required_files = ['manage.py', 'requirements_production.txt', 'chobighar_backend/settings.py']    required_vars = ['DJANGO_DEBUG', 'DJANGO_SECRET_KEY']# Set up Django
 
     for file_path in required_files:
 
-        if Path(file_path).exists():    optional_vars = ['DJANGO_SETTINGS_MODULE']os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chabighar_backend.settings_namecheap')
+        if Path(file_path).exists():    optional_vars = ['DJANGO_SETTINGS_MODULE']os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'chobighar_backend.settings_namecheap')
 
             print(f"✅ {file_path} exists")
 
@@ -144,7 +144,7 @@ def check_django_setup():def print_subheader(title):
 
         result = subprocess.run([def main():
 
-            sys.executable, 'manage.py', 'check'    print_header("CHABIGHAR BACKEND DEPLOYMENT CHECKLIST")
+            sys.executable, 'manage.py', 'check'    print_header("chobighar BACKEND DEPLOYMENT CHECKLIST")
 
         ], capture_output=True, text=True, check=True)    print("🚀 Preparing for Namecheap Shared Hosting Deployment")
 
@@ -298,11 +298,11 @@ def check_files():    print_subheader("Media Files")
 
         'requirements_production.txt',        print(f"{warning_mark()} MEDIA_ROOT doesn't exist: {media_root}")
 
-        'chabighar_backend/settings.py',        warnings.append("MEDIA_ROOT directory missing")
+        'chobighar_backend/settings.py',        warnings.append("MEDIA_ROOT directory missing")
 
-        'chabighar_backend/urls.py',    
+        'chobighar_backend/urls.py',    
 
-        'chabighar_backend/wsgi.py',    # Check 5: CORS Configuration
+        'chobighar_backend/wsgi.py',    # Check 5: CORS Configuration
 
     ]    print_subheader("CORS Configuration")
 
@@ -390,7 +390,7 @@ def main():
 
     """Run all deployment checks"""    required_middleware = [
 
-    print("🚀 CHABIGHAR BACKEND DEPLOYMENT CHECKLIST")        'corsheaders.middleware.CorsMiddleware',
+    print("🚀 chobighar BACKEND DEPLOYMENT CHECKLIST")        'corsheaders.middleware.CorsMiddleware',
 
     print("="*60)        'django.middleware.security.SecurityMiddleware',
 
@@ -426,9 +426,9 @@ def main():
 
             'manage.py',
 
-    # Display summary        'chabighar_backend/settings_namecheap.py',
+    # Display summary        'chobighar_backend/settings_namecheap.py',
 
-    display_summary(checks)        'chabighar_backend/urls.py',
+    display_summary(checks)        'chobighar_backend/urls.py',
 
         ]
 
@@ -448,7 +448,7 @@ if __name__ == '__main__':        if Path(file_path).exists():
     print_subheader("Environment Configuration")
     
     env_vars = {
-        'DJANGO_SETTINGS_MODULE': 'chabighar_backend.settings_namecheap',
+        'DJANGO_SETTINGS_MODULE': 'chobighar_backend.settings_namecheap',
         'DJANGO_ENV': 'production'
     }
     
@@ -501,7 +501,7 @@ if __name__ == '__main__':        if Path(file_path).exists():
         print("Please fix critical issues before deploying.")
     
     print("\n📋 Quick fixes:")
-    print("- Run: python manage.py collectstatic --settings=chabighar_backend.settings_namecheap")
+    print("- Run: python manage.py collectstatic --settings=chobighar_backend.settings_namecheap")
     print("- Create missing directories: mkdir -p staticfiles media logs cache sessions")
     print("- Update SECRET_KEY in settings_namecheap.py")
     

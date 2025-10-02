@@ -14,9 +14,9 @@ class Command(BaseCommand):
         
         # Create Hero Section
         hero_data = {
-            'title': 'About Chabighar',
+            'title': 'About chobighar',
             'subtitle': 'Art Direction and Design Studio capturing life\'s most precious moments with cultural authenticity and artistic excellence since 2020.',
-            'alt_text': 'Chabighar Photography Studio - About Us',
+            'alt_text': 'chobighar Photography Studio - About Us',
             'is_active': True,
         }
         
@@ -31,13 +31,13 @@ class Command(BaseCommand):
         # Create Story Section
         story_data = {
             'title': 'Our Story',
-            'content': '''<p>Founded in the heart of Kolkata, Chabighar began as a passion project to preserve and celebrate the rich cultural heritage of Bengal through visual storytelling. What started as a small photography studio has grown into a comprehensive creative agency specializing in weddings, portraits, and cultural events.</p>
+            'content': '''<p>Founded in the heart of Kolkata, chobighar began as a passion project to preserve and celebrate the rich cultural heritage of Bengal through visual storytelling. What started as a small photography studio has grown into a comprehensive creative agency specializing in weddings, portraits, and cultural events.</p>
 
-<p>Our name "Chabighar" reflects our philosophy - we are the keepers of your visual memories, just as keys keep treasures safe. Every photograph we capture is a key to a moment in time, a gateway to emotions and memories that last forever.</p>''',
+<p>Our name "chobighar" reflects our philosophy - we are the keepers of your visual memories, just as keys keep treasures safe. Every photograph we capture is a key to a moment in time, a gateway to emotions and memories that last forever.</p>''',
             'happy_couples': 500,
             'years_experience': 5,
             'photos_captured': '50k+',
-            'alt_text': 'Chabighar team at work',
+            'alt_text': 'chobighar team at work',
             'is_active': True,
         }
         
@@ -93,7 +93,7 @@ class Command(BaseCommand):
                 'position': 'Founder & Lead Photographer',
                 'bio': 'With 8+ years of experience in wedding photography, Rajesh brings artistic vision and technical expertise to every project.',
                 'alt_text': 'Rajesh Kumar - Founder & Lead Photographer',
-                'email': 'rajesh@chabighar.com',
+                'email': 'rajesh@chobighar.com',
                 'phone': '+91 98765 43210',
                 'order': 1,
                 'is_active': True,
@@ -103,7 +103,7 @@ class Command(BaseCommand):
                 'position': 'Creative Director',
                 'bio': 'Priya oversees the creative direction and ensures every project reflects our brand\'s artistic standards and client vision.',
                 'alt_text': 'Priya Sharma - Creative Director',
-                'email': 'priya@chabighar.com',
+                'email': 'priya@chobighar.com',
                 'phone': '+91 98765 43211',
                 'order': 2,
                 'is_active': True,
@@ -113,7 +113,7 @@ class Command(BaseCommand):
                 'position': 'Lead Videographer',
                 'bio': 'Amit specializes in cinematic wedding films and creates beautiful video narratives that complement our photography.',
                 'alt_text': 'Amit Roy - Lead Videographer',
-                'email': 'amit@chabighar.com',
+                'email': 'amit@chobighar.com',
                 'phone': '+91 98765 43212',
                 'order': 3,
                 'is_active': True,

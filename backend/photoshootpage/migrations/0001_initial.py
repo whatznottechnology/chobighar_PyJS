@@ -39,7 +39,7 @@ class Migration(migrations.Migration):
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('services_section_title', models.CharField(default='Our Photography Services', help_text='Services section title', max_length=200)),
                 ('services_section_description', models.TextField(default="From intimate portraits to grand celebrations, we specialize in capturing life's most precious moments with artistic excellence and cultural authenticity.", help_text='Services section description')),
-                ('meta_title', models.CharField(default='Professional Photography Services | Chabighar', help_text='SEO meta title', max_length=200)),
+                ('meta_title', models.CharField(default='Professional Photography Services | chobighar', help_text='SEO meta title', max_length=200)),
                 ('meta_description', models.TextField(default='Professional photography services including Bengali wedding photography, pre-wedding shoots, portraits, and cultural events. Book your session today.', help_text='SEO meta description')),
                 ('is_active', models.BooleanField(default=True, help_text='Enable photoshoot page')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

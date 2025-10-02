@@ -24,8 +24,8 @@ class Command(BaseCommand):
             defaults={
                 'primary_phone': '+91 96479 66765',
                 'secondary_phone': '+91 98765 43210',
-                'primary_email': 'booking@chabighar.com',
-                'secondary_email': 'info@chabighar.com',
+                'primary_email': 'booking@chobighar.com',
+                'secondary_email': 'info@chobighar.com',
                 'whatsapp_number': '+91 96479 66765',
                 'address_line1': 'Sector 5, Salt Lake City',
                 'address_line2': 'Kolkata, West Bengal 700091',
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 'name': 'Priya & Arjun',
                 'service': 'Wedding Photography',
                 'rating': 5,
-                'comment': 'Chabighar captured our special day beautifully! Their Bengali traditional touch made our photos truly memorable.',
+                'comment': 'chobighar captured our special day beautifully! Their Bengali traditional touch made our photos truly memorable.',
                 'order': 1
             },
             {

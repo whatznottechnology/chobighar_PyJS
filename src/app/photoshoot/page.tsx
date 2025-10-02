@@ -462,7 +462,7 @@ export default function PhotoshootPage() {
                 color: '#FFFFFF'
               }}
             >
-              Why Choose Chabighar?
+              Why Choose chobighar?
             </h2>
             <p 
               className="text-lg max-w-3xl mx-auto"

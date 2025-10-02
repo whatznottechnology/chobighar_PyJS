@@ -58,7 +58,7 @@ class Command(BaseCommand):
                 'event': 'Wedding Photography',
                 'date': 'December 2024',
                 'rating': 5,
-                'text': 'Chabighar captured our wedding day with such artistry and emotion. Every photo tells our love story beautifully. Their attention to detail and professional approach made our special day even more memorable.',
+                'text': 'chobighar captured our wedding day with such artistry and emotion. Every photo tells our love story beautifully. Their attention to detail and professional approach made our special day even more memorable.',
                 'order': 1
             },
             {
@@ -85,7 +85,7 @@ class Command(BaseCommand):
                 'event': 'Traditional Wedding',
                 'date': 'September 2024',
                 'rating': 5,
-                'text': 'The team at Chabighar is simply amazing! They were patient, professional, and captured every special moment of our mehendi and wedding ceremonies. Highly recommended for any special occasion.',
+                'text': 'The team at chobighar is simply amazing! They were patient, professional, and captured every special moment of our mehendi and wedding ceremonies. Highly recommended for any special occasion.',
                 'order': 4
             }
         ]

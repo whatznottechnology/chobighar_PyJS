@@ -11,7 +11,7 @@ class ImageTestView(View):
         <!DOCTYPE html>
         <html>
         <head>
-            <title>Chabighar - Image Test</title>
+            <title>chobighar - Image Test</title>
             <style>
                 body { font-family: Arial, sans-serif; padding: 20px; background: #f5f5f5; }
                 .container { max-width: 1200px; margin: 0 auto; background: white; padding: 20px; border-radius: 10px; }
@@ -29,7 +29,7 @@ class ImageTestView(View):
         </head>
         <body>
             <div class="container">
-                <h1 style="color: #B22222; text-align: center;">🖼️ Chabighar Image Test</h1>
+                <h1 style="color: #B22222; text-align: center;">🖼️ chobighar Image Test</h1>
                 <p style="text-align: center; color: #666;">Testing image upload and display functionality</p>
         """
         

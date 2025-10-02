@@ -85,7 +85,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='heroslide',
             name='alt_text',
-            field=models.CharField(default='Chabighar Photography', help_text='Alt text for accessibility', max_length=200),
+            field=models.CharField(default='chobighar Photography', help_text='Alt text for accessibility', max_length=200),
         ),
         migrations.AddField(
             model_name='heroslide',

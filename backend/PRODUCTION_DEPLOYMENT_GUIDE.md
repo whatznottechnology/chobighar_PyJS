@@ -1,4 +1,4 @@
-# 🚀 CHABIGHAR BACKEND - PRODUCTION DEPLOYMENT GUIDE
+# 🚀 chobighar BACKEND - PRODUCTION DEPLOYMENT GUIDE
 
 ## 📋 **PRODUCTION SETUP FOR admin.chobighar.com**
 
@@ -15,7 +15,7 @@ The main `settings.py` file is already configured with:
 - ✅ **Static files**: Configured with WhiteNoise for production serving
 - ✅ **Security headers**: XSS protection, content type sniffing prevention
 - ✅ **Logging**: File and console logging configured
-- ✅ **Admin theme**: Jazzmin with Chabighar branding
+- ✅ **Admin theme**: Jazzmin with chobighar branding
 
 ### 🌐 **CORS Configuration**
 
@@ -35,7 +35,7 @@ On your production server, set these environment variables:
 ```bash
 export DJANGO_DEBUG=False
 export DJANGO_SECRET_KEY="your-super-secret-production-key-here"
-export DJANGO_SETTINGS_MODULE="chabighar_backend.settings"
+export DJANGO_SETTINGS_MODULE="chobighar_backend.settings"
 ```
 
 #### 2. **Install Dependencies**
@@ -69,7 +69,7 @@ curl https://admin.chobighar.com/health/
 ├── manage.py
 ├── requirements_production.txt
 ├── db.sqlite3
-├── chabighar_backend/
+├── chobighar_backend/
 │   ├── settings.py
 │   ├── urls.py
 │   └── ...

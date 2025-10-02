@@ -4,8 +4,8 @@ class AboutHero(models.Model):
     """Hero section for about page"""
     title = models.CharField(
         max_length=200,
-        help_text="Hero section title (e.g., 'About Chabighar')",
-        default="About Chabighar"
+        help_text="Hero section title (e.g., 'About chobighar')",
+        default="About chobighar"
     )
     subtitle = models.TextField(
         help_text="Hero section subtitle/description"
@@ -17,7 +17,7 @@ class AboutHero(models.Model):
     alt_text = models.CharField(
         max_length=200,
         help_text="Alt text for accessibility",
-        default="About Chabighar hero image"
+        default="About chobighar hero image"
     )
     is_active = models.BooleanField(
         default=True,

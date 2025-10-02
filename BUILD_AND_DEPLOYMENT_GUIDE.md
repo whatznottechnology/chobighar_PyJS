@@ -1,4 +1,4 @@
-# Build and Deployment Guide for Chabighar Website
+# Build and Deployment Guide for chobighar Website
 
 ## 🎯 Overview
 
@@ -190,9 +190,9 @@ $files = @(
     '.env.production.local'
 )
 
-Compress-Archive -Path $files -DestinationPath 'chabighar-deployment.zip' -Force
+Compress-Archive -Path $files -DestinationPath 'chobighar-deployment.zip' -Force
 
-Write-Host "✅ Deployment package created: chabighar-deployment.zip"
+Write-Host "✅ Deployment package created: chobighar-deployment.zip"
 ```
 
 **What's inside the zip:**

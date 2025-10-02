@@ -1,4 +1,4 @@
-# 🎯 Deploy Chabighar to Vercel - Step by Step
+# 🎯 Deploy chobighar to Vercel - Step by Step
 
 ## Current Status:
 - ✅ Code is ready

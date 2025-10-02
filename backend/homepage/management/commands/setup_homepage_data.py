@@ -9,7 +9,7 @@ class Command(BaseCommand):
         demo_slides = [
             {
                 'title': 'Wedding Photography Slide',
-                'alt_text': 'Beautiful wedding photography by Chabighar',
+                'alt_text': 'Beautiful wedding photography by chobighar',
                 'order': 1,
                 'caption': 'Capturing your special moments with traditional Bengali artistry'
             },

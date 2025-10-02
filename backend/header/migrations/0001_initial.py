@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('logo', models.ImageField(blank=True, null=True, upload_to='logos/')),
-                ('main_text', models.CharField(default='Chabighar', max_length=100)),
+                ('main_text', models.CharField(default='chobighar', max_length=100)),
                 ('sub_text', models.CharField(default='(Art Direction and Design Studio)', max_length=200)),
                 ('is_active', models.BooleanField(default=True)),
             ],

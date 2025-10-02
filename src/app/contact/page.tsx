@@ -109,7 +109,7 @@ export default function Contact() {
           <div className="inline-block mb-6">
             <div className="flex items-center gap-3 bg-white/10 backdrop-blur-sm px-6 py-3 rounded-full border border-white/20 shadow-lg">
               <CameraIcon className="w-6 h-6 text-golden" />
-              <span className="text-sm font-medium text-white">Contact Chabighar</span>
+              <span className="text-sm font-medium text-white">Contact Chobighar</span>
             </div>
           </div>
           
@@ -272,7 +272,7 @@ export default function Contact() {
             <div className="space-y-8">
               <div className="bg-white rounded-3xl p-8 shadow-xl border-2 border-gray-200">
                 <h3 className="text-2xl font-bold mb-4 text-red-600" style={{ fontFamily: 'Playfair Display, serif' }}>
-                  Why Choose Chabighar?
+                  Why Choose Chobighar?
                 </h3>
                 <ul className="space-y-4">
                   {contactData?.why_choose_us?.map((point) => (
@@ -344,7 +344,7 @@ export default function Contact() {
                 className="w-full h-full rounded-none border-0"
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="Chabighar Location"
+                title="chobighar Location"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-300">

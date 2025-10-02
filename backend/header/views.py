@@ -26,24 +26,24 @@ def get_header_data(request):
         if not contact_info:
             contact_info = ContactInfo.objects.create(
                 phone="+91 96479 66765",
-                email="booking@chabighar.com"
+                email="booking@chobighar.com"
             )
         
         if not brand_info:
             brand_info = BrandInfo.objects.create(
-                main_text="Chabighar",
+                main_text="chobighar",
                 sub_text="(Art Direction and Design Studio)"
             )
         
         # If no social media exists, create default ones
         if not social_media.exists():
             default_social = [
-                {'name': 'instagram', 'url': 'https://instagram.com/chabighar', 'order': 1},
-                {'name': 'facebook', 'url': 'https://facebook.com/chabighar', 'order': 2},
-                {'name': 'youtube', 'url': 'https://youtube.com/chabighar', 'order': 3},
-                {'name': 'x', 'url': 'https://x.com/chabighar', 'order': 4},
-                {'name': 'pinterest', 'url': 'https://pinterest.com/chabighar', 'order': 5},
-                {'name': 'linkedin', 'url': 'https://linkedin.com/company/chabighar', 'order': 6},
+                {'name': 'instagram', 'url': 'https://instagram.com/chobighar', 'order': 1},
+                {'name': 'facebook', 'url': 'https://facebook.com/chobighar', 'order': 2},
+                {'name': 'youtube', 'url': 'https://youtube.com/chobighar', 'order': 3},
+                {'name': 'x', 'url': 'https://x.com/chobighar', 'order': 4},
+                {'name': 'pinterest', 'url': 'https://pinterest.com/chobighar', 'order': 5},
+                {'name': 'linkedin', 'url': 'https://linkedin.com/company/chobighar', 'order': 6},
             ]
             
             for social_data in default_social:

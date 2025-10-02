@@ -20,7 +20,7 @@
 
 This will:
 1. Build your production app
-2. Create `chabighar-deployment.zip`
+2. Create `chobighar-deployment.zip`
 3. Show you deployment instructions
 
 ### Option 2: Manual Deploy
@@ -93,7 +93,7 @@ Your site fetches data from backend in real-time:
    ```
 
 2. **Upload to cPanel**
-   - Upload `chabighar-deployment.zip`
+   - Upload `chobighar-deployment.zip`
    - Extract in your app directory
 
 3. **Setup Node.js App in cPanel**

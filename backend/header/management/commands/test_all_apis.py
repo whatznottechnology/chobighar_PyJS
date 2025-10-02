@@ -171,7 +171,7 @@ class Command(BaseCommand):
         self.stdout.write('-' * 40)
         
         media_files = [
-            '/media/brand/chabighar_1_1.webp',
+            '/media/brand/chobighar_1_1.webp',
             '/media/homepage/slider/',
         ]
         

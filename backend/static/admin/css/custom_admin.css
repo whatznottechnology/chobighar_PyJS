@@ -1,22 +1,22 @@
-/* Custom Admin CSS for Chabighar */
+/* Custom Admin CSS for chobighar */
 
 /* Branding Colors */
 :root {
-    --chabighar-red: #B22222;
-    --chabighar-dark-red: #8B0000;
-    --chabighar-gold: #DAA520;
-    --chabighar-light: #f8f9fa;
+    --chobighar-red: #B22222;
+    --chobighar-dark-red: #8B0000;
+    --chobighar-gold: #DAA520;
+    --chobighar-light: #f8f9fa;
 }
 
 /* Custom Brand Styling */
 .brand-link {
-    color: var(--chabighar-red) !important;
+    color: var(--chobighar-red) !important;
     font-weight: bold;
     font-size: 1.2em;
 }
 
 .navbar-brand {
-    color: var(--chabighar-red) !important;
+    color: var(--chobighar-red) !important;
 }
 
 /* Image Preview Styling */
@@ -82,29 +82,29 @@
 /* Enhanced Form Styling */
 .form-group label {
     font-weight: 600;
-    color: var(--chabighar-dark-red);
+    color: var(--chobighar-dark-red);
     margin-bottom: 8px;
 }
 
 .form-control:focus {
-    border-color: var(--chabighar-red);
+    border-color: var(--chobighar-red);
     box-shadow: 0 0 0 0.2rem rgba(178, 34, 34, 0.25);
 }
 
 /* Button Styling */
 .btn-primary {
-    background-color: var(--chabighar-red);
-    border-color: var(--chabighar-red);
+    background-color: var(--chobighar-red);
+    border-color: var(--chobighar-red);
 }
 
 .btn-primary:hover {
-    background-color: var(--chabighar-dark-red);
-    border-color: var(--chabighar-dark-red);
+    background-color: var(--chobighar-dark-red);
+    border-color: var(--chobighar-dark-red);
 }
 
 /* Sidebar Enhancements */
 .main-sidebar {
-    background: linear-gradient(180deg, var(--chabighar-red), var(--chabighar-dark-red));
+    background: linear-gradient(180deg, var(--chobighar-red), var(--chobighar-dark-red));
 }
 
 /* Card Styling */
@@ -115,18 +115,18 @@
 }
 
 .card-header {
-    background-color: var(--chabighar-light);
-    border-bottom: 2px solid var(--chabighar-red);
+    background-color: var(--chobighar-light);
+    border-bottom: 2px solid var(--chobighar-red);
     font-weight: 600;
-    color: var(--chabighar-dark-red);
+    color: var(--chobighar-dark-red);
 }
 
 /* Table Enhancements */
 .table th {
-    background-color: var(--chabighar-light);
-    color: var(--chabighar-dark-red);
+    background-color: var(--chobighar-light);
+    color: var(--chobighar-dark-red);
     font-weight: 600;
-    border-bottom: 2px solid var(--chabighar-red);
+    border-bottom: 2px solid var(--chobighar-red);
 }
 
 .table-striped tbody tr:nth-of-type(odd) {
@@ -150,7 +150,7 @@
 
 /* Image Upload Areas */
 .image-upload-area {
-    border: 2px dashed var(--chabighar-red);
+    border: 2px dashed var(--chobighar-red);
     border-radius: 8px;
     padding: 20px;
     text-align: center;
@@ -160,7 +160,7 @@
 
 .image-upload-area:hover {
     background-color: rgba(178, 34, 34, 0.1);
-    border-color: var(--chabighar-dark-red);
+    border-color: var(--chobighar-dark-red);
 }
 
 /* Responsive Image Container */
@@ -180,13 +180,13 @@
 
 /* Modal Enhancements */
 .modal-header {
-    background-color: var(--chabighar-red);
+    background-color: var(--chobighar-red);
     color: white;
 }
 
 .modal-footer .btn-primary {
-    background-color: var(--chabighar-red);
-    border-color: var(--chabighar-red);
+    background-color: var(--chobighar-red);
+    border-color: var(--chobighar-red);
 }
 
 /* Loading Spinner */
@@ -196,7 +196,7 @@
     height: 20px;
     border: 3px solid rgba(178, 34, 34, 0.3);
     border-radius: 50%;
-    border-top-color: var(--chabighar-red);
+    border-top-color: var(--chobighar-red);
     animation: spin 1s ease-in-out infinite;
 }
 
@@ -206,7 +206,7 @@
 
 /* Custom Dashboard Widgets */
 .dashboard-widget {
-    background: linear-gradient(135deg, var(--chabighar-red), var(--chabighar-dark-red));
+    background: linear-gradient(135deg, var(--chobighar-red), var(--chobighar-dark-red));
     color: white;
     border-radius: 12px;
     padding: 20px;

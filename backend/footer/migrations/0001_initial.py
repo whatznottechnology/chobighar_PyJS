@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('logo_image', models.ImageField(blank=True, null=True, upload_to='footer/logos/')),
-                ('main_text', models.CharField(default='Chabighar', max_length=100)),
+                ('main_text', models.CharField(default='chobighar', max_length=100)),
                 ('sub_text', models.CharField(default='(Art Direction and Design Studio)', max_length=200)),
                 ('description', models.TextField(default='Your trusted partner for creating memorable wedding experiences. From planning to execution, we make your special day perfect.', help_text='Footer description text')),
                 ('is_active', models.BooleanField(default=True)),
@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('phone', models.CharField(default='+91 96479 66765', max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')])),
-                ('email', models.EmailField(default='booking@chabighar.com', max_length=254)),
+                ('email', models.EmailField(default='booking@chobighar.com', max_length=254)),
                 ('whatsapp_number', models.CharField(default='+91 96479 66765', max_length=17, validators=[django.core.validators.RegexValidator(message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.", regex='^\\+?1?\\d{9,15}$')])),
                 ('address_line1', models.CharField(default='123 Wedding Street', max_length=200)),
                 ('address_line2', models.CharField(default='Kolkata, West Bengal 700001', max_length=200)),
@@ -58,8 +58,8 @@ class Migration(migrations.Migration):
             name='FooterCopyright',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('text', models.CharField(default='© 2024 Chabighar. All rights reserved.', help_text='Copyright text displayed at the bottom', max_length=200)),
-                ('company_name', models.CharField(default='Chabighar', max_length=100)),
+                ('text', models.CharField(default='© 2024 chobighar. All rights reserved.', help_text='Copyright text displayed at the bottom', max_length=200)),
+                ('company_name', models.CharField(default='chobighar', max_length=100)),
                 ('company_url', models.URLField(blank=True, help_text='Company website URL', null=True)),
                 ('is_active', models.BooleanField(default=True)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

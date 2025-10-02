@@ -1,4 +1,4 @@
-# Chabighar Backend API - Deployment Verification Checklist
+# chobighar Backend API - Deployment Verification Checklist
 # Server: admin.chobighar.com
 
 ## ✅ DEPLOYMENT VERIFICATION CHECKLIST

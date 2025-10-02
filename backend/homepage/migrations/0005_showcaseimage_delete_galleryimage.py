@@ -15,7 +15,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('image', models.ImageField(help_text='Showcase image', upload_to='homepage/showcase/')),
-                ('alt_text', models.CharField(default='Chabighar Photography Showcase', help_text='Alt text for accessibility', max_length=200)),
+                ('alt_text', models.CharField(default='chobighar Photography Showcase', help_text='Alt text for accessibility', max_length=200)),
                 ('order', models.PositiveIntegerField(default=0, help_text='Display order (lower numbers first)')),
                 ('is_active', models.BooleanField(default=True, help_text='Show this image in the showcase')),
                 ('created_at', models.DateTimeField(auto_now_add=True)),

@@ -7,12 +7,12 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         # Create social media data
         social_media_data = [
-            {'name': 'instagram', 'url': 'https://instagram.com/chabighar', 'order': 1},
-            {'name': 'facebook', 'url': 'https://facebook.com/chabighar', 'order': 2},
-            {'name': 'youtube', 'url': 'https://youtube.com/chabighar', 'order': 3},
-            {'name': 'x', 'url': 'https://x.com/chabighar', 'order': 4},
-            {'name': 'pinterest', 'url': 'https://pinterest.com/chabighar', 'order': 5},
-            {'name': 'linkedin', 'url': 'https://linkedin.com/company/chabighar', 'order': 6},
+            {'name': 'instagram', 'url': 'https://instagram.com/chobighar', 'order': 1},
+            {'name': 'facebook', 'url': 'https://facebook.com/chobighar', 'order': 2},
+            {'name': 'youtube', 'url': 'https://youtube.com/chobighar', 'order': 3},
+            {'name': 'x', 'url': 'https://x.com/chobighar', 'order': 4},
+            {'name': 'pinterest', 'url': 'https://pinterest.com/chobighar', 'order': 5},
+            {'name': 'linkedin', 'url': 'https://linkedin.com/company/chobighar', 'order': 6},
         ]
 
         for data in social_media_data:
@@ -37,7 +37,7 @@ class Command(BaseCommand):
         contact_info, created = ContactInfo.objects.get_or_create(
             defaults={
                 'phone': '+91 96479 66765',
-                'email': 'booking@chabighar.com',
+                'email': 'booking@chobighar.com',
                 'is_active': True
             }
         )
@@ -53,7 +53,7 @@ class Command(BaseCommand):
         # Create brand info
         brand_info, created = BrandInfo.objects.get_or_create(
             defaults={
-                'main_text': 'Chabighar',
+                'main_text': 'chobighar',
                 'sub_text': '(Art Direction and Design Studio)',
                 'is_active': True
             }

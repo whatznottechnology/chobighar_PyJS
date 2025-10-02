@@ -399,7 +399,7 @@ class VendorTestimonialAdmin(admin.ModelAdmin):
 
 
 # Customize admin site header and title
-admin.site.site_header = "🏛️ Chabighar Admin - Vendor Management"
+admin.site.site_header = "🏛️ chobighar Admin - Vendor Management"
 admin.site.site_title = "Vendor Admin"
 admin.site.index_title = "Manage Wedding Vendors & Services"
 

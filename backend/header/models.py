@@ -55,7 +55,7 @@ class ContactInfo(models.Model):
 class BrandInfo(models.Model):
     """Brand information for the main navbar"""
     logo_image = models.ImageField(upload_to='brand/', null=True, blank=True)
-    main_text = models.CharField(max_length=100, default="Chabighar")
+    main_text = models.CharField(max_length=100, default="chobighar")
     sub_text = models.CharField(max_length=200, default="(Art Direction and Design Studio)")
     is_active = models.BooleanField(default=True)
     
