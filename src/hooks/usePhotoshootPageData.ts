@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 export interface PhotoshootHero {
   id: number;
@@ -76,7 +77,7 @@ export const usePhotoshootPageData = () => {
     const fetchPhotoshootPageData = async () => {
       try {
         setIsLoading(true);
-        const response = await fetch('http://127.0.0.1:8000/api/photoshootpage/page-data/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.PHOTOSHOOT_PAGE_DATA));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,6 +1,8 @@
+import os
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.conf import settings
 from .models import HeroSlide, ShowcaseImage, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
 
 @admin.register(HeroSlide)
@@ -13,14 +15,32 @@ class HeroSlideAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at', 'full_image_preview']
     
     def image_thumbnail(self, obj):
-        """Display image thumbnail in list view"""
+        """Display image thumbnail with proper error handling"""
         if obj.image:
-            return format_html(
-                '<img src="{}" width="60" height="40" style="border-radius: 6px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
-                obj.image.url
-            )
-        return "📷 No image"
-    image_thumbnail.short_description = 'Preview'
+            try:
+                # Ensure proper URL construction
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="80" height="50" style="border-radius: 8px; object-fit: cover; box-shadow: 0 3px 6px rgba(0,0,0,0.15); border: 2px solid #e0e0e0;" />'
+                    '<br><small style="color: #666; font-size: 9px;">📸 {}</small>'
+                    '</div>',
+                    image_url,
+                    os.path.basename(obj.image.name)[:15] + '...' if len(os.path.basename(obj.image.name)) > 15 else os.path.basename(obj.image.name)
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️ Error</span>')
+        return format_html(
+            '<div style="text-align: center; padding: 8px; border: 1px dashed #ccc; border-radius: 6px; color: #999;">'
+            '📷<br><small>No image</small>'
+            '</div>'
+        )
+    image_thumbnail.short_description = '🖼️ Preview'
     
     def title_or_id(self, obj):
         return obj.title or f'🎭 Hero Slide {obj.id}'
@@ -42,16 +62,53 @@ class HeroSlideAdmin(admin.ModelAdmin):
     active_status.short_description = 'Active'
     
     def full_image_preview(self, obj):
-        """Display full image preview in detail view"""
+        """Display full image preview with comprehensive error handling"""
         if obj.image:
-            return format_html(
-                '<div class="image-preview-container">'
-                '<img src="{}" style="max-width: 400px; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);" />'
-                '</div>',
-                obj.image.url
-            )
-        return "No image available"
-    full_image_preview.short_description = 'Image Preview'
+            try:
+                # Construct proper image URL
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                # Get file info
+                file_size = "Unknown size"
+                try:
+                    if hasattr(obj.image, 'size'):
+                        file_size = f"{obj.image.size / 1024:.1f} KB" if obj.image.size < 1024*1024 else f"{obj.image.size / (1024*1024):.1f} MB"
+                except:
+                    pass
+                
+                return format_html(
+                    '<div style="text-align: center; padding: 15px; border: 2px solid #e3f2fd; border-radius: 12px; background: #f8f9fa;">'
+                    '<img src="{}" style="max-width: 500px; max-height: 400px; border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 3px solid #fff;" />'
+                    '<div style="margin-top: 10px; padding: 8px; background: #fff; border-radius: 6px; color: #666; font-size: 12px;">'
+                    '<strong>📄 File:</strong> {} &nbsp; <strong>📏 Size:</strong> {}'
+                    '</div>'
+                    '</div>',
+                    image_url,
+                    os.path.basename(obj.image.name),
+                    file_size
+                )
+            except Exception as e:
+                return format_html(
+                    '<div style="padding: 15px; border: 2px solid #ffcdd2; border-radius: 8px; background: #ffebee; color: #d32f2f; text-align: center;">'
+                    '<strong>⚠️ Image Load Error</strong><br>'
+                    '<small>{}</small><br>'
+                    '<small>File: {}</small>'
+                    '</div>',
+                    str(e),
+                    obj.image.name if hasattr(obj, 'image') and obj.image else 'Unknown'
+                )
+        return format_html(
+            '<div style="text-align: center; padding: 20px; border: 2px dashed #ccc; border-radius: 8px; color: #666; background: #f9f9f9;">'
+            '<div style="font-size: 48px; margin-bottom: 10px;">📷</div>'
+            '<strong>No image uploaded</strong><br>'
+            '<small>Upload an image using the field above</small>'
+            '</div>'
+        )
+    full_image_preview.short_description = '🖼️ Full Preview'
     
     fieldsets = (
         ('🖼️ Hero Slide Content', {
@@ -87,14 +144,31 @@ class ShowcaseImageAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at', 'full_image_preview']
     
     def image_thumbnail(self, obj):
-        """Display image thumbnail in list view"""
+        """Display showcase image thumbnail with error handling"""
         if obj.image:
-            return format_html(
-                '<img src="{}" width="60" height="60" style="border-radius: 8px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
-                obj.image.url
-            )
-        return "📷 No image"
-    image_thumbnail.short_description = 'Preview'
+            try:
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="70" height="70" style="border-radius: 10px; object-fit: cover; box-shadow: 0 3px 8px rgba(0,0,0,0.2); border: 2px solid #e0e0e0;" />'
+                    '<br><small style="color: #666; font-size: 9px;">🎨 {}</small>'
+                    '</div>',
+                    image_url,
+                    os.path.basename(obj.image.name)[:12] + '...' if len(os.path.basename(obj.image.name)) > 12 else os.path.basename(obj.image.name)
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️ Error</span>')
+        return format_html(
+            '<div style="text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 8px; color: #999;">'
+            '🎨<br><small>No image</small>'
+            '</div>'
+        )
+    image_thumbnail.short_description = '🎨 Preview'
     
     def alt_text_preview(self, obj):
         """Display alt text with truncation"""
@@ -179,14 +253,27 @@ class TextTestimonialAdmin(admin.ModelAdmin):
     readonly_fields = ['created_at', 'updated_at', 'full_image_preview']
     
     def client_thumbnail(self, obj):
-        """Display client image thumbnail"""
+        """Display client image thumbnail with proper error handling"""
         if obj.image:
-            return format_html(
-                '<img src="{}" width="40" height="40" style="border-radius: 50%; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
-                obj.image.url
-            )
-        return "👤"
-    client_thumbnail.short_description = 'Photo'
+            try:
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="50" height="50" style="border-radius: 50%; object-fit: cover; box-shadow: 0 3px 6px rgba(0,0,0,0.15); border: 3px solid #fff;" />'
+                    '</div>',
+                    image_url
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️</span>')
+        return format_html(
+            '<div style="text-align: center; width: 50px; height: 50px; border-radius: 50%; background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999; font-size: 20px;">👤</div>'
+        )
+    client_thumbnail.short_description = '👤 Photo'
     
     def rating_stars(self, obj):
         """Display rating as stars"""
@@ -210,16 +297,41 @@ class TextTestimonialAdmin(admin.ModelAdmin):
     active_status.short_description = 'Active'
     
     def full_image_preview(self, obj):
-        """Display full image preview in detail view"""
+        """Display full client image preview with error handling"""
         if obj.image:
-            return format_html(
-                '<div class="image-preview-container">'
-                '<img src="{}" style="max-width: 200px; max-height: 200px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);" />'
-                '</div>',
-                obj.image.url
-            )
-        return "No image available"
-    full_image_preview.short_description = 'Client Photo Preview'
+            try:
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                return format_html(
+                    '<div style="text-align: center; padding: 15px; border: 2px solid #e8f5e8; border-radius: 12px; background: #f9f9f9;">'
+                    '<img src="{}" style="max-width: 250px; max-height: 250px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 4px solid #fff;" />'
+                    '<div style="margin-top: 10px; color: #666; font-size: 12px;">'
+                    '<strong>👤 Client Photo:</strong> {}'
+                    '</div>'
+                    '</div>',
+                    image_url,
+                    os.path.basename(obj.image.name)
+                )
+            except Exception as e:
+                return format_html(
+                    '<div style="padding: 15px; border: 2px solid #ffcdd2; border-radius: 8px; background: #ffebee; color: #d32f2f; text-align: center;">'
+                    '<strong>⚠️ Client Photo Error</strong><br>'
+                    '<small>{}</small>'
+                    '</div>',
+                    str(e)
+                )
+        return format_html(
+            '<div style="text-align: center; padding: 20px; border: 2px dashed #ccc; border-radius: 8px; color: #666; background: #f9f9f9;">'
+            '<div style="font-size: 48px; margin-bottom: 10px;">👤</div>'
+            '<strong>No client photo</strong><br>'
+            '<small>Upload a client photo above</small>'
+            '</div>'
+        )
+    full_image_preview.short_description = '👤 Client Photo Preview'
     
     fieldsets = (
         ('👤 Client Information', {

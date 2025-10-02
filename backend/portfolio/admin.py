@@ -1,6 +1,8 @@
+import os
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.conf import settings
 from .models import Category, Portfolio, PortfolioImage, PortfolioVideo, PortfolioHighlight, PortfolioService, PortfolioInquiry
 
 class PortfolioImageInline(admin.TabularInline):
@@ -10,14 +12,29 @@ class PortfolioImageInline(admin.TabularInline):
     readonly_fields = ('image_preview',)
     
     def image_preview(self, obj):
-        """Display image thumbnail in inline"""
+        """Display image thumbnail in inline with error handling"""
         if obj.image:
-            return format_html(
-                '<img src="{}" width="80" height="80" style="border-radius: 6px; object-fit: cover; border: 2px solid #ddd;" />',
-                obj.image
-            )
-        return "No image"
-    image_preview.short_description = 'Preview'
+            try:
+                # Handle both file and URL images
+                if hasattr(obj, 'image_file') and obj.image_file:
+                    media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                    if not obj.image_file.url.startswith('http'):
+                        image_url = f"{media_url.rstrip('/')}/{obj.image_file.name}" if not obj.image_file.url.startswith(media_url) else obj.image_file.url
+                    else:
+                        image_url = obj.image_file.url
+                elif hasattr(obj, 'image_url') and obj.image_url:
+                    image_url = obj.image_url
+                else:
+                    image_url = obj.image
+                
+                return format_html(
+                    '<img src="{}" width="80" height="80" style="border-radius: 8px; object-fit: cover; border: 2px solid #e0e0e0; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" />',
+                    image_url
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️ Error</span>')
+        return format_html('<div style="width: 80px; height: 80px; border: 2px dashed #ccc; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px;">📷 No image</div>')
+    image_preview.short_description = '🖼️ Preview'
 
 class PortfolioVideoInline(admin.TabularInline):
     model = PortfolioVideo
@@ -51,14 +68,31 @@ class PortfolioAdmin(admin.ModelAdmin):
     ordering = ('order', '-date')
     
     def cover_preview(self, obj):
-        """Display cover image thumbnail"""
+        """Display cover image thumbnail with proper error handling"""
         if obj.cover_image:
-            return format_html(
-                '<img src="{}" width="60" height="60" style="border-radius: 8px; object-fit: cover; box-shadow: 0 2px 4px rgba(0,0,0,0.1);" />',
-                obj.cover_image
-            )
-        return "No cover"
-    cover_preview.short_description = 'Cover'
+            try:
+                # Handle both file and URL images
+                if hasattr(obj, 'cover_image_file') and obj.cover_image_file:
+                    media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                    if not obj.cover_image_file.url.startswith('http'):
+                        image_url = f"{media_url.rstrip('/')}/{obj.cover_image_file.name}" if not obj.cover_image_file.url.startswith(media_url) else obj.cover_image_file.url
+                    else:
+                        image_url = obj.cover_image_file.url
+                elif hasattr(obj, 'cover_image_url') and obj.cover_image_url:
+                    image_url = obj.cover_image_url
+                else:
+                    image_url = obj.cover_image
+                
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="70" height="70" style="border-radius: 10px; object-fit: cover; box-shadow: 0 3px 8px rgba(0,0,0,0.2); border: 2px solid #e0e0e0;" />'
+                    '</div>',
+                    image_url
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️</span>')
+        return format_html('<div style="width: 70px; height: 70px; border: 2px dashed #ccc; border-radius: 10px; display: flex; align-items: center; justify-content: center; color: #999; font-size: 12px;">📷</div>')
+    cover_preview.short_description = '🖼️ Cover'
     
     def featured_status(self, obj):
         """Display featured status with styling"""

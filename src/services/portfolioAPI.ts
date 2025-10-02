@@ -1,5 +1,7 @@
 // Portfolio API service functions
-const API_BASE_URL = 'http://localhost:8000/api/portfolio';
+import { API_BASE_URL } from '@/config/api';
+
+const PORTFOLIO_BASE = `${API_BASE_URL}/api/portfolio`;
 
 export interface Category {
   id: string;
@@ -81,7 +83,7 @@ export interface PortfolioInquiry {
 class PortfolioAPI {
   private async fetchAPI(endpoint: string, options?: RequestInit) {
     try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      const response = await fetch(`${PORTFOLIO_BASE}${endpoint}`, {
         headers: {
           'Content-Type': 'application/json',
           ...options?.headers,

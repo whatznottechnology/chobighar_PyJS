@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { portfolioAPI, Portfolio, CategoryWithCount } from '../services/portfolioAPI';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 // Hook for getting all portfolios with filtering
 export const usePortfolios = (params?: {
@@ -166,7 +167,7 @@ export const usePortfolioVideos = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('http://localhost:8000/api/portfolio/videos/');
+      const response = await fetch(getApiUrl(API_ENDPOINTS.PORTFOLIO_VIDEOS));
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -199,7 +200,7 @@ export const usePortfolioImages = () => {
     try {
       setLoading(true);
       setError(null);
-      const response = await fetch('http://localhost:8000/api/portfolio/showcase-images/');
+      const response = await fetch(getApiUrl(API_ENDPOINTS.PORTFOLIO_SHOWCASE_IMAGES));
       
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);

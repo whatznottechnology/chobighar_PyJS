@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 // Types
 interface PhotoshootHero {
@@ -71,7 +72,7 @@ export function usePhotoshootHero() {
   useEffect(() => {
     async function fetchHero() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/photoshootpage/hero/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.PHOTOSHOOT_HERO));
         if (response.ok) {
           const data = await response.json();
           setHero(data);
@@ -100,7 +101,7 @@ export function usePhotoshootServices() {
   useEffect(() => {
     async function fetchServices() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/photoshootpage/services/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.PHOTOSHOOT_SERVICES));
         if (response.ok) {
           const data = await response.json();
           setServices(data);
@@ -129,7 +130,7 @@ export function usePhotoshootPageSettings() {
   useEffect(() => {
     async function fetchSettings() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/photoshootpage/settings/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.PHOTOSHOOT_SETTINGS));
         if (response.ok) {
           const data = await response.json();
           setSettings(data);
@@ -158,7 +159,7 @@ export function usePortfolioAlbums() {
   useEffect(() => {
     async function fetchPortfolios() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/portfolio/portfolios/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.PORTFOLIO_PORTFOLIOS));
         if (response.ok) {
           const data = await response.json();
           setPortfolios(data);
@@ -192,14 +193,14 @@ export function usePhotoshootPageData() {
     async function fetchPageData() {
       try {
         // Fetch photoshoot page data
-        const photoshootResponse = await fetch('http://127.0.0.1:8000/api/photoshootpage/page-data/');
+        const photoshootResponse = await fetch(getApiUrl(API_ENDPOINTS.PHOTOSHOOT_PAGE_DATA));
         let photoshootData: any = { services: [], testimonials: [] };
         if (photoshootResponse.ok) {
           photoshootData = await photoshootResponse.json();
         }
 
         // Fetch portfolio albums
-        const portfolioResponse = await fetch('http://127.0.0.1:8000/api/portfolio/portfolios/');
+        const portfolioResponse = await fetch(getApiUrl(API_ENDPOINTS.PORTFOLIO_PORTFOLIOS));
         let portfolioData: PortfolioAlbum[] = [];
         if (portfolioResponse.ok) {
           portfolioData = await portfolioResponse.json();

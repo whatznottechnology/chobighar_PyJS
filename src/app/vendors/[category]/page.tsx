@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Image from 'next/image';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 import { 
   MapPinIcon, 
   StarIcon, 
@@ -17,7 +18,7 @@ import {
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
-import { useVendorSubcategory } from '../../../hooks/useVendorData';
+import { useVendorsBySubcategory } from '../../../hooks/useVendorData';
 
 interface VendorCategoryData {
   id: string;
@@ -50,7 +51,7 @@ export default function VendorCategoryPage() {
   const params = useParams();
   const categorySlug = params.category as string;
   
-  const { subcategory, loading, error } = useVendorSubcategory(categorySlug);
+  const { subcategory, vendors, loading, error } = useVendorsBySubcategory(categorySlug);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -90,9 +91,6 @@ export default function VendorCategoryPage() {
     );
   }
 
-  const defaultImage = '/img/1.jpg';
-  const defaultBannerImage = subcategory?.banner_image || defaultImage;
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -105,7 +103,7 @@ export default function VendorCategoryPage() {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -176,13 +174,15 @@ export default function VendorCategoryPage() {
       <div className="relative h-[75vh] min-h-[600px]">
         {/* Background Image */}
         <div className="absolute inset-0">
-          <Image
-            src={defaultBannerImage}
-            alt={subcategory.name}
-            fill
-            className="object-cover"
-            priority
-          />
+          {subcategory.banner_image && (
+            <Image
+              src={subcategory.banner_image}
+              alt={subcategory.name}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/50 to-black/30"></div>
         </div>
         
@@ -321,36 +321,167 @@ export default function VendorCategoryPage() {
             </p>
           </div>
 
-          {/* Coming Soon Message */}
-          <div className="text-center py-16">
-            <div className="max-w-2xl mx-auto">
-              <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border border-red-200">
-                <div className="text-6xl mb-6">🏗️</div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Vendor Profiles Coming Soon!</h3>
-                <p className="text-gray-600 mb-6">
-                  We're working hard to bring you the best {subcategory.name.toLowerCase()} in your area. 
-                  In the meantime, you can submit your requirements and we'll connect you with top-rated vendors.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <button 
-                    onClick={() => {
-                      const form = document.querySelector('form');
-                      form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }}
-                    className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
-                  >
-                    Get Free Quotes
-                  </button>
-                  <button 
-                    onClick={() => router.push('/vendors')}
-                    className="border border-red-600 text-red-600 px-6 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors"
-                  >
-                    Browse Other Categories
-                  </button>
+          {/* Vendor Cards */}
+          {vendors && vendors.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {vendors.map((vendor) => (
+                <div 
+                  key={vendor.id} 
+                  className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
+                >
+                  {/* Vendor Image */}
+                  <div className="relative h-64 bg-gray-200">
+                    {vendor.main_image ? (
+                      <Image
+                        src={vendor.main_image}
+                        alt={vendor.name}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-red-100">
+                        <div className="text-4xl">📸</div>
+                      </div>
+                    )}
+                    
+                    {/* Featured Badge */}
+                    {vendor.is_featured && (
+                      <div className="absolute top-4 left-4">
+                        <span className="bg-gradient-to-r from-yellow-400 to-yellow-500 text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1">
+                          <StarIconSolid className="w-3 h-3" />
+                          Featured
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* Rating */}
+                    {vendor.rating && parseFloat(vendor.rating) > 0 && (
+                      <div className="absolute top-4 right-4">
+                        <div className="bg-white/90 backdrop-blur-sm px-2 py-1 rounded-lg flex items-center gap-1">
+                          <StarIconSolid className="w-4 h-4 text-yellow-400" />
+                          <span className="text-sm font-semibold text-gray-900">{vendor.rating}</span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  {/* Vendor Info */}
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h3 className="font-bold text-xl text-gray-900 mb-1" style={{ fontFamily: 'Playfair Display, serif' }}>
+                          {vendor.name}
+                        </h3>
+                        {vendor.tagline && (
+                          <p className="text-red-600 text-sm font-medium">
+                            {vendor.tagline}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    
+                    {/* Location */}
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <MapPinIcon className="w-4 h-4" />
+                      <span className="text-sm">{vendor.location}</span>
+                    </div>
+                    
+                    {/* Experience & Price */}
+                    <div className="flex items-center justify-between mb-4">
+                      {vendor.experience && (
+                        <div className="flex items-center gap-2 text-gray-600">
+                          <CalendarIcon className="w-4 h-4" />
+                          <span className="text-sm">{vendor.experience}</span>
+                        </div>
+                      )}
+                      {vendor.price_range && (
+                        <div className="text-red-600 font-semibold text-sm">
+                          {vendor.price_range}
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* Description */}
+                    {vendor.description && (
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                        {vendor.description}
+                      </p>
+                    )}
+                    
+                    {/* Reviews */}
+                    {vendor.reviews_count > 0 && (
+                      <div className="flex items-center gap-2 mb-4">
+                        <div className="flex items-center gap-1">
+                          {[1, 2, 3, 4, 5].map((star) => (
+                            <StarIconSolid 
+                              key={star} 
+                              className={`w-4 h-4 ${
+                                star <= parseFloat(vendor.rating || '0') 
+                                  ? 'text-yellow-400' 
+                                  : 'text-gray-300'
+                              }`} 
+                            />
+                          ))}
+                        </div>
+                        <span className="text-sm text-gray-600">
+                          ({vendor.reviews_count} {vendor.reviews_count === 1 ? 'review' : 'reviews'})
+                        </span>
+                      </div>
+                    )}
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => router.push(`/${vendor.slug}`)}
+                        className="flex-1 bg-red-600 text-white py-2.5 px-4 rounded-lg font-semibold hover:bg-red-700 transition-colors text-sm"
+                      >
+                        View Profile
+                      </button>
+                      {vendor.phone && (
+                        <button
+                          onClick={() => window.open(`tel:${vendor.phone}`)}
+                          className="border border-red-600 text-red-600 p-2.5 rounded-lg hover:bg-red-50 transition-colors"
+                        >
+                          <PhoneIcon className="w-4 h-4" />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            /* No Vendors Message */
+            <div className="text-center py-16">
+              <div className="max-w-2xl mx-auto">
+                <div className="bg-gradient-to-br from-red-50 to-red-100 rounded-2xl p-8 border border-red-200">
+                  <div className="text-6xl mb-6">🔍</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-4">No {subcategory.name} Found</h3>
+                  <p className="text-gray-600 mb-6">
+                    We don't have any {subcategory.name.toLowerCase()} registered in this category yet. 
+                    But don't worry! Submit your requirements and we'll connect you with the best vendors in your area.
+                  </p>
+                  <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button 
+                      onClick={() => {
+                        const form = document.querySelector('form');
+                        form?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                      }}
+                      className="bg-red-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-red-700 transition-colors"
+                    >
+                      Get Free Quotes
+                    </button>
+                    <button 
+                      onClick={() => router.push('/vendors')}
+                      className="border border-red-600 text-red-600 px-6 py-3 rounded-lg font-semibold hover:bg-red-50 transition-colors"
+                    >
+                      Browse Other Categories
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

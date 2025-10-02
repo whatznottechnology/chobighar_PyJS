@@ -41,29 +41,35 @@ export default function PhotoshootPage() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <Image
-            src={data.hero?.image_url || "https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&h=1080&fit=crop&auto=format"}
-            alt={data.hero?.alt_text || "Wedding Photography"}
-            fill
-            className="object-cover"
-            priority
-          />
+          {data.hero?.image_url && (
+            <Image
+              src={data.hero.image_url}
+              alt={data.hero.alt_text || "Photography Hero"}
+              fill
+              className="object-cover"
+              priority
+            />
+          )}
           <div className="absolute inset-0 bg-black/40"></div>
         </div>
         
         <div className="relative z-10 text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-          <h1 
-            className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
-            style={{ fontFamily: 'Playfair Display, serif', color: '#FFFFFF' }}
-          >
-            {data.hero?.title || "Capture Life's Beautiful Moments"}
-          </h1>
-          <p 
-            className="text-lg md:text-xl mb-8 leading-relaxed max-w-2xl mx-auto"
-            style={{ color: '#F5F5F5' }}
-          >
-            {data.hero?.subtitle || "Professional photography services for weddings, portraits, and special events"}
-          </p>
+          {data.hero?.title && (
+            <h1 
+              className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 tracking-tight"
+              style={{ fontFamily: 'Playfair Display, serif', color: '#FFFFFF' }}
+            >
+              {data.hero.title}
+            </h1>
+          )}
+          {data.hero?.subtitle && (
+            <p 
+              className="text-lg md:text-xl mb-8 leading-relaxed max-w-2xl mx-auto"
+              style={{ color: '#F5F5F5' }}
+            >
+              {data.hero.subtitle}
+            </p>
+          )}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button 
               className="text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 shadow-lg"
@@ -73,7 +79,7 @@ export default function PhotoshootPage() {
                 setIsModalOpen(true);
               }}
             >
-              {data.hero?.primary_button_text || "Book Your Session"}
+              {data.hero?.primary_button_text || "Book Now"}
               <ArrowRightIcon className="w-5 h-5" />
             </button>
             <button 
@@ -116,14 +122,16 @@ export default function PhotoshootPage() {
                 color: '#B22222'
               }}
             >
-              {data.settings?.services_section_title || "Photography Services"}
+              {data.settings?.services_section_title || "Our Services"}
             </h2>
-            <p 
-              className="text-lg max-w-3xl mx-auto"
-              style={{ color: '#666666' }}
-            >
-              {data.settings?.services_section_description || "From intimate portraits to grand celebrations, we create visual stories that last a lifetime"}
-            </p>
+            {data.settings?.services_section_description && (
+              <p 
+                className="text-lg max-w-3xl mx-auto"
+                style={{ color: '#666666' }}
+              >
+                {data.settings.services_section_description}
+              </p>
+            )}
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12">
@@ -134,12 +142,14 @@ export default function PhotoshootPage() {
                 onClick={() => handleBookService(service)}
               >
                 <div className="relative h-80">
-                  <Image
-                    src={service.image_url || "https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=600&h=400&fit=crop&auto=format"}
-                    alt={service.alt_text}
-                    fill
-                    className="object-cover"
-                  />
+                  {service.image_url && (
+                    <Image
+                      src={service.image_url}
+                      alt={service.alt_text}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="bg-white/90 backdrop-blur-sm rounded-lg px-4 py-2 mb-4 inline-block">
@@ -294,12 +304,14 @@ export default function PhotoshootPage() {
               >
                 {/* Album Cover */}
                 <div className="relative h-64 overflow-hidden">
-                  <Image
-                    src={album.cover_image || 'https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=600&h=400&fit=crop&auto=format'}
-                    alt={album.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
+                  {album.cover_image && (
+                    <Image
+                      src={album.cover_image}
+                      alt={album.title}
+                      fill
+                      className="object-cover transition-transform duration-300 group-hover:scale-110"
+                    />
+                  )}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                   <div className="absolute top-4 right-4">
                     <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
@@ -409,13 +421,15 @@ export default function PhotoshootPage() {
                   "{testimonial.testimonial_text}"
                 </p>
                 <div className="flex items-center gap-3">
-                  <Image
-                    src={testimonial.client_image_url || 'https://images.unsplash.com/photo-1494790108755-2616c31b7a63?w=60&h=60&fit=crop&auto=format'}
-                    alt={testimonial.client_name}
-                    width={48}
-                    height={48}
-                    className="rounded-full object-cover"
-                  />
+                  {testimonial.client_image_url && (
+                    <Image
+                      src={testimonial.client_image_url}
+                      alt={testimonial.client_name}
+                      width={48}
+                      height={48}
+                      className="rounded-full object-cover"
+                    />
+                  )}
                   <div>
                     <h4 
                       className="font-semibold"

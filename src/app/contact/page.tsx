@@ -13,6 +13,7 @@ import {
   HeartIcon,
   StarIcon
 } from '@heroicons/react/24/outline';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 export default function Contact() {
   const { contactData, loading, error } = useContactData();
@@ -30,7 +31,7 @@ export default function Contact() {
     e.preventDefault();
     
     try {
-      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -116,14 +117,14 @@ export default function Contact() {
             className="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tight drop-shadow-lg"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            {loading ? "Let's Create Something Beautiful" : contactData?.hero?.main_title || "Let's Create Something Beautiful"}
+            {loading ? 'Loading...' : contactData?.hero?.main_title}
           </h1>
           
           <p 
             className="text-xl md:text-2xl text-white/90 mb-12 max-w-4xl mx-auto leading-relaxed drop-shadow-md"
             style={{ fontFamily: 'Inter, sans-serif' }}
           >
-            {loading ? "Ready to capture your precious moments? Get in touch with our creative team and let's discuss how we can bring your vision to life with our signature Bengali artistry." : contactData?.hero?.description || "Ready to capture your precious moments? Get in touch with our creative team and let's discuss how we can bring your vision to life with our signature Bengali artistry."}
+            {loading ? 'Loading...' : contactData?.hero?.description}
           </p>
 
           <div className="flex flex-wrap justify-center gap-4 mb-16">
@@ -274,18 +275,15 @@ export default function Contact() {
                   Why Choose Chabighar?
                 </h3>
                 <ul className="space-y-4">
-                  {(contactData?.why_choose_us || [
-                    { id: 1, point: "5+ years of professional experience", order: 1, is_active: true },
-                    { id: 2, point: "Bengali traditional artistry with modern techniques", order: 2, is_active: true },
-                    { id: 3, point: "Personalized packages for every budget", order: 3, is_active: true },
-                    { id: 4, point: "Quick turnaround with high-quality results", order: 4, is_active: true },
-                    { id: 5, point: "500+ happy clients across Bengal", order: 5, is_active: true }
-                  ]).map((point) => (
+                  {contactData?.why_choose_us?.map((point) => (
                     <li key={point.id} className="flex items-start gap-3">
                       <CheckCircleIcon className="w-6 h-6 text-green-600 mt-0.5 flex-shrink-0" />
                       <span className="text-gray-800">{point.point}</span>
                     </li>
                   ))}
+                  {!contactData?.why_choose_us && (
+                    <li className="text-gray-500 italic">Loading benefits...</li>
+                  )}
                 </ul>
               </div>
 
@@ -295,30 +293,37 @@ export default function Contact() {
                   Need Immediate Help?
                 </h3>
                 <div className="space-y-3">
-                  <a 
-                    href={`tel:${contactData?.contact_info?.primary_phone || "+919647966765"}`} 
-                    className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                  >
-                    <PhoneIcon className="w-5 h-5 text-red-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Call Us Now</p>
-                      <p className="text-sm text-gray-700">
-                        {contactData?.contact_info?.primary_phone || "+91 96479 66765"}
-                      </p>
-                    </div>
-                  </a>
-                  <a 
-                    href={`mailto:${contactData?.contact_info?.primary_email || "booking@chabighar.com"}`} 
-                    className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
-                  >
-                    <EnvelopeIcon className="w-5 h-5 text-red-600" />
-                    <div>
-                      <p className="font-medium text-gray-900">Email Us</p>
-                      <p className="text-sm text-gray-700">
-                        {contactData?.contact_info?.primary_email || "booking@chabighar.com"}
-                      </p>
-                    </div>
-                  </a>
+                  {contactData?.contact_info?.primary_phone && (
+                    <a 
+                      href={`tel:${contactData.contact_info.primary_phone}`} 
+                      className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                    >
+                      <PhoneIcon className="w-5 h-5 text-red-600" />
+                      <div>
+                        <p className="font-medium text-gray-900">Call Us Now</p>
+                        <p className="text-sm text-gray-700">
+                          {contactData.contact_info.primary_phone}
+                        </p>
+                      </div>
+                    </a>
+                  )}
+                  {contactData?.contact_info?.primary_email && (
+                    <a 
+                      href={`mailto:${contactData.contact_info.primary_email}`} 
+                      className="flex items-center gap-3 p-3 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                    >
+                      <EnvelopeIcon className="w-5 h-5 text-red-600" />
+                      <div>
+                        <p className="font-medium text-gray-900">Email Us</p>
+                        <p className="text-sm text-gray-700">
+                          {contactData.contact_info.primary_email}
+                        </p>
+                      </div>
+                    </a>
+                  )}
+                  {!contactData?.contact_info && (
+                    <p className="text-gray-500 text-sm italic">Loading contact info...</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -333,13 +338,19 @@ export default function Contact() {
             className="w-full bg-gray-200 rounded-none"
             style={{ height: '300px' }}
           >
-            <iframe
-              src={contactData?.contact_info?.google_map_url || "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3684.0929455463855!2d88.36320731495713!3d22.576484185188667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a027579f4b6c5e3%3A0x5d9f4a1a5d9e8a1a!2sSector%20V%2C%20Bidhannagar%2C%20Kolkata%2C%20West%20Bengal%20700091!5e0!3m2!1sen!2sin!4v1635746400000!5m2!1sen!2sin"}
-              className="w-full h-full rounded-none border-0"
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              title="Chabighar Location"
-            />
+            {contactData?.contact_info?.google_map_url ? (
+              <iframe
+                src={contactData.contact_info.google_map_url}
+                className="w-full h-full rounded-none border-0"
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Chabighar Location"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-300">
+                <p className="text-gray-600">Map loading...</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -364,90 +375,105 @@ export default function Contact() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {/* Phone Contact */}
-            <a
-              href={`tel:${contactData?.contact_info?.primary_phone || "+919647966765"}`}
-              className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
-            >
-              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
-                <PhoneIcon className="w-8 h-8 text-red-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                {contactData?.contact_info?.phone_label || "Call Us"}
-              </h3>
-              <p className="text-lg font-medium text-red-600 mb-1">
-                {contactData?.contact_info?.primary_phone || "+91 96479 66765"}
-              </p>
-              {contactData?.contact_info?.secondary_phone && (
-                <p className="text-md text-gray-700 mb-3">
-                  {contactData.contact_info.secondary_phone}
+            {contactData?.contact_info?.primary_phone && (
+              <a
+                href={`tel:${contactData.contact_info.primary_phone}`}
+                className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
+              >
+                <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                  <PhoneIcon className="w-8 h-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  {contactData.contact_info.phone_label}
+                </h3>
+                <p className="text-lg font-medium text-red-600 mb-1">
+                  {contactData.contact_info.primary_phone}
                 </p>
-              )}
-              <p className="text-sm text-gray-700">
-                {contactData?.contact_info?.phone_description || "Available 9 AM - 9 PM"}
-              </p>
-            </a>
+                {contactData.contact_info.secondary_phone && (
+                  <p className="text-md text-gray-700 mb-3">
+                    {contactData.contact_info.secondary_phone}
+                  </p>
+                )}
+                <p className="text-sm text-gray-700">
+                  {contactData.contact_info.phone_description}
+                </p>
+              </a>
+            )}
 
             {/* Email Contact */}
-            <a
-              href={`mailto:${contactData?.contact_info?.primary_email || "booking@chabighar.com"}`}
-              className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
-            >
-              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
-                <EnvelopeIcon className="w-8 h-8 text-red-600" />
-              </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                {contactData?.contact_info?.email_label || "Email Us"}
-              </h3>
-              <p className="text-lg font-medium text-red-600 mb-1">
-                {contactData?.contact_info?.primary_email || "booking@chabighar.com"}
-              </p>
-              {contactData?.contact_info?.secondary_email && (
-                <p className="text-md text-gray-700 mb-3">
-                  {contactData.contact_info.secondary_email}
+            {contactData?.contact_info?.primary_email && (
+              <a
+                href={`mailto:${contactData.contact_info.primary_email}`}
+                className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg"
+              >
+                <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                  <EnvelopeIcon className="w-8 h-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  {contactData.contact_info.email_label}
+                </h3>
+                <p className="text-lg font-medium text-red-600 mb-1">
+                  {contactData.contact_info.primary_email}
                 </p>
-              )}
-              <p className="text-sm text-gray-700">
-                {contactData?.contact_info?.email_description || "We respond within 24 hours"}
-              </p>
-            </a>
+                {contactData.contact_info.secondary_email && (
+                  <p className="text-md text-gray-700 mb-3">
+                    {contactData.contact_info.secondary_email}
+                  </p>
+                )}
+                <p className="text-sm text-gray-700">
+                  {contactData.contact_info.email_description}
+                </p>
+              </a>
+            )}
 
             {/* Address Contact */}
-            <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
-              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
-                <MapPinIcon className="w-8 h-8 text-red-600" />
+            {contactData?.contact_info?.address_line1 && (
+              <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
+                <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                  <MapPinIcon className="w-8 h-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  {contactData.contact_info.address_label}
+                </h3>
+                <p className="text-lg font-medium text-red-600 mb-1">
+                  {contactData.contact_info.address_line1}
+                </p>
+                <p className="text-md text-gray-700 mb-3">
+                  {contactData.contact_info.address_line2}
+                </p>
+                <p className="text-sm text-gray-700">
+                  {contactData.contact_info.address_description}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                {contactData?.contact_info?.address_label || "Visit Us"}
-              </h3>
-              <p className="text-lg font-medium text-red-600 mb-1">
-                {contactData?.contact_info?.address_line1 || "Sector 5, Salt Lake City"}
-              </p>
-              <p className="text-md text-gray-700 mb-3">
-                {contactData?.contact_info?.address_line2 || "Kolkata, West Bengal 700091"}
-              </p>
-              <p className="text-sm text-gray-700">
-                {contactData?.contact_info?.address_description || "By appointment only"}
-              </p>
-            </div>
+            )}
 
             {/* Office Hours */}
-            <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
-              <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
-                <ClockIcon className="w-8 h-8 text-red-600" />
+            {contactData?.contact_info?.weekday_hours && (
+              <div className="group bg-white p-8 rounded-2xl border-2 border-gray-200 hover:border-royal-red hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 shadow-lg">
+                <div className="bg-red-100 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-red-200 transition-colors">
+                  <ClockIcon className="w-8 h-8 text-red-600" />
+                </div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  {contactData.contact_info.hours_label}
+                </h3>
+                <p className="text-lg font-medium text-red-600 mb-1">
+                  {contactData.contact_info.weekday_hours}
+                </p>
+                <p className="text-md text-gray-700 mb-3">
+                  {contactData.contact_info.weekend_hours}
+                </p>
+                <p className="text-sm text-gray-700">
+                  {contactData.contact_info.emergency_note}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-3" style={{ fontFamily: 'Playfair Display, serif' }}>
-                {contactData?.contact_info?.hours_label || "Office Hours"}
-              </h3>
-              <p className="text-lg font-medium text-red-600 mb-1">
-                {contactData?.contact_info?.weekday_hours || "Mon - Sat: 10 AM - 7 PM"}
-              </p>
-              <p className="text-md text-gray-700 mb-3">
-                {contactData?.contact_info?.weekend_hours || "Sun: 11 AM - 5 PM"}
-              </p>
-              <p className="text-sm text-gray-700">
-                {contactData?.contact_info?.emergency_note || "Emergency shoots available"}
-              </p>
-            </div>
+            )}
+            
+            {/* Loading State */}
+            {!contactData?.contact_info && (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">Loading contact information...</p>
+              </div>
+            )}
           </div>
         </div>
       </section>
@@ -471,48 +497,26 @@ export default function Contact() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {(contactData?.testimonials || [
-              {
-                id: 1,
-                name: 'Priya & Arjun',
-                service: 'Wedding Photography',
-                rating: 5,
-                comment: 'Chabighar captured our special day beautifully! Their Bengali traditional touch made our photos truly memorable.',
-                order: 1,
-                is_active: true
-              },
-              {
-                id: 2,
-                name: 'Rohan Das',
-                service: 'Portrait Session',
-                rating: 5,
-                comment: 'Professional, creative, and understanding. They knew exactly how to bring out the best in every shot.',
-                order: 2,
-                is_active: true
-              },
-              {
-                id: 3,
-                name: 'Anita Sharma',
-                service: 'Pre-Wedding Shoot',
-                rating: 5,
-                comment: 'The team is incredibly talented. Our pre-wedding photos exceeded all expectations!',
-                order: 3,
-                is_active: true
-              }
-            ]).map((testimonial) => (
-              <div key={testimonial.id} className="bg-white rounded-2xl p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
-                <div className="flex items-center gap-1 mb-3">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
-                  ))}
+            {contactData?.testimonials && contactData.testimonials.length > 0 ? (
+              contactData.testimonials.map((testimonial) => (
+                <div key={testimonial.id} className="bg-white rounded-2xl p-6 border-2 border-gray-200 shadow-lg hover:shadow-xl transition-shadow">
+                  <div className="flex items-center gap-1 mb-3">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <StarIcon key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+                  <p className="text-gray-800 mb-4 italic">"{testimonial.comment}"</p>
+                  <div>
+                    <p className="font-semibold text-red-600">{testimonial.name}</p>
+                    <p className="text-sm text-gray-700">{testimonial.service}</p>
+                  </div>
                 </div>
-                <p className="text-gray-800 mb-4 italic">"{testimonial.comment}"</p>
-                <div>
-                  <p className="font-semibold text-red-600">{testimonial.name}</p>
-                  <p className="text-sm text-gray-700">{testimonial.service}</p>
-                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-8">
+                <p className="text-gray-500">Loading testimonials...</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       </section>

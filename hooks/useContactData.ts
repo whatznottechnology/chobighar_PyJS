@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface ContactHero {
   id: number;
@@ -82,7 +83,7 @@ export const useContactData = (): UseContactDataReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/contact/contact-page-data/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.CONTACT_PAGE_DATA));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

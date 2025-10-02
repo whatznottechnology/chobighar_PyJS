@@ -1,6 +1,8 @@
+import os
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django.conf import settings
 from .models import (
     VendorCategory, VendorSubCategory, VendorProfile, VendorImage, 
     VendorVideo, VendorService, VendorSpecialty, VendorHighlight,
@@ -297,14 +299,31 @@ class VendorImageAdmin(admin.ModelAdmin):
         return super().get_queryset(request).select_related('vendor')
     
     def image_preview(self, obj):
-        """Display image thumbnail"""
+        """Display image thumbnail with proper error handling"""
         if obj.image:
-            return format_html(
-                '<img src="{}" width="60" height="60" style="border-radius: 8px; object-fit: cover;" />',
-                obj.image.url
-            )
-        return "No image"
-    image_preview.short_description = 'Preview'
+            try:
+                media_url = getattr(settings, 'MEDIA_URL', '/media/')
+                if not obj.image.url.startswith('http'):
+                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
+                else:
+                    image_url = obj.image.url
+                
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="70" height="70" style="border-radius: 10px; object-fit: cover; box-shadow: 0 3px 8px rgba(0,0,0,0.2); border: 2px solid #e0e0e0;" />'
+                    '<br><small style="color: #666; font-size: 9px;">🖼️ {}</small>'
+                    '</div>',
+                    image_url,
+                    obj.image_type.upper() if obj.image_type else 'IMG'
+                )
+            except Exception as e:
+                return format_html('<span style="color: #f44336;">⚠️ Error</span>')
+        return format_html(
+            '<div style="text-align: center; padding: 8px; border: 1px dashed #ccc; border-radius: 8px; color: #999; font-size: 12px;">'
+            '🖼️<br>No image'
+            '</div>'
+        )
+    image_preview.short_description = '🖼️ Preview'
 
 
 @admin.register(VendorVideo)

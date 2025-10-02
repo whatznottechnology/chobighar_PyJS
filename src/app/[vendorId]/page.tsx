@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 import { 
   MapPinIcon, 
   StarIcon, 
@@ -112,7 +113,7 @@ export default function VendorProfile() {
     if (!vendor) return;
     
     try {
-      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

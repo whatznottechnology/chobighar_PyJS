@@ -57,20 +57,7 @@ export default function AboutPage() {
                 </p>
               </>
             ) : (
-              <>
-                <h1 
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 drop-shadow-lg"
-                  style={{ fontFamily: 'Playfair Display, serif' }}
-                >
-                  About Chabighar
-                </h1>
-                <p 
-                  className="text-xl md:text-2xl text-red-100 max-w-3xl mx-auto leading-relaxed drop-shadow-md"
-                  style={{ fontFamily: 'Inter, sans-serif' }}
-                >
-                  Art Direction and Design Studio capturing life's most precious moments with cultural authenticity and artistic excellence.
-                </p>
-              </>
+              <p className="text-xl text-red-100">Loading hero content...</p>
             )}
           </div>
         </div>
@@ -117,7 +104,7 @@ export default function AboutPage() {
                 <div className="h-80 bg-gray-200 rounded-2xl"></div>
               </div>
             </div>
-          ) : story ? (
+          ) : story && story.title ? (
             <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
                 <h2 
@@ -176,8 +163,8 @@ export default function AboutPage() {
               </div>
             </div>
           ) : (
-            <div className="text-center py-20" style={{ color: '#333333' }}>
-              <p>Story content not available</p>
+            <div className="text-center py-20" style={{ color: '#666666' }}>
+              <p>Loading story content...</p>
             </div>
           )}
         </div>
@@ -216,15 +203,6 @@ export default function AboutPage() {
             >
               Our Mission & Values
             </h2>
-            <p 
-              className="text-lg max-w-2xl mx-auto"
-              style={{ 
-                fontFamily: 'Inter, sans-serif',
-                color: '#333333'
-              }}
-            >
-              We believe every moment tells a story, and every story deserves to be told beautifully.
-            </p>
           </div>
 
           {valuesLoading ? (
@@ -274,8 +252,8 @@ export default function AboutPage() {
               })}
             </div>
           ) : (
-            <div className="text-center" style={{ color: '#333333' }}>
-              <p>Values not available</p>
+            <div className="text-center py-10" style={{ color: '#666666' }}>
+              <p>Loading values...</p>
             </div>
           )}
         </div>
@@ -314,15 +292,6 @@ export default function AboutPage() {
             >
               Meet Our Team
             </h2>
-            <p 
-              className="text-lg max-w-2xl mx-auto"
-              style={{ 
-                fontFamily: 'Inter, sans-serif',
-                color: '#333333'
-              }}
-            >
-              Our talented team of photographers and creative professionals are passionate about capturing your special moments.
-            </p>
           </div>
 
           {teamLoading ? (
@@ -381,8 +350,8 @@ export default function AboutPage() {
               ))}
             </div>
           ) : (
-            <div className="text-center" style={{ color: '#333333' }}>
-              <p>Team information not available</p>
+            <div className="text-center py-10" style={{ color: '#666666' }}>
+              <p>Loading team information...</p>
             </div>
           )}
         </div>

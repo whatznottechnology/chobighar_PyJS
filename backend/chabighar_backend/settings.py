@@ -20,12 +20,24 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+4f7g_f82qx$+g#1^*c%1e4dc^-g%eogd_ntht7jewx8d@u8k+'
+import os
+from decouple import config
+
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-+4f7g_f82qx$+g#1^*c%1e4dc^-g%eogd_ntht7jewx8d@u8k+')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = []
+# Environment-aware allowed hosts
+ALLOWED_HOSTS = [
+    'admin.chobighar.com',
+    'www.admin.chobighar.com', 
+    'chobighar.com',
+    'www.chobighar.com',
+    '127.0.0.1',
+    'localhost',
+    '*'  # Remove this in production
+]
 
 
 # Application definition
@@ -56,6 +68,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # For serving static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -119,7 +132,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'  # Set to India timezone for Kolkata business
 
 USE_I18N = True
 
@@ -136,13 +149,24 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# CORS settings
+# CORS settings - Environment-aware configuration
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
+    "https://chobighar.com",
+    "https://www.chobighar.com",
+    "https://admin.chobighar.com",
+    "https://www.admin.chobighar.com",
+    "http://localhost:3000",  # Development
+    "http://127.0.0.1:3000",  # Development
 ]
 
+# Add custom CORS origins from environment if specified
+CUSTOM_CORS_ORIGINS = config('CORS_ALLOWED_ORIGINS', default='')
+if CUSTOM_CORS_ORIGINS:
+    CORS_ALLOWED_ORIGINS.extend([origin.strip() for origin in CUSTOM_CORS_ORIGINS.split(',')])
+
+# Additional CORS settings for production
 CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_ALL_ORIGINS = False
 
 # REST Framework settings
 REST_FRAMEWORK = {
@@ -205,11 +229,12 @@ JAZZMIN_SETTINGS = {
         # Url that gets reversed (Permissions can be added)
         {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
         # external url that opens in a new window (Permissions can be added)
-        {"name": "View Site", "url": "http://localhost:3000", "new_window": True},
+        {"name": "View Main Site", "url": "https://chobighar.com", "new_window": True},
+        {"name": "View Local Dev", "url": "http://localhost:3000", "new_window": True},
         # model admin to link to (Permissions checked against model)
         {"model": "inquiry.Inquiry"},
         # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "inquiry"},
+        {"app": "vendor"},
     ],
 
     #############
@@ -218,7 +243,8 @@ JAZZMIN_SETTINGS = {
 
     # Additional links to include in the user menu on the top right ("app" url type is not allowed)
     "usermenu_links": [
-        {"name": "View Site", "url": "http://localhost:3000", "new_window": True},
+        {"name": "View Main Site", "url": "https://chobighar.com", "new_window": True},
+        {"name": "View Local Dev", "url": "http://localhost:3000", "new_window": True},
         {"model": "auth.user"}
     ],
 
@@ -331,29 +357,87 @@ JAZZMIN_UI_TWEAKS = {
     "footer_small_text": False,
     "body_small_text": False,
     "brand_small_text": False,
-    "brand_colour": "navbar-success",
-    "accent": "accent-teal",
-    "navbar": "navbar-dark",
+    "brand_colour": "navbar-danger",  # Red theme for Chabighar branding
+    "accent": "accent-danger",
+    "navbar": "navbar-danger navbar-dark",
     "no_navbar_border": False,
-    "navbar_fixed": False,
+    "navbar_fixed": True,
     "layout_boxed": False,
     "footer_fixed": False,
-    "sidebar_fixed": False,
-    "sidebar": "sidebar-dark-info",
+    "sidebar_fixed": True,
+    "sidebar": "sidebar-dark-danger",
     "sidebar_nav_small_text": False,
     "sidebar_disable_expand": False,
     "sidebar_nav_child_indent": False,
     "sidebar_nav_compact_style": False,
     "sidebar_nav_legacy_style": False,
     "sidebar_nav_flat_style": False,
-    "theme": "cosmo",
+    "theme": "lux",  # Professional theme
     "dark_mode_theme": None,
     "button_classes": {
-        "primary": "btn-primary",
+        "primary": "btn-danger",  # Red primary buttons for consistency
         "secondary": "btn-secondary",
-        "info": "btn-info",
+        "info": "btn-info", 
         "warning": "btn-warning",
         "danger": "btn-danger",
         "success": "btn-success"
     }
 }
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# Production security settings (uncomment when SSL is configured)
+if not DEBUG:
+    SECURE_SSL_REDIRECT = False  # Set to True when SSL is enabled
+    SESSION_COOKIE_SECURE = False  # Set to True when SSL is enabled
+    CSRF_COOKIE_SECURE = False  # Set to True when SSL is enabled
+    # SECURE_HSTS_SECONDS = 31536000
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+    # SECURE_HSTS_PRELOAD = True
+
+# Logging configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'logs' / 'django.log',
+            'formatter': 'verbose',
+        },
+        'console': {
+            'level': 'DEBUG' if DEBUG else 'INFO',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console', 'file'] if not DEBUG else ['console'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+    },
+}
+
+# Create logs directory if it doesn't exist
+import os
+os.makedirs(BASE_DIR / 'logs', exist_ok=True)

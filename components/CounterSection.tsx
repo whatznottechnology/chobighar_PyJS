@@ -268,14 +268,15 @@ const CounterSection = () => {
               <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto"></div>
               <p className="mt-4 text-white">Loading achievements...</p>
             </div>
-          ) : error ? (
+            ) : error ? (
             <div className="col-span-full text-center py-8">
               <p className="text-red-400">Error loading achievements: {error}</p>
-              <p className="text-gray-300 mt-2">Showing fallback content</p>
             </div>
-          ) : null}
-          
-          {displayCounters && displayCounters.map((counter, index) => (
+          ) : displayCounters && displayCounters.length === 0 ? (
+            <div className="col-span-full text-center py-8">
+              <p className="text-gray-300">No achievements data available</p>
+            </div>
+          ) : null}          {displayCounters && displayCounters.map((counter, index) => (
             <div 
               key={index}
               className={`text-center group transform transition-all duration-1000 ${

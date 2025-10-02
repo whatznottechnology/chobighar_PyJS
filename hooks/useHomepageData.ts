@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface HeroSlide {
   id: number;
@@ -149,7 +150,7 @@ export const useHeroSlides = (): UseHeroSlidesReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/hero-slides/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.HERO_SLIDES));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -182,7 +183,7 @@ export const useShowcaseImages = (): UseShowcaseImagesReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/showcase-images/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.SHOWCASE_IMAGES));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -215,7 +216,7 @@ export const useVideoTestimonials = (): UseVideoTestimonialsReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/video-testimonials/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.VIDEO_TESTIMONIALS));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -248,7 +249,7 @@ export const useTextTestimonials = (): UseTextTestimonialsReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/text-testimonials/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.TEXT_TESTIMONIALS));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -281,7 +282,7 @@ export const useFAQs = (): UseFAQsReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/faqs/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.FAQS));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -314,7 +315,7 @@ export const useAchievements = (): UseAchievementsReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/achievements/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.ACHIEVEMENTS));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
@@ -347,7 +348,7 @@ export const useVideoShowcase = (): UseVideoShowcaseReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/video-showcase/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.VIDEO_SHOWCASE));
         
         if (!response.ok) {
           if (response.status === 404) {
@@ -384,7 +385,7 @@ export const useVideoShowcases = (): UseVideoShowcasesReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/homepage/video-showcases/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.VIDEO_SHOWCASES));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

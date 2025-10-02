@@ -12,63 +12,12 @@ interface FAQ {
   is_active: boolean;
 }
 
-const faqs: FAQ[] = [
-  {
-    id: 1,
-    question: "What photography packages do you offer for weddings?",
-    answer: "We offer comprehensive wedding photography packages including pre-wedding shoots, ceremony coverage, reception photography, and post-processing. Our packages range from basic coverage to premium all-day experiences with multiple photographers, videography, and same-day editing.",
-    order: 1,
-    keywords: "wedding photography, packages, pre-wedding, ceremony, reception",
-    is_active: true
-  },
-  {
-    id: 2,
-    question: "How far in advance should we book your services?",
-    answer: "We recommend booking our services 6-12 months in advance, especially for peak wedding seasons (October-March). This ensures your preferred date is available and gives us ample time to plan and prepare for your special day.",
-    order: 2,
-    keywords: "booking, advance, wedding season, availability",
-    is_active: true
-  },
-  {
-    id: 3,
-    question: "Do you provide services outside of Kolkata?",
-    answer: "Yes, we provide destination wedding photography services across India and internationally. Travel charges may apply for locations outside our base city. We're experienced in capturing weddings in various cultural settings and locations.",
-    order: 3,
-    keywords: "destination wedding, travel, Kolkata, international, cultural",
-    is_active: true
-  },
-  {
-    id: 4,
-    question: "What is included in your wedding photography service?",
-    answer: "Our wedding photography service includes professional photographers, high-resolution edited images, online gallery access, USB/DVD delivery, and basic photo editing. Premium packages also include videography, same-day highlights, and photo albums.",
-    order: 4,
-    keywords: "included services, high-resolution, online gallery, editing, videography",
-    is_active: true
-  },
-  {
-    id: 5,
-    question: "Can we customize our photography package?",
-    answer: "Absolutely! We understand every wedding is unique. We offer customizable packages where you can add or remove services based on your needs and budget. This includes additional photographers, extended hours, or special artistic requests.",
-    order: 5,
-    keywords: "customize, unique wedding, budget, additional photographers, artistic",
-    is_active: true
-  },
-  {
-    id: 6,
-    question: "How long does it take to receive our wedding photos?",
-    answer: "You'll receive a preview gallery with 30-50 edited highlights within 48-72 hours after your wedding. The complete edited gallery with 300-800 high-resolution images is typically delivered within 3-4 weeks.",
-    order: 6,
-    keywords: "delivery time, preview gallery, edited highlights, high-resolution, timeline",
-    is_active: true
-  }
-];
-
 export default function FAQSection() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(null);
   const { faqs: backendFaqs, loading, error } = useFAQs();
 
-  // Use backend data if available, otherwise fall back to hardcoded data
-  const displayFaqs = backendFaqs || faqs;
+  // Use only backend data
+  const displayFaqs = backendFaqs || [];
 
   const toggleFAQ = (id: number) => {
     setOpenFAQ(openFAQ === id ? null : id);
@@ -168,11 +117,14 @@ export default function FAQSection() {
             ) : error ? (
               <div className="text-center py-8">
                 <p className="text-red-600">Error loading FAQs: {error}</p>
-                <p className="text-gray-600 mt-2">Showing fallback content</p>
+              </div>
+            ) : displayFaqs.length === 0 ? (
+              <div className="text-center py-8">
+                <p className="text-gray-600">No FAQs available at the moment.</p>
               </div>
             ) : null}
             
-            {displayFaqs.map((faq, index) => (
+            {displayFaqs && displayFaqs.map((faq, index) => (
               <div key={faq.id} className="group">
                 <div className="relative bg-white border-2 border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-red-300 hover:bg-gradient-to-br hover:from-white hover:to-red-50">
                   

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 export interface FooterBrandInfo {
   id: number;
@@ -59,7 +60,7 @@ const useFooterData = () => {
     const fetchFooterData = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:8000/api/footer/');
+        const response = await fetch(getApiUrl(API_ENDPOINTS.FOOTER));
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

@@ -1,8 +1,13 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from django.http import JsonResponse
+from django.views import View
+from django.conf import settings
 from .models import SocialMedia, ContactInfo, BrandInfo
 from .serializers import SocialMediaSerializer, ContactInfoSerializer, BrandInfoSerializer, HeaderDataSerializer
+from homepage.models import HeroSlide
+import os
 
 @api_view(['GET'])
 def get_header_data(request):
@@ -85,3 +90,47 @@ def get_brand_info(request):
         serializer = BrandInfoSerializer(brand_info, context={'request': request})
         return Response(serializer.data)
     return Response({'error': 'No brand info found'}, status=status.HTTP_404_NOT_FOUND)
+
+class MediaTestView(View):
+    """Test view to check media file accessibility"""
+    
+    def get(self, request):
+        results = {
+            'media_root': str(settings.MEDIA_ROOT),
+            'media_url': settings.MEDIA_URL,
+            'debug': settings.DEBUG,
+            'brand_images': [],
+            'hero_images': [],
+            'errors': []
+        }
+        
+        try:
+            # Test brand images
+            brand_info = BrandInfo.objects.first()
+            if brand_info and brand_info.logo_image:
+                brand_data = {
+                    'field_value': str(brand_info.logo_image),
+                    'url': brand_info.logo_image.url,
+                    'name': brand_info.logo_image.name,
+                    'file_exists': os.path.exists(brand_info.logo_image.path),
+                    'full_path': brand_info.logo_image.path
+                }
+                results['brand_images'].append(brand_data)
+            
+            # Test hero images  
+            hero_slides = HeroSlide.objects.filter(image__isnull=False)[:2]
+            for slide in hero_slides:
+                hero_data = {
+                    'title': slide.title or f'Slide {slide.id}',
+                    'field_value': str(slide.image),
+                    'url': slide.image.url,
+                    'name': slide.image.name,
+                    'file_exists': os.path.exists(slide.image.path),
+                    'full_path': slide.image.path
+                }
+                results['hero_images'].append(hero_data)
+                
+        except Exception as e:
+            results['errors'].append(str(e))
+        
+        return JsonResponse(results, json_dumps_params={'indent': 2})

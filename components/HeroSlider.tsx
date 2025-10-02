@@ -154,15 +154,10 @@ export default function HeroSlider() {
           /* Blank Black Fallback */
           <div className="absolute inset-0 bg-black flex items-center justify-center">
             <div className="text-center text-white/60">
-              {error ? (
+              {error && (
                 <div>
-                  <p className="text-lg mb-2">Unable to load slider images</p>
+                  <p className="text-lg mb-2">Error loading slider</p>
                   <p className="text-sm">{error}</p>
-                </div>
-              ) : (
-                <div>
-                  <p className="text-lg mb-2">No slider images available</p>
-                  <p className="text-sm">Upload images via admin panel</p>
                 </div>
               )}
             </div>

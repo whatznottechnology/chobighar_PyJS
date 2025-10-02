@@ -1124,3 +1124,896 @@ Traceback (most recent call last):
 django.core.exceptions.ImproperlyConfigured: The session storage path WindowsPath('C:/Users/pmihu/OneDrive/Desktop/chobi/backend/sessions') doesn't exist. Please set your SESSION_FILE_PATH setting to an existing directory in which Django can store session data.
 ERROR 2025-10-02 08:13:20,763 basehttp "GET /favicon.ico HTTP/1.1" 500 145
 INFO 2025-10-02 08:14:00,133 autoreload C:\Users\pmihu\OneDrive\Desktop\chobi\backend\chabighar_backend\settings.py changed, reloading.
+INFO 2025-10-02 18:54:06,465 autoreload 9776 1212 Watching for file changes with StatReloader
+INFO 2025-10-02 19:05:24,143 autoreload 18100 11628 Watching for file changes with StatReloader
+INFO 2025-10-02 19:05:27,338 basehttp 18100 17104 "GET / HTTP/1.1" 302 0
+WARNING 2025-10-02 19:05:27,349 base 18100 17104 Session data corrupted
+INFO 2025-10-02 19:05:27,504 basehttp 18100 17104 "GET /admin/ HTTP/1.1" 302 0
+WARNING 2025-10-02 19:05:27,511 base 18100 17104 Session data corrupted
+INFO 2025-10-02 19:05:27,731 basehttp 18100 17104 "GET /admin/login/?next=/admin/ HTTP/1.1" 200 3319
+INFO 2025-10-02 19:05:27,798 basehttp 18100 15236 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:05:27,799 basehttp 18100 17104 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+WARNING 2025-10-02 19:05:27,853 log 18100 3296 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:05:27,855 basehttp 18100 3296 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:27,955 basehttp 18100 17104 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:05:28,118 basehttp 18100 13156 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+WARNING 2025-10-02 19:05:28,519 log 18100 13156 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:05:28,574 basehttp 18100 13156 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:29,140 basehttp 18100 14564 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:05:29,240 basehttp 18100 472 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:05:29,340 basehttp 18100 472 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+WARNING 2025-10-02 19:05:30,625 base 18100 13156 Session data corrupted
+INFO 2025-10-02 19:05:31,647 basehttp 18100 13156 "POST /admin/login/?next=/admin/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:05:31,756 basehttp 18100 13156 "GET /admin/ HTTP/1.1" 200 126174
+WARNING 2025-10-02 19:05:31,801 log 18100 13156 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:05:31,803 basehttp 18100 13156 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:32,273 basehttp 18100 472 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:05:42,001 basehttp 18100 13156 "GET /admin/homepage/showcaseimage/ HTTP/1.1" 200 66463
+INFO 2025-10-02 19:05:42,041 basehttp 18100 13156 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:05:42,048 basehttp 18100 17104 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:05:42,097 basehttp 18100 13156 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:05:42,098 basehttp 18100 3296 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:05:42,100 basehttp 18100 7780 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:05:42,100 basehttp 18100 15236 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+WARNING 2025-10-02 19:05:42,120 log 18100 15236 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:05:42,121 basehttp 18100 6128 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:05:42,124 basehttp 18100 17104 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:05:42,137 basehttp 18100 15236 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:42,241 basehttp 18100 13156 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:05:42,263 basehttp 18100 7780 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+WARNING 2025-10-02 19:05:42,270 log 18100 7780 Not Found: /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:05:42,271 basehttp 18100 7780 "GET /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:42,296 basehttp 18100 472 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:05:42,299 basehttp 18100 14564 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:05:42,348 basehttp 18100 14564 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:05:42,348 basehttp 18100 472 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:05:42,354 basehttp 18100 2788 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:05:42,356 basehttp 18100 2788 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:05:42,366 basehttp 18100 3296 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:05:42,397 basehttp 18100 2788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:05:42,458 basehttp 18100 2788 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:05:42,512 basehttp 18100 2788 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:05:42,844 basehttp 18100 2788 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:05:43,406 basehttp 18100 2788 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:05:44,983 basehttp 18100 3296 "GET /admin/homepage/showcaseimage/add/ HTTP/1.1" 200 68002
+INFO 2025-10-02 19:05:45,018 basehttp 18100 3296 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:05:45,020 log 18100 3296 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:05:45,024 basehttp 18100 7780 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+WARNING 2025-10-02 19:05:45,031 basehttp 18100 3296 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:45,081 basehttp 18100 3296 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 19:05:45,088 basehttp 18100 7780 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-10-02 19:05:45,149 basehttp 18100 2788 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:05:45,162 basehttp 18100 2788 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-10-02 19:05:45,188 basehttp 18100 2788 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 19:05:45,216 basehttp 18100 2788 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-10-02 19:05:53,006 basehttp 18100 7780 "GET /admin/header/brandinfo/ HTTP/1.1" 200 63856
+WARNING 2025-10-02 19:05:53,044 log 18100 3296 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:05:53,047 basehttp 18100 3296 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:05:53,053 basehttp 18100 7780 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:05:56,046 basehttp 18100 7780 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 64345
+WARNING 2025-10-02 19:05:56,082 log 18100 3296 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:05:56,085 basehttp 18100 7780 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:05:56,085 basehttp 18100 3296 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:06:38,644 basehttp 18100 7916 "GET /admin/ HTTP/1.1" 200 126149
+INFO 2025-10-02 19:06:38,681 basehttp 18100 7916 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 304 0
+WARNING 2025-10-02 19:06:38,688 log 18100 9992 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:06:38,691 basehttp 18100 7916 "GET /static/admin/css/custom_admin.css HTTP/1.1" 304 0
+WARNING 2025-10-02 19:06:38,692 basehttp 18100 9992 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:06:38,696 basehttp 18100 18964 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:38,698 basehttp 18100 11388 "GET /static/admin/js/custom_admin.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,810 basehttp 18100 11388 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68047
+INFO 2025-10-02 19:06:44,848 basehttp 18100 11388 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,856 basehttp 18100 18964 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,858 basehttp 18100 7916 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,858 basehttp 18100 9992 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,868 basehttp 18100 18964 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,871 basehttp 18100 7916 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,873 basehttp 18100 4792 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,874 basehttp 18100 16640 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:44,878 basehttp 18100 9992 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:06:44,883 log 18100 4792 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:06:44,883 basehttp 18100 7916 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:06:44,892 basehttp 18100 4792 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:44,895 log 18100 4792 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+INFO 2025-10-02 19:06:44,895 basehttp 18100 11388 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:06:44,896 basehttp 18100 4792 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:44,903 log 18100 11388 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:06:44,904 basehttp 18100 11388 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:06:49,313 basehttp 18100 11388 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73091
+WARNING 2025-10-02 19:06:49,367 log 18100 4792 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:06:49,368 log 18100 7916 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+WARNING 2025-10-02 19:06:49,369 basehttp 18100 7916 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:49,369 basehttp 18100 4792 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:06:49,380 basehttp 18100 7916 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:49,381 basehttp 18100 4792 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:49,415 basehttp 18100 7916 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:06:49,419 basehttp 18100 11388 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:06:49,511 log 18100 11388 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+WARNING 2025-10-02 19:06:49,518 basehttp 18100 11388 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:52,127 log 18100 11388 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+WARNING 2025-10-02 19:06:52,128 basehttp 18100 11388 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:06:53,743 basehttp 18100 11388 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68047
+INFO 2025-10-02 19:06:55,545 basehttp 18100 11388 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73091
+WARNING 2025-10-02 19:06:55,593 log 18100 7916 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:06:55,594 log 18100 4792 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+INFO 2025-10-02 19:06:55,595 basehttp 18100 11388 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:06:55,595 basehttp 18100 7916 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:55,595 basehttp 18100 4792 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:06:55,663 log 18100 4792 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg
+WARNING 2025-10-02 19:06:55,666 basehttp 18100 4792 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:03,829 basehttp 18100 4792 "POST /admin/homepage/heroslide/7/change/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:07:03,883 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68667
+WARNING 2025-10-02 19:07:03,917 log 18100 7916 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:03,919 basehttp 18100 7916 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:03,928 log 18100 7916 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:03,930 basehttp 18100 7916 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:03,930 basehttp 18100 4792 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:07:03,947 log 18100 4792 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:07:03,948 basehttp 18100 4792 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:06,337 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:06,366 basehttp 18100 4792 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:07:06,383 basehttp 18100 7916 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:07:06,388 basehttp 18100 9992 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:07:06,391 basehttp 18100 16640 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:07:06,393 basehttp 18100 11388 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:07:06,405 basehttp 18100 16640 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:07:06,405 basehttp 18100 11388 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:07:06,410 basehttp 18100 9992 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:07:06,412 basehttp 18100 18964 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:07:06,416 basehttp 18100 7916 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:07:06,423 basehttp 18100 11388 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:07:06,423 basehttp 18100 16640 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:07:06,429 basehttp 18100 9992 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:07:06,437 basehttp 18100 18964 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+WARNING 2025-10-02 19:07:06,442 log 18100 16640 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:07:06,446 basehttp 18100 7916 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+WARNING 2025-10-02 19:07:06,452 basehttp 18100 16640 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:06,452 basehttp 18100 11388 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:07:06,463 basehttp 18100 4792 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:07:06,530 basehttp 18100 4792 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:07:06,558 basehttp 18100 16640 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:07:06,570 basehttp 18100 16640 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:07:06,584 basehttp 18100 16640 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:07:06,594 basehttp 18100 16640 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+WARNING 2025-10-02 19:07:06,616 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:06,619 log 18100 11388 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:07:06,627 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:06,632 basehttp 18100 11388 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:06,642 basehttp 18100 4792 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:07:06,702 basehttp 18100 11388 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:07:06,712 basehttp 18100 4792 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:07:06,941 log 18100 4792 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:06,942 basehttp 18100 4792 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:11,464 basehttp 18100 4792 "GET /admin/homepage/heroslide/10/change/ HTTP/1.1" 200 73074
+WARNING 2025-10-02 19:07:11,499 log 18100 11388 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:11,500 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:07:11,504 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:11,505 basehttp 18100 11388 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:11,510 basehttp 18100 4792 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:07:11,599 log 18100 4792 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:07:11,601 basehttp 18100 4792 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:14,367 log 18100 4792 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:07:14,368 basehttp 18100 4792 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:15,418 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:16,183 basehttp 18100 4792 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73148
+INFO 2025-10-02 19:07:17,043 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:19,323 basehttp 18100 4792 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73148
+WARNING 2025-10-02 19:07:19,355 log 18100 11388 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:19,356 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:19,359 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:19,360 basehttp 18100 11388 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:19,365 basehttp 18100 4792 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:07:19,422 log 18100 4792 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:19,425 basehttp 18100 4792 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:21,173 log 18100 4792 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:21,179 basehttp 18100 4792 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:22,450 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:52,277 basehttp 18100 4792 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:52,331 basehttp 18100 18964 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:07:52,331 basehttp 18100 9992 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:07:52,331 basehttp 18100 7916 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:07:52,334 basehttp 18100 16640 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:07:52,348 basehttp 18100 11388 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:07:52,381 basehttp 18100 4792 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:07:52,384 basehttp 18100 9992 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:07:52,388 basehttp 18100 18964 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:07:52,409 basehttp 18100 7916 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:07:52,411 basehttp 18100 16640 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:07:52,414 basehttp 18100 11388 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:07:52,423 basehttp 18100 4792 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:07:52,431 basehttp 18100 9992 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:07:52,441 basehttp 18100 18964 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:07:52,443 basehttp 18100 7916 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:07:52,450 basehttp 18100 16640 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:07:52,457 basehttp 18100 11388 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+WARNING 2025-10-02 19:07:52,467 log 18100 4792 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:07:52,480 basehttp 18100 11388 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+WARNING 2025-10-02 19:07:52,482 basehttp 18100 4792 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:52,492 basehttp 18100 11388 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:07:52,495 basehttp 18100 4792 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:07:52,503 basehttp 18100 11388 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+WARNING 2025-10-02 19:07:52,619 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:52,621 log 18100 18964 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+INFO 2025-10-02 19:07:52,622 basehttp 18100 4792 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:07:52,623 basehttp 18100 11388 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+WARNING 2025-10-02 19:07:52,625 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:52,625 basehttp 18100 18964 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:52,661 basehttp 18100 18964 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:07:52,661 basehttp 18100 11388 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:07:52,847 log 18100 11388 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:52,847 basehttp 18100 11388 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:54,495 basehttp 18100 11388 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73148
+WARNING 2025-10-02 19:07:54,543 log 18100 18964 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:54,545 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:54,548 basehttp 18100 18964 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:54,553 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:54,554 basehttp 18100 18964 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:07:54,556 basehttp 18100 11388 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:07:54,561 basehttp 18100 18964 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:07:54,561 basehttp 18100 16640 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:07:54,659 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:54,661 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:55,636 basehttp 18100 16640 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:07:57,828 basehttp 18100 16640 "GET /admin/homepage/heroslide/7/change/ HTTP/1.1" 200 73148
+WARNING 2025-10-02 19:07:57,858 log 18100 18964 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:07:57,859 log 18100 11388 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:57,860 basehttp 18100 18964 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:07:57,863 basehttp 18100 11388 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:07:57,879 basehttp 18100 16640 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:07:57,967 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg
+WARNING 2025-10-02 19:07:57,980 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_DcSVgvK.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:05,026 basehttp 18100 16640 "POST /admin/homepage/heroslide/7/change/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:08:05,087 basehttp 18100 16640 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68667
+WARNING 2025-10-02 19:08:05,126 log 18100 11388 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:05,128 basehttp 18100 11388 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:05,131 log 18100 11388 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+INFO 2025-10-02 19:08:05,136 basehttp 18100 16640 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:08:05,136 basehttp 18100 11388 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:05,143 log 18100 16640 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:05,145 basehttp 18100 16640 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:07,141 basehttp 18100 5620 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68066
+INFO 2025-10-02 19:08:07,182 basehttp 18100 5620 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:08:07,192 basehttp 18100 5440 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:08:07,193 basehttp 18100 6148 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:08:07,193 basehttp 18100 3112 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:08:07,196 basehttp 18100 8308 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:08:07,203 basehttp 18100 5440 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:08:07,211 basehttp 18100 3112 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:08:07,214 basehttp 18100 6148 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:08:07,215 basehttp 18100 5620 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:08:07,219 basehttp 18100 8308 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:08:07,220 basehttp 18100 5440 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:08:07,226 basehttp 18100 3112 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:08:07,228 basehttp 18100 6148 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+WARNING 2025-10-02 19:08:07,234 log 18100 5440 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:08:07,241 basehttp 18100 8308 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:08:07,245 basehttp 18100 5620 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+WARNING 2025-10-02 19:08:07,256 basehttp 18100 5440 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:07,258 basehttp 18100 3112 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:08:07,276 basehttp 18100 3112 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:08:07,276 basehttp 18100 5440 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:08:07,278 basehttp 18100 14760 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:08:07,373 basehttp 18100 14760 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:08:07,374 basehttp 18100 5440 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:08:07,382 basehttp 18100 5440 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:08:07,383 basehttp 18100 14760 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+WARNING 2025-10-02 19:08:07,466 log 18100 14760 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:08:07,468 log 18100 5440 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:07,476 basehttp 18100 14760 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:07,478 basehttp 18100 5440 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:07,521 basehttp 18100 14760 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:08:07,530 basehttp 18100 5440 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:08:07,793 log 18100 5440 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:07,795 basehttp 18100 5440 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:22,026 basehttp 18100 17824 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 898
+INFO 2025-10-02 19:08:22,029 basehttp 18100 19892 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+INFO 2025-10-02 19:08:22,043 basehttp 18100 16168 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:08:22,047 basehttp 18100 11708 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+INFO 2025-10-02 19:08:22,052 basehttp 18100 18580 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+INFO 2025-10-02 19:08:22,079 basehttp 18100 15184 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+INFO 2025-10-02 19:08:22,083 basehttp 18100 11708 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+INFO 2025-10-02 19:08:22,086 basehttp 18100 16168 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+INFO 2025-10-02 19:08:22,100 basehttp 18100 18580 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+INFO 2025-10-02 19:08:22,106 basehttp 18100 17824 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+INFO 2025-10-02 19:08:22,129 basehttp 18100 15184 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+WARNING 2025-10-02 19:08:22,132 log 18100 20132 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:08:22,147 basehttp 18100 20132 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:22,147 basehttp 18100 11708 "GET /api/footer/ HTTP/1.1" 200 5212
+INFO 2025-10-02 19:08:22,157 basehttp 18100 19892 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+INFO 2025-10-02 19:08:22,157 basehttp 18100 16168 "GET /api/header/ HTTP/1.1" 200 4935
+WARNING 2025-10-02 19:08:22,167 log 18100 5600 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:08:22,169 log 18100 17152 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:22,172 basehttp 18100 5600 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:22,177 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+WARNING 2025-10-02 19:08:22,178 basehttp 18100 17152 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:22,193 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+WARNING 2025-10-02 19:08:22,329 log 18100 20132 Not Found: /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:22,329 basehttp 18100 20132 "GET /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:22,365 log 18100 20132 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:08:22,367 basehttp 18100 20132 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:41,370 basehttp 18100 18264 "GET /admin/homepage/heroslide/10/change/ HTTP/1.1" 200 73074
+WARNING 2025-10-02 19:08:41,403 log 18100 9396 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:41,404 basehttp 18100 9396 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:41,407 log 18100 18380 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:41,409 basehttp 18100 18380 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:41,413 basehttp 18100 18264 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:08:41,504 log 18100 18264 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+WARNING 2025-10-02 19:08:41,507 basehttp 18100 18264 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:41,594 log 18100 18264 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:41,595 basehttp 18100 18264 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:46,918 basehttp 18100 18264 "POST /admin/homepage/heroslide/10/change/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:08:46,985 basehttp 18100 18264 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68659
+WARNING 2025-10-02 19:08:47,019 log 18100 18380 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:47,020 basehttp 18100 18380 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:47,025 basehttp 18100 18264 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:08:47,028 log 18100 18380 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:08:47,029 basehttp 18100 18380 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:47,031 log 18100 18264 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:08:47,034 basehttp 18100 18264 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:52,069 basehttp 18100 18264 "GET /admin/homepage/heroslide/ HTTP/1.1" 200 68063
+INFO 2025-10-02 19:08:52,098 basehttp 18100 18264 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:08:52,111 basehttp 18100 9396 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:08:52,111 basehttp 18100 18264 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:08:52,122 basehttp 18100 10908 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:08:52,124 basehttp 18100 4644 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:08:52,125 basehttp 18100 18264 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:08:52,127 basehttp 18100 10908 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:08:52,130 basehttp 18100 9396 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:08:52,132 basehttp 18100 4644 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:08:52,139 basehttp 18100 18264 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:08:52,144 basehttp 18100 464 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:08:52,147 basehttp 18100 10908 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:08:52,150 basehttp 18100 4644 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:08:52,156 basehttp 18100 9396 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+WARNING 2025-10-02 19:08:52,160 log 18100 464 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:08:52,166 basehttp 18100 18264 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+WARNING 2025-10-02 19:08:52,174 basehttp 18100 464 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:52,182 basehttp 18100 10908 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:08:52,194 basehttp 18100 464 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:08:52,194 basehttp 18100 10908 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:08:52,196 basehttp 18100 18380 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:08:52,208 basehttp 18100 18380 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:08:52,210 basehttp 18100 10908 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:08:52,235 basehttp 18100 18380 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:08:52,238 basehttp 18100 10908 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+WARNING 2025-10-02 19:08:52,262 log 18100 10908 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:08:52,263 basehttp 18100 10908 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:52,270 log 18100 10908 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:08:52,270 basehttp 18100 10908 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:52,439 basehttp 18100 18380 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:08:52,441 basehttp 18100 10908 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:08:52,677 log 18100 10908 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:08:52,679 basehttp 18100 10908 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:56,803 basehttp 18100 17824 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+INFO 2025-10-02 19:08:56,846 basehttp 18100 16168 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 892
+INFO 2025-10-02 19:08:56,846 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:08:56,846 basehttp 18100 18580 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+INFO 2025-10-02 19:08:56,875 basehttp 18100 11708 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+INFO 2025-10-02 19:08:56,921 basehttp 18100 15184 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+INFO 2025-10-02 19:08:57,086 basehttp 18100 19892 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+INFO 2025-10-02 19:08:57,091 basehttp 18100 15184 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+INFO 2025-10-02 19:08:57,122 basehttp 18100 17824 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+INFO 2025-10-02 19:08:57,138 basehttp 18100 11708 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+INFO 2025-10-02 19:08:57,177 basehttp 18100 18580 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+INFO 2025-10-02 19:08:57,181 basehttp 18100 16168 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+WARNING 2025-10-02 19:08:57,192 log 18100 9500 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:08:57,227 log 18100 16636 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:08:57,240 basehttp 18100 16636 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:08:57,228 basehttp 18100 9500 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:08:57,241 basehttp 18100 15184 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:08:57,228 basehttp 18100 19892 "GET /api/footer/ HTTP/1.1" 200 5212
+INFO 2025-10-02 19:08:57,314 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:08:57,349 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:09:05,479 basehttp 18100 15184 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 892
+INFO 2025-10-02 19:09:05,486 basehttp 18100 11708 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+INFO 2025-10-02 19:09:05,504 basehttp 18100 16168 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+INFO 2025-10-02 19:09:05,590 basehttp 18100 18580 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+INFO 2025-10-02 19:09:05,590 basehttp 18100 17824 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+WARNING 2025-10-02 19:09:05,592 log 18100 12628 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+INFO 2025-10-02 19:09:05,603 basehttp 18100 16168 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+INFO 2025-10-02 19:09:05,609 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+WARNING 2025-10-02 19:09:05,625 log 18100 10512 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:09:05,699 basehttp 18100 10512 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:09:05,644 basehttp 18100 18580 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+INFO 2025-10-02 19:09:05,681 basehttp 18100 15184 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+WARNING 2025-10-02 19:09:05,644 basehttp 18100 12628 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:09:05,723 basehttp 18100 16168 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+INFO 2025-10-02 19:09:05,724 basehttp 18100 17824 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+INFO 2025-10-02 19:09:05,747 basehttp 18100 11708 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+INFO 2025-10-02 19:09:05,779 basehttp 18100 19892 "GET /api/footer/ HTTP/1.1" 200 5212
+INFO 2025-10-02 19:09:05,807 basehttp 18100 18580 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:09:05,861 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:09:05,893 basehttp 18100 19892 "GET /api/header/ HTTP/1.1" 200 4935
+INFO 2025-10-02 19:10:27,658 autoreload 18100 11628 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:10:29,296 autoreload 12592 15068 Watching for file changes with StatReloader
+INFO 2025-10-02 19:10:40,426 autoreload 12592 15068 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:10:41,977 autoreload 8708 11424 Watching for file changes with StatReloader
+INFO 2025-10-02 19:10:44,365 basehttp 8708 4864 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64398
+INFO 2025-10-02 19:10:44,417 basehttp 8708 4864 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:10:44,434 basehttp 8708 19368 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:10:44,440 basehttp 8708 4864 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:10:44,445 basehttp 8708 19368 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:10:44,451 basehttp 8708 4864 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:10:44,453 basehttp 8708 4320 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:10:44,458 basehttp 8708 19368 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:10:44,461 basehttp 8708 19572 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:10:44,466 basehttp 8708 16244 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:10:44,469 basehttp 8708 4864 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:10:44,474 basehttp 8708 4320 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:10:44,482 basehttp 8708 19368 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:10:44,482 basehttp 8708 18376 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:10:44,488 basehttp 8708 19572 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:10:44,493 basehttp 8708 16244 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+WARNING 2025-10-02 19:10:44,503 log 8708 4320 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:10:44,503 basehttp 8708 4864 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+WARNING 2025-10-02 19:10:44,508 log 8708 18376 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:44,510 basehttp 8708 4320 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:10:44,514 basehttp 8708 18376 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:10:44,520 basehttp 8708 4320 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:10:44,521 basehttp 8708 18376 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:10:44,532 basehttp 8708 4320 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:10:44,533 basehttp 8708 18376 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:10:44,542 basehttp 8708 18376 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:10:44,542 basehttp 8708 4320 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:10:44,551 basehttp 8708 4320 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:10:44,688 basehttp 8708 18376 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:10:44,692 basehttp 8708 4320 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:10:45,135 log 8708 4320 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:10:45,136 basehttp 8708 4320 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:10:46,182 basehttp 8708 18856 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 67108
+INFO 2025-10-02 19:10:46,217 basehttp 8708 18856 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:10:46,220 log 8708 6348 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:10:46,223 basehttp 8708 6348 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:10:46,228 log 8708 14252 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:46,229 basehttp 8708 14252 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:10:46,246 basehttp 8708 6348 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:10:46,246 basehttp 8708 14252 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:10:46,246 basehttp 8708 18856 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:10:46,334 log 8708 18856 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:46,335 basehttp 8708 18856 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+WARNING 2025-10-02 19:10:49,175 log 8708 18856 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:49,177 basehttp 8708 18856 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:10:53,099 basehttp 8708 18856 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64398
+INFO 2025-10-02 19:10:54,656 basehttp 8708 18856 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 67108
+WARNING 2025-10-02 19:10:54,690 log 8708 6348 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:10:54,691 log 8708 14252 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:54,694 basehttp 8708 6348 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:10:54,694 basehttp 8708 14252 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:10:54,702 basehttp 8708 18856 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:10:54,772 log 8708 18856 Not Found: /media/brand/chabighar_1_3.webp
+WARNING 2025-10-02 19:10:54,782 basehttp 8708 18856 "GET /media/brand/chabighar_1_3.webp HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:00,677 basehttp 8708 3100 "POST /admin/header/brandinfo/1/change/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:11:00,741 basehttp 8708 3100 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64964
+WARNING 2025-10-02 19:11:00,785 log 8708 16396 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:00,789 log 8708 14520 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:11:00,791 basehttp 8708 16396 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:00,794 basehttp 8708 3100 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:11:00,794 basehttp 8708 14520 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:05,054 basehttp 8708 13040 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 892
+INFO 2025-10-02 19:11:05,087 basehttp 8708 19424 "GET /api/header/ HTTP/1.1" 200 4923
+WARNING 2025-10-02 19:11:05,117 log 8708 8900 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:11:05,120 log 8708 17660 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+INFO 2025-10-02 19:11:05,123 basehttp 8708 19132 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+WARNING 2025-10-02 19:11:05,138 log 8708 8016 Not Found: /media/brand/download.png
+INFO 2025-10-02 19:11:05,141 basehttp 8708 10720 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+WARNING 2025-10-02 19:11:05,169 basehttp 8708 17660 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:05,169 basehttp 8708 9636 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+WARNING 2025-10-02 19:11:05,169 basehttp 8708 8900 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:05,175 basehttp 8708 8016 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:05,230 basehttp 8708 19132 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+INFO 2025-10-02 19:11:05,238 basehttp 8708 14920 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+INFO 2025-10-02 19:11:05,238 basehttp 8708 13040 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+WARNING 2025-10-02 19:11:05,250 log 8708 8900 Not Found: /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg
+INFO 2025-10-02 19:11:05,266 basehttp 8708 10720 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+WARNING 2025-10-02 19:11:05,308 basehttp 8708 8900 "GET /media/homepage/showcase/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:05,289 basehttp 8708 9636 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+INFO 2025-10-02 19:11:05,311 basehttp 8708 19132 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+INFO 2025-10-02 19:11:05,285 basehttp 8708 19424 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+INFO 2025-10-02 19:11:05,346 basehttp 8708 13040 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:05,346 basehttp 8708 14920 "GET /api/footer/ HTTP/1.1" 200 5212
+INFO 2025-10-02 19:11:05,382 basehttp 8708 19132 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:05,402 basehttp 8708 13040 "GET /api/header/ HTTP/1.1" 200 4923
+WARNING 2025-10-02 19:11:05,544 log 8708 8900 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:05,547 basehttp 8708 8900 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:10,491 basehttp 8708 19424 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+INFO 2025-10-02 19:11:10,493 basehttp 8708 14920 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+INFO 2025-10-02 19:11:10,537 basehttp 8708 13040 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:10,520 basehttp 8708 19132 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 892
+INFO 2025-10-02 19:11:10,606 basehttp 8708 9636 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+INFO 2025-10-02 19:11:10,618 basehttp 8708 10720 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+INFO 2025-10-02 19:11:10,688 basehttp 8708 13040 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+INFO 2025-10-02 19:11:10,688 basehttp 8708 19132 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+WARNING 2025-10-02 19:11:10,728 log 8708 16872 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+WARNING 2025-10-02 19:11:10,730 log 8708 9224 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:11:10,731 basehttp 8708 16872 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:10,732 basehttp 8708 9636 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+INFO 2025-10-02 19:11:10,740 basehttp 8708 19424 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+WARNING 2025-10-02 19:11:10,766 basehttp 8708 9224 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:10,814 log 8708 17300 Not Found: /media/brand/download.png
+INFO 2025-10-02 19:11:10,862 basehttp 8708 10720 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+INFO 2025-10-02 19:11:10,876 basehttp 8708 13040 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:10,876 basehttp 8708 14920 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+WARNING 2025-10-02 19:11:10,918 basehttp 8708 17300 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:11,023 basehttp 8708 19132 "GET /api/footer/ HTTP/1.1" 200 5212
+WARNING 2025-10-02 19:11:11,104 log 8708 16872 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:11,113 basehttp 8708 16872 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:11,106 basehttp 8708 10720 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:11,167 basehttp 8708 10720 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:13,406 basehttp 8708 14224 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 67090
+WARNING 2025-10-02 19:11:13,439 log 8708 16972 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:11:13,442 log 8708 5916 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:13,443 basehttp 8708 16972 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:13,447 basehttp 8708 5916 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:13,450 basehttp 8708 14224 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:11:13,508 log 8708 14224 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:13,511 basehttp 8708 14224 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:20,098 autoreload 8708 11424 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:11:21,547 autoreload 14232 14228 Watching for file changes with StatReloader
+INFO 2025-10-02 19:11:26,363 basehttp 14232 11360 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 67090
+INFO 2025-10-02 19:11:26,422 basehttp 14232 11360 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:11:26,422 basehttp 14232 13844 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:11:26,423 basehttp 14232 3888 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:11:26,426 basehttp 14232 3108 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:11:26,436 basehttp 14232 13844 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:11:26,440 basehttp 14232 11360 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:11:26,444 basehttp 14232 13844 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:11:26,448 basehttp 14232 5020 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:11:26,451 basehttp 14232 11360 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:11:26,451 basehttp 14232 3108 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:11:26,463 basehttp 14232 3888 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:11:26,463 basehttp 14232 12448 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:11:26,467 basehttp 14232 13844 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:11:26,479 basehttp 14232 11360 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:11:26,480 basehttp 14232 5020 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:11:26,483 basehttp 14232 3108 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+WARNING 2025-10-02 19:11:26,494 log 14232 3888 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:26,495 log 14232 12448 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:11:26,500 basehttp 14232 3888 "GET /media/brand/download.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:26,501 basehttp 14232 12448 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:26,540 basehttp 14232 12448 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+INFO 2025-10-02 19:11:26,540 basehttp 14232 3888 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 19:11:26,551 basehttp 14232 12448 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:11:26,554 basehttp 14232 3888 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:11:26,567 basehttp 14232 12448 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:11:26,568 basehttp 14232 3888 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:11:26,578 basehttp 14232 3888 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:11:26,580 basehttp 14232 12448 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:11:26,588 basehttp 14232 12448 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-10-02 19:11:26,720 basehttp 14232 3888 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:11:26,722 basehttp 14232 12448 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:11:26,770 log 14232 12448 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:26,782 basehttp 14232 12448 "GET /media/brand/download.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:27,002 log 14232 12448 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:11:27,005 basehttp 14232 12448 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:29,662 basehttp 14232 420 "GET /api/homepage/video-showcase/ HTTP/1.1" 200 574
+INFO 2025-10-02 19:11:29,669 basehttp 14232 13084 "GET /api/homepage/hero-slides/ HTTP/1.1" 200 892
+INFO 2025-10-02 19:11:29,669 basehttp 14232 2788 "GET /api/homepage/showcase-images/ HTTP/1.1" 200 329
+INFO 2025-10-02 19:11:29,694 basehttp 14232 6776 "GET /api/portfolio/portfolios/featured/ HTTP/1.1" 200 1304
+INFO 2025-10-02 19:11:29,706 basehttp 14232 19012 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:29,707 basehttp 14232 5112 "GET /api/vendor/categories/ HTTP/1.1" 200 11597
+WARNING 2025-10-02 19:11:29,741 log 14232 14588 Not Found: /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg
+INFO 2025-10-02 19:11:29,781 basehttp 14232 6776 "GET /api/homepage/video-testimonials/ HTTP/1.1" 200 1434
+INFO 2025-10-02 19:11:29,782 basehttp 14232 19012 "GET /api/homepage/faqs/ HTTP/1.1" 200 5650
+INFO 2025-10-02 19:11:29,796 basehttp 14232 420 "GET /api/vendor/featured/ HTTP/1.1" 200 2458
+INFO 2025-10-02 19:11:29,800 basehttp 14232 5112 "GET /api/homepage/text-testimonials/ HTTP/1.1" 200 3031
+WARNING 2025-10-02 19:11:29,802 log 14232 13176 Not Found: /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg
+WARNING 2025-10-02 19:11:29,803 basehttp 14232 14588 "GET /media/homepage/slider/ritual-with-coconut-leaves-traditional-hindu-wedding-ceremony_QS5ZoUW.jpg HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:29,820 basehttp 14232 2788 "GET /api/homepage/achievements/ HTTP/1.1" 200 1139
+INFO 2025-10-02 19:11:29,824 basehttp 14232 13084 "GET /api/vendor/profiles/ HTTP/1.1" 200 3649
+WARNING 2025-10-02 19:11:29,834 basehttp 14232 13176 "GET /media/homepage/slider/old-man-pours-something-hands-indian-woman-dressed_6e13xvI.jpg HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:29,840 log 14232 14588 Not Found: /media/brand/download.png
+INFO 2025-10-02 19:11:29,863 basehttp 14232 19012 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:29,879 basehttp 14232 6776 "GET /api/footer/ HTTP/1.1" 200 5212
+WARNING 2025-10-02 19:11:29,880 basehttp 14232 14588 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:29,917 basehttp 14232 13084 "GET /api/header/ HTTP/1.1" 200 4923
+INFO 2025-10-02 19:11:29,955 basehttp 14232 13084 "GET /api/header/ HTTP/1.1" 200 4923
+WARNING 2025-10-02 19:11:30,066 log 14232 14588 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:30,068 basehttp 14232 14588 "GET /media/brand/download.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:11:53,344 log 14232 12448 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:11:53,346 basehttp 14232 12448 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:11:56,656 basehttp 14232 12448 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64392
+WARNING 2025-10-02 19:11:56,873 log 14232 12448 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:11:56,875 basehttp 14232 12448 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:13:58,907 autoreload 14232 14228 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:14:00,565 autoreload 18100 11628 Watching for file changes with StatReloader
+INFO 2025-10-02 19:14:25,474 autoreload 18100 11628 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:14:26,787 autoreload 7080 7808 Watching for file changes with StatReloader
+INFO 2025-10-02 19:14:46,107 autoreload 7080 7808 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.
+INFO 2025-10-02 19:14:47,523 autoreload 20020 11868 Watching for file changes with StatReloader
+INFO 2025-10-02 19:14:55,395 autoreload 20020 11868 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:14:57,470 autoreload 11092 7676 Watching for file changes with StatReloader
+INFO 2025-10-02 19:15:09,149 autoreload 11092 7676 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:15:10,736 autoreload 16876 2488 Watching for file changes with StatReloader
+INFO 2025-10-02 19:15:31,634 autoreload 16876 2488 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:15:34,254 autoreload 11068 10648 Watching for file changes with StatReloader
+INFO 2025-10-02 19:15:48,286 autoreload 11068 10648 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:15:50,221 autoreload 13640 10208 Watching for file changes with StatReloader
+INFO 2025-10-02 19:16:01,384 autoreload 13640 10208 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:16:02,733 autoreload 13072 10920 Watching for file changes with StatReloader
+INFO 2025-10-02 19:16:18,364 autoreload 13072 10920 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\homepage\admin.py changed, reloading.
+INFO 2025-10-02 19:16:19,714 autoreload 19668 19164 Watching for file changes with StatReloader
+INFO 2025-10-02 19:16:35,212 autoreload 19668 19164 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\vendor\admin.py changed, reloading.
+INFO 2025-10-02 19:16:36,598 autoreload 11940 13112 Watching for file changes with StatReloader
+INFO 2025-10-02 19:16:51,110 autoreload 11940 13112 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\vendor\admin.py changed, reloading.
+INFO 2025-10-02 19:16:52,881 autoreload 17356 564 Watching for file changes with StatReloader
+INFO 2025-10-02 19:17:13,995 autoreload 17356 564 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\aboutpage\admin.py changed, reloading.
+INFO 2025-10-02 19:17:16,086 autoreload 17496 9972 Watching for file changes with StatReloader
+INFO 2025-10-02 19:18:20,803 autoreload 17496 9972 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\aboutpage\admin.py changed, reloading.
+INFO 2025-10-02 19:18:22,312 autoreload 13724 2144 Watching for file changes with StatReloader
+INFO 2025-10-02 19:18:48,814 autoreload 13724 2144 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\aboutpage\admin.py changed, reloading.
+INFO 2025-10-02 19:18:50,067 autoreload 13604 11124 Watching for file changes with StatReloader
+INFO 2025-10-02 19:19:21,939 autoreload 13604 11124 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\portfolio\admin.py changed, reloading.
+INFO 2025-10-02 19:19:23,241 autoreload 11708 5324 Watching for file changes with StatReloader
+INFO 2025-10-02 19:19:35,764 autoreload 11708 5324 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\portfolio\admin.py changed, reloading.
+INFO 2025-10-02 19:19:37,108 autoreload 11940 19592 Watching for file changes with StatReloader
+INFO 2025-10-02 19:19:49,501 autoreload 11940 19592 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\portfolio\admin.py changed, reloading.
+INFO 2025-10-02 19:19:50,762 autoreload 760 3984 Watching for file changes with StatReloader
+INFO 2025-10-02 19:20:20,550 autoreload 760 3984 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\vendor\admin.py changed, reloading.
+INFO 2025-10-02 19:20:21,985 autoreload 17152 20088 Watching for file changes with StatReloader
+INFO 2025-10-02 19:20:34,949 basehttp 17152 18036 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64884
+INFO 2025-10-02 19:20:35,014 basehttp 17152 18036 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:20:35,017 basehttp 17152 5340 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:20:35,018 basehttp 17152 7100 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:20:35,018 basehttp 17152 18488 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:20:35,026 basehttp 17152 20260 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:20:35,029 basehttp 17152 18036 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:20:35,035 basehttp 17152 18488 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:20:35,040 basehttp 17152 7100 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:20:35,041 basehttp 17152 5340 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:20:35,041 basehttp 17152 20260 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:20:35,054 basehttp 17152 18036 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:20:35,060 basehttp 17152 20260 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:20:35,060 basehttp 17152 5340 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:20:35,060 basehttp 17152 7100 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:20:35,065 basehttp 17152 18488 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:20:35,073 basehttp 17152 7292 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+WARNING 2025-10-02 19:20:35,079 log 17152 18036 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:20:35,087 basehttp 17152 18036 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:20:35,096 log 17152 5340 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:20:35,103 basehttp 17152 5340 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:20:35,141 basehttp 17152 18036 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:20:35,142 basehttp 17152 5340 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:20:35,183 basehttp 17152 18036 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:20:35,184 basehttp 17152 5340 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:20:35,187 basehttp 17152 7292 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:20:35,189 basehttp 17152 7100 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:20:35,190 basehttp 17152 18488 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:20:35,235 basehttp 17152 7100 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:20:35,236 basehttp 17152 18488 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:20:35,692 log 17152 18488 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:20:35,694 basehttp 17152 18488 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:00,835 basehttp 17152 11004 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64884
+INFO 2025-10-02 19:22:00,879 basehttp 17152 11004 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:22:00,885 basehttp 17152 6336 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:22:00,886 basehttp 17152 16412 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:22:00,887 basehttp 17152 2844 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:22:00,890 basehttp 17152 6724 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:22:00,900 basehttp 17152 6336 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:22:00,904 basehttp 17152 2844 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:22:00,904 basehttp 17152 6724 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:22:00,905 basehttp 17152 11004 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:22:00,905 basehttp 17152 16412 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:22:00,913 basehttp 17152 6336 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:22:00,920 basehttp 17152 6724 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+WARNING 2025-10-02 19:22:00,921 log 17152 6336 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:22:00,922 basehttp 17152 2844 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:22:00,922 basehttp 17152 11004 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+WARNING 2025-10-02 19:22:00,924 basehttp 17152 6336 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:00,928 basehttp 17152 16412 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:22:00,929 basehttp 17152 19496 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+WARNING 2025-10-02 19:22:00,937 log 17152 6724 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:22:00,941 basehttp 17152 6724 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:01,039 basehttp 17152 16412 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:22:01,047 basehttp 17152 6724 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:22:01,073 basehttp 17152 6724 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:22:01,074 basehttp 17152 16412 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:22:01,087 basehttp 17152 16412 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:22:01,088 basehttp 17152 6724 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:22:01,099 basehttp 17152 6724 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:22:01,192 basehttp 17152 16412 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:22:01,196 basehttp 17152 6724 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:22:01,547 log 17152 6724 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:22:01,547 basehttp 17152 6724 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:55,010 basehttp 17152 6660 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64884
+INFO 2025-10-02 19:22:55,051 basehttp 17152 6660 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:22:55,071 basehttp 17152 6660 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:22:55,072 basehttp 17152 13504 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:22:55,075 basehttp 17152 10244 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:22:55,085 basehttp 17152 6660 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:22:55,086 basehttp 17152 19784 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:22:55,087 basehttp 17152 13504 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:22:55,094 basehttp 17152 6660 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:22:55,101 basehttp 17152 10244 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:22:55,105 basehttp 17152 19784 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:22:55,108 basehttp 17152 6660 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:22:55,110 basehttp 17152 13504 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:22:55,112 basehttp 17152 10244 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:22:55,114 basehttp 17152 9768 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:22:55,119 log 17152 13504 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:22:55,127 log 17152 9768 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:22:55,129 basehttp 17152 13504 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:22:55,130 basehttp 17152 9768 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:55,134 basehttp 17152 19784 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+INFO 2025-10-02 19:22:55,154 basehttp 17152 18704 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:22:55,160 basehttp 17152 9768 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:22:55,164 basehttp 17152 19784 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:22:55,249 basehttp 17152 19784 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:22:55,251 basehttp 17152 9768 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:22:55,265 basehttp 17152 18704 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 200 2252
+INFO 2025-10-02 19:22:55,265 basehttp 17152 9768 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:22:55,266 basehttp 17152 19784 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:22:55,312 basehttp 17152 9768 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:22:55,314 basehttp 17152 19784 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:22:55,662 log 17152 19784 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:22:55,664 basehttp 17152 19784 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:56,942 basehttp 17152 19784 "GET /admin/header/brandinfo/1/change/ HTTP/1.1" 200 67267
+WARNING 2025-10-02 19:22:56,997 log 17152 9768 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:22:56,998 log 17152 18704 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:22:57,001 basehttp 17152 9768 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:22:57,002 basehttp 17152 18704 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:22:57,017 basehttp 17152 18704 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:22:57,017 basehttp 17152 9768 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:22:57,022 basehttp 17152 19784 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:22:57,022 basehttp 17152 9768 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:22:57,113 log 17152 9768 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:22:57,118 basehttp 17152 9768 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:05,593 basehttp 17152 9768 "GET /admin/header/brandinfo/ HTTP/1.1" 200 64884
+WARNING 2025-10-02 19:23:05,628 log 17152 19784 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:05,629 log 17152 18704 Not Found: /media/brand/download.png
+WARNING 2025-10-02 19:23:05,629 basehttp 17152 19784 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:23:05,631 basehttp 17152 18704 "GET /media/brand/download.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:05,635 basehttp 17152 9768 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:08,983 basehttp 17152 9768 "GET /admin/vendor/vendorcategory/ HTTP/1.1" 200 79309
+WARNING 2025-10-02 19:23:09,015 log 17152 18704 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:09,016 basehttp 17152 18704 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:09,027 basehttp 17152 9768 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:09,053 basehttp 17152 19784 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 200 436
+INFO 2025-10-02 19:23:12,099 basehttp 17152 19784 "GET /admin/vendor/vendorhighlight/ HTTP/1.1" 200 67158
+WARNING 2025-10-02 19:23:12,133 log 17152 9768 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:12,134 basehttp 17152 9768 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:12,138 basehttp 17152 19784 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:13,718 basehttp 17152 19784 "GET /admin/vendor/vendorimage/ HTTP/1.1" 200 85359
+WARNING 2025-10-02 19:23:13,750 log 17152 9768 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:13,752 basehttp 17152 9768 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:23:13,757 log 17152 9768 Not Found: /media/vendor_images/Rectangle_70.png
+WARNING 2025-10-02 19:23:13,759 basehttp 17152 9768 "GET /media/vendor_images/Rectangle_70.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:13,762 basehttp 17152 19784 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:17,279 basehttp 17152 19784 "GET /admin/vendor/vendorimage/1/change/ HTTP/1.1" 200 70213
+WARNING 2025-10-02 19:23:17,312 log 17152 9768 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:17,314 basehttp 17152 9768 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:17,321 basehttp 17152 19784 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:17,338 basehttp 17152 9768 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-10-02 19:23:17,341 basehttp 17152 18704 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-10-02 19:23:17,349 basehttp 17152 19784 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-10-02 19:23:57,983 basehttp 17152 19784 "POST /admin/vendor/vendorimage/1/change/ HTTP/1.1" 302 0
+INFO 2025-10-02 19:23:58,161 basehttp 17152 19784 "GET /admin/vendor/vendorimage/ HTTP/1.1" 200 86129
+INFO 2025-10-02 19:23:58,199 basehttp 17152 9768 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,200 basehttp 17152 19784 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,200 basehttp 17152 13504 "GET /static/jazzmin/css/main.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,201 basehttp 17152 10244 "GET /static/admin/css/custom_admin.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,203 basehttp 17152 18704 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,203 basehttp 17152 6660 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,214 basehttp 17152 19784 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,216 basehttp 17152 13504 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,221 basehttp 17152 10244 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,228 basehttp 17152 18704 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,235 basehttp 17152 6660 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,241 basehttp 17152 13504 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,241 basehttp 17152 19784 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,242 basehttp 17152 9768 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:23:58,248 basehttp 17152 10244 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:23:58,251 log 17152 6660 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:23:58,262 basehttp 17152 6660 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:58,270 basehttp 17152 6660 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,270 basehttp 17152 10244 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 18704 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 6660 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 19784 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 13504 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 10244 "GET /static/jazzmin/js/main.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,298 basehttp 17152 9768 "GET /static/admin/js/custom_admin.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:23:58,330 log 17152 10244 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:23:58,336 log 17152 9768 Not Found: /media/vendor_images/Rectangle_70.png
+WARNING 2025-10-02 19:23:58,352 basehttp 17152 10244 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:23:58,359 basehttp 17152 9768 "GET /media/vendor_images/Rectangle_70.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:23:58,386 basehttp 17152 10244 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 304 0
+INFO 2025-10-02 19:23:58,386 basehttp 17152 9768 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+INFO 2025-10-02 19:24:04,493 basehttp 17152 9768 "GET /admin/vendor/vendorimage/1/change/ HTTP/1.1" 200 70369
+WARNING 2025-10-02 19:24:04,532 log 17152 10244 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:24:04,533 basehttp 17152 13504 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:24:04,533 basehttp 17152 10244 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:24:04,542 basehttp 17152 10244 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:24:04,543 basehttp 17152 13504 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:24:04,546 basehttp 17152 9768 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:24:04,648 log 17152 9768 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:24:04,650 basehttp 17152 9768 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:24:06,131 log 17152 9768 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:24:06,132 basehttp 17152 9768 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:24:09,675 basehttp 17152 9768 "GET /admin/vendor/vendorimage/ HTTP/1.1" 200 85524
+INFO 2025-10-02 19:26:20,219 basehttp 17152 9768 "GET /admin/vendor/vendorimage/ HTTP/1.1" 200 85524
+INFO 2025-10-02 19:26:20,249 basehttp 17152 9768 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,261 basehttp 17152 13504 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,263 basehttp 17152 9768 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,261 basehttp 17152 19784 "GET /static/admin/css/custom_admin.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,261 basehttp 17152 10244 "GET /static/jazzmin/css/main.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,261 basehttp 17152 6660 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,271 basehttp 17152 19784 "GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,271 basehttp 17152 13504 "GET /static/admin/js/core.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,271 basehttp 17152 9768 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,273 basehttp 17152 18704 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:26:20,274 basehttp 17152 10244 "GET /static/admin/js/actions.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,278 basehttp 17152 6660 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,287 basehttp 17152 19784 "GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,298 basehttp 17152 13504 "GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,299 basehttp 17152 9768 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:20,301 log 17152 18704 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:26:20,307 basehttp 17152 6660 "GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:20,307 basehttp 17152 18704 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:26:20,325 basehttp 17152 6660 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,325 basehttp 17152 10244 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,326 basehttp 17152 13504 "GET /static/jazzmin/js/main.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,326 basehttp 17152 18704 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,326 basehttp 17152 19784 "GET /static/admin/js/custom_admin.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,326 basehttp 17152 9768 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:20,342 log 17152 13504 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:26:20,344 log 17152 10244 Not Found: /media/vendor_images/Rectangle_70.png
+INFO 2025-10-02 19:26:20,345 basehttp 17152 19784 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:20,346 basehttp 17152 9768 "GET /static/jazzmin/js/change_list.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:20,350 basehttp 17152 13504 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:26:20,353 basehttp 17152 10244 "GET /media/vendor_images/Rectangle_70.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:26:23,295 basehttp 17152 10244 "GET /admin/vendor/vendorimage/1/change/ HTTP/1.1" 200 70369
+INFO 2025-10-02 19:26:23,340 basehttp 17152 10244 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+WARNING 2025-10-02 19:26:23,354 log 17152 10244 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:26:23,355 basehttp 17152 13504 "GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:23,359 basehttp 17152 10244 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:26:23,365 basehttp 17152 10244 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,419 basehttp 17152 10244 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,419 basehttp 17152 9768 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,419 basehttp 17152 13504 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,427 basehttp 17152 13504 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,491 basehttp 17152 9768 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 304 0
+INFO 2025-10-02 19:26:23,491 basehttp 17152 13504 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+WARNING 2025-10-02 19:26:23,546 log 17152 13504 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:26:23,551 basehttp 17152 13504 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:26:24,369 log 17152 13504 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:26:24,372 basehttp 17152 13504 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:27:44,375 basehttp 17152 13504 "GET /admin/vendor/vendorimage/1/change/ HTTP/1.1" 200 70369
+INFO 2025-10-02 19:27:44,422 basehttp 17152 18704 "GET /static/admin/css/custom_admin.css HTTP/1.1" 200 6017
+INFO 2025-10-02 19:27:44,422 basehttp 17152 19784 "GET /static/jazzmin/css/main.css HTTP/1.1" 200 16969
+INFO 2025-10-02 19:27:44,423 basehttp 17152 6660 "GET /static/vendor/select2/css/select2.min.css HTTP/1.1" 200 16264
+INFO 2025-10-02 19:27:44,424 basehttp 17152 13504 "GET /static/vendor/fontawesome-free/css/all.min.css HTTP/1.1" 200 103009
+INFO 2025-10-02 19:27:44,425 basehttp 17152 10244 "GET /static/vendor/bootswatch/lux/bootstrap.min.css HTTP/1.1" 200 155932
+INFO 2025-10-02 19:27:44,439 basehttp 17152 19784 "GET /static/admin/js/jquery.init.js HTTP/1.1" 200 347
+INFO 2025-10-02 19:27:44,439 basehttp 17152 6660 "GET /static/admin/js/core.js HTTP/1.1" 200 6208
+INFO 2025-10-02 19:27:44,443 basehttp 17152 18704 "GET /static/admin/js/vendor/jquery/jquery.min.js HTTP/1.1" 200 87533
+INFO 2025-10-02 19:27:44,445 basehttp 17152 13504 "GET /admin/jsi18n/ HTTP/1.1" 200 3342
+INFO 2025-10-02 19:27:44,474 basehttp 17152 13504 "GET /static/admin/js/urlify.js HTTP/1.1" 200 7887
+INFO 2025-10-02 19:27:44,474 basehttp 17152 19784 "GET /static/admin/js/actions.js HTTP/1.1" 200 8076
+INFO 2025-10-02 19:27:44,475 basehttp 17152 10244 "GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 200 9777
+INFO 2025-10-02 19:27:44,475 basehttp 17152 6660 "GET /static/admin/js/prepopulate.js HTTP/1.1" 200 1531
+INFO 2025-10-02 19:27:44,482 basehttp 17152 18704 "GET /static/admin/js/vendor/xregexp/xregexp.min.js HTTP/1.1" 200 163184
+WARNING 2025-10-02 19:27:44,487 log 17152 6660 Not Found: /static/admin/img/chabighar-logo.png
+INFO 2025-10-02 19:27:44,487 basehttp 17152 9768 "GET /static/vendor/adminlte/css/adminlte.min.css HTTP/1.1" 200 1382975
+INFO 2025-10-02 19:27:44,490 basehttp 17152 19784 "GET /static/admin/js/change_form.js HTTP/1.1" 200 606
+WARNING 2025-10-02 19:27:44,490 basehttp 17152 6660 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:27:44,518 basehttp 17152 6660 "GET /static/admin/js/prepopulate_init.js HTTP/1.1" 200 586
+INFO 2025-10-02 19:27:44,523 basehttp 17152 19784 "GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 200 285314
+INFO 2025-10-02 19:27:44,606 basehttp 17152 6660 "GET /static/vendor/adminlte/js/adminlte.min.js HTTP/1.1" 200 44244
+INFO 2025-10-02 19:27:44,608 basehttp 17152 19784 "GET /static/vendor/bootstrap/js/bootstrap.min.js HTTP/1.1" 200 62440
+INFO 2025-10-02 19:27:44,620 basehttp 17152 19784 "GET /static/jazzmin/js/main.js HTTP/1.1" 200 2391
+INFO 2025-10-02 19:27:44,622 basehttp 17152 6660 "GET /static/admin/js/custom_admin.js HTTP/1.1" 200 9430
+INFO 2025-10-02 19:27:44,627 basehttp 17152 6660 "GET /static/jazzmin/js/ui-builder.js HTTP/1.1" 200 13873
+INFO 2025-10-02 19:27:44,633 basehttp 17152 19784 "GET /static/vendor/select2/js/select2.min.js HTTP/1.1" 200 73170
+INFO 2025-10-02 19:27:44,641 basehttp 17152 19784 "GET /static/jazzmin/js/change_form.js HTTP/1.1" 200 6052
+INFO 2025-10-02 19:27:44,660 basehttp 17152 19784 "GET /static/admin/img/icon-changelink.svg HTTP/1.1" 200 380
+INFO 2025-10-02 19:27:44,660 basehttp 17152 6660 "GET /static/admin/img/icon-addlink.svg HTTP/1.1" 200 331
+INFO 2025-10-02 19:27:44,661 basehttp 17152 9768 "GET /static/admin/img/icon-viewlink.svg HTTP/1.1" 200 581
+INFO 2025-10-02 19:27:44,703 basehttp 17152 9768 "GET /static/vendor/fontawesome-free/webfonts/fa-regular-400.woff2 HTTP/1.1" 200 25392
+INFO 2025-10-02 19:27:44,704 basehttp 17152 6660 "GET /static/vendor/fontawesome-free/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 156400
+WARNING 2025-10-02 19:27:44,757 log 17152 6660 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:27:44,768 basehttp 17152 6660 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:27:45,050 log 17152 6660 Not Found: /static/admin/img/chabighar-logo.png
+WARNING 2025-10-02 19:27:45,051 basehttp 17152 6660 "GET /static/admin/img/chabighar-logo.png HTTP/1.1" 404 179
+WARNING 2025-10-02 19:27:46,011 log 17152 6660 Not Found: /media/vendor_images/Screenshot_2025-10-02_192348.png
+WARNING 2025-10-02 19:27:46,016 basehttp 17152 6660 "GET /media/vendor_images/Screenshot_2025-10-02_192348.png HTTP/1.1" 404 179
+INFO 2025-10-02 19:28:15,396 autoreload 17152 20088 C:\Users\pmihu\OneDrive\Desktop\chobi\backend\header\admin.py changed, reloading.

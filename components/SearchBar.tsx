@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react';
 import { MagnifyingGlassIcon, XMarkIcon, MapPinIcon, StarIcon, PhotoIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface SearchResult {
   type: string;
@@ -84,7 +85,7 @@ export default function SearchBar({ isMobile = false, onExpandedChange }: Search
 
     setIsSearching(true);
     try {
-      const response = await fetch(`http://localhost:8000/api/search/?q=${encodeURIComponent(query)}`);
+      const response = await fetch(`${getApiUrl(API_ENDPOINTS.SEARCH)}?q=${encodeURIComponent(query)}`);
       const data = await response.json();
       
       if (response.ok) {
@@ -107,7 +108,7 @@ export default function SearchBar({ isMobile = false, onExpandedChange }: Search
   // Load suggestions on expand
   useEffect(() => {
     if (isExpanded && suggestions.length === 0) {
-      fetch('http://localhost:8000/api/search/suggestions/')
+      fetch(getApiUrl(API_ENDPOINTS.SEARCH_SUGGESTIONS))
         .then(res => res.json())
         .then(data => setSuggestions(data.suggestions || []))
         .catch(err => console.error('Failed to load suggestions:', err));

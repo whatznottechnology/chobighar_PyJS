@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -122,7 +123,7 @@ export default function InquiryModal({
     setIsSubmitting(true);
     
     try {
-      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -182,7 +183,7 @@ export default function InquiryModal({
       {/* Modal */}
       <div className="flex min-h-full items-center justify-center p-4 sm:p-6">
         <div 
-          className="relative w-full max-w-md transform overflow-hidden rounded-3xl bg-white/95 backdrop-blur-xl shadow-2xl transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95"
+          className="relative w-full max-w-md transform overflow-hidden rounded-3xl bg-white shadow-2xl transition-all duration-300 scale-100 animate-in fade-in-0 zoom-in-95"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Header */}
@@ -230,8 +231,8 @@ export default function InquiryModal({
                   name="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white/80 placeholder-gray-500 ${
-                    errors.name ? 'border-red-400 focus:ring-red-400' : 'border-gray-200 focus:ring-blue-400'
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white text-gray-900 placeholder:text-gray-400 ${
+                    errors.name ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                   }`}
                   placeholder="Your Name *"
                 />
@@ -246,8 +247,8 @@ export default function InquiryModal({
                   name="phone"
                   value={formData.phone}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white/80 placeholder-gray-500 ${
-                    errors.phone ? 'border-red-400 focus:ring-red-400' : 'border-gray-200 focus:ring-blue-400'
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white text-gray-900 placeholder:text-gray-400 ${
+                    errors.phone ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                   }`}
                   placeholder="Phone Number *"
                 />
@@ -262,8 +263,8 @@ export default function InquiryModal({
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white/80 placeholder-gray-500 ${
-                    errors.email ? 'border-red-400 focus:ring-red-400' : 'border-gray-200 focus:ring-blue-400'
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors bg-white text-gray-900 placeholder:text-gray-400 ${
+                    errors.email ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                   }`}
                   placeholder="Email Address *"
                 />
@@ -280,7 +281,7 @@ export default function InquiryModal({
                     name="event_date"
                     value={formData.event_date}
                     onChange={handleInputChange}
-                    className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors bg-white/80"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition-colors bg-white text-gray-900"
                   />
                 </div>
               )}
@@ -291,8 +292,8 @@ export default function InquiryModal({
                   value={formData.message}
                   onChange={handleInputChange}
                   rows={3}
-                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors resize-none bg-white/80 placeholder-gray-500 ${
-                    errors.message ? 'border-red-400 focus:ring-red-400' : 'border-gray-200 focus:ring-blue-400'
+                  className={`w-full px-4 py-3 border rounded-xl focus:ring-2 focus:ring-opacity-50 transition-colors resize-none bg-white text-gray-900 placeholder:text-gray-400 ${
+                    errors.message ? 'border-red-400 focus:ring-red-400' : 'border-gray-300 focus:ring-blue-400'
                   }`}
                   placeholder="Your message or requirements *"
                 />

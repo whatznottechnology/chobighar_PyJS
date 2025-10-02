@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useHeaderData } from '../hooks/useHeaderData';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface FormData {
   shootType: string;
@@ -50,7 +51,7 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/inquiry/create/', {
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
