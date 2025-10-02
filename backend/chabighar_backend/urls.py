@@ -28,6 +28,7 @@ urlpatterns = [
     path('api/aboutpage/', include('aboutpage.urls')),
     path('api/photoshootpage/', include('photoshootpage.urls')),
     path('api/vendor/', include('vendor.urls')),  # Vendor APIs
+    path('api/search/', include('search.urls')),  # Global Search API
     path('', include('portfolio.urls')),  # Portfolio APIs
 ]
 

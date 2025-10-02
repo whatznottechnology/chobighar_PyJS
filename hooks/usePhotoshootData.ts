@@ -41,10 +41,25 @@ interface PhotoshootPageSettings {
   is_active: boolean;
 }
 
+interface PortfolioAlbum {
+  id: string;
+  title: string;
+  subtitle?: string;
+  category: string;
+  category_id: string;
+  cover_image: string;
+  image_count: number;
+  date: string;
+  location: string;
+  is_active: boolean;
+}
+
 interface PhotoshootPageData {
   hero?: PhotoshootHero;
   services: PhotoshootService[];
   settings?: PhotoshootPageSettings;
+  testimonials: any[];
+  portfolios?: PortfolioAlbum[];
 }
 
 // Custom hooks
@@ -135,9 +150,40 @@ export function usePhotoshootPageSettings() {
   return { settings, loading, error };
 }
 
+export function usePortfolioAlbums() {
+  const [portfolios, setPortfolios] = useState<PortfolioAlbum[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchPortfolios() {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/api/portfolio/portfolios/');
+        if (response.ok) {
+          const data = await response.json();
+          setPortfolios(data);
+        } else {
+          setError('Failed to fetch portfolios data');
+        }
+      } catch (err) {
+        setError('Network error');
+        console.error('Error fetching portfolios:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchPortfolios();
+  }, []);
+
+  return { portfolios, loading, error };
+}
+
 export function usePhotoshootPageData() {
   const [data, setData] = useState<PhotoshootPageData>({
-    services: []
+    services: [],
+    testimonials: [],
+    portfolios: []
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -145,13 +191,26 @@ export function usePhotoshootPageData() {
   useEffect(() => {
     async function fetchPageData() {
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/photoshootpage/page-data/');
-        if (response.ok) {
-          const data = await response.json();
-          setData(data);
-        } else {
-          setError('Failed to fetch page data');
+        // Fetch photoshoot page data
+        const photoshootResponse = await fetch('http://127.0.0.1:8000/api/photoshootpage/page-data/');
+        let photoshootData: any = { services: [], testimonials: [] };
+        if (photoshootResponse.ok) {
+          photoshootData = await photoshootResponse.json();
         }
+
+        // Fetch portfolio albums
+        const portfolioResponse = await fetch('http://127.0.0.1:8000/api/portfolio/portfolios/');
+        let portfolioData: PortfolioAlbum[] = [];
+        if (portfolioResponse.ok) {
+          portfolioData = await portfolioResponse.json();
+        }
+
+        setData({
+          ...photoshootData,
+          portfolios: portfolioData,
+          services: photoshootData.services || [],
+          testimonials: photoshootData.testimonials || []
+        });
       } catch (err) {
         setError('Network error');
         console.error('Error fetching photoshoot page data:', err);
@@ -171,5 +230,6 @@ export type {
   PhotoshootHero,
   PhotoshootService,
   PhotoshootPageSettings,
-  PhotoshootPageData
+  PhotoshootPageData,
+  PortfolioAlbum
 };

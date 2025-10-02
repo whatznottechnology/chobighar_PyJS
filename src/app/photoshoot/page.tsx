@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { 
   CheckIcon,
   ArrowRightIcon,
@@ -10,13 +11,18 @@ import {
   UserGroupIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline';
-import { usePhotoshootPageData, PhotoshootService } from '@/hooks/usePhotoshootPageData';
+import { usePhotoshootPageData, PhotoshootService, PortfolioAlbum } from '../../../hooks/usePhotoshootData';
 
 export default function PhotoshootPage() {
-  const { data, isLoading, error } = usePhotoshootPageData();
+  const { data, loading, error } = usePhotoshootPageData();
+  const router = useRouter();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
+
+  const handleAlbumClick = (albumId: string) => {
+    router.push(`/portfolio/${albumId}`);
+  };
 
   return (
     <main className="min-h-screen bg-white">
@@ -51,7 +57,7 @@ export default function PhotoshootPage() {
               className="text-white px-8 py-4 rounded-xl font-semibold hover:opacity-90 transition-all inline-flex items-center justify-center gap-2 shadow-lg"
               style={{ backgroundColor: '#B22222' }}
             >
-              {data.hero?.cta_text || "Book Your Session"}
+              {data.hero?.primary_button_text || "Book Your Session"}
               <ArrowRightIcon className="w-5 h-5" />
             </button>
             <button 
@@ -100,7 +106,7 @@ export default function PhotoshootPage() {
               className="text-lg max-w-3xl mx-auto"
               style={{ color: '#666666' }}
             >
-              {data.settings?.services_section_subtitle || "From intimate portraits to grand celebrations, we create visual stories that last a lifetime"}
+              {data.settings?.services_section_description || "From intimate portraits to grand celebrations, we create visual stories that last a lifetime"}
             </p>
           </div>
 
@@ -253,86 +259,18 @@ export default function PhotoshootPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              {
-                title: 'Bengali Wedding Collection',
-                category: 'Wedding',
-                count: '25 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=300&fit=crop&auto=format'
-                ]
-              },
-              {
-                title: 'Pre-Wedding Stories',
-                category: 'Pre-Wedding',
-                count: '18 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&auto=format'
-                ]
-              },
-              {
-                title: 'Portrait Masterpieces',
-                category: 'Portrait',
-                count: '15 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1494790108755-2616c31b7a63?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format'
-                ]
-              },
-              {
-                title: 'Cultural Celebrations',
-                category: 'Events',
-                count: '22 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1519741497674-611481863552?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=300&fit=crop&auto=format'
-                ]
-              },
-              {
-                title: 'Fashion & Lifestyle',
-                category: 'Fashion',
-                count: '20 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1494790108755-2616c31b7a63?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=400&h=300&fit=crop&auto=format'
-                ]
-              },
-              {
-                title: 'Corporate Excellence',
-                category: 'Corporate',
-                count: '12 Photos',
-                coverImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop&auto=format',
-                images: [
-                  'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=400&h=300&fit=crop&auto=format',
-                  'https://images.unsplash.com/photo-1494790108755-2616c31b7a63?w=400&h=300&fit=crop&auto=format'
-                ]
-              }
-            ].map((album, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group">
+          {data.portfolios && data.portfolios.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {data.portfolios.map((album: PortfolioAlbum, index: number) => (
+              <div 
+                key={album.id} 
+                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 group cursor-pointer"
+                onClick={() => handleAlbumClick(album.id)}
+              >
                 {/* Album Cover */}
                 <div className="relative h-64 overflow-hidden">
                   <Image
-                    src={album.coverImage}
+                    src={album.cover_image || 'https://images.unsplash.com/photo-1583393762809-2bdf4478e2e6?w=600&h=400&fit=crop&auto=format'}
                     alt={album.title}
                     fill
                     className="object-cover transition-transform duration-300 group-hover:scale-110"
@@ -340,40 +278,51 @@ export default function PhotoshootPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
                   <div className="absolute top-4 right-4">
                     <div className="bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-                      <span className="text-sm font-semibold" style={{ color: '#B22222' }}>{album.count}</span>
+                      <span className="text-sm font-semibold" style={{ color: '#B22222' }}>
+                        {album.image_count} Photos
+                      </span>
                     </div>
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <h3 className="text-white font-bold text-xl mb-1">{album.title}</h3>
                     <p className="text-white/80 text-sm">{album.category}</p>
+                    {album.subtitle && (
+                      <p className="text-white/70 text-xs mt-1">{album.subtitle}</p>
+                    )}
                   </div>
                 </div>
                 
-                {/* Album Thumbnails */}
+                {/* Album Info */}
                 <div className="p-6">
-                  <div className="grid grid-cols-4 gap-2">
-                    {album.images.slice(0, 4).map((image, imgIndex) => (
-                      <div key={imgIndex} className="aspect-square relative overflow-hidden rounded-lg">
-                        <Image
-                          src={image}
-                          alt={`${album.title} preview ${imgIndex + 1}`}
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-300"
-                        />
-                      </div>
-                    ))}
+                  <div className="flex items-center justify-between text-sm text-gray-600 mb-4">
+                    <span>📍 {album.location}</span>
+                    <span>📅 {new Date(album.date).toLocaleDateString()}</span>
                   </div>
                   
                   <button 
-                    className="w-full mt-4 text-white py-3 rounded-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
+                    className="w-full text-white py-3 rounded-lg font-semibold hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200"
                     style={{ background: 'linear-gradient(to right, #B22222, #DC143C)' }}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleAlbumClick(album.id);
+                    }}
                   >
                     View Full Album
                   </button>
                 </div>
               </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p 
+                className="text-lg"
+                style={{ color: '#666666' }}
+              >
+                No portfolio albums available at the moment.
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
