@@ -11,8 +11,7 @@ import {
   MagnifyingGlassIcon,
   ArrowUpIcon
 } from '@heroicons/react/24/outline';
-import { usePortfolios, useCategoriesWithCount, usePortfolioVideos } from '@/hooks/usePortfolio';
-import { useShowcaseImages } from '@/hooks/useHomepageData';
+import { usePortfolios, useCategoriesWithCount, usePortfolioVideos, usePortfolioImages } from '@/hooks/usePortfolio';
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -24,7 +23,7 @@ export default function Portfolio() {
   const { portfolios, loading: portfoliosLoading } = usePortfolios({ category: selectedCategory });
   const { categories, loading: categoriesLoading } = useCategoriesWithCount();
   const { videos: portfolioVideos, loading: videosLoading } = usePortfolioVideos();
-  const { images: showcaseImages, loading: showcaseLoading } = useShowcaseImages();
+  const { images: portfolioImages, loading: portfolioImagesLoading } = usePortfolioImages();
 
   // Back to top visibility handler
   useEffect(() => {
@@ -389,7 +388,7 @@ export default function Portfolio() {
             </p>
           </div>
 
-          {showcaseLoading ? (
+          {portfolioImagesLoading ? (
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 space-y-4">
               {[...Array(12)].map((_, i) => (
                 <div key={i} className="break-inside-avoid mb-4">
@@ -400,21 +399,17 @@ export default function Portfolio() {
             </div>
           ) : (
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 space-y-4">
-              {showcaseImages && showcaseImages.map((image, index) => (
+              {portfolioImages && portfolioImages.map((image, index) => (
                 <div key={image.id} className="break-inside-avoid mb-4">
                   <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
-                    {image.image ? (
+                    {image.image && (
                       <Image
                         src={image.image}
-                        alt={image.caption || `Gallery Image ${index + 1}`}
+                        alt={image.caption || `Portfolio Gallery Image ${index + 1}`}
                         width={400}
                         height={index % 4 === 0 ? 600 : index % 4 === 1 ? 300 : index % 4 === 2 ? 700 : 450}
                         className="w-full h-auto object-cover transition-transform duration-500 group-hover:scale-110"
                       />
-                    ) : (
-                      <div className="w-full bg-gray-200 flex items-center justify-center" style={{ height: `${index % 4 === 0 ? 600 : index % 4 === 1 ? 300 : index % 4 === 2 ? 700 : 450}px` }}>
-                        <PhotoIcon className="w-16 h-16 text-gray-400" />
-                      </div>
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <div className="absolute bottom-4 left-4 right-4">

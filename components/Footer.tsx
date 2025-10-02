@@ -121,39 +121,35 @@ export default function Footer() {
             
             {/* Company Info - More space */}
             <div className="lg:col-span-4">
-              <div className="flex items-start space-x-3 mb-6">
-                {brandInfo?.logo_image_url ? (
-                  <Image
-                    src={brandInfo.logo_image_url}
-                    alt={brandInfo.main_text || "Chabighar"}
-                    width={50}
-                    height={50}
-                    className="rounded-lg shadow-lg flex-shrink-0"
-                  />
-                ) : (
-                  <Image
-                    src="/img/chabighar.png"
-                    alt="Chabighar"
-                    width={50}
-                    height={50}
-                    className="rounded-lg shadow-lg flex-shrink-0"
-                  />
-                )}
-                <div className="min-w-0">
-                  <h3 
-                    className="text-2xl font-bold text-white"
-                    style={{ fontFamily: 'Playfair Display, serif' }}
-                  >
-                    {brandInfo?.main_text || "Chabighar"}
-                  </h3>
-                  <p className="text-white text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
-                    {brandInfo?.sub_text || "(Art Direction and Design Studio)"}
+              {brandInfo && (
+                <>
+                  <div className="flex items-start space-x-3 mb-6">
+                    {brandInfo.logo_image_url && (
+                      <Image
+                        src={brandInfo.logo_image_url}
+                        alt={brandInfo.main_text}
+                        width={50}
+                        height={50}
+                        className="rounded-lg shadow-lg flex-shrink-0"
+                      />
+                    )}
+                    <div className="min-w-0">
+                      <h3 
+                        className="text-2xl font-bold text-white"
+                        style={{ fontFamily: 'Playfair Display, serif' }}
+                      >
+                        {brandInfo.main_text}
+                      </h3>
+                      <p className="text-white text-sm" style={{ fontFamily: 'Inter, sans-serif' }}>
+                        {brandInfo.sub_text}
+                      </p>
+                    </div>
+                  </div>
+                  <p className="text-white mb-6 leading-relaxed">
+                    {brandInfo.description}
                   </p>
-                </div>
-              </div>
-              <p className="text-white mb-6 leading-relaxed">
-                {brandInfo?.description || "Professional photography and videography services capturing your most precious moments with artistic excellence and cultural authenticity."}
-              </p>
+                </>
+              )}
               
               {/* Social Media */}
               <div className="flex space-x-4">
@@ -254,41 +250,51 @@ export default function Footer() {
               <h4 className="text-lg font-semibold text-white mb-6 border-b border-white/30 pb-2">
                 Get In Touch
               </h4>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <MapPinIcon className="w-5 h-5 text-white/70 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-white text-sm leading-relaxed">
-                      {contactInfo?.address_line1 || "Kolkata, West Bengal"}<br />
-                      {contactInfo?.address_line2 || "India"}
-                    </p>
-                  </div>
+              {contactInfo && (
+                <div className="space-y-4">
+                  {(contactInfo.address_line1 || contactInfo.address_line2) && (
+                    <div className="flex items-start space-x-3">
+                      <MapPinIcon className="w-5 h-5 text-white/70 mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-white text-sm leading-relaxed">
+                          {contactInfo.address_line1 && <>{contactInfo.address_line1}<br /></>}
+                          {contactInfo.address_line2}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                  
+                  {contactInfo.phone && (
+                    <div className="flex items-center space-x-3">
+                      <PhoneIcon className="w-5 h-5 text-white/70 flex-shrink-0" />
+                      <a href={`tel:${contactInfo.phone}`} className="text-white hover:text-gray-200 transition-colors text-sm">
+                        {contactInfo.phone}
+                      </a>
+                    </div>
+                  )}
+                  
+                  {contactInfo.email && (
+                    <div className="flex items-center space-x-3">
+                      <EnvelopeIcon className="w-5 h-5 text-white/70 flex-shrink-0" />
+                      <a href={`mailto:${contactInfo.email}`} className="text-white hover:text-gray-200 transition-colors text-sm">
+                        {contactInfo.email}
+                      </a>
+                    </div>
+                  )}
+                  
+                  {(contactInfo.weekday_hours || contactInfo.weekend_hours) && (
+                    <div className="flex items-start space-x-3">
+                      <ClockIcon className="w-5 h-5 text-white/70 mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-white text-sm">
+                          {contactInfo.weekday_hours && <>{contactInfo.weekday_hours}<br /></>}
+                          {contactInfo.weekend_hours}
+                        </p>
+                      </div>
+                    </div>
+                  )}
                 </div>
-                
-                <div className="flex items-center space-x-3">
-                  <PhoneIcon className="w-5 h-5 text-white/70 flex-shrink-0" />
-                  <a href={`tel:${contactInfo?.phone || "+91 96479 66765"}`} className="text-white hover:text-gray-200 transition-colors text-sm">
-                    {contactInfo?.phone || "+91 96479 66765"}
-                  </a>
-                </div>
-                
-                <div className="flex items-center space-x-3">
-                  <EnvelopeIcon className="w-5 h-5 text-white/70 flex-shrink-0" />
-                  <a href={`mailto:${contactInfo?.email || "info@chabighar.com"}`} className="text-white hover:text-gray-200 transition-colors text-sm">
-                    {contactInfo?.email || "info@chabighar.com"}
-                  </a>
-                </div>
-                
-                <div className="flex items-start space-x-3">
-                  <ClockIcon className="w-5 h-5 text-white/70 mt-1 flex-shrink-0" />
-                  <div>
-                    <p className="text-white text-sm">
-                      {contactInfo?.weekday_hours || "Mon - Sat: 9:00 AM - 8:00 PM"}<br />
-                      {contactInfo?.weekend_hours || "Sunday: By Appointment"}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -308,41 +314,51 @@ export default function Footer() {
               </p>
               
               {/* Contact Cards */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
-                {/* Phone Card */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
-                  <PhoneIcon className="w-8 h-8 text-white mx-auto mb-3" />
-                  <h5 className="text-white font-semibold mb-2">{contactInfo?.phone_text || "Call Us"}</h5>
-                  <a href={`tel:${contactInfo?.phone || "+91 96479 66765"}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
-                    {contactInfo?.phone || "+91 96479 66765"}
-                  </a>
-                  <p className="text-white/70 text-sm mt-1">{contactInfo?.weekday_hours || "Mon - Sat: 9 AM - 8 PM"}</p>
-                </div>
-
-                {/* WhatsApp Card */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
-                  {getSocialIcon('whatsapp') && (
-                    <div className="w-8 h-8 text-white mx-auto mb-3">
-                      {getSocialIcon('whatsapp')}
+              {contactInfo && (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 max-w-4xl mx-auto">
+                  {/* Phone Card */}
+                  {contactInfo.phone && (
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
+                      <PhoneIcon className="w-8 h-8 text-white mx-auto mb-3" />
+                      <h5 className="text-white font-semibold mb-2">{contactInfo.phone_text}</h5>
+                      <a href={`tel:${contactInfo.phone}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
+                        {contactInfo.phone}
+                      </a>
+                      {contactInfo.weekday_hours && (
+                        <p className="text-white/70 text-sm mt-1">{contactInfo.weekday_hours}</p>
+                      )}
                     </div>
                   )}
-                  <h5 className="text-white font-semibold mb-2">{contactInfo?.whatsapp_text || "WhatsApp"}</h5>
-                  <a href={`https://wa.me/${(contactInfo?.whatsapp_number || "+91 96479 66765").replace(/[^0-9]/g, '')}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
-                    {contactInfo?.whatsapp_number || "+91 96479 66765"}
-                  </a>
-                  <p className="text-white/70 text-sm mt-1">Quick Response</p>
-                </div>
 
-                {/* Email Card */}
-                <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105 sm:col-span-2 lg:col-span-1">
-                  <EnvelopeIcon className="w-8 h-8 text-white mx-auto mb-3" />
-                  <h5 className="text-white font-semibold mb-2">{contactInfo?.email_text || "Email Us"}</h5>
-                  <a href={`mailto:${contactInfo?.email || "info@chabighar.com"}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
-                    {contactInfo?.email || "info@chabighar.com"}
-                  </a>
-                  <p className="text-white/70 text-sm mt-1">24/7 Support</p>
+                  {/* WhatsApp Card */}
+                  {contactInfo.whatsapp_number && (
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105">
+                      {getSocialIcon('whatsapp') && (
+                        <div className="w-8 h-8 text-white mx-auto mb-3">
+                          {getSocialIcon('whatsapp')}
+                        </div>
+                      )}
+                      <h5 className="text-white font-semibold mb-2">{contactInfo.whatsapp_text}</h5>
+                      <a href={`https://wa.me/${contactInfo.whatsapp_number.replace(/[^0-9]/g, '')}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
+                        {contactInfo.whatsapp_number}
+                      </a>
+                      <p className="text-white/70 text-sm mt-1">Quick Response</p>
+                    </div>
+                  )}
+
+                  {/* Email Card */}
+                  {contactInfo.email && (
+                    <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl p-6 hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105 sm:col-span-2 lg:col-span-1">
+                      <EnvelopeIcon className="w-8 h-8 text-white mx-auto mb-3" />
+                      <h5 className="text-white font-semibold mb-2">{contactInfo.email_text}</h5>
+                      <a href={`mailto:${contactInfo.email}`} className="text-white hover:text-gray-200 transition-colors text-lg font-medium">
+                        {contactInfo.email}
+                      </a>
+                      <p className="text-white/70 text-sm mt-1">24/7 Support</p>
+                    </div>
+                  )}
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -351,9 +367,11 @@ export default function Footer() {
         <div className="border-t border-white/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-              <div className="text-white text-sm">
-                <span>{copyrightInfo?.text || "© 2025 Chabighar. All rights reserved."}</span>
-              </div>
+              {copyrightInfo?.text && (
+                <div className="text-white text-sm">
+                  <span>{copyrightInfo.text}</span>
+                </div>
+              )}
 
               {/* Center Love Sign with Taglines */}
               <div className="flex flex-col items-center space-y-2">

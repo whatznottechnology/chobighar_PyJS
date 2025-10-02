@@ -188,3 +188,36 @@ export const usePortfolioVideos = () => {
 
   return { videos, loading, error, refetch: fetchVideos };
 };
+
+// Hook for getting portfolio showcase images for gallery
+export const usePortfolioImages = () => {
+  const [images, setImages] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchImages = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await fetch('http://localhost:8000/api/portfolio/showcase-images/');
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      setImages(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch portfolio images');
+      console.error('Error fetching portfolio images:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchImages();
+  }, []);
+
+  return { images, loading, error, refetch: fetchImages };
+};

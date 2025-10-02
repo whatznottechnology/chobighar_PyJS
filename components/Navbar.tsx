@@ -153,48 +153,52 @@ export default function Navbar() {
             className="flex items-center gap-3 hover:opacity-90 transition-opacity group"
           >
             {/* Logo Image */}
-            <div className="relative">
-              <Image
-                src={headerData?.brand_info?.logo_image_url || "/img/chabighar.png"}
-                alt={`${headerData?.brand_info?.main_text || "Chabighar"} Logo`}
-                width={isScrolled ? 36 : 44}
-                height={isScrolled ? 36 : 44}
-                className="rounded-full object-cover border-2 group-hover:opacity-90 transition-all duration-300"
-                style={{ borderColor: 'rgba(178, 34, 34, 0.2)' }}
-                priority
-              />
-            </div>
+            {headerData?.brand_info?.logo_image_url && (
+              <div className="relative">
+                <Image
+                  src={headerData.brand_info.logo_image_url}
+                  alt={`${headerData.brand_info.main_text} Logo`}
+                  width={isScrolled ? 36 : 44}
+                  height={isScrolled ? 36 : 44}
+                  className="rounded-full object-cover border-2 group-hover:opacity-90 transition-all duration-300"
+                  style={{ borderColor: 'rgba(178, 34, 34, 0.2)' }}
+                  priority
+                />
+              </div>
+            )}
             
             {/* Brand Text - Clean and professional with Royal Red */}
-            <div className="flex flex-col">
-              <span
-                className={`font-semibold tracking-tight group-hover:opacity-90 transition-all duration-300 ${
-                  isScrolled ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'
-                }`}
-                style={{ 
-                  fontFamily: 'Playfair Display, serif',
-                  color: '#B22222'
-                }}
-              >
-                {headerData?.brand_info?.main_text || 'Chabighar'}
-              </span>
-              <span
-                className={`font-medium tracking-wide -mt-1 transition-all duration-300 ${
-                  isScrolled ? 'text-[9px] md:text-[10px]' : 'text-[10px] md:text-xs'
-                }`}
-                style={{ 
-                  fontFamily: 'Inter, sans-serif',
-                  color: '#707070'
-                }}
-              >
-                {headerData?.brand_info?.sub_text || '(Art Direction and Design Studio)'}
-              </span>
-              {/* Simple underline accent with Royal Red */}
-              <div 
-                className="h-0.5 rounded-full transition-opacity group-hover:opacity-80 mt-0.5" 
-                style={{ backgroundColor: '#B22222' }}
-              ></div>
-            </div>
+            {headerData?.brand_info && (
+              <div className="flex flex-col">
+                <span
+                  className={`font-semibold tracking-tight group-hover:opacity-90 transition-all duration-300 ${
+                    isScrolled ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'
+                  }`}
+                  style={{ 
+                    fontFamily: 'Playfair Display, serif',
+                    color: '#B22222'
+                  }}
+                >
+                  {headerData.brand_info.main_text}
+                </span>
+                <span
+                  className={`font-medium tracking-wide -mt-1 transition-all duration-300 ${
+                    isScrolled ? 'text-[9px] md:text-[10px]' : 'text-[10px] md:text-xs'
+                  }`}
+                  style={{ 
+                    fontFamily: 'Inter, sans-serif',
+                    color: '#707070'
+                  }}
+                >
+                  {headerData.brand_info.sub_text}
+                </span>
+                {/* Simple underline accent with Royal Red */}
+                <div 
+                  className="h-0.5 rounded-full transition-opacity group-hover:opacity-80 mt-0.5" 
+                  style={{ backgroundColor: '#B22222' }}
+                ></div>
+              </div>
+            )}
           </Link>
 
           {/* Desktop Navigation with Bengali-inspired hover effects */}

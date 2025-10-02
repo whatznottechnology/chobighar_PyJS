@@ -333,13 +333,15 @@ export default function AlbumsShowcase() {
                   key={image.id}
                   className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
                 >
-                  <Image
-                    src={image.image || '/img/placeholder.jpg'}
-                    alt={image.caption || 'Gallery image'}
-                    fill
-                    className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    sizes="(min-width: 768px) 20vw, 50vw"
-                  />
+                  {image.image_url && (
+                    <Image
+                      src={image.image_url}
+                      alt={image.alt_text}
+                      fill
+                      className="object-cover transition-transform duration-500 group-hover:scale-110"
+                      sizes="(min-width: 768px) 20vw, 50vw"
+                    />
+                  )}
                   
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">

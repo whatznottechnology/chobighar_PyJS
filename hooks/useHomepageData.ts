@@ -17,9 +17,10 @@ interface HeroSlide {
 interface ShowcaseImage {
   id: number;
   image: string;
-  caption: string;
+  image_url: string;
+  alt_text: string;
   order: number;
-  is_cover: boolean;
+  is_active: boolean;
 }
 
 interface VideoTestimonial {
@@ -181,7 +182,7 @@ export const useShowcaseImages = (): UseShowcaseImagesReturn => {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('http://localhost:8000/api/portfolio/showcase-images/');
+        const response = await fetch('http://localhost:8000/api/homepage/showcase-images/');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

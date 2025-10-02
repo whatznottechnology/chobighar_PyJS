@@ -53,17 +53,19 @@ export default function PhotoShowcase() {
                 height: index % 5 === 0 ? '400px' : index % 3 === 0 ? '320px' : '250px'
               }}
             >
-              <Image
-                src={image.image_url || '/img/placeholder.jpg'}
-                alt={image.alt_text}
-                fill
-                className="object-cover transition-transform duration-700 group-hover:scale-110"
-                sizes={
-                  index % 5 === 0 
-                    ? "(min-width: 768px) 50vw, 100vw"
-                    : "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-                }
-              />
+              {image.image_url && (
+                <Image
+                  src={image.image_url}
+                  alt={image.alt_text}
+                  fill
+                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  sizes={
+                    index % 5 === 0 
+                      ? "(min-width: 768px) 50vw, 100vw"
+                      : "(min-width: 1280px) 25vw, (min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+                  }
+                />
+              )}
               
               {/* Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">

@@ -117,39 +117,43 @@ export default function MobileDrawer({ isOpen, onClose, headerData: propHeaderDa
               borderColor: 'rgba(178, 34, 34, 0.1)'
             }}
           >
-            <div className="flex items-center space-x-3">
-              {/* Logo Image */}
-              <div className="relative">
-                <Image
-                  src={headerData?.brand_info?.logo_image_url || "/img/chabighar.png"}
-                  alt={`${headerData?.brand_info?.main_text || "Chabighar"} Logo`}
-                  width={32}
-                  height={32}
-                  className="rounded-full object-cover border-2"
-                  style={{ borderColor: 'rgba(178, 34, 34, 0.2)' }}
-                  priority
-                />
+            {headerData?.brand_info && (
+              <div className="flex items-center space-x-3">
+                {/* Logo Image */}
+                {headerData.brand_info.logo_image_url && (
+                  <div className="relative">
+                    <Image
+                      src={headerData.brand_info.logo_image_url}
+                      alt={`${headerData.brand_info.main_text} Logo`}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover border-2"
+                      style={{ borderColor: 'rgba(178, 34, 34, 0.2)' }}
+                      priority
+                    />
+                  </div>
+                )}
+                
+                {/* Brand Text - Clean and professional with Royal Red */}
+                <div className="flex flex-col">
+                  <h2 
+                    id="mobile-menu-title" 
+                    className="text-lg font-semibold" 
+                    style={{ 
+                      fontFamily: 'Playfair Display, serif',
+                      color: '#B22222'
+                    }}
+                  >
+                    {headerData.brand_info.main_text}
+                  </h2>
+                  {/* Simple accent line with Royal Red */}
+                  <div 
+                    className="h-0.5 rounded-full"
+                    style={{ backgroundColor: 'rgba(178, 34, 34, 0.6)' }}
+                  ></div>
+                </div>
               </div>
-              
-              {/* Brand Text - Clean and professional with Royal Red */}
-              <div className="flex flex-col">
-                <h2 
-                  id="mobile-menu-title" 
-                  className="text-lg font-semibold" 
-                  style={{ 
-                    fontFamily: 'Playfair Display, serif',
-                    color: '#B22222'
-                  }}
-                >
-                  {headerData?.brand_info?.main_text || 'Chabighar'}
-                </h2>
-                {/* Simple accent line with Royal Red */}
-                <div 
-                  className="h-0.5 rounded-full"
-                  style={{ backgroundColor: 'rgba(178, 34, 34, 0.6)' }}
-                ></div>
-              </div>
-            </div>
+            )}
             <button
               ref={closeButtonRef}
               type="button"
