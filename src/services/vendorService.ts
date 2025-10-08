@@ -101,18 +101,18 @@ export interface VendorProfile {
   experience: string;
   price_range: string;
   capacity: string;
-  rating: string;
+  rating: number;
   reviews_count: number;
   business_hours: Record<string, string>;
   is_featured: boolean;
   category_name: string;
   subcategory_name: string;
   social_media: Record<string, string>;
-  hero_images: string[];
-  gallery_images: string[];
-  cover_image: string | null;
-  profile_image: string | null;
-  images: VendorImage[];
+  hero_images: string[];  // First 4 images for hero section
+  gallery_images: string[]; // Gallery type images
+  cover_image: string | null; // Cover type image
+  profile_image: string | null; // Profile type image
+  images: VendorImage[]; // All images with full details
   videos: VendorVideo[];
   services: VendorServiceItem[];
   specialties: VendorSpecialty[];

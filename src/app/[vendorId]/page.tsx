@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { getApiUrl, API_ENDPOINTS } from '@/config/api';
+import { getApiUrl, getMediaUrl, API_ENDPOINTS } from '@/config/api';
 import { 
   MapPinIcon, 
   StarIcon, 
@@ -176,9 +176,36 @@ export default function VendorProfile() {
     );
   }
 
-  // Data transformation helpers - NO FALLBACKS, only backend data
-  const displayGallery = vendor.gallery_images?.length > 0 ? vendor.gallery_images : 
-    (vendor.hero_images?.length > 0 ? vendor.hero_images : []);
+  // Debug logging for backend data
+  console.log('Vendor data from backend:', vendor);
+  console.log('Hero images from backend:', vendor.hero_images);
+  console.log('Gallery images from backend:', vendor.gallery_images);
+  console.log('Cover image from backend:', vendor.cover_image);
+  console.log('Profile image from backend:', vendor.profile_image);
+  console.log('All images from backend:', vendor.images);
+
+  // Data transformation helpers - Use images field for better URLs
+  let displayGallery: string[] = [];
+  
+  if (vendor.gallery_images && vendor.gallery_images.length > 0) {
+    // If gallery_images exist, use them (convert paths to full URLs)
+    displayGallery = vendor.gallery_images
+      .map(imagePath => getMediaUrl(imagePath))
+      .filter(url => url !== null) as string[];
+  } else if (vendor.images && vendor.images.length > 0) {
+    // Use images field which has full URLs already
+    displayGallery = vendor.images.map(img => img.image);
+  } else if (vendor.portfolio_items && vendor.portfolio_items.length > 0) {
+    // Use portfolio items images
+    displayGallery = vendor.portfolio_items.map(item => item.image);
+  } else if (vendor.hero_images && vendor.hero_images.length > 0) {
+    // Fallback to hero_images (convert paths to full URLs)
+    displayGallery = vendor.hero_images
+      .map(imagePath => getMediaUrl(imagePath))
+      .filter(url => url !== null) as string[];
+  }
+
+  console.log('Display gallery (processed):', displayGallery);
 
   return (
     <main className="min-h-screen bg-gray-50">
@@ -276,52 +303,75 @@ export default function VendorProfile() {
 
               {/* Right Content - Images */}
               <div className="relative">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-4">
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                {displayGallery && displayGallery.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-4">
                       {displayGallery[0] && (
-                        <Image
-                          src={displayGallery[0]}
-                          alt="Venue 1"
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
-                        />
+                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                          <Image
+                            src={displayGallery[0]}
+                            alt={`${vendor.name} - Image 1`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 300px"
+                            className="object-cover hover:scale-110 transition-transform duration-500"
+                            onError={(e) => {
+                              console.error('Hero image 1 failed to load:', displayGallery[0]);
+                            }}
+                          />
+                        </div>
                       )}
-                    </div>
-                    <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       {displayGallery[1] && (
-                        <Image
-                          src={displayGallery[1]}
-                          alt="Venue 2"
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
-                        />
+                        <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                          <Image
+                            src={displayGallery[1]}
+                            alt={`${vendor.name} - Image 2`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 300px"
+                            className="object-cover hover:scale-110 transition-transform duration-500"
+                            onError={(e) => {
+                              console.error('Hero image 2 failed to load:', displayGallery[1]);
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
-                  </div>
-                  <div className="space-y-4 pt-8">
-                    <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                    <div className="space-y-4 pt-8">
                       {displayGallery[2] && (
-                        <Image
-                          src={displayGallery[2]}
-                          alt="Venue 3"
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
-                        />
+                        <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                          <Image
+                            src={displayGallery[2]}
+                            alt={`${vendor.name} - Image 3`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 300px"
+                            className="object-cover hover:scale-110 transition-transform duration-500"
+                            onError={(e) => {
+                              console.error('Hero image 3 failed to load:', displayGallery[2]);
+                            }}
+                          />
+                        </div>
                       )}
-                    </div>
-                    <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
                       {displayGallery[3] && (
-                        <Image
-                          src={displayGallery[3]}
-                          alt="Venue 4"
-                          fill
-                          className="object-cover hover:scale-110 transition-transform duration-500"
-                        />
+                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                          <Image
+                            src={displayGallery[3]}
+                            alt={`${vendor.name} - Image 4`}
+                            fill
+                            sizes="(max-width: 768px) 50vw, 300px"
+                            className="object-cover hover:scale-110 transition-transform duration-500"
+                            onError={(e) => {
+                              console.error('Hero image 4 failed to load:', displayGallery[3]);
+                            }}
+                          />
+                        </div>
                       )}
                     </div>
                   </div>
-                </div>
+                ) : (
+                  <div className="text-center py-12 text-gray-500">
+                    <CameraIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                    <p>No hero images available</p>
+                  </div>
+                )}
                 {/* Floating Stats */}
                 <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
                   <div className="text-center">
@@ -341,12 +391,12 @@ export default function VendorProfile() {
           <nav className="flex items-center justify-center">
             <div className="inline-flex bg-gray-100 rounded-full p-1 my-4">
               {[
-                { id: 'about', label: 'Overview', icon: SparklesIcon },
-                { id: 'services', label: 'Services', icon: CheckCircleIcon },
-                { id: 'portfolio', label: 'Gallery', icon: CameraIcon },
-                { id: 'reviews', label: 'Reviews', icon: StarIcon },
-                { id: 'contact', label: 'Contact', icon: PhoneIcon }
-              ].map((item) => {
+                { id: 'about', label: 'Overview', icon: SparklesIcon, show: true },
+                { id: 'services', label: 'Services', icon: CheckCircleIcon, show: vendor.services && vendor.services.length > 0 },
+                { id: 'portfolio', label: 'Gallery', icon: CameraIcon, show: displayGallery && displayGallery.length > 0 },
+                { id: 'reviews', label: 'Reviews', icon: StarIcon, show: vendor.testimonials && vendor.testimonials.length > 0 },
+                { id: 'contact', label: 'Contact', icon: PhoneIcon, show: true }
+              ].filter(item => item.show).map((item) => {
                 const Icon = item.icon;
                 return (
                   <button
@@ -397,74 +447,80 @@ export default function VendorProfile() {
                       </p>
                     </div>
 
-                    {/* Highlights */}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-gray-900">Why Choose Us</h3>
-                      <div className="space-y-3">
-                        {vendor.highlights.map((highlight, index) => (
-                          <div key={index} className="flex items-start gap-3">
-                            <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="text-gray-700">{highlight.text}</span>
-                          </div>
+                    {/* Highlights - Only show if data exists */}
+                    {vendor.highlights && vendor.highlights.length > 0 && (
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold text-gray-900">Why Choose Us</h3>
+                        <div className="space-y-3">
+                          {vendor.highlights.map((highlight, index) => (
+                            <div key={index} className="flex items-start gap-3">
+                              <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
+                              <span className="text-gray-700">{highlight.text}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Specialties - Only show if data exists */}
+                  {vendor.specialties && vendor.specialties.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-gray-100">
+                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Specialties</h3>
+                      <div className="flex flex-wrap gap-3">
+                        {vendor.specialties.map((specialty, index) => (
+                          <span
+                            key={index}
+                            className="bg-gradient-to-r from-red-50 to-pink-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium border border-red-100"
+                          >
+                            {specialty.name}
+                          </span>
                         ))}
                       </div>
                     </div>
-                  </div>
+                  )}
+                </div>
+              </div>
+            </section>
 
-                  {/* Specialties */}
-                  <div className="mt-8 pt-8 border-t border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">Specialties</h3>
-                    <div className="flex flex-wrap gap-3">
-                      {vendor.specialties.map((specialty, index) => (
-                        <span
-                          key={index}
-                          className="bg-gradient-to-r from-red-50 to-pink-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium border border-red-100"
-                        >
-                          {specialty.name}
-                        </span>
+            {/* Services Section - Only show if data exists */}
+            {vendor.services && vendor.services.length > 0 && (
+              <section ref={servicesRef} id="services" className="scroll-mt-24">
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
+                        <CheckCircleIcon className="w-6 h-6 text-blue-600" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">Services</h2>
+                        <p className="text-gray-600">What we offer</p>
+                      </div>
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      {vendor.services.map((service, index) => (
+                        <div key={index} className="group p-4 rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-300">
+                          <div className="flex items-center gap-4">
+                            <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                              <CheckCircleIcon className="w-8 h-8 text-red-600" />
+                            </div>
+                            <div className="flex-grow">
+                              <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">{service.name}</h3>
+                              {service.description && (
+                                <p className="text-sm text-gray-600 mt-1">
+                                  {service.description}
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       ))}
                     </div>
                   </div>
                 </div>
-              </div>
-            </section>
-
-            {/* Services Section */}
-            <section ref={servicesRef} id="services" className="scroll-mt-24">
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
-                      <CheckCircleIcon className="w-6 h-6 text-blue-600" />
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Services</h2>
-                      <p className="text-gray-600">What we offer</p>
-                    </div>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-4">
-                    {vendor.services.map((service, index) => (
-                      <div key={index} className="group p-4 rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-300">
-                        <div className="flex items-center gap-4">
-                          <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                            <CheckCircleIcon className="w-8 h-8 text-red-600" />
-                          </div>
-                          <div className="flex-grow">
-                            <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">{service.name}</h3>
-                            {service.description && (
-                              <p className="text-sm text-gray-600 mt-1">
-                                {service.description}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </section>
+              </section>
+            )}
 
             {/* Gallery Section */}
             <section ref={portfolioRef} id="portfolio" className="scroll-mt-24">
@@ -507,7 +563,7 @@ export default function VendorProfile() {
                   </div>
 
                   {/* Photos Tab */}
-                  {activeGalleryTab === 'photos' && displayGallery.length > 0 && (
+                  {activeGalleryTab === 'photos' && displayGallery && displayGallery.length > 0 && (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                       {displayGallery.map((image: string, index: number) => (
                         <div 
@@ -517,9 +573,13 @@ export default function VendorProfile() {
                         >
                           <Image
                             src={image}
-                            alt={`Gallery ${index + 1}`}
+                            alt={`${vendor.name} - Gallery ${index + 1}`}
                             fill
+                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 300px"
                             className="object-cover transition-transform duration-300 group-hover:scale-110"
+                            onError={(e) => {
+                              console.error('Gallery image failed to load:', image);
+                            }}
                           />
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
                             <CameraIcon className="w-8 h-8 text-white" />
@@ -533,11 +593,11 @@ export default function VendorProfile() {
                   {activeGalleryTab === 'videos' && vendor.videos && vendor.videos.length > 0 && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {vendor.videos.map((video, index) => (
-                        <div key={index} className="group">
+                        <div key={video.id} className="group">
                           <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-100">
                             <iframe
                               src={video.youtube_embed_url}
-                              title={video.title || `Video ${index + 1}`}
+                              title={video.title || `${vendor.name} Video ${index + 1}`}
                               className="w-full h-full"
                               allowFullScreen
                               loading="lazy"
@@ -555,7 +615,7 @@ export default function VendorProfile() {
                   )}
 
                   {/* Empty states */}
-                  {activeGalleryTab === 'photos' && displayGallery.length === 0 && (
+                  {activeGalleryTab === 'photos' && (!displayGallery || displayGallery.length === 0) && (
                     <div className="text-center py-12">
                       <CameraIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                       <p className="text-gray-500">No photos available</p>
@@ -572,22 +632,23 @@ export default function VendorProfile() {
               </div>
             </section>
 
-            {/* Reviews Section */}
-            <section ref={reviewsRef} id="reviews" className="scroll-mt-24">
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-yellow-100 rounded-2xl flex items-center justify-center">
-                      <StarIcon className="w-6 h-6 text-yellow-600" />
+            {/* Reviews Section - Only show if data exists */}
+            {vendor.testimonials && vendor.testimonials.length > 0 && (
+              <section ref={reviewsRef} id="reviews" className="scroll-mt-24">
+                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="p-8">
+                    <div className="flex items-center gap-3 mb-6">
+                      <div className="w-12 h-12 bg-yellow-100 rounded-2xl flex items-center justify-center">
+                        <StarIcon className="w-6 h-6 text-yellow-600" />
+                      </div>
+                      <div>
+                        <h2 className="text-2xl font-bold text-gray-900">Reviews</h2>
+                        <p className="text-gray-600">What our clients say</p>
+                      </div>
                     </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Reviews</h2>
-                      <p className="text-gray-600">What our clients say</p>
-                    </div>
-                  </div>
 
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {vendor.testimonials.map((testimonial, index) => (
+                    <div className="grid md:grid-cols-2 gap-6">
+                      {vendor.testimonials.map((testimonial, index) => (
                       <div key={index} className="p-6 rounded-2xl border border-gray-100 hover:shadow-md transition-all duration-300">
                         <div className="flex items-start gap-4">
                           <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-pink-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -647,6 +708,7 @@ export default function VendorProfile() {
                 </div>
               </div>
             </section>
+            )}
 
             {/* Contact Section */}
             <section ref={contactRef} id="contact" className="scroll-mt-24">
@@ -832,21 +894,23 @@ export default function VendorProfile() {
                 </div>
               </div>
 
-              {/* Specialties Card */}
-              <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-3xl border border-red-100 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                  <SparklesIcon className="w-5 h-5 text-red-600" />
-                  Specialties
-                </h3>
-                <div className="space-y-2">
-                  {vendor.specialties.map((specialty, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <CheckCircleIcon className="w-4 h-4 text-red-600 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{specialty.name}</span>
-                    </div>
-                  ))}
+              {/* Specialties Card - Only show if data exists */}
+              {vendor.specialties && vendor.specialties.length > 0 && (
+                <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-3xl border border-red-100 p-6">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                    <SparklesIcon className="w-5 h-5 text-red-600" />
+                    Specialties
+                  </h3>
+                  <div className="space-y-2">
+                    {vendor.specialties.map((specialty, index) => (
+                      <div key={index} className="flex items-center gap-2">
+                        <CheckCircleIcon className="w-4 h-4 text-red-600 flex-shrink-0" />
+                        <span className="text-sm text-gray-700">{specialty.name}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
 
             </div>
           </div>
@@ -854,15 +918,19 @@ export default function VendorProfile() {
       </div>
 
       {/* Image Lightbox */}
-      {selectedImage !== null && (
+      {selectedImage !== null && displayGallery && displayGallery[selectedImage] && (
         <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
           <div className="relative max-w-4xl max-h-full">
             <Image
               src={displayGallery[selectedImage]}
-              alt={`Gallery ${selectedImage + 1}`}
+              alt={`${vendor.name} - Gallery ${selectedImage + 1}`}
               width={800}
               height={600}
               className="max-w-full max-h-full object-contain"
+              onError={(e) => {
+                console.error('Lightbox image failed to load:', displayGallery[selectedImage]);
+                setSelectedImage(null); // Close lightbox if image fails to load
+              }}
             />
             <button
               onClick={() => setSelectedImage(null)}
