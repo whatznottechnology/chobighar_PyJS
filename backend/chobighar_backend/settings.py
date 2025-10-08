@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'django_filters',
+    'chobighar_backend.apps.ChobigharBackendConfig',  # Core backend with watermark system
     'header',
     'footer',
     'contact',
