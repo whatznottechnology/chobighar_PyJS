@@ -119,6 +119,10 @@ export interface VendorProfile {
   highlights: VendorHighlight[];
   testimonials: VendorTestimonial[];
   portfolio_items: VendorPortfolio[];
+  // SEO Metadata
+  meta_title: string;
+  meta_description: string;
+  meta_keywords: string;
 }
 
 export interface VendorProfileListItem {

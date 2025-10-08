@@ -7,6 +7,7 @@ import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useVendorCategories, useFeaturedVendors, useVendorProfiles } from '../../hooks/useVendorData';
 import { getIconComponent } from '../../../utils/vendorIcons';
+import { getMediaUrl } from '../../config/api';
 import InquiryModal from '../../../components/InquiryModal';
 
 export default function Vendors() {
@@ -250,9 +251,9 @@ export default function Vendors() {
                     >
                       {/* Vendor Image */}
                       <div className="relative aspect-[4/3] overflow-hidden">
-                        {vendor.main_image && (
+                        {getMediaUrl(vendor.main_image) && (
                           <Image
-                            src={vendor.main_image}
+                            src={getMediaUrl(vendor.main_image)!}
                             alt={vendor.name}
                             width={300}
                             height={225}

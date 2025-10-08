@@ -66,6 +66,7 @@ class PortfolioAdmin(admin.ModelAdmin):
     prepopulated_fields = {'id': ('title',)}
     date_hierarchy = 'date'
     ordering = ('order', '-date')
+    actions = ['duplicate_portfolio']
     
     def cover_preview(self, obj):
         """Display cover image thumbnail with proper error handling"""
@@ -108,6 +109,56 @@ class PortfolioAdmin(admin.ModelAdmin):
         return format_html('<span style="color: #dc3545;">❌ Inactive</span>')
     active_status.short_description = 'Status'
     
+    def duplicate_portfolio(self, request, queryset):
+        """Duplicate selected portfolios for easy modification"""
+        duplicated_count = 0
+        for portfolio in queryset:
+            # Get all related objects before duplication
+            original_images = list(portfolio.images.all())
+            original_videos = list(portfolio.videos.all())
+            original_highlights = list(portfolio.highlights.all())
+            original_services = list(portfolio.services.all())
+            
+            # Duplicate the main portfolio
+            portfolio.pk = None  # This will create a new object
+            portfolio.id = f"{portfolio.id}_copy_{duplicated_count + 1}"
+            portfolio.title = f"{portfolio.title} (Copy)"
+            portfolio.featured = False  # Don't make copies featured by default
+            portfolio.save()
+            
+            # Duplicate related images
+            for image in original_images:
+                image.pk = None
+                image.portfolio = portfolio
+                image.save()
+            
+            # Duplicate related videos
+            for video in original_videos:
+                video.pk = None
+                video.portfolio = portfolio
+                video.save()
+            
+            # Duplicate related highlights
+            for highlight in original_highlights:
+                highlight.pk = None
+                highlight.portfolio = portfolio
+                highlight.save()
+            
+            # Duplicate related services
+            for service in original_services:
+                service.pk = None
+                service.portfolio = portfolio
+                service.save()
+            
+            duplicated_count += 1
+        
+        self.message_user(
+            request,
+            f"Successfully duplicated {duplicated_count} portfolio(s). Please edit the duplicated entries to customize them.",
+            level='SUCCESS'
+        )
+    duplicate_portfolio.short_description = "🔄 Duplicate selected portfolios"
+    
     fieldsets = (
         ('📷 Portfolio Information', {
             'fields': ('id', 'title', 'subtitle', 'category'),
@@ -123,6 +174,11 @@ class PortfolioAdmin(admin.ModelAdmin):
         ('📝 Content', {
             'fields': ('description', 'story'),
             'classes': ('wide',)
+        }),
+        ('🔍 SEO Metadata', {
+            'fields': ('meta_title', 'meta_description', 'meta_keywords'),
+            'classes': ('collapse',),
+            'description': 'SEO fields for search engines and social media. Leave blank to auto-generate from portfolio information.'
         }),
         ('⚙️ Settings', {
             'fields': ('featured', 'is_active', 'order')

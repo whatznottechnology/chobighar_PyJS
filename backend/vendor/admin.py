@@ -202,6 +202,7 @@ class VendorProfileAdmin(admin.ModelAdmin):
     search_fields = ['name', 'tagline', 'description', 'location', 'phone', 'email']
     prepopulated_fields = {'slug': ('name',)}
     ordering = ['-is_featured', '-rating', 'name']
+    actions = ['duplicate_vendor']
     
     fieldsets = (
         ('🏢 Basic Information', {
@@ -234,6 +235,11 @@ class VendorProfileAdmin(admin.ModelAdmin):
             'description': '''Enter business hours as JSON format:<br>
             <code>{"Monday": "9:00 AM - 9:00 PM", "Tuesday": "9:00 AM - 9:00 PM", "Wednesday": "9:00 AM - 9:00 PM", "Thursday": "9:00 AM - 9:00 PM", "Friday": "9:00 AM - 9:00 PM", "Saturday": "9:00 AM - 10:00 PM", "Sunday": "9:00 AM - 10:00 PM"}</code>'''
         }),
+        ('🔍 SEO Metadata', {
+            'fields': ('meta_title', 'meta_description', 'meta_keywords'),
+            'classes': ('collapse',),
+            'description': 'SEO fields for search engines. Leave blank to auto-generate from vendor information.'
+        }),
         ('🎯 Status & Features', {
             'fields': ('is_active', 'is_featured'),
             'description': 'Featured vendors appear first in listings and search results'
@@ -248,6 +254,79 @@ class VendorProfileAdmin(admin.ModelAdmin):
     
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('category', 'subcategory')
+    
+    def duplicate_vendor(self, request, queryset):
+        """Duplicate selected vendor profiles for easy modification"""
+        duplicated_count = 0
+        for vendor in queryset:
+            # Get all related objects before duplication
+            original_images = list(vendor.images.all())
+            original_videos = list(vendor.videos.all())
+            original_services = list(vendor.services.all())
+            original_specialties = list(vendor.specialties.all())
+            original_highlights = list(vendor.highlights.all())
+            original_testimonials = list(vendor.testimonials.all())
+            original_portfolio_items = list(vendor.portfolio_items.all())
+            
+            # Duplicate the main vendor profile
+            original_slug = vendor.slug
+            vendor.pk = None  # This will create a new object
+            vendor.name = f"{vendor.name} (Copy)"
+            vendor.slug = f"{original_slug}_copy_{duplicated_count + 1}"
+            vendor.is_featured = False  # Don't make copies featured by default
+            vendor.save()
+            
+            # Duplicate related images
+            for image in original_images:
+                image.pk = None
+                image.vendor = vendor
+                image.save()
+            
+            # Duplicate related videos
+            for video in original_videos:
+                video.pk = None
+                video.vendor = vendor
+                video.save()
+            
+            # Duplicate related services
+            for service in original_services:
+                service.pk = None
+                service.vendor = vendor
+                service.save()
+            
+            # Duplicate related specialties
+            for specialty in original_specialties:
+                specialty.pk = None
+                specialty.vendor = vendor
+                specialty.save()
+            
+            # Duplicate related highlights
+            for highlight in original_highlights:
+                highlight.pk = None
+                highlight.vendor = vendor
+                highlight.save()
+            
+            # Duplicate related testimonials
+            for testimonial in original_testimonials:
+                testimonial.pk = None
+                testimonial.vendor = vendor
+                testimonial.is_featured = False  # Don't make copies featured
+                testimonial.save()
+            
+            # Duplicate related portfolio items
+            for portfolio_item in original_portfolio_items:
+                portfolio_item.pk = None
+                portfolio_item.vendor = vendor
+                portfolio_item.save()
+            
+            duplicated_count += 1
+        
+        self.message_user(
+            request,
+            f"Successfully duplicated {duplicated_count} vendor profile(s). Please edit the duplicated entries to customize them.",
+            level='SUCCESS'
+        )
+    duplicate_vendor.short_description = "🔄 Duplicate selected vendor profiles"
     
     def rating_display(self, obj):
         """Display rating with stars"""
@@ -400,7 +479,7 @@ class VendorTestimonialAdmin(admin.ModelAdmin):
 
 # Customize admin site header and title
 admin.site.site_header = "🏛️ chobighar Admin - Vendor Management"
-admin.site.site_title = "Vendor Admin"
+admin.site.site_title = "chobighar Vendor Admin"
 admin.site.index_title = "Manage Wedding Vendors & Services"
 
 # Register remaining models with basic admin

@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import StickyWhatsApp from "../../components/StickyWhatsApp";
+import FirstTimePopup from "../../components/FirstTimePopup";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,6 +48,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <StickyWhatsApp />
+        <FirstTimePopup />
       </body>
     </html>
   );

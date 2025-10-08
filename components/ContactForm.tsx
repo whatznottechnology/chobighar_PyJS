@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useHeaderData } from '../hooks/useHeaderData';
+import { useWhatsAppIntegration } from '../hooks/useWhatsAppIntegration';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 interface FormData {
@@ -14,6 +15,7 @@ interface FormData {
 
 export default function ContactForm() {
   const { headerData } = useHeaderData();
+  const { sendContactFormToWhatsApp } = useWhatsAppIntegration();
   const [formData, setFormData] = useState<FormData>({
     shootType: '',
     date: '',
@@ -51,6 +53,7 @@ export default function ContactForm() {
     setIsSubmitting(true);
 
     try {
+      // First, save the inquiry to the database
       const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
@@ -58,7 +61,7 @@ export default function ContactForm() {
         },
         body: JSON.stringify({
           inquiry_type: 'photoshoot',
-          name: 'Photography Client', // We'll use this as a placeholder since no name field exists
+          name: 'Photography Client', // Placeholder since no name field exists
           email: formData.email,
           phone: formData.phone,
           subject: `${formData.shootType} - Photography Inquiry`,
@@ -70,7 +73,19 @@ export default function ContactForm() {
       });
 
       if (response.ok) {
+        // Data saved successfully, now open WhatsApp
+        sendContactFormToWhatsApp({
+          name: 'Photography Client',
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.shootType,
+          message: formData.message,
+          eventDate: formData.date
+        });
+        
+        // Show success message
         setSubmitted(true);
+        
         // Reset form after 3 seconds
         setTimeout(() => {
           setSubmitted(false);
@@ -84,11 +99,11 @@ export default function ContactForm() {
         }, 3000);
       } else {
         console.error('Failed to submit inquiry');
-        // You might want to show an error message here
+        alert('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting inquiry:', error);
-      // You might want to show an error message here
+      alert('An error occurred. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -189,12 +204,12 @@ export default function ContactForm() {
                   value={formData.shootType}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/95 text-gray-900 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium focus:bg-white shadow-sm"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                 >
-                  <option value="" className="text-gray-800 bg-white">Select type</option>
+                  <option value="" className="text-gray-500 bg-white">Select type</option>
                   {shootTypes.map((type) => (
-                    <option key={type} value={type} className="text-gray-800 bg-white">
+                    <option key={type} value={type} className="text-gray-900 bg-white">
                       {type}
                     </option>
                   ))}
@@ -212,7 +227,7 @@ export default function ContactForm() {
                   value={formData.date}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/95 text-gray-900 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium focus:bg-white shadow-sm"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                   min={new Date().toISOString().split('T')[0]}
                 />
@@ -229,7 +244,7 @@ export default function ContactForm() {
                   value={formData.email}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/95 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium focus:bg-white shadow-sm"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                   placeholder="your@email.com"
                 />
@@ -247,7 +262,7 @@ export default function ContactForm() {
                   onChange={handleInputChange}
                   required
                   placeholder="+91 98765 43210"
-                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium"
+                  className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/95 text-gray-900 placeholder-gray-500 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium focus:bg-white shadow-sm"
                   style={{ fontFamily: 'Inter, sans-serif' }}
                 />
               </div>
@@ -264,7 +279,7 @@ export default function ContactForm() {
                 onChange={handleInputChange}
                 rows={3}
                 placeholder="Tell us about your requirements, budget, venue details, or any special requests..."
-                className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/20 text-white placeholder-white/80 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all resize-none backdrop-blur-sm text-sm font-medium"
+                className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/90 text-gray-800 placeholder-gray-500 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all resize-none backdrop-blur-sm text-sm font-medium focus:bg-white"
                 style={{ fontFamily: 'Inter, sans-serif' }}
               ></textarea>
             </div>

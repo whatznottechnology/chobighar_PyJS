@@ -300,6 +300,32 @@ class VendorProfile(models.Model):
         help_text="Business hours for each day of the week"
     )
     
+    # SEO Metadata Fields
+    meta_title = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="SEO title (leave blank to auto-generate from name and location)"
+    )
+    
+    meta_description = models.TextField(
+        max_length=320,
+        blank=True,
+        help_text="SEO description (leave blank to auto-generate from description)"
+    )
+    
+    meta_keywords = models.CharField(
+        max_length=500,
+        blank=True,
+        help_text="SEO keywords, comma-separated (e.g., 'wedding photographer Kolkata, pre-wedding shoot')"
+    )
+    
+    og_image = models.ImageField(
+        upload_to='vendor/og_images/',
+        blank=True,
+        null=True,
+        help_text="Open Graph image for social media sharing (1200x630px recommended)"
+    )
+    
     # Meta Information
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

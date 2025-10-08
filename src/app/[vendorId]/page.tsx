@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Script from 'next/script';
 import { getApiUrl, getMediaUrl, API_ENDPOINTS } from '@/config/api';
 import { 
   MapPinIcon, 
@@ -28,6 +29,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { useVendorProfile } from '../../hooks/useVendorData';
+import { useWhatsAppIntegration } from '../../../hooks/useWhatsAppIntegration';
 import { useHeaderData } from '../../../hooks/useHeaderData';
 import InquiryModal from '../../../components/InquiryModal';
 
@@ -39,6 +41,7 @@ export default function VendorProfile() {
   // Use the API hook to fetch vendor data
   const { vendor, loading, error } = useVendorProfile(vendorSlug);
   const { headerData } = useHeaderData();
+  const { sendVendorInquiryToWhatsApp } = useWhatsAppIntegration();
   
   const [activeSection, setActiveSection] = useState('about');
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -113,35 +116,80 @@ export default function VendorProfile() {
     if (!vendor) return;
     
     try {
+      const requestBody = {
+        inquiry_type: 'vendor',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone.replace(/\s+/g, ''), // Remove spaces
+        subject: `Vendor Inquiry - ${vendor.name}`,
+        message: formData.message || `I am interested in your services for my event on ${formData.eventDate}`,
+        service_name: vendor.name,
+        service_id: vendor.id?.toString() || vendor.slug,
+        event_date: formData.eventDate || null,
+        source: 'vendor_detail_page'
+      };
+      
+      console.log('Sending inquiry request:', requestBody);
+      console.log('API URL:', getApiUrl(API_ENDPOINTS.INQUIRY_CREATE));
+      
+      // First, save the inquiry to the database
       const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          inquiry_type: 'vendor',
+        body: JSON.stringify(requestBody)
+      });
+
+      console.log('Response status:', response.status);
+      console.log('Response ok?:', response.ok);
+      
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Success response:', responseData);
+        
+        // Data saved successfully, now open WhatsApp
+        sendVendorInquiryToWhatsApp({
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          subject: `Vendor Inquiry - ${vendor.name}`,
-          message: formData.message || `I am interested in your services for my event on ${formData.eventDate}`,
-          service_name: vendor.name,
-          service_id: vendor.id,
-          event_date: formData.eventDate || null,
-          source: 'vendor_detail_page'
-        })
-      });
-
-      if (response.ok) {
+          vendorName: vendor.name,
+          service: vendor.subcategory_name || 'Vendor Service',
+          message: formData.message,
+          eventDate: formData.eventDate
+        });
+        
+        // Show success and reset form
         alert('Thank you for your inquiry! We will get back to you soon.');
         setFormData({ name: '', phone: '', email: '', eventDate: '', message: '' });
       } else {
-        console.error('Failed to submit inquiry');
-        alert('Sorry, something went wrong. Please try again.');
+        const responseText = await response.text();
+        console.error('Response text:', responseText);
+        
+        let errorData;
+        try {
+          errorData = JSON.parse(responseText);
+        } catch (e) {
+          errorData = { error: 'Invalid response from server' };
+        }
+        
+        console.error('Failed to submit inquiry:', errorData);
+        console.error('Response status:', response.status);
+        
+        // Show detailed error if available
+        if (errorData.details) {
+          console.error('Validation errors:', errorData.details);
+          const errorMessages = Object.entries(errorData.details)
+            .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
+            .join('\n');
+          alert(`Validation errors:\n${errorMessages}`);
+        } else {
+          alert(`Sorry, something went wrong: ${errorData.error || 'Please try again.'}`);
+        }
       }
     } catch (error) {
       console.error('Error submitting inquiry:', error);
-      alert('Sorry, something went wrong. Please try again.');
+      alert('Sorry, something went wrong. Please check your internet connection and try again.');
     }
   };
 
@@ -994,6 +1042,68 @@ export default function VendorProfile() {
             : 'I would like to know more about your services.'
         }}
       />
+
+      {/* JSON-LD Structured Data */}
+      {vendor && (
+        <Script
+          id="vendor-structured-data"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'LocalBusiness',
+              '@id': `https://chobighar.com/${vendorSlug}`,
+              name: vendor.name,
+              description: vendor.description || `Professional ${vendor.subcategory_name} services in ${vendor.location}`,
+              url: `https://chobighar.com/${vendorSlug}`,
+              telephone: vendor.phone,
+              email: vendor.email,
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: vendor.location,
+                addressRegion: 'West Bengal',
+                addressCountry: 'India'
+              },
+              aggregateRating: vendor.reviews_count > 0 ? {
+                '@type': 'AggregateRating',
+                ratingValue: vendor.rating,
+                reviewCount: vendor.reviews_count,
+                bestRating: 5,
+                worstRating: 1
+              } : undefined,
+              priceRange: vendor.price_range || '$$',
+              serviceArea: {
+                '@type': 'Place',
+                name: vendor.location
+              },
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: `${vendor.subcategory_name} Services`,
+                itemListElement: [
+                  {
+                    '@type': 'Offer',
+                    itemOffered: {
+                      '@type': 'Service',
+                      name: vendor.subcategory_name,
+                      category: vendor.category_name,
+                      provider: {
+                        '@type': 'LocalBusiness',
+                        name: vendor.name
+                      }
+                    }
+                  }
+                ]
+              },
+              image: vendor.images.map(img => getMediaUrl(img.image)).filter(Boolean),
+              sameAs: [
+                vendor.website,
+                vendor.social_media?.instagram ? `https://instagram.com/${vendor.social_media.instagram}` : null,
+                vendor.social_media?.facebook ? `https://facebook.com/${vendor.social_media.facebook}` : null,
+              ].filter(Boolean),
+            })
+          }}
+        />
+      )}
     </main>
   );
 }

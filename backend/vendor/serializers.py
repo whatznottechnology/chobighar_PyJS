@@ -100,7 +100,8 @@ class VendorProfileSerializer(serializers.ModelSerializer):
             'is_featured', 'category_name', 'subcategory_name', 'social_media',
             'hero_images', 'gallery_images', 'cover_image', 'profile_image',
             'images', 'videos', 'services', 'specialties', 'highlights',
-            'testimonials', 'portfolio_items'
+            'testimonials', 'portfolio_items',
+            'meta_title', 'meta_description', 'meta_keywords'
         ]
     
     def get_hero_images(self, obj):

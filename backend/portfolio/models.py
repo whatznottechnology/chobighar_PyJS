@@ -65,6 +65,30 @@ class Portfolio(models.Model):
     guests = models.CharField(max_length=50, help_text="e.g., '300+', '2'")
     description = models.TextField(help_text="Short description")
     story = models.TextField(help_text="Detailed story/narrative")
+    
+    # SEO Metadata Fields
+    meta_title = models.CharField(
+        max_length=200, 
+        blank=True, 
+        help_text="SEO title (leave blank to auto-generate from title)"
+    )
+    meta_description = models.TextField(
+        max_length=320, 
+        blank=True, 
+        help_text="SEO description (leave blank to auto-generate from description)"
+    )
+    meta_keywords = models.CharField(
+        max_length=500, 
+        blank=True, 
+        help_text="SEO keywords, comma-separated (e.g., 'wedding photography, Kolkata, pre-wedding shoot')"
+    )
+    og_image = models.ImageField(
+        upload_to='portfolio/og_images/', 
+        blank=True, 
+        null=True,
+        help_text="Open Graph image for social media sharing (1200x630px recommended)"
+    )
+    
     is_active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False, help_text="Show in featured section")
     order = models.IntegerField(default=0, help_text="Custom ordering")

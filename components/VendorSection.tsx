@@ -3,6 +3,7 @@
 import React, { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useVendorCategories, useFeaturedVendors, useVendorProfiles } from '../src/hooks/useVendorData';
+import { getMediaUrl } from '../src/config/api';
 import InquiryModal from './InquiryModal';
 
 const VendorSection = () => {
@@ -179,10 +180,10 @@ const VendorSection = () => {
                   >
                     {/* Vendor Image */}
                     <div className="relative h-40 overflow-hidden">
-                      {vendor.main_image ? (
+                      {getMediaUrl(vendor.main_image) ? (
                         <div 
                           className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                          style={{ backgroundImage: `url(${vendor.main_image})` }}
+                          style={{ backgroundImage: `url(${getMediaUrl(vendor.main_image)})` }}
                         ></div>
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-gray-300 to-gray-400 flex items-center justify-center">
@@ -226,10 +227,10 @@ const VendorSection = () => {
                         <div className="flex items-center gap-3 mb-2">
                           {/* Profile Image - use main_image as fallback */}
                           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-royal-red/20 flex-shrink-0">
-                            {vendor.main_image ? (
+                            {getMediaUrl(vendor.main_image) ? (
                               <div 
                                 className="w-full h-full bg-cover bg-center"
-                                style={{ backgroundImage: `url(${vendor.main_image})` }}
+                                style={{ backgroundImage: `url(${getMediaUrl(vendor.main_image)})` }}
                               ></div>
                             ) : (
                               <div className="w-full h-full bg-gradient-to-br from-royal-red to-red-600 flex items-center justify-center">

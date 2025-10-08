@@ -8,6 +8,33 @@
     --chobighar-light: #f8f9fa;
 }
 
+/* Logo Size Customization */
+.chobighar-logo-small {
+    max-width: 40px !important;
+    max-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+}
+
+/* Login page logo */
+.login-logo img {
+    max-width: 60px !important;
+    max-height: 60px !important;
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain !important;
+}
+
+/* Brand logo in navbar */
+.brand-link img {
+    max-width: 35px !important;
+    max-height: 35px !important;
+    width: 35px !important;
+    height: 35px !important;
+    object-fit: contain !important;
+}
+
 /* Custom Brand Styling */
 .brand-link {
     color: var(--chobighar-red) !important;

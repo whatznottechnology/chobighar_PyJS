@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { XMarkIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
+import { useWhatsAppIntegration } from '../hooks/useWhatsAppIntegration';
 
 interface InquiryModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ export default function InquiryModal({
   serviceId = '',
   prefilledData = {}
 }: InquiryModalProps) {
+  const { sendInquiryToWhatsApp } = useWhatsAppIntegration();
   const [formData, setFormData] = useState({
     inquiry_type: inquiryType,
     name: '',
@@ -123,20 +125,45 @@ export default function InquiryModal({
     setIsSubmitting(true);
     
     try {
+      // Prepare request body with cleaned phone number
+      const requestBody = {
+        ...formData,
+        phone: formData.phone.replace(/\s+/g, '') // Remove spaces from phone
+      };
+      
+      console.log('Sending inquiry:', requestBody);
+      
+      // Step 1: Save inquiry to database
       const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(formData)
+        body: JSON.stringify(requestBody)
       });
       
-      const data = await response.json();
+      console.log('Response status:', response.status);
       
       if (response.ok) {
+        const responseData = await response.json();
+        console.log('Success response:', responseData);
+        
+        // Step 2: Data saved successfully, now open WhatsApp
+        sendInquiryToWhatsApp({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service_name || 'General Inquiry',
+          message: formData.message,
+          eventDate: formData.event_date || undefined,
+          location: formData.event_location || undefined,
+          budget: formData.budget_range || undefined
+        });
+        
+        // Step 3: Show success message
         setSubmitStatus('success');
         
-        // Auto close after 3 seconds
+        // Step 4: Auto close after 3 seconds
         setTimeout(() => {
           onClose();
           setSubmitStatus('idle');
@@ -157,10 +184,22 @@ export default function InquiryModal({
         }, 3000);
         
       } else {
+        // Failed to save to database
+        const responseText = await response.text();
+        console.error('Response text:', responseText);
+        
+        let data;
+        try {
+          data = JSON.parse(responseText);
+        } catch (e) {
+          data = {};
+        }
+        
         setSubmitStatus('error');
         if (data.details) {
           setErrors(data.details);
         }
+        console.error('Failed to submit inquiry:', data);
       }
     } catch (error) {
       console.error('Error submitting inquiry:', error);

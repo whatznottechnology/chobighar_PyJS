@@ -19,6 +19,8 @@ import {
 } from '@heroicons/react/24/outline';
 import { usePortfolio, useRelatedPortfolios } from '@/hooks/usePortfolio';
 import { portfolioAPI } from '@/services/portfolioAPI';
+import { useWhatsAppIntegration } from '../../../../hooks/useWhatsAppIntegration';
+import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 export default function PortfolioDetails() {
   const params = useParams();
@@ -28,6 +30,7 @@ export default function PortfolioDetails() {
   // API hooks
   const { portfolio, loading, error } = usePortfolio(portfolioId);
   const { portfolios: relatedPortfolios } = useRelatedPortfolios(portfolioId);
+  const { sendInquiryToWhatsApp } = useWhatsAppIntegration();
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos');
@@ -61,6 +64,94 @@ export default function PortfolioDetails() {
     event_date: ''
   });
   const [submitLoading, setSubmitLoading] = useState(false);
+
+  // Form handlers
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!portfolio) return;
+    
+    setSubmitLoading(true);
+    
+    try {
+      const requestBody = {
+        inquiry_type: 'portfolio',
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone.replace(/\s+/g, ''), // Remove spaces
+        subject: `Portfolio Inquiry - ${portfolio.title}`,
+        message: `I'm interested in this style of photography for my event. Portfolio: ${portfolio.title}`,
+        service_name: portfolio.category.name,
+        service_id: portfolioId,
+        event_date: formData.event_date || null,
+        source: 'portfolio_detail_page'
+      };
+      
+      console.log('Sending portfolio inquiry:', requestBody);
+      
+      // Step 1: Save inquiry to database
+      const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      console.log('Response status:', response.status);
+      
+      if (response.ok) {
+        const responseData = await response.json();
+        console.log('Success response:', responseData);
+        
+        // Step 2: Data saved successfully, now open WhatsApp
+        sendInquiryToWhatsApp({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: `${portfolio.category.name} - ${portfolio.title}`,
+          message: `I'm interested in this photography style for my event`,
+          eventDate: formData.event_date
+        });
+        
+        // Step 3: Show success and reset form
+        alert('Thank you! We will contact you within 2 hours with your personalized quote.');
+        setFormData({ name: '', phone: '', email: '', event_date: '' });
+      } else {
+        const responseText = await response.text();
+        console.error('Response text:', responseText);
+        
+        let errorData;
+        try {
+          errorData = JSON.parse(responseText);
+        } catch (e) {
+          errorData = { error: 'Invalid response from server' };
+        }
+        
+        console.error('Failed to submit inquiry:', errorData);
+        
+        if (errorData.details) {
+          console.error('Validation errors:', errorData.details);
+          const errorMessages = Object.entries(errorData.details)
+            .map(([field, errors]) => `${field}: ${Array.isArray(errors) ? errors.join(', ') : errors}`)
+            .join('\n');
+          alert(`Validation errors:\n${errorMessages}`);
+        } else {
+          alert(`Sorry, something went wrong: ${errorData.error || 'Please try again.'}`);
+        }
+      }
+    } catch (error) {
+      console.error('Error submitting inquiry:', error);
+      alert('Sorry, something went wrong. Please check your internet connection and try again.');
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
 
   // Show loading state
   if (loading) {
@@ -138,43 +229,10 @@ export default function PortfolioDetails() {
     }
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitLoading(true);
-    
-    try {
-      await portfolioAPI.submitInquiry({
-        ...formData,
-        portfolio: portfolio.id,
-      });
-      
-      alert('Thank you for your inquiry! We will get back to you soon.');
-      setFormData({
-        name: '',
-        phone: '',
-        email: '',
-        event_date: ''
-      });
-    } catch (error) {
-      console.error('Error submitting inquiry:', error);
-      alert('Sorry, there was an error submitting your inquiry. Please try again.');
-    } finally {
-      setSubmitLoading(false);
-    }
-  };
-
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Image Section - Full Width */}
-      <section className="relative h-[60vh] md:h-[70vh] lg:h-[80vh] overflow-hidden">
+      <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] xl:h-[70vh] min-h-[400px] max-h-[700px] overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0">
           <Image
@@ -184,8 +242,13 @@ export default function PortfolioDetails() {
             className="object-cover"
             priority
           />
-          {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/60"></div>
+          {/* Modern Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70"></div>
+          {/* Subtle Pattern Overlay */}
+          <div className="absolute inset-0 opacity-10" style={{
+            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.15) 1px, transparent 0)`,
+            backgroundSize: '20px 20px'
+          }}></div>
         </div>
 
         {/* Content Over Image */}
@@ -294,7 +357,7 @@ export default function PortfolioDetails() {
             {/* Sidebar with CTA */}
             <div className="lg:col-span-1">
               {/* Services Section */}
-              <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 mb-6">
+              <div className="bg-white rounded-2xl p-6 border border-gray-100 mb-6">
                 <div className="flex items-center gap-2 mb-4">
                   <TagIcon className="w-5 h-5" style={{ color: '#B22222' }} />
                   <h3 className="text-lg font-bold" style={{ color: '#B22222' }}>Services Included</h3>
@@ -325,7 +388,7 @@ export default function PortfolioDetails() {
               </div>
 
               {/* CTA Form */}
-              <div className="rounded-2xl p-6 shadow-lg" style={{ 
+              <div className="rounded-2xl p-6" style={{ 
                 background: 'linear-gradient(135deg, #B22222 0%, #8B0000 50%, #660000 100%)' 
               }}>
                 <div className="text-center mb-6">
@@ -412,13 +475,13 @@ export default function PortfolioDetails() {
           
           {/* Tabs */}
           <div className="flex justify-center mb-8">
-            <div className="bg-white rounded-xl p-1 shadow-lg">
+            <div className="bg-white rounded-2xl p-2 border border-gray-200">
               <button
                 onClick={() => setActiveTab('photos')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
                   activeTab === 'photos'
-                    ? 'text-white shadow-lg'
-                    : 'hover:text-white'
+                    ? 'text-white transform scale-105'
+                    : 'hover:text-white hover:scale-105'
                 }`}
                 style={{
                   backgroundColor: activeTab === 'photos' ? '#B22222' : 'transparent',
@@ -444,10 +507,10 @@ export default function PortfolioDetails() {
               </button>
               <button
                 onClick={() => setActiveTab('videos')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all duration-300 ${
+                className={`px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
                   activeTab === 'videos'
-                    ? 'text-white shadow-lg'
-                    : 'hover:text-white'
+                    ? 'text-white transform scale-105'
+                    : 'hover:text-white hover:scale-105'
                 }`}
                 style={{
                   backgroundColor: activeTab === 'videos' ? '#B22222' : 'transparent',
@@ -476,7 +539,7 @@ export default function PortfolioDetails() {
 
           {/* Photos Tab Content */}
           {activeTab === 'photos' && (
-            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-4 space-y-4">
+            <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 gap-6 space-y-6">
               {portfolio.images?.map((image, index) => {
                 // Create varied heights for better masonry effect
                 const heights = [300, 400, 350, 450, 320, 380, 420, 360];
@@ -485,7 +548,7 @@ export default function PortfolioDetails() {
                 return (
                   <div
                     key={index}
-                    className="break-inside-avoid mb-4 relative rounded-xl overflow-hidden cursor-pointer group shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-[1.03] hover:-translate-y-2"
+                    className="break-inside-avoid mb-6 relative rounded-2xl overflow-hidden cursor-pointer group transition-all duration-500 transform hover:scale-[1.02] hover:-translate-y-1"
                     onClick={() => openLightbox(index)}
                   >
                     <div className="relative bg-gray-100">
@@ -659,7 +722,7 @@ export default function PortfolioDetails() {
           <div className="relative">
             {/* Scroll Left Button */}
             <button 
-              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors"
+              className="absolute left-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full transition-colors"
               style={{ 
                 backgroundColor: '#B22222',
                 color: 'white'
@@ -676,7 +739,7 @@ export default function PortfolioDetails() {
             
             {/* Scroll Right Button */}
             <button 
-              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full shadow-lg transition-colors"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 backdrop-blur-sm p-3 rounded-full transition-colors"
               style={{ 
                 backgroundColor: '#B22222',
                 color: 'white'
@@ -701,7 +764,7 @@ export default function PortfolioDetails() {
                     onClick={() => router.push(`/portfolio/${relatedPortfolio.id}`)}
                   >
                     {/* Album Cover */}
-                    <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-[4/3] bg-gray-100">
+                    <div className="relative overflow-hidden rounded-2xl mb-4 aspect-[4/3] bg-gray-100">
                       <Image
                         src={relatedPortfolio.cover_image}
                         alt={relatedPortfolio.title}

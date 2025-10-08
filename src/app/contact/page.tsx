@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useContactData } from '../../../hooks/useContactData';
+import { useWhatsAppIntegration } from '../../../hooks/useWhatsAppIntegration';
 import { 
   PhoneIcon, 
   EnvelopeIcon, 
@@ -17,6 +18,7 @@ import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
 export default function Contact() {
   const { contactData, loading, error } = useContactData();
+  const { sendContactFormToWhatsApp } = useWhatsAppIntegration();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
@@ -31,6 +33,7 @@ export default function Contact() {
     e.preventDefault();
     
     try {
+      // First, save the inquiry to the database
       const response = await fetch(getApiUrl(API_ENDPOINTS.INQUIRY_CREATE), {
         method: 'POST',
         headers: {
@@ -41,16 +44,29 @@ export default function Contact() {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          subject: `Contact Form - ${formData.service}`,
+          subject: `Contact Form - ${formData.service || 'General Inquiry'}`,
           message: formData.message,
-          service_name: formData.service,
+          service_name: formData.service || 'General Inquiry',
           event_date: formData.event_date || null,
           source: 'contact_page'
         })
       });
 
       if (response.ok) {
+        // Data saved successfully, now open WhatsApp
+        sendContactFormToWhatsApp({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service || 'General Inquiry',
+          message: formData.message,
+          eventDate: formData.event_date
+        });
+        
+        // Show success message
         setIsSubmitted(true);
+        
+        // Reset form after 3 seconds
         setTimeout(() => {
           setIsSubmitted(false);
           setFormData({
@@ -64,11 +80,11 @@ export default function Contact() {
         }, 3000);
       } else {
         console.error('Failed to submit inquiry');
-        // You might want to show an error message here
+        alert('Failed to submit inquiry. Please try again.');
       }
     } catch (error) {
       console.error('Error submitting inquiry:', error);
-      // You might want to show an error message here
+      alert('An error occurred. Please try again.');
     }
   };
 
@@ -184,7 +200,7 @@ export default function Contact() {
                         value={formData.name}
                         onChange={handleInputChange}
                         required
-                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white text-gray-900 placeholder-gray-500"
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -196,7 +212,7 @@ export default function Contact() {
                         value={formData.phone}
                         onChange={handleInputChange}
                         required
-                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
+                        className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white text-gray-900 placeholder-gray-500"
                         placeholder="+91 XXXXX XXXXX"
                       />
                     </div>
@@ -210,7 +226,7 @@ export default function Contact() {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white"
+                      className="w-full p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all bg-white text-gray-900 placeholder-gray-500"
                       placeholder="your.email@example.com"
                     />
                   </div>

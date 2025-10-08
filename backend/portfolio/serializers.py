@@ -75,7 +75,8 @@ class PortfolioDetailSerializer(serializers.ModelSerializer):
             'id', 'title', 'subtitle', 'category', 'cover_image', 
             'image_count', 'date', 'location', 'duration', 'guests',
             'description', 'story', 'featured', 'images', 'videos', 
-            'highlights', 'services', 'created_at', 'updated_at'
+            'highlights', 'services', 'created_at', 'updated_at',
+            'meta_title', 'meta_description', 'meta_keywords'
         ]
 
 

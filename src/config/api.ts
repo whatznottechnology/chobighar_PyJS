@@ -97,6 +97,18 @@ export const API_ENDPOINTS = {
   // Inquiry
   INQUIRY_CREATE: '/api/inquiry/create/',
   INQUIRY_CATEGORIES: '/api/inquiry/categories/',
+  
+  // Blog
+  BLOG_CATEGORIES: '/api/blog/categories/',
+  BLOG_POSTS: '/api/blog/posts/',
+  BLOG_POST_DETAIL: '/api/blog/posts/:slug/',
+  BLOG_FEATURED: '/api/blog/posts/featured/',
+  BLOG_RECENT: '/api/blog/posts/recent/',
+  BLOG_COMMENTS: '/api/blog/comments/',
+  
+  // Popup
+  POPUP_INQUIRY: '/api/blog/popup-inquiry/',
+  POPUP_SETTINGS: '/api/blog/popup-settings/active/',
 };
 
 // Export configuration object

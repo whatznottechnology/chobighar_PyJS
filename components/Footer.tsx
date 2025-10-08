@@ -198,6 +198,12 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
+                  <Link href="/blog" className="text-white hover:text-gray-200 transition-colors duration-200 flex items-center group">
+                    <span className="w-2 h-2 bg-white/60 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
+                    Blog
+                  </Link>
+                </li>
+                <li>
                   <Link href="/contact" className="text-white hover:text-gray-200 transition-colors duration-200 flex items-center group">
                     <span className="w-2 h-2 bg-white/60 rounded-full mr-3 group-hover:bg-white transition-colors"></span>
                     Contact Us
