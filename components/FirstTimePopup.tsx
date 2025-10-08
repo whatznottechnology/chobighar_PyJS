@@ -1,15 +1,15 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import { usePopupSettings } from '../hooks/useBlogData';
 import { getApiUrl, getMediaUrl, API_ENDPOINTS } from '@/config/api';
 import { useWhatsAppIntegration } from '../hooks/useWhatsAppIntegration';
 
-const COOKIE_NAME = 'chobighar_popup_seen';
-
 export default function FirstTimePopup() {
+  const pathname = usePathname();
   const { settings, loading } = usePopupSettings();
   const { sendToWhatsApp } = useWhatsAppIntegration();
   const [isOpen, setIsOpen] = useState(false);
@@ -35,19 +35,45 @@ export default function FirstTimePopup() {
   ];
 
   useEffect(() => {
-    if (!loading && settings?.is_active) {
-      // Always show popup after delay (removed cookie check)
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, settings.show_delay || 2000);
+    // Only show on homepage
+    const isHomepage = pathname === '/';
+    
+    console.log('🎨 Popup Settings:', {
+      isHomepage,
+      pathname,
+      loading,
+      isActive: settings?.is_active,
+      showDelay: settings?.show_delay,
+    });
 
-      return () => clearTimeout(timer);
+    if (isHomepage && !loading && settings?.is_active) {
+      // Always show popup after 5 seconds (5000ms)
+      const delay = 5000; // Fixed 5 seconds
+      
+      console.log(`⏰ Popup will show in ${delay}ms (${delay/1000} seconds)`);
+      
+      const timer = setTimeout(() => {
+        console.log('✅ Showing popup now!');
+        setIsOpen(true);
+      }, delay);
+
+      return () => {
+        console.log('🧹 Cleaning up popup timer');
+        clearTimeout(timer);
+      };
+    } else {
+      console.log('❌ Popup not showing because:', {
+        isHomepage,
+        loading,
+        isActive: settings?.is_active,
+      });
     }
-  }, [loading, settings]);
+  }, [pathname, loading, settings]);
 
   const handleClose = () => {
+    console.log('🚫 Popup closed by user');
     setIsOpen(false);
-    // Cookie removed - popup will show every time
+    // No cookie - popup will show again on next page load
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
