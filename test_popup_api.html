@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup API Tester</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            border-left: 4px solid #007bff;
+        }
+        .input-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .info {
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #007bff;
+        }
+        .info h3 {
+            margin-top: 0;
+            color: #007bff;
+        }
+        ul {
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Popup Settings API Tester</h1>
+        
+        <div class="info">
+            <h3>Test Your Popup Configuration</h3>
+            <p>This tool helps you verify if the popup settings are configured correctly on your backend.</p>
+        </div>
+
+        <div class="input-group">
+            <label for="apiUrl">Backend API URL:</label>
+            <input 
+                type="text" 
+                id="apiUrl" 
+                placeholder="e.g., https://your-backend.com or http://localhost:8000"
+                value="http://localhost:8000"
+            >
+        </div>
+
+        <button onclick="testAPI()">🔍 Test Popup API</button>
+
+        <div id="status"></div>
+        <div id="result"></div>
+
+        <div class="info" style="margin-top: 30px;">
+            <h3>Expected Response:</h3>
+            <pre>{
+  "id": 1,
+  "is_active": true,
+  "popup_title": "Book Your Dream Photography Session!",
+  "popup_subtitle": "Fill out the form below...",
+  "show_delay": 5000,
+  "cookie_duration_days": 7,
+  "popup_image": null
+}</pre>
+        </div>
+
+        <div class="info">
+            <h3>✅ If Popup Settings Exist:</h3>
+            <ul>
+                <li>You'll see the settings data above</li>
+                <li>Check if <code>is_active</code> is <code>true</code></li>
+                <li>Check if <code>show_delay</code> is <code>5000</code> (5 seconds)</li>
+                <li>Frontend will receive these settings and show popup</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>❌ If Popup Settings Don't Exist:</h3>
+            <ul>
+                <li>You'll see: <code>{"is_active": false}</code></li>
+                <li>This means popup won't show on frontend</li>
+                <li><strong>Solution:</strong> Create settings using Django admin or management command</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>🛠️ How to Fix:</h3>
+            <p><strong>Option 1 - Django Admin:</strong></p>
+            <ol>
+                <li>Go to: <code>https://your-backend.com/admin/</code></li>
+                <li>Navigate to: Blog → Popup Settings</li>
+                <li>Click "Add Popup Settings"</li>
+                <li>Set: is_active=True, show_delay=5000</li>
+                <li>Save</li>
+            </ol>
+
+            <p><strong>Option 2 - Management Command:</strong></p>
+            <pre>python manage.py create_popup_settings</pre>
+
+            <p><strong>Option 3 - Setup Script:</strong></p>
+            <pre>python backend/setup_popup.py</pre>
+        </div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const apiUrl = document.getElementById('apiUrl').value.trim();
+            const statusDiv = document.getElementById('status');
+            const resultDiv = document.getElementById('result');
+            
+            // Validate URL
+            if (!apiUrl) {
+                statusDiv.innerHTML = '<div class="error">❌ Please enter a backend API URL</div>';
+                return;
+            }
+
+            // Show loading
+            statusDiv.innerHTML = '<div class="loading">⏳ Testing API connection...</div>';
+            resultDiv.innerHTML = '';
+
+            const endpoint = `${apiUrl}/api/blog/popup-settings/active/`;
+
+            try {
+                console.log('🔍 Testing endpoint:', endpoint);
+                
+                const response = await fetch(endpoint);
+                const data = await response.json();
+
+                console.log('📦 Response:', data);
+
+                if (response.ok) {
+                    if (data.is_active === false) {
+                        // Settings don't exist
+                        statusDiv.innerHTML = `
+                            <div class="error">
+                                <h3>❌ Popup Settings Not Found</h3>
+                                <p><strong>Status:</strong> API is working, but no popup settings exist in database.</p>
+                                <p><strong>Impact:</strong> Popup will NOT show on frontend.</p>
+                                <p><strong>Next Step:</strong> Create popup settings using one of the methods below.</p>
+                            </div>
+                        `;
+                        resultDiv.innerHTML = `
+                            <h3>API Response:</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    } else {
+                        // Settings exist!
+                        const delaySeconds = (data.show_delay / 1000).toFixed(1);
+                        statusDiv.innerHTML = `
+                            <div class="success">
+                                <h3>✅ Popup Settings Found!</h3>
+                                <p><strong>Status:</strong> Active = ${data.is_active}</p>
+                                <p><strong>Delay:</strong> ${data.show_delay}ms (${delaySeconds} seconds)</p>
+                                <p><strong>Title:</strong> ${data.popup_title}</p>
+                                <p><strong>Frontend Impact:</strong> Popup will show on homepage after ${delaySeconds} seconds! 🎉</p>
+                            </div>
+                        `;
+                        resultDiv.innerHTML = `
+                            <h3>Full API Response:</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        `;
+                    }
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+            } catch (error) {
+                console.error('❌ Error:', error);
+                statusDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ API Connection Failed</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <p><strong>Endpoint:</strong> ${endpoint}</p>
+                        <p><strong>Possible Issues:</strong></p>
+                        <ul>
+                            <li>Backend server is not running</li>
+                            <li>CORS is blocking the request</li>
+                            <li>URL is incorrect</li>
+                            <li>Network connectivity issue</li>
+                        </ul>
+                    </div>
+                `;
+                resultDiv.innerHTML = '';
+            }
+        }
+
+        // Auto-test on page load
+        window.addEventListener('load', () => {
+            console.log('🎨 Popup API Tester loaded');
+            console.log('💡 Click "Test Popup API" button to check your backend configuration');
+        });
+    </script>
+</body>
+</html>
