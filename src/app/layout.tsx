@@ -5,6 +5,7 @@ import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import StickyWhatsApp from "../../components/StickyWhatsApp";
 import FirstTimePopup from "../../components/FirstTimePopup";
+import DisableRightClick from "./DisableRightClick";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -44,6 +45,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
+        <DisableRightClick />
         <Navbar />
         {children}
         <Footer />
