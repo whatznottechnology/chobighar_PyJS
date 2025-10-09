@@ -61,7 +61,7 @@ def auto_watermark_handler(sender, instance, **kwargs):
                     current_image.file,
                     position='bottom-right',
                     opacity=0.8,
-                    size_percentage=8  # 8% of image size
+                    size_percentage=10  # 10% of image size
                 )
                 
                 # Save watermarked image back to field

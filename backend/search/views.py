@@ -52,7 +52,7 @@ def global_search(request):
                 'subtitle': vendor.tagline,
                 'description': vendor.description[:150] + '...' if len(vendor.description) > 150 else vendor.description,
                 'image': image_url,
-                'url': f'/vendor/{vendor.id}',
+                'url': f'/vendor/{vendor.slug}',
                 'category': vendor.category.name if vendor.category else 'Vendor',
                 'subcategory': vendor.subcategory.name if vendor.subcategory else None,
                 'location': vendor.location,
@@ -84,7 +84,7 @@ def global_search(request):
                 'subtitle': f"{vendor_count} vendors available",
                 'description': category.description[:150] + '...' if len(category.description) > 150 else category.description,
                 'image': image_url,
-                'url': f'/vendors?category={category.id}',
+                'url': f'/vendors?category={category.slug}',
                 'category': 'Category',
                 'vendor_count': vendor_count
             })
@@ -112,7 +112,7 @@ def global_search(request):
                 'subtitle': f"{vendor_count} vendors available",
                 'description': subcategory.description[:150] + '...' if len(subcategory.description) > 150 else subcategory.description,
                 'image': image_url,
-                'url': f'/vendors?subcategory={subcategory.id}',
+                'url': f'/vendors?subcategory={subcategory.slug}',
                 'category': 'Subcategory',
                 'vendor_count': vendor_count
             })
@@ -239,7 +239,7 @@ def global_search(request):
                 'subtitle': image.vendor.name,
                 'description': f"From {image.vendor.name} in {image.vendor.location}",
                 'image': image_url,
-                'url': f'/vendor/{image.vendor.id}',
+                'url': f'/vendor/{image.vendor.slug}',
                 'category': 'Vendor Photo',
                 'location': image.vendor.location,
                 'rating': image.vendor.rating,
@@ -271,7 +271,7 @@ def global_search(request):
                 'subtitle': f"by {service.vendor.name}",
                 'description': service.description[:150] + '...' if service.description and len(service.description) > 150 else service.description or f"Service offered by {service.vendor.name}",
                 'image': image_url,
-                'url': f'/vendor/{service.vendor.id}',
+                'url': f'/vendor/{service.vendor.slug}',
                 'category': 'Service',
                 'location': service.vendor.location,
                 'rating': service.vendor.rating,

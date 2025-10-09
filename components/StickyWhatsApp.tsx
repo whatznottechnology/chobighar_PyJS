@@ -54,7 +54,7 @@ export default function StickyWhatsApp() {
       {/* Desktop WhatsApp Button */}
       <div className="hidden md:block">
         <div
-          className={`fixed bottom-6 right-6 z-[9990] transition-all duration-300 transform ${
+          className={`fixed bottom-6 right-6 z-[9000] transition-all duration-300 transform ${
             isVisible ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-16 opacity-0 scale-75'
           }`}
         >
@@ -80,7 +80,7 @@ export default function StickyWhatsApp() {
 
       {/* Mobile WhatsApp Button - larger and always visible */}
       <div className="md:hidden">
-        <div className="fixed bottom-4 right-4 z-[9990]">
+        <div className="fixed bottom-4 right-4 z-[9000]">
           <button
             onClick={handleWhatsAppClick}
             className="bg-[#25D366] hover:bg-[#22c55e] text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-110 group border-2 border-white/20"

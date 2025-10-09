@@ -9,7 +9,7 @@ import os
 from io import BytesIO
 
 
-def add_watermark(image_field, watermark_path=None, position='bottom-right', opacity=0.7, size_percentage=5):
+def add_watermark(image_field, watermark_path=None, position='bottom-right', opacity=0.7, size_percentage=10):
     """
     Add watermark to an image
     
