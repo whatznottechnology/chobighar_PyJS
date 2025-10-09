@@ -59,7 +59,7 @@ def auto_watermark_handler(sender, instance, **kwargs):
                 # Add watermark
                 watermarked_image = add_watermark(
                     current_image.file,
-                    position='bottom-right',
+                    position='top-right',
                     opacity=0.8,
                     size_percentage=10  # 10% of image size
                 )
