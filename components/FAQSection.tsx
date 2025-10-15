@@ -24,16 +24,16 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="py-12 lg:py-16 bg-white relative overflow-hidden">
+    <section className="py-12 lg:py-16 bg-white relative">
       {/* Background Images */}
-      <div className="absolute top-4 left-4 w-1/4 lg:w-1/5">
+      <div className="absolute top-4 left-4 w-1/4 lg:w-1/5 pointer-events-none">
         <img
           src="/img/12873194_7666-removebg-preview.png"
           alt="Background decoration"
           className="w-full h-auto object-contain opacity-10"
         />
       </div>
-      <div className="absolute bottom-4 right-4 w-1/3 lg:w-1/4">
+      <div className="absolute bottom-4 right-4 w-1/3 lg:w-1/4 pointer-events-none">
         <img
           src="/img/62569719_9509225.png"
           alt="Background decoration"
@@ -41,14 +41,9 @@ export default function FAQSection() {
         />
       </div>
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-12 lg:mb-16">
-          <div className="inline-flex items-center justify-center w-14 h-14 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl mb-6 shadow-lg transform hover:scale-105 transition-transform duration-300">
-            <svg className="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
           <h2 
             className="text-3xl sm:text-4xl lg:text-5xl font-bold text-red-600 mb-4" 
             style={{ fontFamily: 'Playfair Display, serif' }}
@@ -64,51 +59,11 @@ export default function FAQSection() {
           </p>
         </div>
 
-        {/* Main Content Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12 items-start">
+        {/* Main Content Layout - Video on RIGHT, FAQs on LEFT */}
+        <div className="lg:grid lg:grid-cols-5 lg:gap-12">
           
-          {/* Video Section - Left Side on Desktop */}
-          <div className="lg:col-span-2 lg:sticky lg:top-24">
-            <div className="relative">
-              {/* Video Container */}
-              <div className="relative aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50 border-2 border-red-100">
-                <video
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="w-full h-full object-cover"
-                >
-                  <source src="/videos/homefaq.mp4" type="video/mp4" />
-                  <div className="w-full h-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
-                    <div className="text-center text-gray-700">
-                      <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                      </svg>
-                      <p className="text-sm opacity-60">Video preview not available</p>
-                    </div>
-                  </div>
-                </video>
-                
-                {/* Video Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                  <button className="bg-white/90 hover:bg-white text-red-600 p-3 rounded-full shadow-lg transform hover:scale-110 transition-all duration-300 backdrop-blur-sm">
-                    <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                      <path d="M8 5v10l8-5-8-5z" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-
-              {/* Decorative Elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-red-600 rounded-full blur-sm opacity-60"></div>
-              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-red-500 rounded-full blur-sm opacity-60"></div>
-              <div className="absolute top-1/4 -left-2 w-4 h-4 bg-red-400 rounded-full opacity-40"></div>
-            </div>
-          </div>
-
-          {/* FAQ Section - Right Side on Desktop */}
-          <div className="lg:col-span-3 space-y-6">
+          {/* FAQ Section - LEFT Side - Scrollable Content */}
+          <div className="lg:col-span-3 space-y-6 order-2 lg:order-1">
             {loading ? (
               <div className="text-center py-8">
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto"></div>
@@ -125,7 +80,7 @@ export default function FAQSection() {
             ) : null}
             
             {displayFaqs && displayFaqs.map((faq, index) => (
-              <div key={faq.id} className="group">
+              <div key={faq.id} className="group mb-8">
                 <div className="relative bg-white border-2 border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden hover:border-red-300 hover:bg-gradient-to-br hover:from-white hover:to-red-50">
                   
                   {/* FAQ Header Button */}
@@ -191,7 +146,42 @@ export default function FAQSection() {
                 </div>
               </div>
             ))}
+            
+            {/* Extra space to ensure proper sticky behavior */}
+            <div className="lg:h-96"></div>
           </div>
+
+          {/* Video Section - RIGHT Side - Sticky */}
+          <div className="lg:col-span-2 mb-8 lg:mb-0 order-1 lg:order-2">
+            <div className="sticky top-8 will-change-transform">
+              {/* Video Container */}
+              <div className="relative aspect-[3/4] lg:aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-white to-gray-50 border-2 border-red-100">
+                <video
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="w-full h-full object-cover"
+                >
+                  <source src="/videos/homefaq.mp4" type="video/mp4" />
+                  <div className="w-full h-full bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
+                    <div className="text-center text-gray-700">
+                      <svg className="w-16 h-16 mx-auto mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                      </svg>
+                      <p className="text-sm opacity-60">Video preview not available</p>
+                    </div>
+                  </div>
+                </video>
+              </div>
+
+              {/* Decorative Elements */}
+              <div className="absolute -top-4 -right-4 w-8 h-8 bg-red-600 rounded-full blur-sm opacity-60"></div>
+              <div className="absolute -bottom-4 -left-4 w-6 h-6 bg-red-500 rounded-full blur-sm opacity-60"></div>
+              <div className="absolute top-1/4 -left-2 w-4 h-4 bg-red-400 rounded-full opacity-40"></div>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

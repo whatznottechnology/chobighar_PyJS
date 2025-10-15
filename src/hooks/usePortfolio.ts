@@ -37,21 +37,30 @@ export const usePortfolios = (params?: {
 // Hook for getting a specific portfolio
 export const usePortfolio = (id: string) => {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!id) return;
+    if (!id) {
+      console.log('usePortfolio: No ID provided, skipping fetch');
+      setLoading(false);
+      setPortfolio(null);
+      return;
+    }
 
     const fetchPortfolio = async () => {
       try {
+        console.log('usePortfolio: Fetching portfolio with ID:', id);
         setLoading(true);
         setError(null);
         const data = await portfolioAPI.getPortfolio(id);
+        console.log('usePortfolio: Portfolio data received:', data);
+        console.log('usePortfolio: Images in portfolio:', data.images?.length);
         setPortfolio(data);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to fetch portfolio');
-        console.error('Error fetching portfolio:', err);
+        const errorMsg = err instanceof Error ? err.message : 'Failed to fetch portfolio';
+        setError(errorMsg);
+        console.error('usePortfolio: Error fetching portfolio:', err);
       } finally {
         setLoading(false);
       }

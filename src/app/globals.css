@@ -171,3 +171,334 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* CKEditor Content Styling - Minimal override to preserve CKEditor formatting */
+.ck-editor-content {
+  /* Only override basic text color for readability */
+  color: #374151;
+  
+  /* Ensure text is visible */
+  * {
+    color: inherit;
+  }
+  
+  /* Basic text elements */
+  p, div, span {
+    color: #374151;
+  }
+  
+  /* Enhanced image styling */
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    margin: 2rem auto !important;
+    display: block !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+  }
+  
+  img:hover {
+    transform: scale(1.02) !important;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Video and iframe responsive styling */
+  iframe, 
+  video,
+  embed,
+  object {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-height: 300px !important;
+    border-radius: 16px !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    margin: 2rem auto !important;
+    display: block !important;
+    border: none !important;
+  }
+  
+  /* YouTube and video embeds */
+  iframe[src*="youtube"],
+  iframe[src*="vimeo"],
+  iframe[src*="dailymotion"] {
+    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    min-height: unset !important;
+  }
+  
+  /* Figure styling */
+  figure {
+    margin: 2.5rem 0 !important;
+    text-align: center !important;
+    
+    img, video, iframe {
+      margin: 0 auto 1rem !important;
+    }
+    
+    figcaption {
+      font-size: 0.875rem !important;
+      color: #6B7280 !important;
+      font-style: italic !important;
+      text-align: center !important;
+      margin-top: 0.75rem !important;
+      padding: 0 1rem !important;
+    }
+  }
+  
+  /* Enhanced table styling */
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    margin: 2rem 0 !important;
+    background: white !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    
+    th, td {
+      padding: 1rem !important;
+      text-align: left !important;
+      border-bottom: 1px solid #E5E7EB !important;
+    }
+    
+    th {
+      background: linear-gradient(135deg, #B22222, #DC143C) !important;
+      color: white !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.05em !important;
+    }
+    
+    td {
+      color: #374151 !important;
+    }
+    
+    tr:nth-child(even) td {
+      background-color: #F9FAFB !important;
+    }
+    
+    tr:hover td {
+      background-color: #FEF2F2 !important;
+    }
+  }
+  
+  /* Enhanced blockquote styling */
+  blockquote {
+    border-left: 5px solid #B22222 !important;
+    background: linear-gradient(135deg, #FEF2F2, #FECACA) !important;
+    padding: 1.5rem 2rem !important;
+    margin: 2rem 0 !important;
+    border-radius: 0 16px 16px 0 !important;
+    font-style: italic !important;
+    position: relative !important;
+    box-shadow: 0 4px 15px rgba(178, 34, 34, 0.1) !important;
+    
+    &:before {
+      content: '"' !important;
+      font-size: 4rem !important;
+      color: #B22222 !important;
+      position: absolute !important;
+      top: -0.5rem !important;
+      left: 1rem !important;
+      font-family: Georgia, serif !important;
+      opacity: 0.3 !important;
+    }
+    
+    p {
+      margin: 0 !important;
+      color: #374151 !important;
+      font-size: 1.125rem !important;
+      line-height: 1.7 !important;
+      position: relative !important;
+      z-index: 1 !important;
+    }
+  }
+  
+  /* Enhanced code styling */
+  code {
+    background: linear-gradient(135deg, #F3F4F6, #E5E7EB) !important;
+    color: #B22222 !important;
+    padding: 0.25rem 0.5rem !important;
+    border-radius: 6px !important;
+    font-size: 0.875rem !important;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace !important;
+    font-weight: 500 !important;
+    border: 1px solid #D1D5DB !important;
+  }
+  
+  pre {
+    background: linear-gradient(135deg, #1F2937, #111827) !important;
+    color: #F9FAFB !important;
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    overflow-x: auto !important;
+    margin: 2rem 0 !important;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3) !important;
+    border: 1px solid #374151 !important;
+    
+    code {
+      background: transparent !important;
+      padding: 0 !important;
+      color: inherit !important;
+      border: none !important;
+    }
+  }
+  
+  /* Enhanced list styling */
+  ul, ol {
+    margin: 1.5rem 0 !important;
+    padding-left: 2rem !important;
+    
+    li {
+      margin-bottom: 0.75rem !important;
+      line-height: 1.7 !important;
+      color: #374151 !important;
+      
+      &:last-child {
+        margin-bottom: 0 !important;
+      }
+      
+      /* Nested lists */
+      ul, ol {
+        margin: 0.5rem 0 !important;
+      }
+    }
+  }
+  
+  /* Custom bullet styling */
+  ul li {
+    position: relative !important;
+    
+    &:before {
+      content: '→' !important;
+      color: #B22222 !important;
+      font-weight: bold !important;
+      position: absolute !important;
+      left: -1.5rem !important;
+    }
+  }
+  
+  /* Enhanced horizontal rule */
+  hr {
+    border: none !important;
+    height: 3px !important;
+    background: linear-gradient(135deg, #B22222, #DC143C) !important;
+    margin: 3rem 0 !important;
+    border-radius: 2px !important;
+    position: relative !important;
+    
+    &:after {
+      content: '❋' !important;
+      position: absolute !important;
+      top: 50% !important;
+      left: 50% !important;
+      transform: translate(-50%, -50%) !important;
+      background: white !important;
+      padding: 0 1rem !important;
+      color: #B22222 !important;
+      font-size: 1.2rem !important;
+    }
+  }
+  
+  /* Enhanced link styling */
+  a {
+    color: #B22222 !important;
+    text-decoration: none !important;
+    font-weight: 500 !important;
+    position: relative !important;
+    transition: all 0.3s ease !important;
+    
+    &:hover {
+      color: #DC143C !important;
+      
+      &:after {
+        width: 100% !important;
+      }
+    }
+    
+    &:after {
+      content: '' !important;
+      position: absolute !important;
+      bottom: -2px !important;
+      left: 0 !important;
+      width: 0 !important;
+      height: 2px !important;
+      background: linear-gradient(135deg, #B22222, #DC143C) !important;
+      transition: width 0.3s ease !important;
+    }
+  }
+  
+  /* Special content boxes */
+  .info-box, .warning-box, .success-box {
+    padding: 1.5rem !important;
+    border-radius: 12px !important;
+    margin: 2rem 0 !important;
+    border-left: 5px solid !important;
+    position: relative !important;
+    
+    &:before {
+      position: absolute !important;
+      top: 1rem !important;
+      right: 1rem !important;
+      font-size: 1.5rem !important;
+    }
+  }
+  
+  .info-box {
+    background: linear-gradient(135deg, #EBF8FF, #DBEAFE) !important;
+    border-left-color: #3B82F6 !important;
+    
+    &:before {
+      content: 'ℹ️' !important;
+    }
+  }
+  
+  .warning-box {
+    background: linear-gradient(135deg, #FFFBEB, #FEF3C7) !important;
+    border-left-color: #F59E0B !important;
+    
+    &:before {
+      content: '⚠️' !important;
+    }
+  }
+  
+  .success-box {
+    background: linear-gradient(135deg, #ECFDF5, #D1FAE5) !important;
+    border-left-color: #10B981 !important;
+    
+    &:before {
+      content: '✅' !important;
+    }
+  }
+}
+
+/* Removed enhanced content wrapper styling to preserve CKEditor design */
+
+/* Enhanced prose styling for wider content */
+.prose-lg {
+  font-size: 1.125rem !important;
+  line-height: 1.8 !important;
+  max-width: none !important;
+}
+
+.prose-lg p {
+  margin-bottom: 1.8rem !important;
+}
+
+/* Blog article specific enhancements */
+.blog-article-container {
+  background: linear-gradient(135deg, #ffffff, #fafafa);
+  position: relative;
+}
+
+.blog-article-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 1px;
+  background: linear-gradient(180deg, transparent, #e5e7eb, transparent);
+}

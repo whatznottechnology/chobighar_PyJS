@@ -21,6 +21,7 @@ import { usePortfolio, useRelatedPortfolios } from '@/hooks/usePortfolio';
 import { portfolioAPI } from '@/services/portfolioAPI';
 import { useWhatsAppIntegration } from '../../../../hooks/useWhatsAppIntegration';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
+import ImageLightbox from '../../../../components/ImageLightbox';
 
 export default function PortfolioDetails() {
   const params = useParams();
@@ -456,6 +457,15 @@ export default function PortfolioDetails() {
       {/* Compact Gallery Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Debug Info */}
+          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+            <p className="text-sm text-blue-800">
+              <strong>Debug Info:</strong> Images in array: {portfolio.images?.length || 0} | 
+              Image count field: {portfolio.image_count} | 
+              Videos: {portfolio.videos?.length || 0}
+            </p>
+          </div>
+
           {/* Simple Tabs */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <button
@@ -482,33 +492,45 @@ export default function PortfolioDetails() {
 
           {/* Photos Grid - Compact Masonry */}
           {activeTab === 'photos' && (
-            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
-              {portfolio.images?.map((image, index) => (
-                <div
-                  key={index}
-                  className="break-inside-avoid relative rounded-xl overflow-hidden cursor-pointer group bg-gray-100"
-                  onClick={() => openLightbox(index)}
-                >
-                  <Image
-                    src={image.image}
-                    alt={`${portfolio.title} ${index + 1}`}
-                    width={300}
-                    height={400}
-                    className="w-full h-auto transition-transform duration-500 group-hover:scale-110"
-                    sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                  />
-                  
-                  {/* Simple Hover Overlay */}
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="bg-white/90 p-2 rounded-full">
-                      <svg className="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-                      </svg>
+            <>
+              {/* Debug indicator */}
+              {selectedImage !== null && (
+                <div className="fixed top-4 left-4 z-[10000] bg-green-500 text-white px-4 py-2 rounded">
+                  Lightbox Open: Image {selectedImage + 1}
+                </div>
+              )}
+              
+              <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+                {portfolio.images?.map((image, index) => (
+                  <div
+                    key={index}
+                    className="break-inside-avoid relative rounded-xl overflow-hidden cursor-pointer group bg-gray-100 hover:shadow-xl transition-all duration-300"
+                    onClick={() => {
+                      console.log('Image clicked:', index);
+                      openLightbox(index);
+                    }}
+                  >
+                    <Image
+                      src={image.image}
+                      alt={`${portfolio.title} ${index + 1}`}
+                      width={300}
+                      height={400}
+                      className="w-full h-auto transition-transform duration-500 group-hover:scale-110"
+                      sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    />
+                    
+                    {/* Hover Overlay with Magnifying Glass */}
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center pointer-events-none">
+                      <div className="bg-white/90 backdrop-blur-sm p-3 rounded-full transform group-hover:scale-110 transition-transform duration-200">
+                        <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                        </svg>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            </>
           )}
 
           {/* Videos Grid - Compact */}
@@ -624,51 +646,16 @@ export default function PortfolioDetails() {
         </section>
       )}
 
-      {/* Simplified Lightbox Modal */}
-      {selectedImage !== null && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
-          {/* Close Button */}
-          <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 z-10 bg-white/10 backdrop-blur-sm p-2.5 rounded-full text-white hover:bg-white/20 transition-colors"
-          >
-            <XMarkIcon className="w-6 h-6" />
-          </button>
-
-          {/* Navigation Buttons */}
-          <button
-            onClick={prevImage}
-            className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 transition-colors"
-          >
-            <ChevronLeftIcon className="w-6 h-6" />
-          </button>
-
-          <button
-            onClick={nextImage}
-            className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 transition-colors"
-          >
-            <ChevronRightIcon className="w-6 h-6" />
-          </button>
-
-          {/* Main Image */}
-          <div className="relative max-w-6xl max-h-[85vh] w-full">
-            <Image
-              src={portfolio.images![selectedImage].image}
-              alt={`${portfolio.title} ${selectedImage + 1}`}
-              width={1200}
-              height={800}
-              className="object-contain w-full h-full"
-              priority
-            />
-          </div>
-
-          {/* Image Counter */}
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
-            <div className="bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 text-white text-sm">
-              {selectedImage + 1} / {portfolio.images?.length || 0}
-            </div>
-          </div>
-        </div>
+      {/* Image Lightbox - Full Screen Modal */}
+      {selectedImage !== null && portfolio?.images && portfolio.images.length > 0 && (
+        <ImageLightbox
+          images={portfolio.images.map(img => img.image)}
+          currentIndex={selectedImage}
+          onClose={closeLightbox}
+          onNext={nextImage}
+          onPrevious={prevImage}
+          alt={portfolio.title}
+        />
       )}
 
       {/* Simplified Video Modal */}

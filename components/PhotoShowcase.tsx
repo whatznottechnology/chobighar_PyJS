@@ -1,10 +1,13 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
 import { useShowcaseImages } from '../hooks/useHomepageData';
+import ImageLightbox from './ImageLightbox';
 
 export default function PhotoShowcase() {
   const { images, loading, error } = useShowcaseImages();
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   if (loading) {
     return (
@@ -23,8 +26,23 @@ export default function PhotoShowcase() {
     return null; // Don't show anything if there's an error or no images
   }
 
+  const imageUrls = images.map(img => img.image_url).filter(Boolean) as string[];
+
+  const handleNext = () => {
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex((selectedImageIndex + 1) % imageUrls.length);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (selectedImageIndex !== null) {
+      setSelectedImageIndex(selectedImageIndex === 0 ? imageUrls.length - 1 : selectedImageIndex - 1);
+    }
+  };
+
   return (
-    <section className="py-20 bg-gray-50">
+    <>
+      <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -45,13 +63,14 @@ export default function PhotoShowcase() {
           {images.map((image, index) => (
             <div
               key={image.id}
-              className={`group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 ${
+              className={`group relative overflow-hidden rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:scale-105 cursor-pointer ${
                 index % 5 === 0 ? 'md:col-span-2 md:row-span-2' : 
                 index % 3 === 0 ? 'lg:row-span-2' : ''
               }`}
               style={{
                 height: index % 5 === 0 ? '400px' : index % 3 === 0 ? '320px' : '250px'
               }}
+              onClick={() => setSelectedImageIndex(index)}
             >
               {image.image_url && (
                 <Image
@@ -82,5 +101,18 @@ export default function PhotoShowcase() {
         </div>
       </div>
     </section>
+
+      {/* Image Lightbox */}
+      {selectedImageIndex !== null && (
+        <ImageLightbox
+          images={imageUrls}
+          currentIndex={selectedImageIndex}
+          onClose={() => setSelectedImageIndex(null)}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          alt="Our Photography"
+        />
+      )}
+    </>
   );
 }

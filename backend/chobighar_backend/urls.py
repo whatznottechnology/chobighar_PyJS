@@ -34,6 +34,9 @@ urlpatterns = [
     # Admin Panel
     path('admin/', admin.site.urls),
     
+    # CKEditor URLs
+    path('ckeditor/', include('ckeditor_uploader.urls')),
+    
     # Health Check Endpoints for Production Monitoring
     path('health/', HealthCheckView.as_view(), name='health_check'),
     path('health/ready/', ReadinessCheckView.as_view(), name='readiness_check'),

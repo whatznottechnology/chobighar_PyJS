@@ -1,7 +1,17 @@
 from django.contrib import admin
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
+from django import forms
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from .models import BlogCategory, BlogPost, BlogComment, PopupInquiry, PopupSettings
+
+
+class BlogPostAdminForm(forms.ModelForm):
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+    
+    class Meta:
+        model = BlogPost
+        fields = '__all__'
 
 
 @admin.register(BlogCategory)
@@ -33,6 +43,7 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 @admin.register(BlogPost)
 class BlogPostAdmin(admin.ModelAdmin):
+    form = BlogPostAdminForm
     list_display = ['image_preview', 'title', 'category', 'author', 'status', 'published_date', 'views_count', 'is_featured', 'created_at']
     list_filter = ['status', 'is_featured', 'category', 'created_at', 'published_date']
     search_fields = ['title', 'content', 'tags', 'author']
@@ -47,7 +58,8 @@ class BlogPostAdmin(admin.ModelAdmin):
         }),
         ('Content', {
             'fields': ('content',),
-            'description': 'Main blog content (HTML supported)'
+            'description': 'Rich content editor - Add images, videos, and formatted text. Use the toolbar to embed media and style your content.',
+            'classes': ('wide',)
         }),
         ('Media', {
             'fields': ('featured_image', 'featured_image_alt', 'thumbnail_image', 'og_image')

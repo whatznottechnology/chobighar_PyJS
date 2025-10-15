@@ -1,42 +1,38 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useBlogPost } from '../../../../hooks/useBlogData';
 import { getMediaUrl } from '@/config/api';
+import { processBlogContent } from '@/utils/blogContent';
 import { 
   ClockIcon, 
   EyeIcon, 
   CalendarIcon, 
   ArrowLeftIcon,
   ShareIcon,
-  TagIcon
+  TagIcon,
+  UserIcon,
+  HeartIcon,
+  ChatBubbleBottomCenterTextIcon
 } from '@heroicons/react/24/outline';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function BlogDetailPage() {
   const params = useParams();
-  const router = useRouter();
-  const slug = params.slug as string;
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug as string;
   const { post, loading, error } = useBlogPost(slug);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (post) {
-      // Update document title for SEO
       document.title = post.meta_title || `${post.title} | chobighar Blog`;
-      
-      // Update meta description
-      const metaDescription = document.querySelector('meta[name="description"]');
-      if (metaDescription && post.meta_description) {
-        metaDescription.setAttribute('content', post.meta_description);
-      }
     }
   }, [post]);
 
   const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
+    return new Date(dateString).toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'long', 
       day: 'numeric' 
@@ -52,21 +48,27 @@ export default function BlogDetailPage() {
           url: window.location.href
         });
       } catch (err) {
-        console.log('Error sharing:', err);
+        console.log('Share failed:', err);
+        copyToClipboard();
       }
     } else {
-      // Fallback: copy to clipboard
-      navigator.clipboard.writeText(window.location.href);
-      alert('Link copied to clipboard!');
+      copyToClipboard();
     }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   };
 
   if (loading) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-red-600"></div>
-          <p className="mt-4 text-gray-600">Loading article...</p>
+      <main className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-2xl shadow-lg">
+          <div className="w-16 h-16 mx-auto mb-4 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
+          <h2 className="text-xl font-semibold text-gray-900 mb-2">Loading Article</h2>
+          <p className="text-gray-600">Please wait while we fetch the content...</p>
         </div>
       </main>
     );
@@ -74,15 +76,18 @@ export default function BlogDetailPage() {
 
   if (error || !post) {
     return (
-      <main className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900 mb-4">Article Not Found</h1>
-          <p className="text-gray-600 mb-8">The article you're looking for doesn't exist.</p>
+      <main className="min-h-screen bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center">
+        <div className="text-center bg-white p-8 rounded-2xl shadow-lg max-w-md">
+          <div className="w-16 h-16 mx-auto mb-4 bg-red-100 rounded-full flex items-center justify-center">
+            <ChatBubbleBottomCenterTextIcon className="w-8 h-8 text-red-600" />
+          </div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-3">Article Not Found</h1>
+          <p className="text-gray-600 mb-6">The article you're looking for doesn't exist or has been removed.</p>
           <Link 
             href="/blog"
-            className="bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-colors inline-flex items-center gap-2"
+            className="inline-flex items-center gap-2 bg-red-600 text-white px-6 py-3 rounded-xl hover:bg-red-700 transition-all duration-200 transform hover:scale-105"
           >
-            <ArrowLeftIcon className="w-5 h-5" />
+            <ArrowLeftIcon className="w-4 h-4" />
             Back to Blog
           </Link>
         </div>
@@ -93,65 +98,11 @@ export default function BlogDetailPage() {
   const featuredImageUrl = post.featured_image ? getMediaUrl(post.featured_image) : null;
 
   return (
-    <main className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-gray-900 to-gray-800 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link 
-            href="/blog"
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white mb-6 transition-colors"
-          >
-            <ArrowLeftIcon className="w-5 h-5" />
-            Back to Blog
-          </Link>
-
-          {/* Category Badge */}
-          <div className="mb-4">
-            <span className="bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold">
-              {post.category_name}
-            </span>
-          </div>
-
-          {/* Title */}
-          <h1 
-            className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 leading-tight"
-            style={{ fontFamily: 'Playfair Display, serif' }}
-          >
-            {post.title}
-          </h1>
-
-          {/* Meta Information */}
-          <div className="flex flex-wrap items-center gap-4 text-white/80 text-sm">
-            <div className="flex items-center gap-2">
-              <CalendarIcon className="w-4 h-4" />
-              <span>{formatDate(post.published_date)}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <ClockIcon className="w-4 h-4" />
-              <span>{post.reading_time} min read</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <EyeIcon className="w-4 h-4" />
-              <span>{post.views_count} views</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span>By {post.author}</span>
-            </div>
-            <button
-              onClick={handleShare}
-              className="ml-auto flex items-center gap-2 bg-white/10 hover:bg-white/20 px-4 py-2 rounded-lg transition-colors"
-            >
-              <ShareIcon className="w-4 h-4" />
-              Share
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {/* Featured Image */}
-      {featuredImageUrl && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8">
-          <div className="relative h-96 rounded-2xl overflow-hidden shadow-2xl bg-gray-200">
+    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+      {/* Article Header */}
+      <header className="relative overflow-hidden">
+        {featuredImageUrl && (
+          <div className="absolute inset-0 z-0">
             <Image
               src={featuredImageUrl}
               alt={post.featured_image_alt || post.title}
@@ -159,73 +110,166 @@ export default function BlogDetailPage() {
               className="object-cover"
               priority
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
+          </div>
+        )}
+        
+        {/* Back Navigation - Over the banner */}
+        <nav className="relative z-20 pt-6">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Link 
+              href="/blog"
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md transition-all group ${
+                featuredImageUrl 
+                  ? 'bg-white/20 hover:bg-white/30 text-white border border-white/20' 
+                  : 'bg-white hover:bg-gray-50 text-gray-600 hover:text-red-600 border border-gray-200 shadow-sm'
+              }`}
+            >
+              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <span className="font-medium">Back to Blog</span>
+            </Link>
+          </div>
+        </nav>
+        
+        <div className={`relative z-10 ${featuredImageUrl ? 'text-white' : 'text-gray-900'} py-12 lg:py-20`}>
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Category */}
+            <div className="mb-6">
+              <span className="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                {post.category_name}
+              </span>
+            </div>
+
+            {/* Title */}
+            <h1 
+              className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight"
+              style={{ fontFamily: 'Playfair Display, serif' }}
+            >
+              {post.title}
+            </h1>
+
+            {/* Excerpt */}
+            <p className={`text-lg md:text-xl leading-relaxed mb-8 max-w-3xl ${
+              featuredImageUrl ? 'text-gray-200' : 'text-gray-600'
+            }`}>
+              {post.excerpt}
+            </p>
+
+            {/* Meta Info */}
+            <div className="flex flex-wrap items-center gap-6 text-sm">
+              <div className="flex items-center gap-2">
+                <UserIcon className="w-4 h-4" />
+                <span className="font-medium">{post.author}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CalendarIcon className="w-4 h-4" />
+                <span>{formatDate(post.published_date)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <ClockIcon className="w-4 h-4" />
+                <span>{post.reading_time} min read</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <EyeIcon className="w-4 h-4" />
+                <span>{post.views_count} views</span>
+              </div>
+              <button
+                onClick={handleShare}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                  featuredImageUrl 
+                    ? 'bg-white/20 hover:bg-white/30' 
+                    : 'bg-gray-100 hover:bg-gray-200'
+                }`}
+              >
+                <ShareIcon className="w-4 h-4" />
+                {copied ? 'Copied!' : 'Share'}
+              </button>
+            </div>
           </div>
         </div>
-      )}
+      </header>
 
-      {/* Content */}
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="bg-white rounded-2xl shadow-lg p-8 md:p-12">
-          {/* Excerpt */}
-          <div className="text-xl text-gray-700 mb-8 pb-8 border-b border-gray-200 font-medium italic">
-            {post.excerpt}
+      {/* Article Content */}
+      <article className="relative -mt-8">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Main Content Container */}
+          <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
+            <div className="p-6 md:p-10 lg:p-16">
+              {/* Rich Content from CKEditor - Preserve original formatting */}
+              <div className="ck-editor-content max-w-none">
+                {/* Debug: Show if content exists */}
+                {!post.content && (
+                  <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
+                    <p className="text-red-600 text-lg font-medium">No content available for this blog post.</p>
+                  </div>
+                )}
+                
+                {/* Processed content - preserving CKEditor styling */}
+                {post.content && (
+                  <div dangerouslySetInnerHTML={{ __html: processBlogContent(post.content || '') }} />
+                )}
+                
+                {/* Debug: Show raw content length */}
+                {post.content && (
+                  <div className="mt-12 pt-8 border-t border-gray-100">
+                    <p className="text-gray-500 text-sm bg-gray-50 px-4 py-2 rounded-lg inline-block">
+                      Content length: {post.content.length} characters
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
-          {/* Main Content */}
-          <div 
-            className="prose prose-lg max-w-none
-              prose-headings:font-playfair prose-headings:text-gray-900
-              prose-h2:text-gray-900 prose-h2:text-2xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8
-              prose-h3:text-gray-900 prose-h3:text-xl prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-6
-              prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-4 prose-p:text-base
-              prose-a:text-red-600 prose-a:no-underline hover:prose-a:underline
-              prose-strong:text-gray-900 prose-strong:font-bold
-              prose-img:rounded-xl prose-img:shadow-lg
-              prose-blockquote:border-l-4 prose-blockquote:border-red-600 prose-blockquote:pl-4 prose-blockquote:italic prose-blockquote:text-gray-700
-              prose-ul:list-disc prose-ul:ml-6 prose-ul:mb-4
-              prose-ol:list-decimal prose-ol:ml-6 prose-ol:mb-4
-              prose-li:text-gray-700 prose-li:mb-2"
-            dangerouslySetInnerHTML={{ __html: post.content || '' }}
-          />
-
-          {/* Tags */}
+          {/* Tags Section */}
           {post.tags_list && post.tags_list.length > 0 && (
-            <div className="mt-12 pt-8 border-t border-gray-200">
-              <div className="flex items-center gap-2 flex-wrap">
-                <TagIcon className="w-5 h-5 text-gray-400" />
-                {post.tags_list.map((tag, index) => (
-                  <span 
-                    key={index}
-                    className="bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm hover:bg-gray-200 transition-colors cursor-pointer"
-                  >
-                    {tag}
-                  </span>
-                ))}
+            <div className="mt-12 bg-white rounded-2xl shadow-lg p-8 border border-gray-100">
+              <div className="flex items-start gap-4">
+                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <TagIcon className="w-5 h-5 text-red-600" />
+                </div>
+                <div className="flex-1">
+                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Related Tags</h3>
+                  <div className="flex flex-wrap gap-3">
+                    {post.tags_list.map((tag, index) => (
+                      <span 
+                        key={index}
+                        className="inline-flex items-center bg-gradient-to-r from-red-50 to-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium hover:from-red-100 hover:to-red-200 transition-all duration-200 cursor-pointer border border-red-200"
+                      >
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
           )}
         </div>
-      </div>
+      </article>
 
       {/* Related Posts */}
       {post.related_posts && post.related_posts.length > 0 && (
-        <div className="bg-white py-16">
+        <section className="py-16 bg-gradient-to-br from-gray-50 to-gray-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 
-              className="text-3xl font-bold text-gray-900 mb-8"
-              style={{ fontFamily: 'Playfair Display, serif' }}
-            >
-              Related Articles
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="text-center mb-12">
+              <h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900 mb-4"
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Related Articles
+              </h2>
+              <p className="text-gray-600 text-lg">More stories you might enjoy</p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {post.related_posts.map((relatedPost) => (
                 <Link 
                   key={relatedPost.id}
                   href={`/blog/${relatedPost.slug}`}
-                  className="group bg-gray-50 rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300"
+                  className="group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2"
                 >
                   {relatedPost.thumbnail ? (
-                    <div className="relative h-48 overflow-hidden">
+                    <div className="relative h-48 overflow-hidden bg-gray-200">
                       <Image
                         src={getMediaUrl(relatedPost.thumbnail) || ''}
                         alt={relatedPost.title}
@@ -234,55 +278,65 @@ export default function BlogDetailPage() {
                       />
                     </div>
                   ) : (
-                    <div className="relative h-48 bg-gradient-to-br from-gray-100 to-gray-50 flex items-center justify-center">
-                      <span className="text-gray-400 text-4xl">📝</span>
+                    <div className="h-48 bg-gradient-to-br from-red-100 to-red-50 flex items-center justify-center">
+                      <span className="text-red-400 text-5xl">📝</span>
                     </div>
                   )}
                   <div className="p-6">
-                    <span className="text-sm text-red-600 font-semibold">
+                    <span className="inline-block bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-semibold mb-3">
                       {relatedPost.category_name}
                     </span>
                     <h3 
-                      className="text-lg font-bold text-gray-900 mt-2 mb-2 group-hover:text-red-600 transition-colors line-clamp-2"
+                      className="text-lg font-bold text-gray-900 mb-3 group-hover:text-red-600 transition-colors line-clamp-2 leading-tight"
                       style={{ fontFamily: 'Playfair Display, serif' }}
                     >
                       {relatedPost.title}
                     </h3>
-                    <p className="text-gray-600 text-sm line-clamp-2">
+                    <p className="text-gray-600 text-sm line-clamp-3 mb-4 leading-relaxed">
                       {relatedPost.excerpt}
                     </p>
-                    <div className="flex items-center gap-2 mt-4 text-sm text-gray-500">
-                      <ClockIcon className="w-4 h-4" />
-                      <span>{relatedPost.reading_time} min read</span>
+                    <div className="flex items-center justify-between text-xs text-gray-500 pt-4 border-t border-gray-100">
+                      <div className="flex items-center gap-1">
+                        <ClockIcon className="w-3 h-3" />
+                        <span>{relatedPost.reading_time}m</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <EyeIcon className="w-3 h-3" />
+                        <span>{relatedPost.views_count}</span>
+                      </div>
                     </div>
                   </div>
                 </Link>
               ))}
             </div>
           </div>
-        </div>
+        </section>
       )}
 
       {/* CTA Section */}
-      <div className="bg-gradient-to-r from-red-600 to-red-700 py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <section className="relative py-20 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-red-800"></div>
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <HeartIcon className="w-12 h-12 text-white mx-auto mb-6" />
           <h2 
-            className="text-3xl font-bold text-white mb-4"
+            className="text-3xl md:text-4xl font-bold text-white mb-6"
             style={{ fontFamily: 'Playfair Display, serif' }}
           >
-            Ready to Book Your Event?
+            Ready to Create Beautiful Memories?
           </h2>
-          <p className="text-white/90 mb-8 text-lg">
-            Let's create beautiful memories together
+          <p className="text-white/90 text-lg md:text-xl mb-8 max-w-2xl mx-auto">
+            Let our expert photographers capture your special moments with creativity and passion
           </p>
           <Link
             href="/contact"
-            className="inline-block bg-white text-red-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg"
+            className="inline-flex items-center gap-2 bg-white text-red-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-all duration-200 transform hover:scale-105 shadow-lg"
           >
-            Get in Touch
+            <span>Get in Touch</span>
+            <ArrowLeftIcon className="w-4 h-4 rotate-180" />
           </Link>
         </div>
-      </div>
+      </section>
     </main>
   );
 }

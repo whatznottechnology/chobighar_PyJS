@@ -22,13 +22,15 @@ export const getMediaUrl = (mediaPath: string | null | undefined): string | null
     return mediaPath;
   }
   
-  // If it starts with /media/, build full URL
+  // In development with Next.js rewrite, use relative path
+  // In production with CDN/backend, this will be handled by Next.js rewrite
+  // If it starts with /media/, return as is (Next.js will proxy it)
   if (mediaPath.startsWith('/media/')) {
-    return `${API_BASE_URL}${mediaPath}`;
+    return mediaPath;
   }
   
-  // Otherwise, assume it needs /media/ prefix
-  return `${API_BASE_URL}/media/${mediaPath}`;
+  // Otherwise, add /media/ prefix (Next.js will proxy it to backend)
+  return `/media/${mediaPath}`;
 };
 
 // API Endpoints - centralized endpoint definitions

@@ -7,6 +7,7 @@ import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useShowcaseImages } from '../hooks/useHomepageData';
 import { useFeaturedPortfolios } from '@/hooks/usePortfolio';
+import ImageLightbox from './ImageLightbox';
 
 
 
@@ -16,6 +17,10 @@ export default function AlbumsShowcase() {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   
+  // Lightbox state
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  
   // Fetch data from backend
   const { images: showcaseImages, loading: showcaseLoading } = useShowcaseImages();
   const { portfolios: featuredPortfolios, loading: portfoliosLoading } = useFeaturedPortfolios();
@@ -23,6 +28,9 @@ export default function AlbumsShowcase() {
   // Use backend data instead of hardcoded albums
   const displayAlbums = featuredPortfolios || [];
   const isLoading = portfoliosLoading || showcaseLoading;
+  
+  // Prepare images for lightbox - convert showcase images to format expected by lightbox
+  const lightboxImages = showcaseImages ? showcaseImages.map(img => img.image_url) : [];
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -42,6 +50,24 @@ export default function AlbumsShowcase() {
       setCanScrollLeft(scrollLeft > 0);
       setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
     }
+  };
+  
+  // Lightbox handlers
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setIsLightboxOpen(true);
+  };
+  
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+  };
+  
+  const goToNext = () => {
+    setLightboxIndex((prev) => (prev + 1) % lightboxImages.length);
+  };
+  
+  const goToPrevious = () => {
+    setLightboxIndex((prev) => (prev - 1 + lightboxImages.length) % lightboxImages.length);
   };
 
   return (
@@ -267,7 +293,7 @@ export default function AlbumsShowcase() {
                     View All
                   </h3>
                   <p className="text-white/80 text-sm mb-6">
-                    Explore our complete portfolio with {displayAlbums.length > 0 ? displayAlbums.length * 5 : 50}+ collections
+                    Discover our complete portfolio collection
                   </p>
                   <Link
                     href="/portfolio"
@@ -332,6 +358,7 @@ export default function AlbumsShowcase() {
                 <div
                   key={image.id}
                   className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
+                  onClick={() => openLightbox(index)}
                 >
                   {image.image_url && (
                     <Image
@@ -346,11 +373,13 @@ export default function AlbumsShowcase() {
                   {/* Hover Overlay */}
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="bg-white/20 backdrop-blur-sm p-2 rounded-full">
-                        <MagnifyingGlassIcon className="w-5 h-5 text-white" />
+                      <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full transform group-hover:scale-110 transition-transform duration-200">
+                        <MagnifyingGlassIcon className="w-6 h-6 text-white" />
                       </div>
                     </div>
                   </div>
+                  
+
                 </div>
               ))}
             </div>
@@ -370,6 +399,18 @@ export default function AlbumsShowcase() {
           </div>
         )}
       </div>
+      
+      {/* Image Lightbox */}
+      {isLightboxOpen && lightboxImages.length > 0 && (
+        <ImageLightbox
+          images={lightboxImages}
+          currentIndex={lightboxIndex}
+          onClose={closeLightbox}
+          onNext={goToNext}
+          onPrevious={goToPrevious}
+          alt="Gallery Highlight"
+        />
+      )}
     </section>
   );
 }

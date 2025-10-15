@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.core.validators import MinValueValidator, MaxValueValidator
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 class BlogCategory(models.Model):
@@ -51,7 +52,10 @@ class BlogPost(models.Model):
     
     # Content
     excerpt = models.TextField(max_length=300, help_text="Brief summary (300 chars max)")
-    content = models.TextField(help_text="Main blog content (supports HTML)")
+    content = RichTextUploadingField(
+        config_name='blog_content',
+        help_text="Rich content with support for images, videos, and formatted text"
+    )
     
     # Media
     featured_image = models.ImageField(upload_to='blog/featured/', null=True, blank=True)

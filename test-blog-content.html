@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Blog Content Processing</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #374151;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .blog-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            margin: 2rem auto;
+            display: block;
+        }
+        .blog-content p {
+            color: #374151;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-size: 1.125rem;
+        }
+        .blog-content h3 {
+            color: #1F2937;
+            font-weight: bold;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blog Content Test</h1>
+    <div class="blog-content">
+        <!-- This is a sample of how the processed content should look -->
+        <p style="color: #374151; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.125rem;">
+            <img alt="" src="http://127.0.0.1:8000/media/uploads/ckeditor/2025/10/15/whatsapp-image-2025-10-15-at-71009-pm.jpeg" class="max-w-full h-auto rounded-xl shadow-lg mx-auto my-6 block" style="max-width: 100%; height: auto;">
+            28 Best Locations For Pre Wedding Photoshoot In Kolkata
+        </p>
+        <p style="color: #374151; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.125rem;">
+            Do you want to have a pre wedding photoshoot in Kolkata that reflects the beautiful glamour of Kolkata in your pictures? Then stop looking around, as we have the best pre wedding photoshoot location in Kolkata that you will love to visit.
+        </p>
+        <h3 class="text-xl font-bold text-gray-900 mt-8 mb-4">1. Victoria Memorial</h3>
+        <p style="color: #374151; line-height: 1.7; margin-bottom: 1.5rem; font-size: 1.125rem;">
+            Victoria Memorial is one of the best pre-wedding locations in Kolkata, making it a perfect addition to the blog on the 28 best locations. Its architectural beauty, reminiscent of the British Raj, offers a captivating backdrop.
+        </p>
+    </div>
+    
+    <script>
+        // Test the content processing function
+        const originalContent = `<p><img alt="" src="/media/uploads/ckeditor/2025/10/15/whatsapp-image-2025-10-15-at-71009-pm.jpeg" style="height:100px; width:100px" />28 Best Locations For Pre Wedding Photoshoot In Kolkata Do you want to have a pre wedding photoshoot in Kolkata that reflects the beautiful glamour of Kolkata in your pictures? Then stop looking around, as we have the best pre wedding photoshoot location in Kolkata that you will love to visit. Read this blog to know more. 07 Jan, 2025 29474 Views Best Locations For Pre Wedding Photoshoot In Kolkata - blog poster Love is a symphony that echoes through time, and what's a better way to capture its ethereal beauty than with a pre-wedding photo shoot?</p>`;
+        
+        console.log('Original content length:', originalContent.length);
+        console.log('Original content preview:', originalContent.substring(0, 200) + '...');
+        
+        // Simulate the processing
+        function processContent(content) {
+            const API_BASE_URL = 'http://127.0.0.1:8000';
+            
+            // Fix image URLs
+            let processed = content.replace(
+                /src="([^"]+)"/g,
+                (match, src) => {
+                    if (src.startsWith('http://') || src.startsWith('https://')) {
+                        return match;
+                    }
+                    if (src.startsWith('/media/')) {
+                        return `src="${API_BASE_URL}${src}"`;
+                    }
+                    return `src="${API_BASE_URL}/${src}"`;
+                }
+            );
+            
+            // Fix images
+            processed = processed.replace(
+                /<img([^>]+)>/g,
+                (match, attributes) => {
+                    const cleanAttributes = attributes
+                        .replace(/style="[^"]*"/gi, '')
+                        .replace(/width="[^"]*"/gi, '')
+                        .replace(/height="[^"]*"/gi, '');
+                    
+                    return `<img${cleanAttributes} class="max-w-full h-auto rounded-xl shadow-lg mx-auto my-6 block" style="max-width: 100%; height: auto;">`;
+                }
+            );
+            
+            return processed;
+        }
+        
+        const processed = processContent(originalContent);
+        console.log('Processed content:', processed);
+        
+        // Display the result
+        document.querySelector('.blog-content').innerHTML = processed;
+    </script>
+</body>
+</html>

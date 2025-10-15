@@ -5,10 +5,23 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   
+  // Rewrites for proxying media files to Django backend
+  async rewrites() {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+    
+    return [
+      {
+        source: '/media/:path*',
+        destination: `${apiUrl}/media/:path*`,
+      },
+    ];
+  },
+  
   images: {
     domains: [
       'images.unsplash.com', 
-      'img.youtube.com', 
+      'img.youtube.com',
+      'i.ytimg.com', // YouTube thumbnails alternative domain
       'localhost', 
       '127.0.0.1',
       'admin.chobighar.com', // Production backend

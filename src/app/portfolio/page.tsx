@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { 
   PhotoIcon, 
   HeartIcon, 
@@ -13,19 +14,23 @@ import {
 } from '@heroicons/react/24/outline';
 import { usePortfolios, useCategoriesWithCount, usePortfolioVideos, usePortfolioImages } from '@/hooks/usePortfolio';
 import InquiryModal from '../../../components/InquiryModal';
+import ImageLightbox from '../../../components/ImageLightbox';
 
 export default function Portfolio() {
   const [selectedCategory, setSelectedCategory] = useState('all');
-  const [selectedImage, setSelectedImage] = useState<number | null>(null);
-  const [currentAlbum, setCurrentAlbum] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Fetch data using custom hooks
   const { portfolios, loading: portfoliosLoading } = usePortfolios({ category: selectedCategory });
   const { categories, loading: categoriesLoading } = useCategoriesWithCount();
   const { videos: portfolioVideos, loading: videosLoading } = usePortfolioVideos();
   const { images: portfolioImages, loading: portfolioImagesLoading } = usePortfolioImages();
+  
+  // Prepare images for lightbox - use the already loaded portfolio images
+  const lightboxImages = portfolioImages ? portfolioImages.map(img => img.image) : [];
 
   // Back to top visibility handler
   useEffect(() => {
@@ -51,35 +56,29 @@ export default function Portfolio() {
   // Filter portfolios by selected category
   const filteredAlbums = portfolios;
 
-  const openLightbox = (albumId: string, imageIndex: number) => {
-    setCurrentAlbum(albumId);
-    setSelectedImage(imageIndex);
+  const openLightbox = (imageIndex: number = 0) => {
+    setLightboxImageIndex(imageIndex);
+    setIsLightboxOpen(true);
   };
 
   const closeLightbox = () => {
-    setSelectedImage(null);
-    setCurrentAlbum(null);
+    setIsLightboxOpen(false);
+    setLightboxImageIndex(0);
   };
 
   const nextImage = () => {
-    if (currentAlbum && selectedImage !== null) {
-      const album = portfolios.find(a => a.id === currentAlbum);
-      if (album && album.images) {
-        setSelectedImage((selectedImage + 1) % album.images.length);
-      }
+    if (lightboxImages.length > 0) {
+      setLightboxImageIndex((prev) => (prev + 1) % lightboxImages.length);
     }
   };
 
   const prevImage = () => {
-    if (currentAlbum && selectedImage !== null) {
-      const album = portfolios.find(a => a.id === currentAlbum);
-      if (album && album.images) {
-        setSelectedImage(selectedImage === 0 ? album.images.length - 1 : selectedImage - 1);
-      }
+    if (lightboxImages.length > 0) {
+      setLightboxImageIndex((prev) => 
+        prev === 0 ? lightboxImages.length - 1 : prev - 1
+      );
     }
   };
-
-  const currentAlbumData = currentAlbum ? portfolios.find(a => a.id === currentAlbum) : null;
 
   return (
     <main className="min-h-screen bg-white">
@@ -178,12 +177,6 @@ export default function Portfolio() {
                               {album.image_count} Photos
                             </span>
                           </div>
-                          <button
-                            onClick={() => album.images && album.images.length > 0 && openLightbox(album.id, 0)}
-                            className="bg-white/20 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/30 transition-colors"
-                          >
-                            <MagnifyingGlassIcon className="w-5 h-5" />
-                          </button>
                         </div>
                       </div>
                     </div>
@@ -219,34 +212,6 @@ export default function Portfolio() {
                       <span>{new Date(album.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
                       <span>{album.location}</span>
                     </div>
-
-                    {/* Photo Preview Grid */}
-                    {album.images && album.images.length > 0 && (
-                      <div className="grid grid-cols-4 gap-1 mt-4">
-                        {album.images.slice(0, 4).map((image, idx) => (
-                          <div
-                            key={idx}
-                            className="relative aspect-square rounded-lg overflow-hidden cursor-pointer group/img"
-                            onClick={() => openLightbox(album.id, idx)}
-                          >
-                            {image.image ? (
-                              <Image
-                                src={image.image}
-                                alt={`${album.title} ${idx + 1}`}
-                                fill
-                                className="object-cover transition-transform duration-300 group-hover/img:scale-110"
-                                sizes="(max-width: 768px) 25vw, (max-width: 1200px) 16vw, 12vw"
-                              />
-                            ) : (
-                              <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                <PhotoIcon className="w-4 h-4 text-gray-400" />
-                              </div>
-                            )}
-                            <div className="absolute inset-0 bg-black/20 opacity-0 group-hover/img:opacity-100 transition-opacity duration-200"></div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
 
                     {/* View Album Button */}
                     <a
@@ -403,7 +368,10 @@ export default function Portfolio() {
             <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 xl:columns-5 2xl:columns-6 gap-4 space-y-4">
               {portfolioImages && portfolioImages.map((image, index) => (
                 <div key={image.id} className="break-inside-avoid mb-4">
-                  <div className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer">
+                  <div 
+                    className="relative overflow-hidden rounded-xl shadow-lg group cursor-pointer"
+                    onClick={() => openLightbox(index)}
+                  >
                     {image.image && (
                       <Image
                         src={image.image}
@@ -414,6 +382,11 @@ export default function Portfolio() {
                       />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full transform group-hover:scale-110 transition-transform duration-200">
+                          <MagnifyingGlassIcon className="w-6 h-6 text-white" />
+                        </div>
+                      </div>
                       <div className="absolute bottom-4 left-4 right-4">
                         <p className="text-white text-sm font-medium">
                           {image.caption}
@@ -442,69 +415,6 @@ export default function Portfolio() {
           </div>
         </div>
       </section>
-
-      {/* Lightbox Modal */}
-      {selectedImage !== null && currentAlbumData && currentAlbumData.images && (
-        <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center">
-          <div className="relative w-full h-full flex items-center justify-center">
-            {/* Close Button */}
-            <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 z-10 bg-white/10 backdrop-blur-sm p-2 rounded-full text-white hover:bg-white/20 transition-colors"
-            >
-              <XMarkIcon className="w-6 h-6" />
-            </button>
-
-            {/* Previous Button */}
-            <button
-              onClick={prevImage}
-              className="absolute left-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 active:bg-black transition-colors"
-              style={{
-                color: '#fbbf24'
-              }}
-              onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#f59e0b'}
-              onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#fbbf24'}
-            >
-              <ChevronLeftIcon className="w-6 h-6" />
-            </button>
-
-            {/* Next Button */}
-            <button
-              onClick={nextImage}
-              className="absolute right-4 z-10 bg-white/10 backdrop-blur-sm p-3 rounded-full text-white hover:bg-white/20 active:bg-black transition-colors"
-              style={{
-                color: '#fbbf24'
-              }}
-              onMouseEnter={(e) => (e.target as HTMLElement).style.color = '#f59e0b'}
-              onMouseLeave={(e) => (e.target as HTMLElement).style.color = '#fbbf24'}
-            >
-              <ChevronRightIcon className="w-6 h-6" />
-            </button>
-
-            {/* Main Image */}
-            <div className="relative max-w-5xl max-h-[80vh] w-full mx-4">
-              <Image
-                src={currentAlbumData.images[selectedImage].image}
-                alt={`${currentAlbumData.title} ${selectedImage + 1}`}
-                width={1200}
-                height={800}
-                className="object-contain w-full h-full"
-                priority
-              />
-            </div>
-
-            {/* Image Info */}
-            <div className="absolute bottom-4 left-4 right-4 text-center">
-              <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md mx-auto">
-                <h3 className="text-white font-semibold text-lg">{currentAlbumData.title}</h3>
-                <p className="text-white/80 text-sm">
-                  {selectedImage + 1} of {currentAlbumData.images.length}
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Call to Action */}
       <section 
@@ -582,6 +492,18 @@ export default function Portfolio() {
           message: 'Hi, I would like to book a photography session. Please provide more details about availability and pricing.'
         }}
       />
+
+      {/* Image Lightbox - Like Homepage Gallery */}
+      {isLightboxOpen && lightboxImages.length > 0 && (
+        <ImageLightbox
+          images={lightboxImages}
+          currentIndex={lightboxImageIndex}
+          onClose={closeLightbox}
+          onNext={nextImage}
+          onPrevious={prevImage}
+          alt="Portfolio Gallery"
+        />
+      )}
     </main>
   );
 }
