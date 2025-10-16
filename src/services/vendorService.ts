@@ -119,6 +119,10 @@ export interface VendorProfile {
   highlights: VendorHighlight[];
   testimonials: VendorTestimonial[];
   portfolio_items: VendorPortfolio[];
+  // Stats & Engagement
+  stats_count: string;
+  stats_label: string;
+  love_count: number;
   // SEO Metadata
   meta_title: string;
   meta_description: string;

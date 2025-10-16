@@ -19,6 +19,7 @@ urlpatterns = [
     # Vendor profile endpoints
     path('profiles/', views.VendorProfileListView.as_view(), name='profile-list'),
     path('profiles/<slug:slug>/', views.VendorProfileDetailView.as_view(), name='profile-detail'),
+    path('profiles/<slug:slug>/love/', views.increment_love_count, name='increment-love'),
     
     # Featured vendors
     path('featured/', views.featured_vendors, name='featured-vendors'),

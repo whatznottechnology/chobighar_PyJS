@@ -28,8 +28,8 @@ interface VendorProfileData {
   }>;
 }
 
-export async function generateMetadata({ params }: { params: { vendorId: string } }): Promise<Metadata> {
-  const vendorSlug = params.vendorId;
+export async function generateMetadata({ params }: { params: Promise<{ vendorId: string }> }): Promise<Metadata> {
+  const { vendorId: vendorSlug } = await params;
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
   
   try {

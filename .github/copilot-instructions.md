@@ -16,6 +16,7 @@
 
 - [x] Customize the Project
 	<!-- Created Bengali-traditional inspired navbar with jamdani pattern topbar, enhanced search functionality, mobile drawer with focus management, and improved accessibility - completed -->
+	<!-- Implemented vendor hero section enhancements: backend stats fields (stats_count, stats_label, love_count), love increment API endpoint, Call button with tel: link, Love button with count/persistence, Share button with Web Share API - completed -->
 
 - [ ] Install Required Extensions
 	<!-- ONLY install extensions provided mentioned in the get_project_setup_info. Skip this step otherwise and mark as completed. -->

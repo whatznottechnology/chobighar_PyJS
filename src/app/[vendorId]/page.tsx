@@ -32,6 +32,7 @@ import { useVendorProfile } from '../../hooks/useVendorData';
 import { useWhatsAppIntegration } from '../../../hooks/useWhatsAppIntegration';
 import { useHeaderData } from '../../../hooks/useHeaderData';
 import InquiryModal from '../../../components/InquiryModal';
+import ImageLightbox from '../../../components/ImageLightbox';
 
 export default function VendorProfile() {
   const params = useParams();
@@ -49,6 +50,8 @@ export default function VendorProfile() {
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeGalleryTab, setActiveGalleryTab] = useState<'photos' | 'videos'>('photos');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loveCount, setLoveCount] = useState(0);
+  const [isLoved, setIsLoved] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -87,6 +90,13 @@ export default function VendorProfile() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Initialize love count from vendor data
+  useEffect(() => {
+    if (vendor?.love_count !== undefined) {
+      setLoveCount(vendor.love_count);
+    }
+  }, [vendor]);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -104,6 +114,91 @@ export default function VendorProfile() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  // Lightbox functions
+  const openLightbox = (index: number) => {
+    setSelectedImage(index);
+  };
+
+  const closeLightbox = () => {
+    setSelectedImage(null);
+  };
+
+  const nextImage = () => {
+    if (selectedImage !== null && vendor?.images) {
+      const galleryImages = vendor.images.filter(img => img.image_type === 'gallery').map(img => img.image);
+      setSelectedImage((selectedImage + 1) % galleryImages.length);
+    }
+  };
+
+  const prevImage = () => {
+    if (selectedImage !== null && vendor?.images) {
+      const galleryImages = vendor.images.filter(img => img.image_type === 'gallery').map(img => img.image);
+      setSelectedImage(selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1);
+    }
+  };
+
+  // Video modal functions
+  const openVideo = (videoId: string) => {
+    setSelectedVideo(videoId);
+  };
+
+  const closeVideo = () => {
+    setSelectedVideo(null);
+  };
+
+  // Handle love button click
+  const handleLove = async () => {
+    if (isLoved || !vendor) return; // Prevent multiple clicks
+    
+    try {
+      const response = await fetch(getApiUrl(`/api/vendor/profiles/${vendorSlug}/love/`), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setLoveCount(data.love_count);
+        setIsLoved(true);
+        // Store in localStorage to persist across page reloads
+        localStorage.setItem(`loved_${vendorSlug}`, 'true');
+      }
+    } catch (error) {
+      console.error('Error incrementing love count:', error);
+    }
+  };
+
+  // Handle share button click
+  const handleShare = async () => {
+    const shareData = {
+      title: vendor?.name || 'Vendor Profile',
+      text: vendor?.tagline || 'Check out this vendor on chobighar!',
+      url: window.location.href,
+    };
+
+    try {
+      if (navigator.share) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        alert('Link copied to clipboard!');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+    }
+  };
+
+  // Check if user has already loved this vendor
+  useEffect(() => {
+    const hasLoved = localStorage.getItem(`loved_${vendorSlug}`);
+    if (hasLoved === 'true') {
+      setIsLoved(true);
+    }
+  }, [vendorSlug]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -321,6 +416,14 @@ export default function VendorProfile() {
                   <div className="text-gray-600">
                     <span className="font-medium">{vendor.experience}</span> Experience
                   </div>
+                  {vendor.stats_count && vendor.stats_label && (
+                    <>
+                      <div className="text-gray-300">|</div>
+                      <div className="text-gray-600">
+                        <span className="font-medium text-red-600">{vendor.stats_count}</span> {vendor.stats_label}
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -336,14 +439,27 @@ export default function VendorProfile() {
                   >
                     Get Quote
                   </button>
-                  <button className="bg-white text-gray-700 px-8 py-3 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2">
+                  <a
+                    href={`tel:${vendor.phone}`}
+                    className="bg-white text-gray-700 px-8 py-3 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                  >
                     <PhoneIcon className="w-5 h-5" />
                     Call Now
+                  </a>
+                  <button 
+                    onClick={handleLove}
+                    disabled={isLoved}
+                    className={`bg-white px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all flex items-center gap-2 ${
+                      isLoved ? 'text-red-600 border-red-200' : 'text-gray-700'
+                    }`}
+                  >
+                    <HeartIcon className={`w-5 h-5 ${isLoved ? 'fill-red-600' : ''}`} />
+                    {loveCount > 0 && <span className="text-sm font-medium">{loveCount}</span>}
                   </button>
-                  <button className="bg-white text-gray-700 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
-                    <HeartIcon className="w-5 h-5" />
-                  </button>
-                  <button className="bg-white text-gray-700 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors">
+                  <button 
+                    onClick={handleShare}
+                    className="bg-white text-gray-700 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
+                  >
                     <ShareIcon className="w-5 h-5" />
                   </button>
                 </div>
@@ -420,13 +536,15 @@ export default function VendorProfile() {
                     <p>No hero images available</p>
                   </div>
                 )}
-                {/* Floating Stats */}
-                <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">500+</div>
-                    <div className="text-sm text-gray-600">Events Completed</div>
+                {/* Floating Stats - Only show if backend data exists */}
+                {vendor.stats_count && vendor.stats_label && (
+                  <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
+                    <div className="text-center">
+                      <div className="text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">{vendor.stats_count}</div>
+                      <div className="text-sm text-gray-600">{vendor.stats_label}</div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -586,24 +704,30 @@ export default function VendorProfile() {
                     </div>
                     
                     {/* Gallery Tabs */}
-                    <div className="flex bg-gray-100 rounded-lg p-1">
+                    <div className="flex gap-2">
                       <button
                         onClick={() => setActiveGalleryTab('photos')}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                           activeGalleryTab === 'photos'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-600 hover:text-gray-900'
+                            ? 'text-white shadow-lg transform scale-105'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
                         }`}
+                        style={{
+                          backgroundColor: activeGalleryTab === 'photos' ? '#B22222' : ''
+                        }}
                       >
                         Photos
                       </button>
                       <button
                         onClick={() => setActiveGalleryTab('videos')}
-                        className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                        className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
                           activeGalleryTab === 'videos'
-                            ? 'bg-white text-blue-600 shadow-sm'
-                            : 'text-gray-600 hover:text-gray-900'
+                            ? 'text-white shadow-lg transform scale-105'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
                         }`}
+                        style={{
+                          backgroundColor: activeGalleryTab === 'videos' ? '#B22222' : ''
+                        }}
                       >
                         Videos
                       </button>
@@ -617,7 +741,7 @@ export default function VendorProfile() {
                         <div 
                           key={index} 
                           className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group"
-                          onClick={() => setSelectedImage(index)}
+                          onClick={() => openLightbox(index)}
                         >
                           <Image
                             src={image}
@@ -630,7 +754,9 @@ export default function VendorProfile() {
                             }}
                           />
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <CameraIcon className="w-8 h-8 text-white" />
+                            <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full">
+                              <CameraIcon className="w-8 h-8 text-white" />
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -639,24 +765,43 @@ export default function VendorProfile() {
 
                   {/* Videos Tab */}
                   {activeGalleryTab === 'videos' && vendor.videos && vendor.videos.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                       {vendor.videos.map((video, index) => (
                         <div key={video.id} className="group">
-                          <div className="relative aspect-video rounded-2xl overflow-hidden bg-gray-100">
-                            <iframe
-                              src={video.youtube_embed_url}
-                              title={video.title || `${vendor.name} Video ${index + 1}`}
-                              className="w-full h-full"
-                              allowFullScreen
-                              loading="lazy"
-                            />
+                          <div 
+                            className="relative rounded-2xl overflow-hidden bg-black shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                            onClick={() => openVideo(video.youtube_id)}
+                          >
+                            {/* YouTube Embed Preview - Fixed 4:3 Aspect Ratio */}
+                            <div className="relative aspect-[4/3]">
+                              <iframe
+                                className="w-full h-full pointer-events-none"
+                                src={`https://www.youtube.com/embed/${video.youtube_id}`}
+                                title={video.title || `${vendor.name} Video ${index + 1}`}
+                                frameBorder="0"
+                                allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              ></iframe>
+                              
+                              {/* Overlay with Play Button */}
+                              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                                <div className="w-16 h-16 bg-red-600/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 group-hover:scale-110 shadow-xl">
+                                  <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M8 5v14l11-7z"/>
+                                  </svg>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Video Info */}
+                            <div className="p-4 bg-white">
+                              {video.title && (
+                                <h3 className="font-semibold text-gray-900 text-sm line-clamp-1">{video.title}</h3>
+                              )}
+                              {video.description && (
+                                <p className="mt-1 text-xs text-gray-600 line-clamp-2">{video.description}</p>
+                              )}
+                            </div>
                           </div>
-                          {video.title && (
-                            <h3 className="mt-3 font-medium text-gray-900">{video.title}</h3>
-                          )}
-                          {video.description && (
-                            <p className="mt-1 text-sm text-gray-600">{video.description}</p>
-                          )}
                         </div>
                       ))}
                     </div>
@@ -1042,6 +1187,53 @@ export default function VendorProfile() {
             : 'I would like to know more about your services.'
         }}
       />
+
+      {/* Image Lightbox */}
+      {selectedImage !== null && vendor?.images && (
+        <ImageLightbox
+          images={vendor.images
+            .filter(img => img.image_type === 'gallery')
+            .map(img => getMediaUrl(img.image))
+            .filter((url): url is string => url !== null)}
+          currentIndex={selectedImage}
+          onClose={closeLightbox}
+          onNext={nextImage}
+          onPrevious={prevImage}
+          alt={vendor.name}
+        />
+      )}
+
+      {/* Video Modal */}
+      {selectedVideo && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={closeVideo}
+        >
+          <div 
+            className="relative w-full max-w-6xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeVideo}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              aria-label="Close video"
+            >
+              <XMarkIcon className="w-8 h-8" />
+            </button>
+
+            {/* YouTube Video Player */}
+            <iframe
+              className="w-full h-full rounded-lg"
+              src={`https://www.youtube.com/embed/${selectedVideo}?autoplay=1&rel=0`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
+      )}
 
       {/* JSON-LD Structured Data */}
       {vendor && (

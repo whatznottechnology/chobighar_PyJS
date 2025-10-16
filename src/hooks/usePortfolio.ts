@@ -162,7 +162,6 @@ interface PortfolioVideo {
   title: string;
   description: string;
   duration: string;
-  thumbnail: string;
   order: number;
 }
 

@@ -212,19 +212,6 @@ class PortfolioVideo(models.Model):
     description = models.TextField(blank=True)
     duration = models.CharField(max_length=20, help_text="e.g., '3:45', '2:30'")
     
-    # Support both file upload and URL for thumbnail
-    thumbnail_file = models.ImageField(
-        upload_to=portfolio_video_thumbnail_upload_to,
-        blank=True,
-        null=True,
-        help_text="Upload custom thumbnail"
-    )
-    thumbnail_url = models.URLField(
-        max_length=500,
-        blank=True,
-        help_text="Or provide thumbnail URL"
-    )
-    
     order = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -234,23 +221,6 @@ class PortfolioVideo(models.Model):
 
     def __str__(self):
         return f"{self.portfolio.title} - {self.title}"
-
-    @property
-    def thumbnail(self):
-        """Get thumbnail URL (prioritize uploaded file, then custom URL, then auto-generated)"""
-        if self.thumbnail_file:
-            return self.thumbnail_file.url
-        elif self.thumbnail_url:
-            return self.thumbnail_url
-        elif self.video_id:
-            return f"https://img.youtube.com/vi/{self.video_id}/maxresdefault.jpg"
-        return ""
-
-    def save(self, *args, **kwargs):
-        # Auto-generate thumbnail URL from YouTube if no custom thumbnail is provided
-        if self.video_id and not self.thumbnail_file and not self.thumbnail_url:
-            self.thumbnail_url = f"https://img.youtube.com/vi/{self.video_id}/maxresdefault.jpg"
-        super().save(*args, **kwargs)
 
 
 class PortfolioHighlight(models.Model):

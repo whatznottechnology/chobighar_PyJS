@@ -226,7 +226,11 @@ class VendorProfileAdmin(admin.ModelAdmin):
         ('⭐ Ratings & Reviews', {
             'fields': ('rating', 'reviews_count'),
         }),
-        ('📱 Social Media', {
+        ('� Stats & Engagement', {
+            'fields': ('stats_count', 'stats_label', 'love_count'),
+            'description': 'Display stats in hero section (e.g., "500+ Events Complete")'
+        }),
+        ('�📱 Social Media', {
             'fields': ('instagram', 'facebook', 'youtube'),
             'description': 'Enter just the username/handle without @ or full URL'
         }),

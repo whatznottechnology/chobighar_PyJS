@@ -259,7 +259,7 @@ class PortfolioImageAdmin(admin.ModelAdmin):
 
 @admin.register(PortfolioVideo)
 class PortfolioVideoAdmin(admin.ModelAdmin):
-    list_display = ('portfolio', 'title', 'duration', 'order', 'is_active', 'has_custom_thumbnail')
+    list_display = ('portfolio', 'title', 'video_id', 'duration', 'order', 'is_active')
     list_filter = ('portfolio', 'is_active', 'created_at')
     search_fields = ('portfolio__title', 'title', 'video_id')
     ordering = ('portfolio', 'order')
@@ -269,21 +269,13 @@ class PortfolioVideoAdmin(admin.ModelAdmin):
             'fields': ('portfolio',)
         }),
         ('Video Details', {
-            'fields': ('video_id', 'title', 'description', 'duration')
-        }),
-        ('Thumbnail', {
-            'fields': ('thumbnail_file', 'thumbnail_url'),
-            'description': 'Upload custom thumbnail OR provide URL (auto-generated from YouTube if empty)'
+            'fields': ('video_id', 'title', 'description', 'duration'),
+            'description': 'Enter YouTube video ID (e.g., dQw4w9WgXcQ from youtube.com/watch?v=dQw4w9WgXcQ)'
         }),
         ('Settings', {
             'fields': ('order', 'is_active')
         })
     )
-    
-    def has_custom_thumbnail(self, obj):
-        return bool(obj.thumbnail_file or obj.thumbnail_url)
-    has_custom_thumbnail.boolean = True
-    has_custom_thumbnail.short_description = "Custom Thumbnail"
 
 @admin.register(PortfolioInquiry)
 class PortfolioInquiryAdmin(admin.ModelAdmin):

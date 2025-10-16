@@ -25,14 +25,9 @@ class PortfolioImageSerializer(serializers.ModelSerializer):
 
 
 class PortfolioVideoSerializer(serializers.ModelSerializer):
-    thumbnail = serializers.SerializerMethodField()
-    
     class Meta:
         model = PortfolioVideo
-        fields = ['id', 'video_id', 'title', 'description', 'duration', 'thumbnail', 'order']
-    
-    def get_thumbnail(self, obj):
-        return obj.thumbnail
+        fields = ['id', 'video_id', 'title', 'description', 'duration', 'order']
 
 
 class PortfolioHighlightSerializer(serializers.ModelSerializer):

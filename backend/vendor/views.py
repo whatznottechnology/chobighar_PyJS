@@ -178,3 +178,24 @@ def vendors_by_subcategory(request, subcategory_slug):
             {'error': 'Subcategory not found'}, 
             status=status.HTTP_404_NOT_FOUND
         )
+
+
+@api_view(['POST'])
+def increment_love_count(request, slug):
+    """
+    Increment the love count for a vendor profile
+    """
+    try:
+        vendor = VendorProfile.objects.get(slug=slug, is_active=True)
+        vendor.love_count += 1
+        vendor.save(update_fields=['love_count'])
+        
+        return Response({
+            'success': True,
+            'love_count': vendor.love_count
+        })
+    except VendorProfile.DoesNotExist:
+        return Response(
+            {'error': 'Vendor not found'}, 
+            status=status.HTTP_404_NOT_FOUND
+        )

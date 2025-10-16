@@ -283,11 +283,6 @@ export default function PortfolioDetails() {
                 <MapPinIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{portfolio.location}</span>
               </div>
-              <span className="text-white/30">•</span>
-              <div className="flex items-center gap-1 sm:gap-1.5">
-                <PhotoIcon className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>{portfolio.image_count} Photos</span>
-              </div>
             </div>
           </div>
         </div>
@@ -457,34 +452,31 @@ export default function PortfolioDetails() {
       {/* Compact Gallery Section */}
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Debug Info */}
-          <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-            <p className="text-sm text-blue-800">
-              <strong>Debug Info:</strong> Images in array: {portfolio.images?.length || 0} | 
-              Image count field: {portfolio.image_count} | 
-              Videos: {portfolio.videos?.length || 0}
-            </p>
-          </div>
-
           {/* Simple Tabs */}
           <div className="flex items-center justify-center gap-3 mb-8">
             <button
               onClick={() => setActiveTab('photos')}
-              className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all ${
+              className={`px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
                 activeTab === 'photos'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'text-white shadow-lg transform scale-105'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
               }`}
+              style={{
+                backgroundColor: activeTab === 'photos' ? '#B22222' : ''
+              }}
             >
               Photos ({portfolio.images?.length || 0})
             </button>
             <button
               onClick={() => setActiveTab('videos')}
-              className={`px-6 py-2.5 rounded-full font-medium text-sm transition-all ${
+              className={`px-6 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
                 activeTab === 'videos'
-                  ? 'bg-red-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                  ? 'text-white shadow-lg transform scale-105'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
               }`}
+              style={{
+                backgroundColor: activeTab === 'videos' ? '#B22222' : ''
+              }}
             >
               Videos ({portfolio.videos?.length || 0})
             </button>
@@ -492,15 +484,7 @@ export default function PortfolioDetails() {
 
           {/* Photos Grid - Compact Masonry */}
           {activeTab === 'photos' && (
-            <>
-              {/* Debug indicator */}
-              {selectedImage !== null && (
-                <div className="fixed top-4 left-4 z-[10000] bg-green-500 text-white px-4 py-2 rounded">
-                  Lightbox Open: Image {selectedImage + 1}
-                </div>
-              )}
-              
-              <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+            <div className="columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
                 {portfolio.images?.map((image, index) => (
                   <div
                     key={index}
@@ -530,7 +514,6 @@ export default function PortfolioDetails() {
                   </div>
                 ))}
               </div>
-            </>
           )}
 
           {/* Videos Grid - Compact */}
@@ -540,34 +523,41 @@ export default function PortfolioDetails() {
                 portfolio.videos.map((video, index) => (
                   <div
                     key={index}
-                    className="relative rounded-xl overflow-hidden cursor-pointer group bg-gray-900 shadow-lg hover:shadow-xl transition-all"
+                    className="relative rounded-xl overflow-hidden cursor-pointer group bg-black shadow-lg hover:shadow-xl transition-all"
                     onClick={() => openVideoModal(video.video_id)}
                   >
-                    <div className="relative aspect-video">
-                      <Image
-                        src={video.thumbnail_url}
-                        alt={video.title}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                      />
+                    {/* YouTube Embed Preview - Fixed 4:3 Aspect Ratio */}
+                    <div className="relative aspect-[4/3]">
+                      <iframe
+                        className="w-full h-full pointer-events-none"
+                        src={`https://www.youtube.com/embed/${video.video_id}`}
+                        title={video.title}
+                        frameBorder="0"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      ></iframe>
                       
-                      {/* Play Button */}
-                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-all flex items-center justify-center">
-                        <div className="bg-white/90 p-4 rounded-full group-hover:bg-red-600 group-hover:text-white transition-all">
-                          <svg className="w-6 h-6 ml-0.5" fill="currentColor" viewBox="0 0 24 24">
+                      {/* Overlay with Play Button */}
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="w-16 h-16 bg-red-600/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 group-hover:scale-110 shadow-xl">
+                          <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z"/>
                           </svg>
                         </div>
                       </div>
 
                       {/* Duration Badge */}
-                      <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
-                        {video.duration}
-                      </div>
+                      {video.duration && (
+                        <div className="absolute top-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded">
+                          {video.duration}
+                        </div>
+                      )}
                     </div>
                     
                     <div className="p-4 bg-white">
                       <h3 className="font-semibold text-gray-900 text-sm line-clamp-1">{video.title}</h3>
+                      {video.description && (
+                        <p className="text-xs text-gray-600 mt-1 line-clamp-2">{video.description}</p>
+                      )}
                     </div>
                   </div>
                 ))
@@ -621,11 +611,6 @@ export default function PortfolioDetails() {
                     {/* Category Badge */}
                     <div className="absolute top-3 left-3 bg-red-600 text-white px-2.5 py-1 rounded-full text-xs font-bold">
                       {album.category.name}
-                    </div>
-                    
-                    {/* Photo Count */}
-                    <div className="absolute top-3 right-3 bg-black/70 text-white px-2.5 py-1 rounded-full text-xs">
-                      {album.image_count} photos
                     </div>
                   </div>
                   

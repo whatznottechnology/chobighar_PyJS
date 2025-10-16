@@ -22,6 +22,8 @@ export default function Portfolio() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [lightboxImageIndex, setLightboxImageIndex] = useState(0);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [selectedVideoId, setSelectedVideoId] = useState<string | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Fetch data using custom hooks
   const { portfolios, loading: portfoliosLoading } = usePortfolios({ category: selectedCategory });
@@ -31,6 +33,11 @@ export default function Portfolio() {
   
   // Prepare images for lightbox - use the already loaded portfolio images
   const lightboxImages = portfolioImages ? portfolioImages.map(img => img.image) : [];
+
+  // Fix hydration issue - only run on client
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Back to top visibility handler
   useEffect(() => {
@@ -78,6 +85,25 @@ export default function Portfolio() {
         prev === 0 ? lightboxImages.length - 1 : prev - 1
       );
     }
+  };
+
+  // Format date consistently for SSR/CSR
+  const formatDate = (dateString: string) => {
+    if (!isMounted) return ''; // Return empty during SSR to avoid hydration mismatch
+    try {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    } catch {
+      return '';
+    }
+  };
+
+  const openVideo = (videoId: string) => {
+    setSelectedVideoId(videoId);
+  };
+
+  const closeVideo = () => {
+    setSelectedVideoId(null);
   };
 
   return (
@@ -154,7 +180,11 @@ export default function Portfolio() {
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8">
               {filteredAlbums.map((album) => (
-                <div key={album.id} className="group">
+                <a 
+                  key={album.id} 
+                  href={`/portfolio/${album.id}`}
+                  className="group cursor-pointer block"
+                >
                   {/* Album Cover */}
                   <div className="relative overflow-hidden rounded-2xl shadow-lg mb-4 aspect-[4/3]">
                     {album.cover_image ? (
@@ -169,17 +199,6 @@ export default function Portfolio() {
                         <PhotoIcon className="w-16 h-16 text-gray-400" />
                       </div>
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <div className="absolute bottom-4 left-4 right-4">
-                        <div className="flex justify-between items-end">
-                          <div>
-                            <span className="bg-white/20 backdrop-blur-sm px-3 py-1 rounded-full text-white text-sm font-medium">
-                              {album.image_count} Photos
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
 
                   {/* Album Info */}
@@ -209,22 +228,21 @@ export default function Portfolio() {
                     </p>
                     
                     <div className="flex justify-between items-center text-sm text-gray-500">
-                      <span>{new Date(album.date).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</span>
+                      <span>{formatDate(album.date)}</span>
                       <span>{album.location}</span>
                     </div>
 
                     {/* View Album Button */}
-                    <a
-                      href={`/portfolio/${album.id}`}
-                      className="block w-full mt-4 text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg text-center hover:opacity-90"
+                    <div
+                      className="block w-full mt-4 text-white font-semibold py-3 rounded-xl transition-all duration-300 group-hover:shadow-lg text-center group-hover:opacity-90"
                       style={{ 
                         backgroundColor: '#B22222'
                       }}
                     >
                       View Portfolio Details
-                    </a>
+                    </div>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
           )}
@@ -279,38 +297,46 @@ export default function Portfolio() {
             <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 2xl:columns-5 gap-6 space-y-6">
               {portfolioVideos && portfolioVideos.map((video, index) => (
                 <div key={video.id} className="break-inside-avoid mb-6">
-                  <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black">
-                    <div className={`relative ${index % 4 === 0 ? 'aspect-video' : 
-                                               index % 4 === 1 ? 'aspect-[9/16]' : 
-                                               index % 4 === 2 ? 'aspect-video' : 'aspect-[4/5]'}`}>
-                      <Image
-                        src={video.thumbnail}
-                        alt={`${video.title} thumbnail`}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/20 transition-colors duration-300"></div>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                          <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <div className="relative overflow-hidden rounded-xl shadow-lg group bg-black cursor-pointer"
+                    onClick={() => openVideo(video.video_id)}
+                  >
+                    {/* YouTube Embed Preview - Fixed 4:3 Aspect Ratio */}
+                    <div className="relative aspect-[4/3]">
+                      <iframe
+                        className="w-full h-full pointer-events-none"
+                        src={`https://www.youtube.com/embed/${video.video_id}`}
+                        title={video.title}
+                        frameBorder="0"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      ></iframe>
+                      
+                      {/* Overlay with Play Button */}
+                      <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
+                        <div className="w-20 h-20 bg-red-600/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 group-hover:scale-110 shadow-xl">
+                          <svg className="w-10 h-10 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
                             <path d="M8 5v14l11-7z"/>
                           </svg>
                         </div>
                       </div>
                     </div>
+                    
                     <div className="p-4 bg-white">
                       <h3 className="font-bold text-lg text-gray-900 mb-2">{video.title}</h3>
                       <p className="text-gray-600 text-sm mb-3">{video.description}</p>
                       <div className="flex justify-between items-center text-xs text-gray-500">
                         <span>Wedding Video</span>
-                        <a 
-                          href={`https://www.youtube.com/watch?v=${video.video_id}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-red-600 hover:text-red-700 font-medium"
+                        <button 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            openVideo(video.video_id);
+                          }}
+                          className="text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
                         >
-                          Watch Now
-                        </a>
+                          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
+                          Play Now
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -503,6 +529,38 @@ export default function Portfolio() {
           onPrevious={prevImage}
           alt="Portfolio Gallery"
         />
+      )}
+
+      {/* Video Modal */}
+      {selectedVideoId && (
+        <div 
+          className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4"
+          onClick={closeVideo}
+        >
+          <div 
+            className="relative w-full max-w-6xl aspect-video"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Close Button */}
+            <button
+              onClick={closeVideo}
+              className="absolute -top-12 right-0 text-white hover:text-gray-300 transition-colors"
+              aria-label="Close video"
+            >
+              <XMarkIcon className="w-8 h-8" />
+            </button>
+
+            {/* YouTube Video Player */}
+            <iframe
+              className="w-full h-full rounded-lg"
+              src={`https://www.youtube.com/embed/${selectedVideoId}?autoplay=1&rel=0`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
+        </div>
       )}
     </main>
   );

@@ -261,6 +261,24 @@ class VendorProfile(models.Model):
         help_text="Total number of reviews"
     )
     
+    # Stats and Engagement
+    stats_count = models.CharField(
+        max_length=20,
+        default="500+",
+        help_text="Achievement count (e.g., '500+', '1000+')"
+    )
+    
+    stats_label = models.CharField(
+        max_length=100,
+        default="Events Complete",
+        help_text="Achievement label (e.g., 'Events Complete', 'Happy Clients')"
+    )
+    
+    love_count = models.PositiveIntegerField(
+        default=0,
+        help_text="Number of times users have loved this vendor"
+    )
+    
     # Social Media
     instagram = models.CharField(
         max_length=100,

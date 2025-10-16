@@ -97,6 +97,7 @@ class VendorProfileSerializer(serializers.ModelSerializer):
             'id', 'name', 'slug', 'tagline', 'type', 'location', 'address',
             'phone', 'email', 'website', 'description', 'story', 'experience',
             'price_range', 'capacity', 'rating', 'reviews_count', 'business_hours',
+            'stats_count', 'stats_label', 'love_count',
             'is_featured', 'category_name', 'subcategory_name', 'social_media',
             'hero_images', 'gallery_images', 'cover_image', 'profile_image',
             'images', 'videos', 'services', 'specialties', 'highlights',
