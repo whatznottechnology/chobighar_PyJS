@@ -49,6 +49,7 @@ export default function VendorProfile() {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [showStickyNav, setShowStickyNav] = useState(false);
+  const [isPWABannerVisible, setIsPWABannerVisible] = useState(false);
   const [activeGalleryTab, setActiveGalleryTab] = useState<'photos' | 'videos'>('photos');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loveCount, setLoveCount] = useState(0);
@@ -93,6 +94,58 @@ export default function VendorProfile() {
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Check PWA banner visibility
+  useEffect(() => {
+    const checkPWABanner = () => {
+      try {
+        // Check if app is installed
+        const isInstalled = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone === true ||
+          document.referrer.includes('android-app://');
+        
+        if (isInstalled) {
+          setIsPWABannerVisible(false);
+          return;
+        }
+
+        // Check banner state
+        const stored = localStorage.getItem('pwa-banner-state');
+        if (!stored) {
+          setIsPWABannerVisible(false);
+          return;
+        }
+
+        const state = JSON.parse(stored);
+        const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000;
+        
+        if (state.dismissed) {
+          const timeSinceDismiss = Date.now() - state.dismissedAt;
+          setIsPWABannerVisible(timeSinceDismiss >= DISMISS_DURATION);
+        } else {
+          setIsPWABannerVisible(true);
+        }
+      } catch {
+        setIsPWABannerVisible(false);
+      }
+    };
+
+    checkPWABanner();
+    
+    const handleBannerShown = () => setIsPWABannerVisible(true);
+    const handleBannerClosed = () => setIsPWABannerVisible(false);
+    
+    window.addEventListener('pwa-banner-shown', handleBannerShown);
+    window.addEventListener('pwa-banner-closed', handleBannerClosed);
+    window.addEventListener('appinstalled', handleBannerClosed);
+
+    return () => {
+      window.removeEventListener('pwa-banner-shown', handleBannerShown);
+      window.removeEventListener('pwa-banner-closed', handleBannerClosed);
+      window.removeEventListener('appinstalled', handleBannerClosed);
+    };
   }, []);
 
   // Initialize love count from vendor data
@@ -543,9 +596,9 @@ export default function VendorProfile() {
       </div>
 
       {/* Modern Sticky Navigation - Only show when scrolled */}
-      <div className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b-2 border-red-100 shadow-md transition-transform duration-300 ${
+      <div className={`fixed left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b-2 border-red-100 shadow-md transition-all duration-300 ${
         showStickyNav ? 'translate-y-0' : '-translate-y-full'
-      }`}>
+      } ${isPWABannerVisible ? 'top-[60px]' : 'top-0'}`}>
         <div className="container mx-auto px-4">
           <nav className="flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-hide">
             <div className="inline-flex bg-gray-100 rounded-full p-1 my-2 gap-1 min-w-max">

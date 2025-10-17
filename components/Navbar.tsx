@@ -35,10 +35,64 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
+  const [isPWABannerVisible, setIsPWABannerVisible] = useState(false);
   const pathname = usePathname();
   
   // Get dynamic header data
   const { headerData, loading, error } = useHeaderData();
+
+  // Check if PWA banner is visible
+  useEffect(() => {
+    const checkPWABanner = () => {
+      try {
+        // Check if app is already installed
+        const isInstalled = 
+          window.matchMedia('(display-mode: standalone)').matches || 
+          (window.navigator as any).standalone === true ||
+          document.referrer.includes('android-app://');
+        
+        if (isInstalled) {
+          setIsPWABannerVisible(false);
+          return;
+        }
+
+        // Check banner state from localStorage
+        const stored = localStorage.getItem('pwa-banner-state');
+        if (!stored) {
+          setIsPWABannerVisible(false);
+          return;
+        }
+
+        const state = JSON.parse(stored);
+        const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
+        
+        if (state.dismissed) {
+          const timeSinceDismiss = Date.now() - state.dismissedAt;
+          setIsPWABannerVisible(timeSinceDismiss >= DISMISS_DURATION);
+        } else {
+          setIsPWABannerVisible(true);
+        }
+      } catch {
+        setIsPWABannerVisible(false);
+      }
+    };
+
+    checkPWABanner();
+
+    // Listen for banner events
+    const handleBannerShown = () => setIsPWABannerVisible(true);
+    const handleBannerClosed = () => setIsPWABannerVisible(false);
+    
+    window.addEventListener('pwa-banner-shown', handleBannerShown);
+    window.addEventListener('pwa-banner-closed', handleBannerClosed);
+    window.addEventListener('appinstalled', handleBannerClosed);
+
+    return () => {
+      window.removeEventListener('pwa-banner-shown', handleBannerShown);
+      window.removeEventListener('pwa-banner-closed', handleBannerClosed);
+      window.removeEventListener('appinstalled', handleBannerClosed);
+    };
+  }, []);
 
   // Handle scroll effect for navbar shadow and hiding top strip
   useEffect(() => {
@@ -72,7 +126,9 @@ export default function Navbar() {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-50">
+    <header className={`sticky z-50 transition-all duration-300 ${
+      isPWABannerVisible ? 'top-[46px]' : 'top-0'
+    }`}>
       {/* Royal Red Top Strip - Clean and Simple - Hide on scroll */}
       <div 
         className={`transition-all duration-300 ${

@@ -35,6 +35,56 @@
     object-fit: contain !important;
 }
 
+/* Unfold Site Icon (Logo in Admin Navbar) - Fix Cropping - STRONGEST RULES */
+
+/* Target all images in header/nav area */
+header img,
+nav img,
+[role="banner"] img,
+a[href="/admin/"] img,
+a[class*="flex"] img,
+a[class*="items-center"] img {
+    width: 36px !important;
+    height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+    padding: 2px !important;
+    background: white !important;
+}
+
+/* Specific Unfold theme logo classes */
+.dark\:hidden img,
+.hidden.dark\:block img,
+img[alt*="logo"],
+img[alt*="Logo"],
+img[alt*="icon"],
+img[alt*="Icon"] {
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    border-radius: 50% !important;
+    padding: 2px !important;
+    background: white !important;
+}
+
+/* Override any inline styles */
+[style*="width"] img[src*="chobighar"],
+[style*="height"] img[src*="chobighar"] {
+    width: 36px !important;
+    height: 36px !important;
+    object-fit: contain !important;
+}
+
 /* Custom Brand Styling */
 .brand-link {
     color: var(--chobighar-red) !important;
@@ -275,5 +325,128 @@
     .image-gallery-item img {
         max-width: 100px;
         max-height: 100px;
+    }
+}
+
+/* ============================================
+   LOGIN PAGE CUSTOMIZATION
+   ============================================ */
+
+/* Login container */
+.unfold-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Login image container - Full image display */
+.unfold-login__image,
+.unfold-login__image img {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    object-fit: cover !important;
+    object-position: center !important;
+}
+
+/* Ensure image container takes full height on large screens */
+@media (min-width: 1024px) {
+    .unfold-login__image {
+        position: relative;
+        overflow: hidden;
+        min-height: 100vh !important;
+        height: 100vh !important;
+    }
+    
+    .unfold-login__image img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        min-width: 100% !important;
+        min-height: 100% !important;
+    }
+}
+
+/* Login form container styling */
+.unfold-login__form {
+    background: white;
+    border-radius: 0 !important;
+}
+
+/* Login logo/branding */
+.unfold-login__branding img {
+    max-width: 120px !important;
+    max-height: 120px !important;
+    width: 120px !important;
+    height: 120px !important;
+    object-fit: contain !important;
+    margin: 0 auto 2rem;
+    display: block;
+    border-radius: 50% !important;
+}
+
+/* Login title */
+.unfold-login__title {
+    color: var(--chobighar-red);
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* Login subtitle */
+.unfold-login__subtitle {
+    color: #6b7280;
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+}
+
+/* Login button */
+.unfold-login button[type="submit"] {
+    background-color: var(--chobighar-red) !important;
+    border-color: var(--chobighar-red) !important;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.unfold-login button[type="submit"]:hover {
+    background-color: var(--chobighar-dark-red) !important;
+    border-color: var(--chobighar-dark-red) !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(178, 34, 34, 0.3);
+}
+
+/* Input fields on login page */
+.unfold-login input[type="text"],
+.unfold-login input[type="password"] {
+    border: 2px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    transition: all 0.3s ease;
+}
+
+.unfold-login input[type="text"]:focus,
+.unfold-login input[type="password"]:focus {
+    border-color: var(--chobighar-red);
+    box-shadow: 0 0 0 3px rgba(178, 34, 34, 0.1);
+    outline: none;
+}
+
+/* Mobile responsive for login */
+@media (max-width: 1023px) {
+    .unfold-login__image {
+        display: none; /* Hide image on mobile for better UX */
+    }
+    
+    .unfold-login__form {
+        max-width: 100%;
+        padding: 2rem;
     }
 }

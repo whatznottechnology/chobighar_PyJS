@@ -212,21 +212,21 @@ UNFOLD = {
         "light": lambda request: static("admin/img/chobighar.png"),
         "dark": lambda request: static("admin/img/chobighar.png"),
     },
-    # "SITE_LOGO": {
-    #     "light": lambda request: static("logo-light.svg"),
-    #     "dark": lambda request: static("logo-dark.svg"),
-    # },
+    "SITE_LOGO": {
+        "light": lambda request: static("admin/img/chobighar.png"),
+        "dark": lambda request: static("admin/img/chobighar.png"),
+    },
     "SITE_SYMBOL": "camera_alt",  # Symbol from icon set
     "SHOW_HISTORY": True,
     "SHOW_VIEW_ON_SITE": True,
     "ENVIRONMENT": "chobighar_backend.utils.environment_callback",
     "DASHBOARD_CALLBACK": "chobighar_backend.utils.dashboard_callback",
     "LOGIN": {
-        "image": lambda request: static("admin/img/chobighar.png"),
+        "image": lambda request: static("admin/img/chobighar_login.png"),
         "redirect_after": lambda request: reverse_lazy("admin:index"),
     },
     "STYLES": [
-        lambda request: static("admin/css/custom_admin.css"),
+        lambda request: static("admin/css/custom_admin.css") + "?v=2",
     ],
     "SCRIPTS": [
         lambda request: static("admin/js/custom_admin.js"),
