@@ -24,7 +24,7 @@ class VendorCategoryListView(generics.ListAPIView):
     def get_queryset(self):
         return VendorCategory.objects.filter(
             is_active=True
-        ).prefetch_related('subcategories').order_by('display_order', 'name')
+        ).prefetch_related('subcategories').order_by('name')
 
 
 class VendorSubCategoryDetailView(generics.RetrieveAPIView):
@@ -101,7 +101,7 @@ def vendor_subcategory_by_category(request, category_slug):
         subcategories = VendorSubCategory.objects.filter(
             category=category,
             is_active=True
-        ).order_by('display_order', 'name')
+        ).order_by('name')
         
         serializer = VendorSubCategorySerializer(subcategories, many=True)
         return Response({

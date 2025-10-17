@@ -18,7 +18,7 @@ const menuItems = [
   { name: 'Blog', href: '/blog' },
   { name: 'About Us', href: '/about' },
   { name: 'Contact Us', href: '/contact' },
-  { name: 'Shopping', href: '/shopping' },
+  { name: 'Shopping', href: 'https://shop.chobighar.com' },
 ];
 
 const desktopMenuItems = [
@@ -28,7 +28,7 @@ const desktopMenuItems = [
   { name: 'Blog', href: '/blog' },
   { name: 'About Us', href: '/about' },
   { name: 'Contact Us', href: '/contact' },
-  { name: 'Shopping', href: '/shopping' },
+  { name: 'Shopping', href: 'https://shop.chobighar.com' },
 ];
 
 export default function Navbar() {

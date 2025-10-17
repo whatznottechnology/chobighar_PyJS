@@ -48,10 +48,7 @@ class VendorCategory(models.Model):
         help_text="Tailwind gradient end class"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Order in which categories are displayed (0 = first)"
-    )
+
     
     is_active = models.BooleanField(
         default=True,
@@ -64,7 +61,7 @@ class VendorCategory(models.Model):
     class Meta:
         verbose_name = "Vendor Category"
         verbose_name_plural = "Vendor Categories"
-        ordering = ['display_order', 'name']
+        ordering = ['name']
     
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -124,10 +121,7 @@ class VendorSubCategory(models.Model):
         help_text="Number of vendors in this subcategory"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Order within the parent category (0 = first)"
-    )
+
     
     is_active = models.BooleanField(
         default=True,
@@ -140,7 +134,7 @@ class VendorSubCategory(models.Model):
     class Meta:
         verbose_name = "Vendor Subcategory"
         verbose_name_plural = "Vendor Subcategories"
-        ordering = ['display_order', 'name']
+        ordering = ['name']
         unique_together = ['category', 'name']
     
     def save(self, *args, **kwargs):
@@ -411,11 +405,6 @@ class VendorImage(models.Model):
         help_text="Type of image"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this image is visible"
@@ -426,7 +415,7 @@ class VendorImage(models.Model):
     class Meta:
         verbose_name = "Vendor Image"
         verbose_name_plural = "Vendor Images"
-        ordering = ['image_type', 'display_order']
+        ordering = ['image_type']
     
     def __str__(self):
         return f"{self.vendor.name} - {self.get_image_type_display()}"
@@ -457,11 +446,6 @@ class VendorVideo(models.Model):
         help_text="Video description"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this video is visible"
@@ -472,7 +456,6 @@ class VendorVideo(models.Model):
     class Meta:
         verbose_name = "Vendor Video"
         verbose_name_plural = "Vendor Videos"
-        ordering = ['display_order']
     
     def __str__(self):
         return f"{self.vendor.name} - {self.title}"
@@ -506,11 +489,6 @@ class VendorService(models.Model):
         help_text="Service description"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this service is visible"
@@ -519,7 +497,7 @@ class VendorService(models.Model):
     class Meta:
         verbose_name = "Vendor Service"
         verbose_name_plural = "Vendor Services"
-        ordering = ['display_order', 'name']
+        ordering = ['name']
         unique_together = ['vendor', 'name']
     
     def __str__(self):
@@ -540,11 +518,6 @@ class VendorSpecialty(models.Model):
         help_text="Specialty name (e.g., 'Grand Wedding Celebrations')"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this specialty is visible"
@@ -553,7 +526,7 @@ class VendorSpecialty(models.Model):
     class Meta:
         verbose_name = "Vendor Specialty"
         verbose_name_plural = "Vendor Specialties"
-        ordering = ['display_order', 'name']
+        ordering = ['name']
         unique_together = ['vendor', 'name']
     
     def __str__(self):
@@ -574,11 +547,6 @@ class VendorHighlight(models.Model):
         help_text="Highlight text (e.g., 'Capacity up to 800 guests')"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this highlight is visible"
@@ -587,7 +555,6 @@ class VendorHighlight(models.Model):
     class Meta:
         verbose_name = "Vendor Highlight"
         verbose_name_plural = "Vendor Highlights"
-        ordering = ['display_order']
     
     def __str__(self):
         return f"{self.vendor.name} - {self.text[:50]}"
@@ -622,11 +589,6 @@ class VendorPackage(models.Model):
         help_text="Mark this package as popular/recommended"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this package is visible"
@@ -635,7 +597,7 @@ class VendorPackage(models.Model):
     class Meta:
         verbose_name = "Vendor Package"
         verbose_name_plural = "Vendor Packages"
-        ordering = ['display_order', 'name']
+        ordering = ['name']
     
     def __str__(self):
         return f"{self.vendor.name} - {self.name}"
@@ -744,11 +706,6 @@ class VendorPortfolio(models.Model):
         help_text="Portfolio category (e.g., 'Wedding', 'Corporate')"
     )
     
-    display_order = models.PositiveIntegerField(
-        default=0,
-        help_text="Display order (0 = first)"
-    )
-    
     is_active = models.BooleanField(
         default=True,
         help_text="Whether this portfolio item is visible"
@@ -759,7 +716,7 @@ class VendorPortfolio(models.Model):
     class Meta:
         verbose_name = "Vendor Portfolio"
         verbose_name_plural = "Vendor Portfolio Items"
-        ordering = ['display_order', '-created_at']
+        ordering = ['-created_at']
     
     def __str__(self):
         return f"{self.vendor.name} - {self.title}"

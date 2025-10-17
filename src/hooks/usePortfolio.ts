@@ -37,7 +37,7 @@ export const usePortfolios = (params?: {
 // Hook for getting a specific portfolio
 export const usePortfolio = (id: string) => {
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -161,7 +161,7 @@ interface PortfolioVideo {
   video_id: string;
   title: string;
   description: string;
-  duration: string;
+  featured: boolean;
   order: number;
 }
 

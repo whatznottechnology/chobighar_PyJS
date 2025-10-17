@@ -15,36 +15,34 @@ from .models import (
 class VendorImageInline(TabularInline):
     model = VendorImage
     extra = 1
-    fields = ['image', 'title', 'image_type', 'display_order', 'is_active']
-    ordering = ['image_type', 'display_order']
+    fields = ['image', 'title', 'image_type', 'is_active']
+    ordering = ['image_type']
 
 
 class VendorVideoInline(TabularInline):
     model = VendorVideo
     extra = 1
-    fields = ['title', 'youtube_id', 'display_order', 'is_active']
-    ordering = ['display_order']
+    fields = ['title', 'youtube_id', 'is_active']
 
 
 class VendorServiceInline(TabularInline):
     model = VendorService
     extra = 1
-    fields = ['name', 'description', 'display_order', 'is_active']
-    ordering = ['display_order']
+    fields = ['name', 'description', 'is_active']
+    ordering = ['name']
 
 
 class VendorSpecialtyInline(TabularInline):
     model = VendorSpecialty
     extra = 1
-    fields = ['name', 'display_order', 'is_active']
-    ordering = ['display_order']
+    fields = ['name', 'is_active']
+    ordering = ['name']
 
 
 class VendorHighlightInline(TabularInline):
     model = VendorHighlight
     extra = 1
-    fields = ['text', 'display_order', 'is_active']
-    ordering = ['display_order']
+    fields = ['text', 'is_active']
 
 
 class VendorTestimonialInline(TabularInline):
@@ -57,15 +55,15 @@ class VendorTestimonialInline(TabularInline):
 class VendorPortfolioInline(TabularInline):
     model = VendorPortfolio
     extra = 1
-    fields = ['title', 'image', 'category', 'display_order', 'is_active']
-    ordering = ['display_order']
+    fields = ['title', 'image', 'category', 'is_active']
+    ordering = ['-created_at']
 
 
 class VendorSubCategoryInline(TabularInline):
     """Inline admin for subcategories within category admin"""
     model = VendorSubCategory
     extra = 1
-    fields = ['name', 'description', 'banner_image', 'vendor_count', 'display_order', 'is_active']
+    fields = ['name', 'description', 'banner_image', 'vendor_count', 'is_active']
     readonly_fields = ['slug']
 
 
@@ -74,8 +72,8 @@ class VendorCategoryAdmin(ModelAdmin):
     """Admin interface for Vendor Categories"""
     
     list_display = [
+        'image_thumbnail',
         'name', 
-        'display_order', 
         'vendor_count_display', 
         'subcategory_count', 
         'gradient_preview',
@@ -93,7 +91,7 @@ class VendorCategoryAdmin(ModelAdmin):
             'fields': ('name', 'slug', 'description', 'image', 'is_active')
         }),
         ('Display Settings', {
-            'fields': ('icon_emoji', 'gradient_from', 'gradient_to', 'display_order'),
+            'fields': ('icon_emoji', 'gradient_from', 'gradient_to'),
             'description': 'Customize how the category appears on the website'
         }),
         ('Timestamps', {
@@ -105,6 +103,26 @@ class VendorCategoryAdmin(ModelAdmin):
     readonly_fields = ['created_at', 'updated_at']
     
     inlines = [VendorSubCategoryInline]
+    
+    def image_thumbnail(self, obj):
+        """Display category image thumbnail"""
+        if obj.image:
+            try:
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="60" height="60" style="border-radius: 8px; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 2px solid #e0e0e0;" />'
+                    '</div>',
+                    obj.image.url
+                )
+            except Exception:
+                pass
+        return format_html(
+            '<div style="width: 60px; height: 60px; border-radius: 8px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">'
+            '{}'
+            '</div>',
+            obj.name[0].upper() if obj.name else '?'
+        )
+    image_thumbnail.short_description = '🖼️ Image'
     
     def vendor_count_display(self, obj):
         """Display total vendor count across all subcategories"""
@@ -142,10 +160,10 @@ class VendorSubCategoryAdmin(ModelAdmin):
     """Admin interface for Vendor Subcategories"""
     
     list_display = [
+        'banner_thumbnail',
         'name',
         'category',
         'vendor_count_display',
-        'display_order',
         'is_active',
         'created_at'
     ]
@@ -160,7 +178,7 @@ class VendorSubCategoryAdmin(ModelAdmin):
             'fields': ('category', 'name', 'slug', 'description', 'is_active')
         }),
         ('Media & Display', {
-            'fields': ('banner_image', 'vendor_count', 'display_order'),
+            'fields': ('banner_image', 'vendor_count'),
             'description': 'Banner image and display settings'
         }),
         ('Timestamps', {
@@ -170,6 +188,25 @@ class VendorSubCategoryAdmin(ModelAdmin):
     )
     
     readonly_fields = ['created_at', 'updated_at']
+    
+    def banner_thumbnail(self, obj):
+        """Display banner image thumbnail"""
+        if obj.banner_image:
+            try:
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="80" height="60" style="border-radius: 8px; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 2px solid #e0e0e0;" />'
+                    '</div>',
+                    obj.banner_image.url
+                )
+            except Exception:
+                pass
+        return format_html(
+            '<div style="width: 80px; height: 60px; border-radius: 8px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.15); text-align: center; padding: 4px;">'
+            '<span style="font-size: 10px;">No Image</span>'
+            '</div>'
+        )
+    banner_thumbnail.short_description = '🖼️ Banner'
     
     def vendor_count_display(self, obj):
         """Display vendor count with styling"""
@@ -393,17 +430,17 @@ class VendorProfileAdmin(ModelAdmin):
 class VendorImageAdmin(ModelAdmin):
     """Admin interface for Vendor Images"""
     
-    list_display = ['vendor', 'title', 'image_type', 'image_preview', 'display_order', 'is_active', 'created_at']
+    list_display = ['vendor', 'title', 'image_type', 'image_preview', 'is_active', 'created_at']
     list_filter = ['image_type', 'is_active', 'created_at']
     search_fields = ['vendor__name', 'title', 'alt_text']
-    ordering = ['vendor', 'image_type', 'display_order']
+    ordering = ['vendor', 'image_type']
     
     fieldsets = (
         ('Basic Information', {
             'fields': ('vendor', 'image', 'title', 'alt_text')
         }),
         ('Classification', {
-            'fields': ('image_type', 'display_order', 'is_active')
+            'fields': ('image_type', 'is_active')
         }),
     )
     
@@ -442,17 +479,17 @@ class VendorImageAdmin(ModelAdmin):
 class VendorVideoAdmin(ModelAdmin):
     """Admin interface for Vendor Videos"""
     
-    list_display = ['vendor', 'title', 'youtube_preview', 'display_order', 'is_active', 'created_at']
+    list_display = ['vendor', 'title', 'youtube_preview', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['vendor__name', 'title', 'description']
-    ordering = ['vendor', 'display_order']
+    ordering = ['vendor']
     
     fieldsets = (
         ('Basic Information', {
             'fields': ('vendor', 'title', 'youtube_id', 'description')
         }),
         ('Settings', {
-            'fields': ('display_order', 'is_active')
+            'fields': ('is_active',)
         }),
     )
     

@@ -11,7 +11,7 @@ class VendorImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorImage
-        fields = ['id', 'image', 'title', 'alt_text', 'image_type', 'display_order']
+        fields = ['id', 'image', 'title', 'alt_text', 'image_type']
 
 
 class VendorVideoSerializer(serializers.ModelSerializer):
@@ -27,7 +27,7 @@ class VendorServiceSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorService
-        fields = ['id', 'name', 'description', 'display_order']
+        fields = ['id', 'name', 'description']
 
 
 class VendorSpecialtySerializer(serializers.ModelSerializer):
@@ -35,7 +35,7 @@ class VendorSpecialtySerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorSpecialty
-        fields = ['id', 'name', 'display_order']
+        fields = ['id', 'name']
 
 
 class VendorHighlightSerializer(serializers.ModelSerializer):
@@ -43,7 +43,7 @@ class VendorHighlightSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorHighlight
-        fields = ['id', 'text', 'display_order']
+        fields = ['id', 'text']
 
 
 
@@ -65,7 +65,7 @@ class VendorPortfolioSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorPortfolio
-        fields = ['id', 'title', 'description', 'image', 'category', 'display_order']
+        fields = ['id', 'title', 'description', 'image', 'category']
 
 
 class VendorProfileSerializer(serializers.ModelSerializer):
@@ -107,7 +107,7 @@ class VendorProfileSerializer(serializers.ModelSerializer):
     
     def get_hero_images(self, obj):
         """Get first 4 images for hero section"""
-        hero_images = obj.images.filter(is_active=True).order_by('display_order')[:4]
+        hero_images = obj.images.filter(is_active=True).order_by('image_type')[:4]
         return [img.image.url for img in hero_images if img.image]
     
     def get_gallery_images(self, obj):
@@ -115,7 +115,7 @@ class VendorProfileSerializer(serializers.ModelSerializer):
         gallery_images = obj.images.filter(
             image_type='gallery', 
             is_active=True
-        ).order_by('display_order')
+        ).order_by('image_type')
         return [img.image.url for img in gallery_images if img.image]
     
     def get_cover_image(self, obj):
@@ -147,7 +147,7 @@ class VendorProfileListSerializer(serializers.ModelSerializer):
     
     def get_main_image(self, obj):
         """Get main image for listing"""
-        main_image = obj.images.filter(is_active=True).order_by('display_order').first()
+        main_image = obj.images.filter(is_active=True).order_by('image_type').first()
         return main_image.image.url if main_image and main_image.image else None
 
 
@@ -158,7 +158,7 @@ class VendorSubCategorySerializer(serializers.ModelSerializer):
         model = VendorSubCategory
         fields = [
             'id', 'name', 'slug', 'description', 'banner_image',
-            'vendor_count', 'display_order', 'is_active'
+            'vendor_count', 'is_active'
         ]
 
 
@@ -174,7 +174,7 @@ class VendorCategorySerializer(serializers.ModelSerializer):
         fields = [
             'id', 'name', 'slug', 'description', 'image',
             'icon_emoji', 'gradient_from', 'gradient_to', 'gradient_class',
-            'display_order', 'vendor_count', 'subcategories', 'is_active'
+            'vendor_count', 'subcategories', 'is_active'
         ]
 
 
@@ -187,5 +187,5 @@ class VendorSubCategoryDetailSerializer(serializers.ModelSerializer):
         model = VendorSubCategory
         fields = [
             'id', 'category', 'name', 'slug', 'description', 'banner_image',
-            'vendor_count', 'display_order', 'is_active', 'created_at', 'updated_at'
+            'vendor_count', 'is_active', 'created_at', 'updated_at'
         ]

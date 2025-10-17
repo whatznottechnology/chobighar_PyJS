@@ -18,15 +18,6 @@ const nextConfig: NextConfig = {
   },
   
   images: {
-    domains: [
-      'images.unsplash.com', 
-      'img.youtube.com',
-      'i.ytimg.com', // YouTube thumbnails alternative domain
-      'localhost', 
-      '127.0.0.1',
-      'admin.chobighar.com', // Production backend
-      'chobighar.com',       // Production frontend
-    ],
     remotePatterns: [
       {
         protocol: 'http',
@@ -49,6 +40,22 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'admin.chobighar.com',
         pathname: '/static/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'chobighar.com',
       },
     ],
     // Optimize images for shared hosting

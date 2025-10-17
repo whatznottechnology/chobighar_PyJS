@@ -26,11 +26,22 @@ export interface Portfolio {
   guests: string;
   description: string;
   story?: string;
+  event_type?: string;
+  event_date?: string;
   featured: boolean;
   images?: PortfolioImage[];
   videos?: PortfolioVideo[];
   highlights?: PortfolioHighlight[];
   services?: PortfolioService[];
+  // CTA Images
+  cta_image_1_url?: string;
+  cta_image_2_url?: string;
+  cta_image_3_url?: string;
+  cta_image_4_url?: string;
+  // Promotional Video
+  promotional_video_id?: string;
+  // Love functionality
+  love_count?: number;
   created_at: string;
   updated_at: string;
 }

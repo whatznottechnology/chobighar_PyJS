@@ -15,13 +15,16 @@ import {
   CameraIcon,
   ArrowLeftIcon,
   TagIcon,
-  ArrowUpIcon
+  ArrowUpIcon,
+  ClockIcon
 } from '@heroicons/react/24/outline';
 import { usePortfolio, useRelatedPortfolios } from '@/hooks/usePortfolio';
 import { portfolioAPI } from '@/services/portfolioAPI';
 import { useWhatsAppIntegration } from '../../../../hooks/useWhatsAppIntegration';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 import ImageLightbox from '../../../../components/ImageLightbox';
+import LoveButton from '../../../../components/LoveButton';
+import ShareButton from '../../../../components/ShareButton';
 
 export default function PortfolioDetails() {
   const params = useParams();
@@ -32,6 +35,14 @@ export default function PortfolioDetails() {
   const { portfolio, loading, error } = usePortfolio(portfolioId);
   const { portfolios: relatedPortfolios } = useRelatedPortfolios(portfolioId);
   const { sendInquiryToWhatsApp } = useWhatsAppIntegration();
+
+  // Debug: Log portfolio data
+  useEffect(() => {
+    if (portfolio) {
+      console.log('Portfolio Data:', portfolio);
+      console.log('Promotional Video ID:', portfolio.promotional_video_id);
+    }
+  }, [portfolio]);
 
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [activeTab, setActiveTab] = useState<'photos' | 'videos'>('photos');
@@ -58,6 +69,17 @@ export default function PortfolioDetails() {
       behavior: 'smooth'
     });
   };
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId);
+    if (element) {
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
@@ -179,6 +201,21 @@ export default function PortfolioDetails() {
     );
   }
 
+  // Show loading state
+  if (loading || !portfolio) {
+    if (loading) {
+      return (
+        <main className="min-h-screen bg-white flex items-center justify-center">
+          <div className="text-center">
+            <div className="inline-block animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-red-600 mb-4"></div>
+            <h1 className="text-2xl font-bold text-gray-900 mb-2">Loading Portfolio...</h1>
+            <p className="text-gray-600">Please wait while we fetch the details</p>
+          </div>
+        </main>
+      );
+    }
+  }
+
   // Show error state
   if (error || !portfolio) {
     return (
@@ -286,14 +323,44 @@ export default function PortfolioDetails() {
             </div>
           </div>
         </div>
+
+        {/* Love and Share Buttons - Mobile: Top Right, Desktop: Bottom Right */}
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 md:bottom-6 md:right-6 md:top-auto flex gap-2 sm:gap-3 z-30">
+          <LoveButton 
+            portfolioId={portfolioId}
+            initialLoveCount={portfolio.love_count || 0}
+            className="backdrop-blur-md bg-black/30 border border-white/30 hover:bg-black/40 text-white hover:text-white shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 text-xs sm:text-sm"
+          />
+          <ShareButton 
+            portfolioId={portfolioId}
+            portfolioTitle={portfolio.title}
+            className="backdrop-blur-md bg-black/30 border border-white/30 hover:bg-black/40 text-white hover:text-white shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 text-xs sm:text-sm"
+          />
+        </div>
       </section>
 
       {/* Compact Content Section - Story & Form Side by Side */}
-      <section className="py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8">
-            {/* Main Story Content - 2/3 Width */}
-            <div className="lg:col-span-2">
+      <section className="py-12 relative overflow-hidden bg-gray-50">
+        {/* Decorative Background Images */}
+        <div className="absolute top-0 left-0 w-1/5 lg:w-1/6 pointer-events-none">
+          <img
+            src="/img/12873194_7666-removebg-preview.png"
+            alt="Background decoration"
+            className="w-full h-auto object-contain opacity-10"
+          />
+        </div>
+        <div className="absolute bottom-0 right-0 w-1/4 lg:w-1/5 pointer-events-none">
+          <img
+            src="/img/62569719_9509225.png"
+            alt="Background decoration"
+            className="w-full h-auto object-contain opacity-10"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="grid lg:grid-cols-5 gap-8">
+            {/* Main Story Content - 60% Width */}
+            <div className="lg:col-span-3">
               {/* Description Card */}
               <div className="bg-white rounded-2xl p-6 shadow-sm mb-6">
                 <p className="text-gray-700 leading-relaxed text-base">
@@ -316,20 +383,26 @@ export default function PortfolioDetails() {
               <div className="grid md:grid-cols-2 gap-6">
                 {/* Highlights */}
                 {portfolio.highlights && portfolio.highlights.length > 0 && (
-                  <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-2xl p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                      <svg className="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                      </svg>
-                      Highlights
-                    </h3>
-                    <ul className="space-y-2">
+                  <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-600 rounded-xl flex items-center justify-center shadow-md">
+                        <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Highlights
+                      </h3>
+                    </div>
+                    <ul className="space-y-3">
                       {portfolio.highlights.map((highlight, index) => (
-                        <li key={index} className="flex items-start gap-2 text-sm text-gray-700">
-                          <svg className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                          </svg>
-                          <span>{highlight.highlight_text}</span>
+                        <li key={index} className="flex items-start gap-3 text-gray-700 hover:text-gray-900 transition-colors group">
+                          <div className="mt-1">
+                            <svg className="w-5 h-5 text-amber-500 group-hover:text-amber-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                          </div>
+                          <span className="leading-relaxed">{highlight.highlight_text}</span>
                         </li>
                       ))}
                     </ul>
@@ -338,16 +411,20 @@ export default function PortfolioDetails() {
 
                 {/* Services */}
                 {portfolio.services && portfolio.services.length > 0 && (
-                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-6">
-                    <h3 className="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                      <CameraIcon className="w-5 h-5 text-blue-600" />
-                      Services
-                    </h3>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300">
+                    <div className="flex items-center gap-3 mb-6 pb-4 border-b border-gray-100">
+                      <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-md">
+                        <CameraIcon className="w-6 h-6 text-white" />
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'Playfair Display, serif' }}>
+                        Services
+                      </h3>
+                    </div>
+                    <div className="flex flex-wrap gap-3">
                       {portfolio.services.map((service, index) => (
                         <span
                           key={index}
-                          className="inline-block px-3 py-1.5 bg-white rounded-full text-xs font-medium text-blue-700 border border-blue-200 shadow-sm"
+                          className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg text-sm font-medium text-blue-900 border border-blue-200 hover:border-blue-300 hover:shadow-md transition-all duration-200"
                         >
                           {service.service_name}
                         </span>
@@ -356,93 +433,219 @@ export default function PortfolioDetails() {
                   </div>
                 )}
               </div>
+
+              {/* Event Details Card */}
+              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow duration-300 mt-6">
+                <div className="flex items-center gap-3 mb-8 pb-4 border-b border-gray-100">
+                  <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl flex items-center justify-center shadow-md">
+                    <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'Playfair Display, serif' }}>
+                    Event Details
+                  </h3>
+                </div>
+                <div className="grid md:grid-cols-2 gap-6">
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-100 hover:border-blue-200 hover:shadow-md transition-all duration-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                        <svg className="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block">Guests</span>
+                      </div>
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900 mt-2">{portfolio.guests}</p>
+                  </div>
+                  <div className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-100 hover:border-amber-200 hover:shadow-md transition-all duration-200">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center shadow-sm">
+                        <CameraIcon className="w-6 h-6 text-amber-600" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-semibold text-amber-600 uppercase tracking-wider block">Photos</span>
+                      </div>
+                    </div>
+                    <p className="text-2xl font-bold text-gray-900 mt-2">{portfolio.image_count}</p>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Sticky CTA Sidebar - 1/3 Width */}
-            <div className="lg:col-span-1">
-              <div className="sticky top-24">
-                {/* Compact CTA Card */}
-                <div className="bg-gradient-to-br from-red-600 via-red-700 to-red-800 rounded-2xl p-6 shadow-xl">
-                  <div className="text-center mb-5">
-                    <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                      <HeartIcon className="w-6 h-6 text-white" />
+            {/* Sticky Info Sidebar - 40% Width */}
+            <div className="lg:col-span-2">
+              <div className="sticky top-24 space-y-4">
+                {/* CTA Images Card - Vendor Style Grid (Moved Up) */}
+                {(portfolio?.cta_image_1_url || portfolio?.cta_image_2_url || portfolio?.cta_image_3_url || portfolio?.cta_image_4_url) && (
+                  <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 relative overflow-hidden">
+                    {/* Decorative Background Images */}
+                    <div className="absolute top-0 right-0 w-1/4 pointer-events-none opacity-5 rotate-180">
+                      <img
+                        src="/img/12873194_7666-removebg-preview.png"
+                        alt="Background decoration"
+                        className="w-full h-auto object-contain"
+                      />
                     </div>
-                    <h3 className="text-xl font-bold text-white mb-1">Love This Style?</h3>
-                    <p className="text-red-100 text-sm">Get your personalized quote</p>
-                  </div>
+                    <div className="absolute bottom-0 left-0 w-1/3 pointer-events-none opacity-5 -scale-x-100">
+                      <img
+                        src="/img/62569719_9509225.png"
+                        alt="Background decoration"
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
 
-                  <form onSubmit={handleSubmit} className="space-y-3">
-                    <input
-                      type="text"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm border-0 focus:ring-2 focus:ring-white/50 transition-all"
-                      placeholder="Your Name"
-                    />
-
-                    <input
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm border-0 focus:ring-2 focus:ring-white/50 transition-all"
-                      placeholder="Phone Number"
-                    />
-
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm border-0 focus:ring-2 focus:ring-white/50 transition-all"
-                      placeholder="Email Address"
-                    />
-
-                    <input
-                      type="date"
-                      name="event_date"
-                      value={formData.event_date}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full px-4 py-2.5 rounded-lg text-sm border-0 focus:ring-2 focus:ring-white/50 transition-all"
-                    />
-
-                    <button
-                      type="submit"
-                      disabled={submitLoading}
-                      className="w-full bg-white text-red-600 font-semibold px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {submitLoading ? 'Sending...' : 'Get Quote →'}
-                    </button>
+                    <h4 className="font-bold text-gray-900 mb-6 text-xl flex items-center gap-2 relative z-10">
+                      <HeartIcon className="w-6 h-6 text-red-600" />
+                      Memories
+                    </h4>
                     
-                    <p className="text-red-100 text-xs text-center mt-2">
-                      ⚡ Response within 2 hours
-                    </p>
-                  </form>
-                </div>
+                    {/* 2 Column Grid with Rotated Images (Vendor Hero Style) */}
+                    <div className="grid grid-cols-2 gap-4 mb-6 relative z-10">
+                      {/* Left Column */}
+                      <div className="space-y-4">
+                        {portfolio.cta_image_1_url && (
+                          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                            <Image
+                              src={portfolio.cta_image_1_url}
+                              alt={`${portfolio.title} - Style 1`}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 300px"
+                              className="object-cover hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                        {portfolio.cta_image_2_url && (
+                          <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                            <Image
+                              src={portfolio.cta_image_2_url}
+                              alt={`${portfolio.title} - Style 2`}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 300px"
+                              className="object-cover hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                      </div>
+                      
+                      {/* Right Column with Top Padding */}
+                      <div className="space-y-4 pt-8">
+                        {portfolio.cta_image_3_url && (
+                          <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                            <Image
+                              src={portfolio.cta_image_3_url}
+                              alt={`${portfolio.title} - Style 3`}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 300px"
+                              className="object-cover hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                        {portfolio.cta_image_4_url && (
+                          <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                            <Image
+                              src={portfolio.cta_image_4_url}
+                              alt={`${portfolio.title} - Style 4`}
+                              fill
+                              sizes="(max-width: 768px) 50vw, 300px"
+                              className="object-cover hover:scale-110 transition-transform duration-500"
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </div>
 
-                {/* Quick Info Card */}
-                <div className="bg-white rounded-2xl p-5 shadow-sm mt-4">
-                  <h4 className="font-bold text-gray-900 mb-3 text-sm">Event Details</h4>
-                  <div className="space-y-2.5 text-sm">
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-100">
-                      <span className="text-gray-600">Duration</span>
-                      <span className="font-medium text-gray-900">{portfolio.duration}</span>
-                    </div>
-                    <div className="flex justify-between items-center pb-2 border-b border-gray-100">
-                      <span className="text-gray-600">Guests</span>
-                      <span className="font-medium text-gray-900">{portfolio.guests}</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Photos</span>
-                      <span className="font-medium text-gray-900">{portfolio.image_count}</span>
+                    {/* CTA Text */}
+                    <div className="text-center">
+                      <p className="text-sm text-gray-600 mb-3">
+                        Get your personalized quote for this photography style
+                      </p>
+                      <button 
+                        onClick={() => scrollToSection('quote-form')}
+                        className="flex items-center justify-center gap-2 text-red-600 text-sm font-medium hover:text-red-700 transition-colors cursor-pointer mx-auto"
+                      >
+                        <svg className="w-4 h-4 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                        </svg>
+                        Scroll for Quote Form
+                      </button>
                     </div>
                   </div>
-                </div>
+                )}
+
+                {/* Promotional Video Frame - Mobile Mockup (Moved Down) */}
+                {portfolio?.promotional_video_id && (
+                  <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 relative overflow-hidden">
+                    {/* Decorative Background Images */}
+                    <div className="absolute top-0 left-0 w-1/4 pointer-events-none opacity-5">
+                      <img
+                        src="/img/12873194_7666-removebg-preview.png"
+                        alt="Background decoration"
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+                    <div className="absolute bottom-0 right-0 w-1/3 pointer-events-none opacity-5">
+                      <img
+                        src="/img/62569719_9509225.png"
+                        alt="Background decoration"
+                        className="w-full h-auto object-contain"
+                      />
+                    </div>
+
+                    
+                    {/* HTML/CSS Mobile Phone Mockup */}
+                    <div className="relative mx-auto z-10" style={{ maxWidth: '280px' }}>
+                      {/* Phone Container */}
+                      <div 
+                        className="relative bg-gradient-to-br from-gray-800 via-gray-900 to-black rounded-[3rem] p-3 shadow-2xl"
+                        style={{ 
+                          aspectRatio: '9 / 19',
+                          border: '3px solid #1a1a1a'
+                        }}
+                      >
+                        {/* Phone Notch */}
+                        <div className="absolute top-0 left-1/2 -translate-x-1/2 z-30 bg-black rounded-b-2xl px-8 py-2 flex items-center gap-3">
+                          <div className="w-1.5 h-1.5 bg-gray-700 rounded-full"></div>
+                          <div className="w-12 h-1 bg-gray-800 rounded-full"></div>
+                          <div className="w-2 h-2 bg-blue-900 rounded-full opacity-40 ring-2 ring-blue-800"></div>
+                        </div>
+
+                        {/* Side Buttons */}
+                        <div className="absolute -left-1 top-32 w-1 h-12 bg-gray-700 rounded-l"></div>
+                        <div className="absolute -left-1 top-48 w-1 h-8 bg-gray-700 rounded-l"></div>
+                        <div className="absolute -right-1 top-40 w-1 h-16 bg-gray-700 rounded-r"></div>
+
+                        {/* Screen Container */}
+                        <div 
+                          className="relative w-full h-full bg-black rounded-[2.5rem] overflow-hidden"
+                          style={{ 
+                            boxShadow: 'inset 0 0 20px rgba(0,0,0,0.5)'
+                          }}
+                        >
+                          {/* Video */}
+                          <iframe
+                            src={`https://www.youtube.com/embed/${portfolio.promotional_video_id}?autoplay=1&mute=1&loop=1&playlist=${portfolio.promotional_video_id}&controls=0&showinfo=0&rel=0&modestbranding=1&playsinline=1`}
+                            className="w-full h-full"
+                            allow="autoplay; encrypted-media"
+                            title="Promotional Video"
+                            style={{ border: 'none' }}
+                          />
+                        </div>
+                      </div>
+
+                      {/* Phone Reflection Effect */}
+                      <div 
+                        className="absolute inset-0 rounded-[3rem] pointer-events-none"
+                        style={{
+                          background: 'linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%)',
+                          mixBlendMode: 'overlay'
+                        }}
+                      ></div>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -630,6 +833,103 @@ export default function PortfolioDetails() {
           </div>
         </section>
       )}
+
+      {/* Quote Form Section - After More Albums */}
+      <section id="quote-form" className="py-16 bg-gradient-to-br from-red-50 via-pink-50 to-orange-50 relative overflow-hidden">
+        {/* Decorative Pattern Overlay */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="absolute top-0 left-0 w-full h-full">
+            <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+              <defs>
+                <pattern id="portfolio-jamdani-pattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+                  <circle cx="10" cy="10" r="2" fill="currentColor" opacity="0.4"/>
+                  <path d="M10,5 Q15,10 10,15 Q5,10 10,5 Z" fill="currentColor" opacity="0.3"/>
+                </pattern>
+              </defs>
+              <rect width="100%" height="100%" fill="url(#portfolio-jamdani-pattern)"/>
+            </svg>
+          </div>
+        </div>
+
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Love This Style?
+            </h2>
+            <p className="text-xl text-gray-600">
+              Get your personalized quote and let's create magic together
+            </p>
+          </div>
+
+          {/* Enhanced Quote Form */}
+          <div className="bg-white rounded-2xl p-8 shadow-xl border border-gray-100">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="grid sm:grid-cols-2 gap-4">
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-gray-900 placeholder-gray-400"
+                  placeholder="Your Name"
+                />
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleInputChange}
+                  required
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-gray-900 placeholder-gray-400"
+                  placeholder="Phone Number"
+                />
+              </div>
+
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-gray-900 placeholder-gray-400"
+                placeholder="Email Address"
+              />
+
+              <input
+                type="date"
+                name="event_date"
+                value={formData.event_date}
+                onChange={handleInputChange}
+                required
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-red-500 focus:border-red-500 transition-all text-gray-900 placeholder-gray-400"
+              />
+
+              <button
+                type="submit"
+                disabled={submitLoading}
+                className="w-full bg-gradient-to-r from-red-600 to-red-700 text-white font-semibold px-8 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+              >
+                {submitLoading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </span>
+                ) : (
+                  'Get Your Quote →'
+                )}
+              </button>
+              
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-600">
+                <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                <span>Response within 2 hours</span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
 
       {/* Image Lightbox - Full Screen Modal */}
       {selectedImage !== null && portfolio?.images && portfolio.images.length > 0 && (

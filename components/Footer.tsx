@@ -389,7 +389,7 @@ export default function Footer() {
                   <p className="text-white text-sm font-medium">
                     "Your celebration, our arrangement"
                   </p>
-                  <p className="text-white/80 text-xs mt-1" style={{ fontFamily: 'SolaimanLipi, Arial, sans-serif' }}>
+                  <p className="text-white text-base mt-1 font-semibold" style={{ fontFamily: 'var(--font-hind-siliguri), sans-serif', letterSpacing: '0.02em' }}>
                     "আপনার উৎসব, আমাদের আয়োজন"
                   </p>
                 </div>

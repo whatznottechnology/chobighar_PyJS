@@ -9,7 +9,6 @@ export interface VendorCategory {
   icon_emoji: string;
   gradient_from: string;
   gradient_to: string;
-  display_order: number;
   is_active: boolean;
   vendor_count: number;
   gradient_class: string;
@@ -23,7 +22,6 @@ export interface VendorSubCategory {
   description: string;
   banner_image: string | null;
   vendor_count: number;
-  display_order: number;
   is_active: boolean;
   category: number;
 }
@@ -34,7 +32,6 @@ export interface VendorImage {
   title: string;
   alt_text: string;
   image_type: string;
-  display_order: number;
 }
 
 export interface VendorVideo {
@@ -50,19 +47,16 @@ export interface VendorServiceItem {
   id: number;
   name: string;
   description: string;
-  display_order: number;
 }
 
 export interface VendorSpecialty {
   id: number;
   name: string;
-  display_order: number;
 }
 
 export interface VendorHighlight {
   id: number;
   text: string;
-  display_order: number;
 }
 
 export interface VendorTestimonial {
@@ -82,7 +76,6 @@ export interface VendorPortfolio {
   description: string;
   image: string;
   category: string;
-  display_order: number;
 }
 
 export interface VendorProfile {

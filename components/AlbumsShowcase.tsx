@@ -30,7 +30,7 @@ export default function AlbumsShowcase() {
   const isLoading = portfoliosLoading || showcaseLoading;
   
   // Prepare images for lightbox - convert showcase images to format expected by lightbox
-  const lightboxImages = showcaseImages ? showcaseImages.map(img => img.image_url) : [];
+  const lightboxImages = showcaseImages ? showcaseImages.map(img => img.image) : [];
 
   const scroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -360,10 +360,10 @@ export default function AlbumsShowcase() {
                   className="group relative aspect-square overflow-hidden rounded-lg cursor-pointer hover:shadow-lg transition-all duration-300"
                   onClick={() => openLightbox(index)}
                 >
-                  {image.image_url && (
+                  {image.image && (
                     <Image
-                      src={image.image_url}
-                      alt={image.alt_text}
+                      src={image.image}
+                      alt={image.caption || 'Gallery image'}
                       fill
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(min-width: 768px) 20vw, 50vw"

@@ -19,9 +19,10 @@ interface ShowcaseImage {
   id: number;
   image: string;
   image_url: string;
-  alt_text: string;
+  caption: string;
   order: number;
-  is_active: boolean;
+  is_cover: boolean;
+  featured: boolean;
 }
 
 interface VideoTestimonial {
@@ -189,8 +190,15 @@ export const useShowcaseImages = (): UseShowcaseImagesReturn => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         
-        const data: ShowcaseImage[] = await response.json();
-        setImages(data);
+        const data = await response.json();
+        
+        // Handle paginated response
+        if (data.results) {
+          setImages(data.results);
+        } else {
+          // Fallback for non-paginated response
+          setImages(data);
+        }
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to fetch showcase images');
         console.error('Error fetching showcase images:', err);

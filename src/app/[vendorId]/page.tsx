@@ -1087,23 +1087,7 @@ export default function VendorProfile() {
                 </div>
               </div>
 
-              {/* Specialties Card - Only show if data exists */}
-              {vendor.specialties && vendor.specialties.length > 0 && (
-                <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-3xl border border-red-100 p-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-                    <SparklesIcon className="w-5 h-5 text-red-600" />
-                    Specialties
-                  </h3>
-                  <div className="space-y-2">
-                    {vendor.specialties.map((specialty, index) => (
-                      <div key={index} className="flex items-center gap-2">
-                        <CheckCircleIcon className="w-4 h-4 text-red-600 flex-shrink-0" />
-                        <span className="text-sm text-gray-700">{specialty.name}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
+
 
             </div>
           </div>
