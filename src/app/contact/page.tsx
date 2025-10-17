@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useContactData } from '../../../hooks/useContactData';
 import { useWhatsAppIntegration } from '../../../hooks/useWhatsAppIntegration';
 import { 
@@ -12,7 +12,8 @@ import {
   CameraIcon,
   FilmIcon,
   HeartIcon,
-  StarIcon
+  StarIcon,
+  ArrowUpIcon
 } from '@heroicons/react/24/outline';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
 
@@ -20,6 +21,7 @@ export default function Contact() {
   const { contactData, loading, error } = useContactData();
   const { sendContactFormToWhatsApp } = useWhatsAppIntegration();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -28,6 +30,26 @@ export default function Contact() {
     event_date: '',
     message: ''
   });
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -536,6 +558,20 @@ export default function Contact() {
           </div>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

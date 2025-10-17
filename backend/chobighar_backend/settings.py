@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     'search',
     'inquiry',
     'blog',
+    'staticpages',
 ]
 
 MIDDLEWARE = [
@@ -332,32 +333,37 @@ UNFOLD = {
                     {
                         "title": _("Homepage"),
                         "icon": "home",
-                        "link": reverse_lazy("admin:homepage_heroslide_changelist"),
+                        "link": "/admin/homepage/",
                     },
                     {
                         "title": _("Blog Posts"),
                         "icon": "article",
-                        "link": reverse_lazy("admin:blog_blogpost_changelist"),
+                        "link": "/admin/blog/",
                     },
                     {
                         "title": _("Header"),
                         "icon": "view_agenda",
-                        "link": reverse_lazy("admin:header_brandinfo_changelist"),
+                        "link": "/admin/header/",
                     },
                     {
                         "title": _("Footer"),
                         "icon": "view_agenda",
-                        "link": reverse_lazy("admin:footer_footerbrandinfo_changelist"),
+                        "link": "/admin/footer/",
                     },
                     {
                         "title": _("Contact Page"),
                         "icon": "contact_page",
-                        "link": reverse_lazy("admin:contact_contactushero_changelist"),
+                        "link": "/admin/contact/",
                     },
                     {
                         "title": _("About Page"),
                         "icon": "info",
-                        "link": reverse_lazy("admin:aboutpage_abouthero_changelist"),
+                        "link": "/admin/aboutpage/",
+                    },
+                    {
+                        "title": _("Static Pages"),
+                        "icon": "description",
+                        "link": reverse_lazy("admin:staticpages_staticpage_changelist"),
                     },
                 ],
             },

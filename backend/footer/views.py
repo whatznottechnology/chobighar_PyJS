@@ -10,6 +10,8 @@ from .serializers import (
     FooterSocialMediaSerializer, FooterCopyrightSerializer,
     FooterDataSerializer
 )
+from staticpages.models import StaticPage
+from staticpages.serializers import StaticPageListSerializer
 
 @api_view(['GET'])
 def get_footer_data(request):
@@ -59,12 +61,19 @@ def get_footer_data(request):
                 company_name="chobighar"
             )
         
+        # Get static pages for footer
+        static_pages = StaticPage.objects.filter(
+            is_published=True, 
+            show_in_footer=True
+        ).order_by('display_order', 'title')
+        
         # Serialize data
         response_data = {
             'brand_info': FooterBrandInfoSerializer(brand_info, context={'request': request}).data,
             'contact_info': FooterContactInfoSerializer(contact_info).data,
             'social_media': FooterSocialMediaSerializer(social_media, many=True).data,
-            'copyright_info': FooterCopyrightSerializer(copyright_info).data
+            'copyright_info': FooterCopyrightSerializer(copyright_info).data,
+            'static_pages': StaticPageListSerializer(static_pages, many=True).data
         }
         
         return Response(response_data, status=status.HTTP_200_OK)

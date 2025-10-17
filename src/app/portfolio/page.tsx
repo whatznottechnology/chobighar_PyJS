@@ -496,7 +496,7 @@ export default function Portfolio() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-40 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
           style={{
             backgroundColor: '#B22222'
           }}

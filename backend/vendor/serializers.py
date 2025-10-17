@@ -1,8 +1,8 @@
 from rest_framework import serializers
 from .models import (
     VendorCategory, VendorSubCategory, VendorProfile, VendorImage,
-    VendorVideo, VendorService, VendorSpecialty, VendorHighlight,
-    VendorTestimonial, VendorPortfolio
+    VendorVideo, VendorService, VendorSpecialty, VendorWhyChooseUs,
+    VendorTestimonial
 )
 
 
@@ -11,7 +11,7 @@ class VendorImageSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = VendorImage
-        fields = ['id', 'image', 'title', 'alt_text', 'image_type']
+        fields = ['id', 'image', 'alt_text']
 
 
 class VendorVideoSerializer(serializers.ModelSerializer):
@@ -38,13 +38,12 @@ class VendorSpecialtySerializer(serializers.ModelSerializer):
         fields = ['id', 'name']
 
 
-class VendorHighlightSerializer(serializers.ModelSerializer):
-    """Serializer for vendor highlights"""
+class VendorWhyChooseUsSerializer(serializers.ModelSerializer):
+    """Serializer for why choose us points"""
     
     class Meta:
-        model = VendorHighlight
+        model = VendorWhyChooseUs
         fields = ['id', 'text']
-
 
 
 class VendorTestimonialSerializer(serializers.ModelSerializer):
@@ -60,14 +59,6 @@ class VendorTestimonialSerializer(serializers.ModelSerializer):
         ]
 
 
-class VendorPortfolioSerializer(serializers.ModelSerializer):
-    """Serializer for vendor portfolio"""
-    
-    class Meta:
-        model = VendorPortfolio
-        fields = ['id', 'title', 'description', 'image', 'category']
-
-
 class VendorProfileSerializer(serializers.ModelSerializer):
     """Comprehensive serializer for vendor profiles"""
     
@@ -76,57 +67,78 @@ class VendorProfileSerializer(serializers.ModelSerializer):
     videos = VendorVideoSerializer(many=True, read_only=True)
     services = VendorServiceSerializer(many=True, read_only=True)
     specialties = VendorSpecialtySerializer(many=True, read_only=True)
-    highlights = VendorHighlightSerializer(many=True, read_only=True)
+    why_choose_us = VendorWhyChooseUsSerializer(many=True, read_only=True)
     testimonials = VendorTestimonialSerializer(many=True, read_only=True)
-    portfolio_items = VendorPortfolioSerializer(many=True, read_only=True)
     
     # Computed fields
-    social_media = serializers.ReadOnlyField()
     category_name = serializers.CharField(source='category.name', read_only=True)
     subcategory_name = serializers.CharField(source='subcategory.name', read_only=True)
     
-    # Hero images (first 4 images for hero section)
+    # Hero images (4 individual images)
     hero_images = serializers.SerializerMethodField()
     gallery_images = serializers.SerializerMethodField()
-    cover_image = serializers.SerializerMethodField()
-    profile_image = serializers.SerializerMethodField()
+    profile_image_url = serializers.SerializerMethodField()
+    social_media = serializers.SerializerMethodField()
     
     class Meta:
         model = VendorProfile
         fields = [
             'id', 'name', 'slug', 'tagline', 'type', 'location', 'address',
-            'phone', 'email', 'website', 'description', 'story', 'experience',
+            'phone', 'email', 'website', 'instagram', 'facebook', 'youtube',
+            'description', 'story', 'experience',
             'price_range', 'capacity', 'rating', 'reviews_count', 'business_hours',
             'stats_count', 'stats_label', 'love_count',
-            'is_featured', 'category_name', 'subcategory_name', 'social_media',
-            'hero_images', 'gallery_images', 'cover_image', 'profile_image',
-            'images', 'videos', 'services', 'specialties', 'highlights',
-            'testimonials', 'portfolio_items',
+            'is_featured', 'category_name', 'subcategory_name',
+            'hero_images', 'gallery_images', 'profile_image_url', 'social_media',
+            'images', 'videos', 'services', 'specialties', 'why_choose_us',
+            'testimonials',
             'meta_title', 'meta_description', 'meta_keywords'
         ]
     
+    def get_social_media(self, obj):
+        """Get social media links"""
+        return {
+            'instagram': obj.instagram or '',
+            'facebook': obj.facebook or '',
+            'youtube': obj.youtube or ''
+        }
+    
     def get_hero_images(self, obj):
-        """Get first 4 images for hero section"""
-        hero_images = obj.images.filter(is_active=True).order_by('image_type')[:4]
-        return [img.image.url for img in hero_images if img.image]
+        """Get 4 individual hero images with absolute URLs - No fallback"""
+        request = self.context.get('request')
+        hero_imgs = []
+        
+        for field_name in ['hero_image_1', 'hero_image_2', 'hero_image_3', 'hero_image_4']:
+            field_value = getattr(obj, field_name, None)
+            if field_value:
+                if request:
+                    hero_imgs.append(request.build_absolute_uri(field_value.url))
+                else:
+                    hero_imgs.append(field_value.url)
+        
+        return hero_imgs
     
     def get_gallery_images(self, obj):
-        """Get all gallery images"""
-        gallery_images = obj.images.filter(
-            image_type='gallery', 
-            is_active=True
-        ).order_by('image_type')
-        return [img.image.url for img in gallery_images if img.image]
+        """Get all gallery images with absolute URLs"""
+        request = self.context.get('request')
+        gallery_images = obj.images.filter(is_active=True).order_by('created_at')
+        result = []
+        for img in gallery_images:
+            if img.image:
+                if request:
+                    result.append(request.build_absolute_uri(img.image.url))
+                else:
+                    result.append(img.image.url)
+        return result
     
-    def get_cover_image(self, obj):
-        """Get cover image"""
-        cover_image = obj.images.filter(image_type='cover', is_active=True).first()
-        return cover_image.image.url if cover_image and cover_image.image else None
-    
-    def get_profile_image(self, obj):
-        """Get profile image"""
-        profile_image = obj.images.filter(image_type='profile', is_active=True).first()
-        return profile_image.image.url if profile_image and profile_image.image else None
+    def get_profile_image_url(self, obj):
+        """Get profile image from dedicated profile_image field with absolute URL - No fallback"""
+        request = self.context.get('request')
+        if obj.profile_image:
+            if request:
+                return request.build_absolute_uri(obj.profile_image.url)
+            return obj.profile_image.url
+        return None
 
 
 class VendorProfileListSerializer(serializers.ModelSerializer):
@@ -146,9 +158,17 @@ class VendorProfileListSerializer(serializers.ModelSerializer):
         ]
     
     def get_main_image(self, obj):
-        """Get main image for listing"""
-        main_image = obj.images.filter(is_active=True).order_by('image_type').first()
-        return main_image.image.url if main_image and main_image.image else None
+        """Get main image for listing - use profile_image with absolute URL - No fallback"""
+        request = self.context.get('request')
+        image_url = None
+        
+        # Use profile_image only
+        if obj.profile_image:
+            image_url = obj.profile_image.url
+        
+        if image_url and request:
+            return request.build_absolute_uri(image_url)
+        return image_url
 
 
 class VendorSubCategorySerializer(serializers.ModelSerializer):

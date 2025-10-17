@@ -1,21 +1,42 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useBlogPosts, useBlogCategories, useFeaturedPosts } from '../../../hooks/useBlogData';
 import { getMediaUrl } from '@/config/api';
-import { MagnifyingGlassIcon, ClockIcon, EyeIcon, CalendarIcon } from '@heroicons/react/24/outline';
+import { MagnifyingGlassIcon, ClockIcon, EyeIcon, CalendarIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
 
 export default function BlogPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const { categories } = useBlogCategories();
   const { posts: featuredPosts } = useFeaturedPosts();
   const { posts, loading } = useBlogPosts({
     category: selectedCategory || undefined,
     search: searchQuery || undefined
   });
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -258,6 +279,20 @@ export default function BlogPage() {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

@@ -1,15 +1,38 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { ArrowUpIcon } from '@heroicons/react/24/outline';
 import { useAboutHero, useAboutStory, useAboutValues, useTeamMembers, useAboutContent } from '../../../hooks/useAboutData';
 import { getAboutIcon } from '../../../utils/aboutIcons';
 
 export default function AboutPage() {
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const { hero, loading: heroLoading } = useAboutHero();
   const { story, loading: storyLoading } = useAboutStory();
   const { values, loading: valuesLoading } = useAboutValues();
   const { team, loading: teamLoading } = useTeamMembers();
   const { content, loading: contentLoading } = useAboutContent();
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
     <main className="min-h-screen bg-white">
@@ -356,6 +379,20 @@ export default function AboutPage() {
           )}
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

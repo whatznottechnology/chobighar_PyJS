@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.shortcuts import redirect
 from django.http import HttpResponseRedirect
 from .health_views import HealthCheckView, ReadinessCheckView, LivenessCheckView
+from vendor import views as vendor_views
 
 # Redirect function for root URL
 def redirect_to_admin(request):
@@ -42,6 +43,10 @@ urlpatterns = [
     path('health/ready/', ReadinessCheckView.as_view(), name='readiness_check'),
     path('health/live/', LivenessCheckView.as_view(), name='liveness_check'),
     
+    # Admin Ajax Endpoints (must be before api/ routes)
+    path('admin/vendor/delete-gallery-image/<int:image_id>/', 
+         vendor_views.delete_gallery_image, name='delete_gallery_image'),
+    
     # API Endpoints
     path('api/header/', include('header.urls')),
     path('api/footer/', include('footer.urls')),
@@ -54,6 +59,7 @@ urlpatterns = [
     path('api/inquiry/', include('inquiry.urls')),  # Inquiry APIs
     path('api/portfolio/', include('portfolio.urls')),  # Portfolio APIs
     path('api/blog/', include('blog.urls')),  # Blog APIs
+    path('api/static/', include('staticpages.urls')),  # Static Pages APIs
 ]
 
 # Serve media and static files during development

@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { API_BASE_URL } from '@/config/api';
 
 export interface VendorCategory {
   id: number;
@@ -29,9 +29,8 @@ export interface VendorSubCategory {
 export interface VendorImage {
   id: number;
   image: string;
-  title: string;
   alt_text: string;
-  image_type: string;
+  is_active: boolean;
 }
 
 export interface VendorVideo {
@@ -54,7 +53,7 @@ export interface VendorSpecialty {
   name: string;
 }
 
-export interface VendorHighlight {
+export interface VendorWhyChooseUs {
   id: number;
   text: string;
 }
@@ -68,14 +67,6 @@ export interface VendorTestimonial {
   date: string;
   date_display: string;
   is_featured: boolean;
-}
-
-export interface VendorPortfolio {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  category: string;
 }
 
 export interface VendorProfile {
@@ -100,18 +91,20 @@ export interface VendorProfile {
   is_featured: boolean;
   category_name: string;
   subcategory_name: string;
-  social_media: Record<string, string>;
-  hero_images: string[];  // First 4 images for hero section
-  gallery_images: string[]; // Gallery type images
-  cover_image: string | null; // Cover type image
-  profile_image: string | null; // Profile type image
-  images: VendorImage[]; // All images with full details
+  social_media: {
+    instagram: string;
+    facebook: string;
+    youtube: string;
+  };
+  hero_images: string[];  // Array of 4 hero image URLs (from hero_image_1-4 fields)
+  gallery_images: string[]; // Array of gallery image URLs
+  profile_image_url: string | null; // Profile image from dedicated profile_image field
+  images: VendorImage[]; // All images with full details (only id, image, alt_text, is_active)
   videos: VendorVideo[];
   services: VendorServiceItem[];
   specialties: VendorSpecialty[];
-  highlights: VendorHighlight[];
+  why_choose_us: VendorWhyChooseUs[];
   testimonials: VendorTestimonial[];
-  portfolio_items: VendorPortfolio[];
   // Stats & Engagement
   stats_count: string;
   stats_label: string;

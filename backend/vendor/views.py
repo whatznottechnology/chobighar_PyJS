@@ -2,7 +2,9 @@ from rest_framework import generics, status, filters
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.admin.views.decorators import staff_member_required
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import VendorCategory, VendorSubCategory, VendorProfile
 from .serializers import (
@@ -70,8 +72,8 @@ class VendorProfileDetailView(generics.RetrieveAPIView):
         return VendorProfile.objects.filter(
             is_active=True
         ).select_related('category', 'subcategory').prefetch_related(
-            'images', 'videos', 'services', 'specialties', 'highlights',
-            'testimonials', 'portfolio_items'
+            'images', 'videos', 'services', 'specialties', 'why_choose_us',
+            'testimonials'
         )
 
 
@@ -199,3 +201,27 @@ def increment_love_count(request, slug):
             {'error': 'Vendor not found'}, 
             status=status.HTTP_404_NOT_FOUND
         )
+
+
+@staff_member_required
+@csrf_exempt
+def delete_gallery_image(request, image_id):
+    """
+    Delete a vendor gallery image (Admin only)
+    """
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Method not allowed'}, status=405)
+    
+    try:
+        from .models import VendorImage
+        image = VendorImage.objects.get(id=image_id)
+        vendor_name = image.vendor.name
+        image.delete()
+        return JsonResponse({
+            'success': True, 
+            'message': f'Image deleted from {vendor_name}'
+        })
+    except VendorImage.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Image not found'}, status=404)
+    except Exception as e:
+        return JsonResponse({'success': False, 'error': str(e)}, status=500)

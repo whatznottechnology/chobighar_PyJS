@@ -15,7 +15,10 @@ import {
   TagIcon,
   UserIcon,
   HeartIcon,
-  ChatBubbleBottomCenterTextIcon
+  ChatBubbleBottomCenterTextIcon,
+  ArrowUpIcon,
+  PaperAirplaneIcon,
+  CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import { useEffect, useState } from 'react';
 
@@ -24,12 +27,97 @@ export default function BlogDetailPage() {
   const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug as string;
   const { post, loading, error } = useBlogPost(slug);
   const [copied, setCopied] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [comments, setComments] = useState<any[]>([]);
+  const [loadingComments, setLoadingComments] = useState(true);
+  const [commentForm, setCommentForm] = useState({
+    name: '',
+    email: '',
+    comment: ''
+  });
+  const [submittingComment, setSubmittingComment] = useState(false);
+  const [commentSuccess, setCommentSuccess] = useState(false);
 
   useEffect(() => {
     if (post) {
       document.title = post.meta_title || `${post.title} | chobighar Blog`;
     }
   }, [post]);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  // Fetch comments
+  useEffect(() => {
+    if (post) {
+      fetchComments();
+    }
+  }, [post]);
+
+  const fetchComments = async () => {
+    try {
+      setLoadingComments(true);
+      const response = await fetch(`http://localhost:8000/api/blog/comments/?post=${slug}`);
+      if (response.ok) {
+        const data = await response.json();
+        setComments(data);
+      }
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    } finally {
+      setLoadingComments(false);
+    }
+  };
+
+  const handleCommentSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!post) return;
+    
+    setSubmittingComment(true);
+    try {
+      const response = await fetch('http://localhost:8000/api/blog/comments/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          post: post.id,
+          name: commentForm.name,
+          email: commentForm.email,
+          comment: commentForm.comment
+        })
+      });
+
+      if (response.ok) {
+        setCommentSuccess(true);
+        setCommentForm({ name: '', email: '', comment: '' });
+        setTimeout(() => setCommentSuccess(false), 5000);
+      }
+    } catch (error) {
+      console.error('Error submitting comment:', error);
+      alert('Failed to submit comment. Please try again.');
+    } finally {
+      setSubmittingComment(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', { 
@@ -313,6 +401,136 @@ export default function BlogDetailPage() {
         </section>
       )}
 
+      {/* Comments Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Comments Header */}
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <ChatBubbleBottomCenterTextIcon className="w-8 h-8 text-red-600" />
+              <h2 
+                className="text-3xl md:text-4xl font-bold text-gray-900"
+                style={{ fontFamily: 'Playfair Display, serif' }}
+              >
+                Comments ({comments.length})
+              </h2>
+            </div>
+            <p className="text-gray-600 text-lg">
+              Share your thoughts and join the conversation
+            </p>
+          </div>
+
+          {/* Comment Form */}
+          <div className="bg-gradient-to-br from-red-50 to-orange-50 rounded-2xl p-8 mb-12 border border-red-100">
+            <h3 className="text-xl font-bold text-gray-900 mb-6" style={{ fontFamily: 'Playfair Display, serif' }}>
+              Leave a Comment
+            </h3>
+            
+            {commentSuccess && (
+              <div className="mb-6 bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-xl flex items-center gap-2">
+                <CheckCircleIcon className="w-5 h-5" />
+                <span>Comment submitted successfully! It will be visible after approval.</span>
+              </div>
+            )}
+
+            <form onSubmit={handleCommentSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Your Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={commentForm.name}
+                    onChange={(e) => setCommentForm({...commentForm, name: e.target.value})}
+                    className="w-full px-4 py-3 rounded-xl border border-red-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all bg-white text-gray-900 placeholder-gray-500"
+                    placeholder="Enter your name"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                    Email Address *
+                  </label>
+                  <input
+                    type="email"
+                    required
+                    value={commentForm.email}
+                    onChange={(e) => setCommentForm({...commentForm, email: e.target.value})}
+                    className="w-full px-4 py-3 rounded-xl border border-red-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all bg-white text-gray-900 placeholder-gray-500"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Your Comment *
+                </label>
+                <textarea
+                  required
+                  rows={5}
+                  value={commentForm.comment}
+                  onChange={(e) => setCommentForm({...commentForm, comment: e.target.value})}
+                  className="w-full px-4 py-3 rounded-xl border border-red-200 focus:border-red-500 focus:ring-2 focus:ring-red-200 transition-all resize-none bg-white text-gray-900 placeholder-gray-500"
+                  placeholder="Share your thoughts..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={submittingComment}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-red-600 to-red-700 text-white px-8 py-4 rounded-xl font-semibold hover:from-red-700 hover:to-red-800 transition-all duration-200 transform hover:scale-105 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <PaperAirplaneIcon className="w-5 h-5" />
+                {submittingComment ? 'Submitting...' : 'Post Comment'}
+              </button>
+            </form>
+          </div>
+
+          {/* Comments List */}
+          <div className="space-y-6">
+            {loadingComments ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-red-600 mx-auto mb-4"></div>
+                <p className="text-gray-600">Loading comments...</p>
+              </div>
+            ) : comments.length > 0 ? (
+              comments.map((comment) => (
+                <div 
+                  key={comment.id}
+                  className="bg-white rounded-xl p-6 border border-gray-200 hover:border-red-200 hover:shadow-md transition-all"
+                >
+                  <div className="flex items-start gap-4">
+                    <div className="w-12 h-12 bg-gradient-to-br from-red-100 to-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
+                      <UserIcon className="w-6 h-6 text-red-600" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between mb-2">
+                        <h4 className="font-bold text-gray-900">{comment.name}</h4>
+                        <span className="text-sm text-gray-500">
+                          {new Date(comment.created_at).toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                          })}
+                        </span>
+                      </div>
+                      <p className="text-gray-700 leading-relaxed">{comment.comment}</p>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-12 bg-gray-50 rounded-xl">
+                <ChatBubbleBottomCenterTextIcon className="w-16 h-16 text-gray-300 mx-auto mb-4" />
+                <p className="text-gray-600 text-lg">No comments yet. Be the first to share your thoughts!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="relative py-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-red-600 via-red-700 to-red-800"></div>
@@ -337,6 +555,20 @@ export default function BlogDetailPage() {
           </Link>
         </div>
       </section>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

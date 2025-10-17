@@ -61,7 +61,23 @@ export default {
         'royal': '0 10px 25px -3px rgba(178, 34, 34, 0.1), 0 4px 6px -2px rgba(178, 34, 34, 0.05)',
         'royal-lg': '0 25px 50px -12px rgba(178, 34, 34, 0.25)',
       },
+      screens: {
+        'xs': '480px',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function({ addUtilities }: any) {
+      const newUtilities = {
+        '.scrollbar-hide': {
+          '-ms-overflow-style': 'none',
+          'scrollbar-width': 'none',
+          '&::-webkit-scrollbar': {
+            display: 'none'
+          }
+        }
+      }
+      addUtilities(newUtilities)
+    }
+  ],
 } satisfies Config;

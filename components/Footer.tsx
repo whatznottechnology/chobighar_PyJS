@@ -395,16 +395,27 @@ export default function Footer() {
                 </div>
               </div>
 
-              <div className="flex space-x-6 text-sm">
-                <Link href="/privacy" className="text-white hover:text-gray-200 transition-colors">
-                  Privacy Policy
-                </Link>
-                <Link href="/terms" className="text-white hover:text-gray-200 transition-colors">
-                  Terms of Service
-                </Link>
-                <Link href="/sitemap" className="text-white hover:text-gray-200 transition-colors">
-                  Sitemap
-                </Link>
+              <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm relative z-10">
+                {footerData?.static_pages && footerData.static_pages.length > 0 ? (
+                  footerData.static_pages.map((page) => (
+                    <Link 
+                      key={page.id}
+                      href={`/page/${page.slug}`} 
+                      className="text-white hover:text-gray-200 transition-colors cursor-pointer underline hover:no-underline"
+                    >
+                      {page.title}
+                    </Link>
+                  ))
+                ) : (
+                  <>
+                    <Link href="/page/privacy-policy" className="text-white hover:text-gray-200 transition-colors cursor-pointer underline hover:no-underline">
+                      Privacy Policy
+                    </Link>
+                    <Link href="/page/terms-and-conditions" className="text-white hover:text-gray-200 transition-colors cursor-pointer underline hover:no-underline">
+                      Terms & Conditions
+                    </Link>
+                  </>
+                )}
               </div>
             </div>
           </div>

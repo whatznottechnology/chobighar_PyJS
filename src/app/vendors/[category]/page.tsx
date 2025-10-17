@@ -15,7 +15,8 @@ import {
   UserIcon,
   CheckCircleIcon,
   TagIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  ArrowUpIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import { useVendorsBySubcategory } from '../../../hooks/useVendorData';
@@ -52,6 +53,7 @@ export default function VendorCategoryPage() {
   const categorySlug = params.category as string;
   
   const { subcategory, vendors, loading, error } = useVendorsBySubcategory(categorySlug);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   
   const [formData, setFormData] = useState({
     name: '',
@@ -60,6 +62,26 @@ export default function VendorCategoryPage() {
     date: '',
     message: ''
   });
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   // Loading state
   if (loading) {
@@ -509,6 +531,20 @@ export default function VendorCategoryPage() {
           </div>
         </div>
       </div>
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

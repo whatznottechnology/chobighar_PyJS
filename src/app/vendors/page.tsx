@@ -1,13 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ChevronDownIcon, ChevronUpIcon, ArrowRightIcon, MapPinIcon, CameraIcon, SparklesIcon, PaintBrushIcon, ComputerDesktopIcon, HandRaisedIcon, StarIcon, PhoneIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronUpIcon, ArrowRightIcon, MapPinIcon, CameraIcon, SparklesIcon, PaintBrushIcon, ComputerDesktopIcon, HandRaisedIcon, StarIcon, PhoneIcon, EnvelopeIcon, ArrowUpIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 import Image from 'next/image';
 import { useVendorCategories, useFeaturedVendors, useVendorProfiles } from '../../hooks/useVendorData';
 import { getIconComponent } from '../../../utils/vendorIcons';
-import { getMediaUrl } from '../../config/api';
 import InquiryModal from '../../../components/InquiryModal';
 
 export default function Vendors() {
@@ -16,6 +15,7 @@ export default function Vendors() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedVendor, setSelectedVendor] = useState<any>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   
   // Load categories and vendors from API
   const { categories, loading: categoriesLoading, error: categoriesError } = useVendorCategories();
@@ -23,6 +23,26 @@ export default function Vendors() {
   const { vendors: categoryVendors, loading: categoryLoading, error: categoryError } = useVendorProfiles(
     selectedCategory !== 'all' ? { category: selectedCategory } : undefined
   );
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const toggleCategory = (categoryId: string) => {
     setExpandedCategory(prev => prev === categoryId ? null : categoryId);
@@ -294,14 +314,18 @@ export default function Vendors() {
                     >
                       {/* Vendor Image */}
                       <div className="relative aspect-[4/3] overflow-hidden">
-                        {getMediaUrl(vendor.main_image) && (
+                        {vendor.main_image ? (
                           <Image
-                            src={getMediaUrl(vendor.main_image)!}
+                            src={vendor.main_image}
                             alt={vendor.name}
                             width={300}
                             height={225}
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                           />
+                        ) : (
+                          <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                            <CameraIcon className="w-16 h-16 text-gray-400" />
+                          </div>
                         )}
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                         
@@ -433,6 +457,20 @@ export default function Vendors() {
             : 'I would like to know more about your services.'
         }}
       />
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

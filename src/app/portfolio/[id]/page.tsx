@@ -969,10 +969,10 @@ export default function PortfolioDetails() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-20 right-6 z-40 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-all hover:scale-110"
-          aria-label="Back to top"
+          className="fixed bottom-6 right-24 z-[9000] bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-all hover:scale-110"
+          aria-label="Scroll to top"
         >
-          <ArrowUpIcon className="w-5 h-5" />
+          <ArrowUpIcon className="w-6 h-6" />
         </button>
       )}
     </main>

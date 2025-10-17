@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { 
@@ -9,7 +9,8 @@ import {
   CameraIcon,
   HeartIcon,
   UserGroupIcon,
-  SparklesIcon
+  SparklesIcon,
+  ArrowUpIcon
 } from '@heroicons/react/24/outline';
 import { usePhotoshootPageData, PhotoshootService, PortfolioAlbum } from '../../../hooks/usePhotoshootData';
 import { useHeaderData } from '../../../hooks/useHeaderData';
@@ -23,6 +24,27 @@ export default function PhotoshootPage() {
   // Modal state
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedService, setSelectedService] = useState<PhotoshootService | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  useEffect(() => {
+    const toggleVisibility = () => {
+      if (window.pageYOffset > 300) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', toggleVisibility);
+    return () => window.removeEventListener('scroll', toggleVisibility);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   const handleBookService = (service: PhotoshootService) => {
     setSelectedService(service);
@@ -586,6 +608,20 @@ export default function PhotoshootPage() {
             : 'I would like to know more about your photography services.'
         }}
       />
+
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
+          style={{
+            backgroundColor: '#B22222'
+          }}
+          aria-label="Back to top"
+        >
+          <ArrowUpIcon className="w-6 h-6" />
+        </button>
+      )}
     </main>
   );
 }

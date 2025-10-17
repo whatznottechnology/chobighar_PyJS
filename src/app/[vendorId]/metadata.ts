@@ -20,11 +20,11 @@ interface VendorProfileData {
   meta_title: string;
   meta_description: string;
   meta_keywords: string;
+  profile_image_url: string | null;
   images: Array<{
     id: string;
     image: string;
-    title: string;
-    image_type: string;
+    alt_text: string;
   }>;
 }
 
@@ -47,8 +47,8 @@ export async function generateMetadata({ params }: { params: Promise<{ vendorId:
     
     const vendor: VendorProfileData = await response.json();
     
-    // Get the main profile image
-    const profileImage = vendor.images?.find(img => img.image_type === 'profile')?.image || 
+    // Get the main profile image - use profile_image_url from backend
+    const profileImage = vendor.profile_image_url || 
                         vendor.images?.[0]?.image || 
                         '/img/default-vendor.jpg';
     
@@ -120,7 +120,7 @@ export async function generateMetadata({ params }: { params: Promise<{ vendorId:
             url: img.image.startsWith('http') ? img.image : `${API_BASE_URL}${img.image}`,
             width: 800,
             height: 600,
-            alt: `${vendor.name} - ${img.title || 'Portfolio Image'}`,
+            alt: img.alt_text || `${vendor.name} - Portfolio Image`,
           }))
         ],
       },

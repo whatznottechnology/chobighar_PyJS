@@ -3,6 +3,8 @@ from .models import (
     FooterBrandInfo, FooterContactInfo, FooterSocialMedia,
     FooterCopyright
 )
+from staticpages.serializers import StaticPageListSerializer
+from staticpages.models import StaticPage
 
 class FooterBrandInfoSerializer(serializers.ModelSerializer):
     logo_image_url = serializers.SerializerMethodField()
@@ -57,3 +59,4 @@ class FooterDataSerializer(serializers.Serializer):
     contact_info = FooterContactInfoSerializer()
     social_media = FooterSocialMediaSerializer(many=True)
     copyright_info = FooterCopyrightSerializer()
+    static_pages = StaticPageListSerializer(many=True)

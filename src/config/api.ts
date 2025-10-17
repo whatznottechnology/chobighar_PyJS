@@ -111,6 +111,9 @@ export const API_ENDPOINTS = {
   // Popup
   POPUP_INQUIRY: '/api/blog/popup-inquiry/',
   POPUP_SETTINGS: '/api/blog/popup-settings/active/',
+  
+  // Static Pages
+  STATIC_PAGES: '/api/static',
 };
 
 // Export configuration object

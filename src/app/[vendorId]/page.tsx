@@ -48,6 +48,7 @@ export default function VendorProfile() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
+  const [showStickyNav, setShowStickyNav] = useState(false);
   const [activeGalleryTab, setActiveGalleryTab] = useState<'photos' | 'videos'>('photos');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [loveCount, setLoveCount] = useState(0);
@@ -70,7 +71,11 @@ export default function VendorProfile() {
   // All hooks must be called before any conditional returns
   useEffect(() => {
     const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 400);
+      const scrollY = window.scrollY;
+      setShowBackToTop(scrollY > 400);
+      
+      // Show sticky nav when scrolled past hero section (around 500px)
+      setShowStickyNav(scrollY > 500);
       
       // Update active section based on scroll position
       const sections = ['about', 'services', 'portfolio', 'reviews', 'contact'];
@@ -125,16 +130,14 @@ export default function VendorProfile() {
   };
 
   const nextImage = () => {
-    if (selectedImage !== null && vendor?.images) {
-      const galleryImages = vendor.images.filter(img => img.image_type === 'gallery').map(img => img.image);
-      setSelectedImage((selectedImage + 1) % galleryImages.length);
+    if (selectedImage !== null && displayGallery) {
+      setSelectedImage((selectedImage + 1) % displayGallery.length);
     }
   };
 
   const prevImage = () => {
-    if (selectedImage !== null && vendor?.images) {
-      const galleryImages = vendor.images.filter(img => img.image_type === 'gallery').map(img => img.image);
-      setSelectedImage(selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1);
+    if (selectedImage !== null && displayGallery) {
+      setSelectedImage(selectedImage === 0 ? displayGallery.length - 1 : selectedImage - 1);
     }
   };
 
@@ -323,37 +326,21 @@ export default function VendorProfile() {
   console.log('Vendor data from backend:', vendor);
   console.log('Hero images from backend:', vendor.hero_images);
   console.log('Gallery images from backend:', vendor.gallery_images);
-  console.log('Cover image from backend:', vendor.cover_image);
-  console.log('Profile image from backend:', vendor.profile_image);
-  console.log('All images from backend:', vendor.images);
+  console.log('Profile image URL from backend:', vendor.profile_image_url);
 
-  // Data transformation helpers - Use images field for better URLs
-  let displayGallery: string[] = [];
+  // Hero section images - Use dedicated hero_images from backend (4 individual images)
+  const heroImages: string[] = vendor.hero_images || [];
   
-  if (vendor.gallery_images && vendor.gallery_images.length > 0) {
-    // If gallery_images exist, use them (convert paths to full URLs)
-    displayGallery = vendor.gallery_images
-      .map(imagePath => getMediaUrl(imagePath))
-      .filter(url => url !== null) as string[];
-  } else if (vendor.images && vendor.images.length > 0) {
-    // Use images field which has full URLs already
-    displayGallery = vendor.images.map(img => img.image);
-  } else if (vendor.portfolio_items && vendor.portfolio_items.length > 0) {
-    // Use portfolio items images
-    displayGallery = vendor.portfolio_items.map(item => item.image);
-  } else if (vendor.hero_images && vendor.hero_images.length > 0) {
-    // Fallback to hero_images (convert paths to full URLs)
-    displayGallery = vendor.hero_images
-      .map(imagePath => getMediaUrl(imagePath))
-      .filter(url => url !== null) as string[];
-  }
+  // Gallery images for the portfolio section - Backend returns absolute URLs
+  const displayGallery: string[] = vendor.gallery_images || [];
 
+  console.log('Hero images (processed):', heroImages);
   console.log('Display gallery (processed):', displayGallery);
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 overflow-x-hidden">
       {/* Hero Section with Modern Design */}
-      <div className="relative bg-white">
+      <div className="relative bg-white overflow-hidden">
         {/* Breadcrumb - Minimalist */}
         <div className="bg-white/95 backdrop-blur-sm border-b border-gray-100">
           <div className="container mx-auto px-4 py-3">
@@ -381,45 +368,45 @@ export default function VendorProfile() {
         {/* Hero Header */}
         <div className="relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-br from-red-50 via-pink-50 to-orange-50"></div>
-          <div className="relative container mx-auto px-4 py-12">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative container mx-auto px-4 py-6 sm:py-8 md:py-12">
+            <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 md:gap-12 items-center">
               {/* Left Content */}
-              <div className="space-y-6">
+              <div className="space-y-4 sm:space-y-6">
                 <div className="space-y-2">
-                  <div className="flex items-center gap-2 text-sm">
-                    <span className="bg-red-100 text-red-700 px-3 py-1 rounded-full font-medium">
+                  <div className="flex items-center gap-2 text-xs sm:text-sm flex-wrap">
+                    <span className="bg-red-100 text-red-700 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full font-medium text-xs sm:text-sm">
                       {vendor.type}
                     </span>
                     <span className="text-gray-500">•</span>
                     <span className="text-gray-600">{vendor.location}</span>
                   </div>
-                  <h1 className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
+                  <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight" style={{ fontFamily: 'Playfair Display, serif' }}>
                     {vendor.name}
                   </h1>
-                  <p className="text-xl text-gray-600 font-light">
+                  <p className="text-base sm:text-lg md:text-xl text-gray-600 font-light">
                     {vendor.tagline}
                   </p>
                 </div>
 
                 {/* Rating & Stats */}
-                <div className="flex items-center gap-6">
-                  <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3 sm:gap-4 md:gap-6 flex-wrap text-sm">
+                  <div className="flex items-center gap-1.5 sm:gap-2">
                     <div className="flex">
                       {Array.from({ length: 5 }, (_, i) => (
-                        <StarIconSolid key={i} className="w-5 h-5 text-yellow-400" />
+                        <StarIconSolid key={i} className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
                       ))}
                     </div>
-                    <span className="font-semibold text-gray-900">{vendor.rating}</span>
-                    <span className="text-gray-500">({vendor.reviews_count} reviews)</span>
+                    <span className="font-semibold text-gray-900 text-sm sm:text-base">{vendor.rating}</span>
+                    <span className="text-gray-500 text-xs sm:text-sm">({vendor.reviews_count} reviews)</span>
                   </div>
-                  <div className="text-gray-300">|</div>
-                  <div className="text-gray-600">
+                  <div className="text-gray-300 hidden sm:inline">|</div>
+                  <div className="text-gray-600 text-xs sm:text-sm md:text-base">
                     <span className="font-medium">{vendor.experience}</span> Experience
                   </div>
                   {vendor.stats_count && vendor.stats_label && (
                     <>
-                      <div className="text-gray-300">|</div>
-                      <div className="text-gray-600">
+                      <div className="text-gray-300 hidden md:inline">|</div>
+                      <div className="text-gray-600 text-xs sm:text-sm md:text-base">
                         <span className="font-medium text-red-600">{vendor.stats_count}</span> {vendor.stats_label}
                       </div>
                     </>
@@ -427,108 +414,112 @@ export default function VendorProfile() {
                 </div>
 
                 {/* Description */}
-                <p className="text-gray-700 leading-relaxed text-lg">
+                <p className="text-gray-700 leading-relaxed text-sm sm:text-base md:text-lg">
                   {vendor.description}
                 </p>
 
                 {/* Action Buttons */}
-                <div className="flex flex-wrap gap-4">
+                <div className="flex flex-wrap gap-2 sm:gap-3 md:gap-4">
                   <button 
                     onClick={() => scrollToSection('contact')}
-                    className="bg-red-600 text-white px-8 py-3 rounded-xl font-semibold hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                    className="bg-red-600 text-white px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold hover:bg-red-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
                   >
                     Get Quote
                   </button>
                   <a
                     href={`tel:${vendor.phone}`}
-                    className="bg-white text-gray-700 px-8 py-3 rounded-xl font-semibold border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2"
+                    className="bg-white text-gray-700 px-4 sm:px-6 md:px-8 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl text-sm sm:text-base font-semibold border border-gray-200 hover:bg-gray-50 transition-colors flex items-center gap-2"
                   >
-                    <PhoneIcon className="w-5 h-5" />
-                    Call Now
+                    <PhoneIcon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="hidden sm:inline">Call Now</span>
+                    <span className="sm:hidden">Call</span>
                   </a>
                   <button 
                     onClick={handleLove}
                     disabled={isLoved}
-                    className={`bg-white px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-all flex items-center gap-2 ${
+                    className={`bg-white px-4 sm:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl border border-gray-200 hover:bg-gray-50 transition-all flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base ${
                       isLoved ? 'text-red-600 border-red-200' : 'text-gray-700'
                     }`}
                   >
-                    <HeartIcon className={`w-5 h-5 ${isLoved ? 'fill-red-600' : ''}`} />
-                    {loveCount > 0 && <span className="text-sm font-medium">{loveCount}</span>}
+                    <HeartIcon className={`w-4 h-4 sm:w-5 sm:h-5 ${isLoved ? 'fill-red-600' : ''}`} />
+                    {loveCount > 0 && <span className="text-xs sm:text-sm font-medium">{loveCount}</span>}
                   </button>
                   <button 
                     onClick={handleShare}
-                    className="bg-white text-gray-700 px-6 py-3 rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
+                    className="bg-white text-gray-700 px-4 sm:px-6 py-2 sm:py-2.5 md:py-3 rounded-lg sm:rounded-xl border border-gray-200 hover:bg-gray-50 transition-colors"
                   >
-                    <ShareIcon className="w-5 h-5" />
+                    <ShareIcon className="w-4 h-4 sm:w-5 sm:h-5" />
                   </button>
                 </div>
               </div>
 
               {/* Right Content - Images */}
-              <div className="relative">
-                {displayGallery && displayGallery.length > 0 ? (
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-4">
-                      {displayGallery[0] && (
-                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
-                          <Image
-                            src={displayGallery[0]}
-                            alt={`${vendor.name} - Image 1`}
-                            fill
-                            sizes="(max-width: 768px) 50vw, 300px"
-                            className="object-cover hover:scale-110 transition-transform duration-500"
-                            onError={(e) => {
-                              console.error('Hero image 1 failed to load:', displayGallery[0]);
-                            }}
-                          />
-                        </div>
-                      )}
-                      {displayGallery[1] && (
-                        <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform -rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
-                          <Image
-                            src={displayGallery[1]}
-                            alt={`${vendor.name} - Image 2`}
-                            fill
-                            sizes="(max-width: 768px) 50vw, 300px"
-                            className="object-cover hover:scale-110 transition-transform duration-500"
-                            onError={(e) => {
-                              console.error('Hero image 2 failed to load:', displayGallery[1]);
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
-                    <div className="space-y-4 pt-8">
-                      {displayGallery[2] && (
-                        <div className="relative aspect-square rounded-2xl overflow-hidden shadow-xl transform rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
-                          <Image
-                            src={displayGallery[2]}
-                            alt={`${vendor.name} - Image 3`}
-                            fill
-                            sizes="(max-width: 768px) 50vw, 300px"
-                            className="object-cover hover:scale-110 transition-transform duration-500"
-                            onError={(e) => {
-                              console.error('Hero image 3 failed to load:', displayGallery[2]);
-                            }}
-                          />
-                        </div>
-                      )}
-                      {displayGallery[3] && (
-                        <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl transform -rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
-                          <Image
-                            src={displayGallery[3]}
-                            alt={`${vendor.name} - Image 4`}
-                            fill
-                            sizes="(max-width: 768px) 50vw, 300px"
-                            className="object-cover hover:scale-110 transition-transform duration-500"
-                            onError={(e) => {
-                              console.error('Hero image 4 failed to load:', displayGallery[3]);
-                            }}
-                          />
-                        </div>
-                      )}
-                    </div>
+              <div className="relative w-full">
+                {heroImages && heroImages.length > 0 ? (
+                  <div className="grid grid-cols-2 gap-3 md:gap-4">
+                    {/* Image 1 - Top Left */}
+                    {heroImages[0] && (
+                      <div className="relative aspect-[4/3] rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-xl transform rotate-2 md:rotate-3 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                        <Image
+                          src={heroImages[0]}
+                          alt={`${vendor.name} - Hero Image 1`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 300px"
+                          className="object-cover hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('Hero image 1 failed to load:', heroImages[0]);
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Image 2 - Top Right */}
+                    {heroImages[1] && (
+                      <div className="relative aspect-[4/3] rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-xl transform -rotate-2 md:-rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10 mt-4 md:mt-8">
+                        <Image
+                          src={heroImages[1]}
+                          alt={`${vendor.name} - Hero Image 2`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 300px"
+                          className="object-cover hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('Hero image 2 failed to load:', heroImages[1]);
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Image 3 - Bottom Left */}
+                    {heroImages[2] && (
+                      <div className="relative aspect-[4/3] rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-xl transform -rotate-1 md:rotate-2 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                        <Image
+                          src={heroImages[2]}
+                          alt={`${vendor.name} - Hero Image 3`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 300px"
+                          className="object-cover hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('Hero image 3 failed to load:', heroImages[2]);
+                          }}
+                        />
+                      </div>
+                    )}
+                    
+                    {/* Image 4 - Bottom Right */}
+                    {heroImages[3] && (
+                      <div className="relative aspect-[4/3] rounded-xl md:rounded-2xl overflow-hidden shadow-lg md:shadow-xl transform rotate-1 md:-rotate-1 hover:rotate-0 hover:scale-105 hover:z-20 transition-all duration-500 z-10">
+                        <Image
+                          src={heroImages[3]}
+                          alt={`${vendor.name} - Hero Image 4`}
+                          fill
+                          sizes="(max-width: 768px) 50vw, 300px"
+                          className="object-cover hover:scale-110 transition-transform duration-500"
+                          onError={(e) => {
+                            console.error('Hero image 4 failed to load:', heroImages[3]);
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 ) : (
                   <div className="text-center py-12 text-gray-500">
@@ -538,10 +529,10 @@ export default function VendorProfile() {
                 )}
                 {/* Floating Stats - Only show if backend data exists */}
                 {vendor.stats_count && vendor.stats_label && (
-                  <div className="absolute -bottom-6 left-6 bg-white rounded-2xl shadow-2xl p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
+                  <div className="absolute -bottom-4 sm:-bottom-6 left-2 sm:left-6 bg-white rounded-xl sm:rounded-2xl shadow-2xl p-4 sm:p-6 border border-gray-100 z-30 hover:z-40 hover:scale-105 hover:shadow-3xl transition-all duration-300 cursor-pointer">
                     <div className="text-center">
-                      <div className="text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">{vendor.stats_count}</div>
-                      <div className="text-sm text-gray-600">{vendor.stats_label}</div>
+                      <div className="text-xl sm:text-2xl font-bold text-red-600 hover:text-red-700 transition-colors">{vendor.stats_count}</div>
+                      <div className="text-xs sm:text-sm text-gray-600">{vendor.stats_label}</div>
                     </div>
                   </div>
                 )}
@@ -551,11 +542,13 @@ export default function VendorProfile() {
         </div>
       </div>
 
-      {/* Modern Sticky Navigation */}
-      <div className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm border-b border-gray-100 shadow-sm">
+      {/* Modern Sticky Navigation - Only show when scrolled */}
+      <div className={`fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-b-2 border-red-100 shadow-md transition-transform duration-300 ${
+        showStickyNav ? 'translate-y-0' : '-translate-y-full'
+      }`}>
         <div className="container mx-auto px-4">
-          <nav className="flex items-center justify-center">
-            <div className="inline-flex bg-gray-100 rounded-full p-1 my-4">
+          <nav className="flex items-center justify-start sm:justify-center overflow-x-auto scrollbar-hide">
+            <div className="inline-flex bg-gray-100 rounded-full p-1 my-2 gap-1 min-w-max">
               {[
                 { id: 'about', label: 'Overview', icon: SparklesIcon, show: true },
                 { id: 'services', label: 'Services', icon: CheckCircleIcon, show: vendor.services && vendor.services.length > 0 },
@@ -568,14 +561,14 @@ export default function VendorProfile() {
                   <button
                     key={item.id}
                     onClick={() => scrollToSection(item.id)}
-                    className={`flex items-center gap-2 px-6 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
+                    className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full font-medium text-sm transition-all duration-300 whitespace-nowrap ${
                       activeSection === item.id
                         ? 'bg-red-600 text-white shadow-lg'
                         : 'text-gray-600 hover:text-red-600 hover:bg-white'
                     }`}
                   >
                     <Icon className="w-4 h-4" />
-                    {item.label}
+                    <span>{item.label}</span>
                   </button>
                 );
               })}
@@ -585,43 +578,43 @@ export default function VendorProfile() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+      <div className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
+        <div className="grid lg:grid-cols-4 gap-6 sm:gap-8">
           {/* Main Content Area */}
-          <div className="lg:col-span-3 space-y-12">
+          <div className="lg:col-span-3 space-y-8 sm:space-y-12 order-2 lg:order-1">
             
             {/* Overview Section */}
             <section ref={aboutRef} id="about" className="scroll-mt-24">
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-8">
-                  <div className="flex items-center gap-3 mb-6">
-                    <div className="w-12 h-12 bg-red-100 rounded-2xl flex items-center justify-center">
-                      <SparklesIcon className="w-6 h-6 text-red-600" />
+              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="p-4 sm:p-6 md:p-8">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                      <SparklesIcon className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                     </div>
                     <div>
-                      <h2 className="text-2xl font-bold text-gray-900">Overview</h2>
-                      <p className="text-gray-600">About {vendor.name}</p>
+                      <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Overview</h2>
+                      <p className="text-sm sm:text-base text-gray-600">About {vendor.name}</p>
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
                     {/* Story */}
-                    <div className="space-y-4">
-                      <h3 className="text-lg font-semibold text-gray-900">Our Story</h3>
-                      <p className="text-gray-700 leading-relaxed">
+                    <div className="space-y-3 sm:space-y-4">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900">Our Story</h3>
+                      <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                         {vendor.story}
                       </p>
                     </div>
 
-                    {/* Highlights - Only show if data exists */}
-                    {vendor.highlights && vendor.highlights.length > 0 && (
-                      <div className="space-y-4">
-                        <h3 className="text-lg font-semibold text-gray-900">Why Choose Us</h3>
-                        <div className="space-y-3">
-                          {vendor.highlights.map((highlight, index) => (
-                            <div key={index} className="flex items-start gap-3">
-                              <div className="w-2 h-2 bg-red-600 rounded-full mt-2 flex-shrink-0"></div>
-                              <span className="text-gray-700">{highlight.text}</span>
+                    {/* Why Choose Us - Only show if data exists */}
+                    {vendor.why_choose_us && vendor.why_choose_us.length > 0 && (
+                      <div className="space-y-3 sm:space-y-4">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900">Why Choose Us</h3>
+                        <div className="space-y-2 sm:space-y-3">
+                          {vendor.why_choose_us.map((point, index) => (
+                            <div key={index} className="flex items-start gap-2 sm:gap-3">
+                              <div className="w-2 h-2 bg-red-600 rounded-full mt-1.5 sm:mt-2 flex-shrink-0"></div>
+                              <span className="text-sm sm:text-base text-gray-700">{point.text}</span>
                             </div>
                           ))}
                         </div>
@@ -631,13 +624,13 @@ export default function VendorProfile() {
 
                   {/* Specialties - Only show if data exists */}
                   {vendor.specialties && vendor.specialties.length > 0 && (
-                    <div className="mt-8 pt-8 border-t border-gray-100">
-                      <h3 className="text-lg font-semibold text-gray-900 mb-4">Specialties</h3>
-                      <div className="flex flex-wrap gap-3">
+                    <div className="mt-6 sm:mt-8 pt-6 sm:pt-8 border-t border-gray-100">
+                      <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-3 sm:mb-4">Specialties</h3>
+                      <div className="flex flex-wrap gap-2 sm:gap-3">
                         {vendor.specialties.map((specialty, index) => (
                           <span
                             key={index}
-                            className="bg-gradient-to-r from-red-50 to-pink-50 text-red-700 px-4 py-2 rounded-full text-sm font-medium border border-red-100"
+                            className="bg-gradient-to-r from-red-50 to-pink-50 text-red-700 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium border border-red-100"
                           >
                             {specialty.name}
                           </span>
@@ -652,24 +645,24 @@ export default function VendorProfile() {
             {/* Services Section - Only show if data exists */}
             {vendor.services && vendor.services.length > 0 && (
               <section ref={servicesRef} id="services" className="scroll-mt-24">
-                <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                  <div className="p-8">
-                    <div className="flex items-center gap-3 mb-6">
-                      <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center">
-                        <CheckCircleIcon className="w-6 h-6 text-blue-600" />
+                <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                  <div className="p-4 sm:p-6 md:p-8">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                        <CheckCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Services</h2>
-                        <p className="text-gray-600">What we offer</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Services</h2>
+                        <p className="text-sm sm:text-base text-gray-600">What we offer</p>
                       </div>
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid sm:grid-cols-2 gap-3 sm:gap-4">
                       {vendor.services.map((service, index) => (
-                        <div key={index} className="group p-4 rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-300">
-                          <div className="flex items-center gap-4">
-                            <div className="w-14 h-14 bg-red-100 rounded-xl flex items-center justify-center flex-shrink-0">
-                              <CheckCircleIcon className="w-8 h-8 text-red-600" />
+                        <div key={index} className="group p-3 sm:p-4 rounded-xl sm:rounded-2xl border border-gray-100 hover:border-blue-200 hover:bg-blue-50/50 transition-all duration-300">
+                          <div className="flex items-center gap-3 sm:gap-4">
+                            <div className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-red-100 rounded-lg sm:rounded-xl flex items-center justify-center flex-shrink-0">
+                              <CheckCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 md:w-8 md:h-8 text-red-600" />
                             </div>
                             <div className="flex-grow">
                               <h3 className="font-semibold text-gray-900 group-hover:text-red-600 transition-colors">{service.name}</h3>
@@ -690,16 +683,16 @@ export default function VendorProfile() {
 
             {/* Gallery Section */}
             <section ref={portfolioRef} id="portfolio" className="scroll-mt-24">
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="p-8">
-                  <div className="flex justify-between items-center mb-6">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center">
-                        <CameraIcon className="w-6 h-6 text-green-600" />
+              <div className="bg-white rounded-2xl sm:rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+                <div className="p-4 sm:p-6 md:p-8">
+                  <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-3 sm:gap-0 mb-4 sm:mb-6">
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-10 h-10 sm:w-12 sm:h-12 bg-red-100 rounded-xl sm:rounded-2xl flex items-center justify-center">
+                        <CameraIcon className="w-5 h-5 sm:w-6 sm:h-6 text-red-600" />
                       </div>
                       <div>
-                        <h2 className="text-2xl font-bold text-gray-900">Gallery</h2>
-                        <p className="text-gray-600">Our beautiful work</p>
+                        <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Gallery</h2>
+                        <p className="text-sm sm:text-base text-gray-600">Our beautiful work</p>
                       </div>
                     </div>
                     
@@ -707,7 +700,7 @@ export default function VendorProfile() {
                     <div className="flex gap-2">
                       <button
                         onClick={() => setActiveGalleryTab('photos')}
-                        className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
                           activeGalleryTab === 'photos'
                             ? 'text-white shadow-lg transform scale-105'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
@@ -720,7 +713,7 @@ export default function VendorProfile() {
                       </button>
                       <button
                         onClick={() => setActiveGalleryTab('videos')}
-                        className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-300 ${
+                        className={`flex-1 sm:flex-none px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 ${
                           activeGalleryTab === 'videos'
                             ? 'text-white shadow-lg transform scale-105'
                             : 'bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-gray-900'
@@ -736,26 +729,26 @@ export default function VendorProfile() {
 
                   {/* Photos Tab */}
                   {activeGalleryTab === 'photos' && displayGallery && displayGallery.length > 0 && (
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 md:gap-4">
                       {displayGallery.map((image: string, index: number) => (
                         <div 
                           key={index} 
-                          className="relative aspect-square rounded-2xl overflow-hidden cursor-pointer group"
+                          className="relative aspect-square rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden cursor-pointer group"
                           onClick={() => openLightbox(index)}
                         >
                           <Image
                             src={image}
                             alt={`${vendor.name} - Gallery ${index + 1}`}
                             fill
-                            sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 300px"
+                            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, (max-width: 1024px) 33vw, 300px"
                             className="object-cover transition-transform duration-300 group-hover:scale-110"
                             onError={(e) => {
                               console.error('Gallery image failed to load:', image);
                             }}
                           />
                           <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                            <div className="bg-white/20 backdrop-blur-sm p-3 rounded-full">
-                              <CameraIcon className="w-8 h-8 text-white" />
+                            <div className="bg-white/20 backdrop-blur-sm p-2 sm:p-3 rounded-full">
+                              <CameraIcon className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
                             </div>
                           </div>
                         </div>
@@ -765,11 +758,11 @@ export default function VendorProfile() {
 
                   {/* Videos Tab */}
                   {activeGalleryTab === 'videos' && vendor.videos && vendor.videos.length > 0 && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                       {vendor.videos.map((video, index) => (
                         <div key={video.id} className="group">
                           <div 
-                            className="relative rounded-2xl overflow-hidden bg-black shadow-lg hover:shadow-xl transition-all cursor-pointer"
+                            className="relative rounded-xl sm:rounded-2xl overflow-hidden bg-black shadow-lg hover:shadow-xl transition-all cursor-pointer"
                             onClick={() => openVideo(video.youtube_id)}
                           >
                             {/* YouTube Embed Preview - Fixed 4:3 Aspect Ratio */}
@@ -784,8 +777,8 @@ export default function VendorProfile() {
                               
                               {/* Overlay with Play Button */}
                               <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                                <div className="w-16 h-16 bg-red-600/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 group-hover:scale-110 shadow-xl">
-                                  <svg className="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                                <div className="w-12 h-12 sm:w-16 sm:h-16 bg-red-600/90 backdrop-blur-sm rounded-full flex items-center justify-center group-hover:bg-red-600 transition-all duration-300 group-hover:scale-110 shadow-xl">
+                                  <svg className="w-6 h-6 sm:w-8 sm:h-8 text-white ml-0.5 sm:ml-1" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M8 5v14l11-7z"/>
                                   </svg>
                                 </div>
@@ -793,9 +786,9 @@ export default function VendorProfile() {
                             </div>
                             
                             {/* Video Info */}
-                            <div className="p-4 bg-white">
+                            <div className="p-3 sm:p-4 bg-white">
                               {video.title && (
-                                <h3 className="font-semibold text-gray-900 text-sm line-clamp-1">{video.title}</h3>
+                                <h3 className="font-semibold text-gray-900 text-xs sm:text-sm line-clamp-1">{video.title}</h3>
                               )}
                               {video.description && (
                                 <p className="mt-1 text-xs text-gray-600 line-clamp-2">{video.description}</p>
@@ -809,16 +802,16 @@ export default function VendorProfile() {
 
                   {/* Empty states */}
                   {activeGalleryTab === 'photos' && (!displayGallery || displayGallery.length === 0) && (
-                    <div className="text-center py-12">
-                      <CameraIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500">No photos available</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <CameraIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
+                      <p className="text-sm sm:text-base text-gray-500">No photos available</p>
                     </div>
                   )}
 
                   {activeGalleryTab === 'videos' && (!vendor.videos || vendor.videos.length === 0) && (
-                    <div className="text-center py-12">
-                      <PlayIcon className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                      <p className="text-gray-500">No videos available</p>
+                    <div className="text-center py-8 sm:py-12">
+                      <PlayIcon className="w-10 h-10 sm:w-12 sm:h-12 text-gray-300 mx-auto mb-3 sm:mb-4" />
+                      <p className="text-sm sm:text-base text-gray-500">No videos available</p>
                     </div>
                   )}
                 </div>
@@ -1047,42 +1040,64 @@ export default function VendorProfile() {
           </div>
 
           {/* Sidebar */}
-          <div className="lg:col-span-1">
-            <div className="sticky top-32 space-y-6">
+          <div className="lg:col-span-1 order-1 lg:order-2">
+            <div className="lg:sticky lg:top-32 space-y-6">
               {/* Quick Info Card */}
-              <div className="bg-white rounded-3xl shadow-sm border border-gray-100 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Info</h3>
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Price Range</span>
-                    <span className="font-semibold text-gray-900">{vendor.price_range}</span>
+              <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+                <div className="bg-gradient-to-r from-red-600 to-red-700 px-4 sm:px-6 py-2 sm:py-3">
+                  <h3 className="text-lg sm:text-xl font-bold text-white" style={{ fontFamily: 'Playfair Display, serif' }}>Quick Info</h3>
+                </div>
+                <div className="px-4 sm:px-6 py-3 sm:py-4 space-y-2 sm:space-y-2.5">
+                  {/* Price Range */}
+                  <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Price Range</div>
+                    <div className="text-sm sm:text-base font-bold text-gray-900">{vendor.price_range}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Experience</span>
-                    <span className="font-semibold text-gray-900">{vendor.experience}</span>
+                  
+                  {/* Experience */}
+                  <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Experience</div>
+                    <div className="text-sm sm:text-base font-bold text-gray-900">{vendor.experience}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Location</span>
-                    <span className="font-semibold text-gray-900">{vendor.location}</span>
+                  
+                  {/* Location */}
+                  <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Location</div>
+                    <div className="text-sm sm:text-base font-bold text-gray-900">{vendor.location}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Rating</span>
-                    <div className="flex items-center gap-1">
-                      <StarIconSolid className="w-4 h-4 text-yellow-400" />
-                      <span className="font-semibold text-gray-900">{vendor.rating}</span>
+                  
+                  {/* Rating */}
+                  <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Rating</div>
+                    <div className="flex items-center gap-1.5">
+                      <StarIconSolid className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-yellow-400" />
+                      <span className="text-sm sm:text-base font-bold text-gray-900">{vendor.rating}</span>
                     </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Events Done</span>
-                    <span className="font-semibold text-gray-900">500+</span>
+                  
+                  {/* Events Done */}
+                  {vendor.stats_count && vendor.stats_label ? (
+                    <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                      <div className="text-xs text-gray-500 mb-0.5 font-medium">{vendor.stats_label}</div>
+                      <div className="text-sm sm:text-base font-bold text-red-600">{vendor.stats_count}</div>
+                    </div>
+                  ) : (
+                    <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                      <div className="text-xs text-gray-500 mb-0.5 font-medium">Events Done</div>
+                      <div className="text-sm sm:text-base font-bold text-red-600">500+</div>
+                    </div>
+                  )}
+                  
+                  {/* Capacity */}
+                  <div className="border-b border-gray-100 pb-2 sm:pb-2.5">
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Capacity</div>
+                    <div className="text-sm sm:text-base font-bold text-gray-900">{vendor.capacity || "800 + Guests"}</div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Capacity</span>
-                    <span className="font-semibold text-gray-900">{vendor.capacity || "Any size"}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Response Time</span>
-                    <span className="font-semibold text-green-600">2 Hours</span>
+                  
+                  {/* Response Time */}
+                  <div>
+                    <div className="text-xs text-gray-500 mb-0.5 font-medium">Response Time</div>
+                    <div className="text-sm sm:text-base font-bold text-green-600">2 Hours</div>
                   </div>
                 </div>
               </div>
@@ -1151,7 +1166,7 @@ export default function VendorProfile() {
       {showBackToTop && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-8 right-8 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-colors z-40"
+          className="fixed bottom-6 right-24 bg-red-600 text-white p-3 rounded-full shadow-lg hover:bg-red-700 transition-all hover:scale-110 z-[9000]"
         >
           <ArrowUpIcon className="w-6 h-6" />
         </button>
@@ -1173,12 +1188,9 @@ export default function VendorProfile() {
       />
 
       {/* Image Lightbox */}
-      {selectedImage !== null && vendor?.images && (
+      {selectedImage !== null && displayGallery && displayGallery.length > 0 && (
         <ImageLightbox
-          images={vendor.images
-            .filter(img => img.image_type === 'gallery')
-            .map(img => getMediaUrl(img.image))
-            .filter((url): url is string => url !== null)}
+          images={displayGallery}
           currentIndex={selectedImage}
           onClose={closeLightbox}
           onNext={nextImage}

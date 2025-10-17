@@ -215,6 +215,25 @@ class VendorProfile(models.Model):
         help_text="Business website URL"
     )
     
+    # Social Media
+    instagram = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Instagram profile URL"
+    )
+    
+    facebook = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Facebook page URL"
+    )
+    
+    youtube = models.URLField(
+        blank=True,
+        null=True,
+        help_text="YouTube channel URL"
+    )
+    
     # Descriptions
     description = models.TextField(
         help_text="Short business description for cards and listings"
@@ -273,26 +292,41 @@ class VendorProfile(models.Model):
         help_text="Number of times users have loved this vendor"
     )
     
-    # Social Media
-    instagram = models.CharField(
-        max_length=100,
+    # Profile Image - Featured Image for vendor
+    profile_image = models.ImageField(
+        upload_to='vendor_profile_images/',
         blank=True,
         null=True,
-        help_text="Instagram handle (without @)"
+        help_text="Main profile/featured image for the vendor (used in listings and hero section)"
     )
     
-    facebook = models.CharField(
-        max_length=100,
+    # Hero Section Images (4 images for hero section - like portfolio CTA images)
+    hero_image_1 = models.ImageField(
+        upload_to='vendor_hero/',
         blank=True,
         null=True,
-        help_text="Facebook page name"
+        help_text="Hero section image 1 (top-left)"
     )
     
-    youtube = models.CharField(
-        max_length=100,
+    hero_image_2 = models.ImageField(
+        upload_to='vendor_hero/',
         blank=True,
         null=True,
-        help_text="YouTube channel name"
+        help_text="Hero section image 2 (top-right)"
+    )
+    
+    hero_image_3 = models.ImageField(
+        upload_to='vendor_hero/',
+        blank=True,
+        null=True,
+        help_text="Hero section image 3 (bottom-left)"
+    )
+    
+    hero_image_4 = models.ImageField(
+        upload_to='vendor_hero/',
+        blank=True,
+        null=True,
+        help_text="Hero section image 4 (bottom-right)"
     )
     
     # Business Status
@@ -354,15 +388,6 @@ class VendorProfile(models.Model):
     
     def __str__(self):
         return self.name
-    
-    @property
-    def social_media(self):
-        """Return social media information as dict"""
-        return {
-            'instagram': f"@{self.instagram}" if self.instagram else None,
-            'facebook': self.facebook,
-            'youtube': self.youtube
-        }
 
 
 class VendorImage(models.Model):
@@ -376,33 +401,14 @@ class VendorImage(models.Model):
     
     image = models.ImageField(
         upload_to='vendor_images/',
-        help_text="Vendor image"
-    )
-    
-    title = models.CharField(
-        max_length=200,
-        blank=True,
-        null=True,
-        help_text="Image title/caption"
+        help_text="Vendor gallery image"
     )
     
     alt_text = models.CharField(
         max_length=200,
         blank=True,
         null=True,
-        help_text="Alt text for accessibility"
-    )
-    
-    image_type = models.CharField(
-        max_length=20,
-        choices=[
-            ('hero', 'Hero Image'),
-            ('gallery', 'Gallery Image'),
-            ('cover', 'Cover Image'),
-            ('profile', 'Profile Image'),
-        ],
-        default='gallery',
-        help_text="Type of image"
+        help_text="Alt text for accessibility (auto-generated if not provided)"
     )
     
     is_active = models.BooleanField(
@@ -413,12 +419,18 @@ class VendorImage(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        verbose_name = "Vendor Image"
-        verbose_name_plural = "Vendor Images"
-        ordering = ['image_type']
+        verbose_name = "Vendor Gallery Image"
+        verbose_name_plural = "Vendor Gallery Images"
+        ordering = ['created_at']
+    
+    def save(self, *args, **kwargs):
+        # Auto-generate alt text if not provided
+        if not self.alt_text:
+            self.alt_text = f"chobighar - {self.vendor.name} - Gallery Image"
+        super().save(*args, **kwargs)
     
     def __str__(self):
-        return f"{self.vendor.name} - {self.get_image_type_display()}"
+        return f"{self.vendor.name} - Gallery Image"
 
 
 class VendorVideo(models.Model):
@@ -533,28 +545,28 @@ class VendorSpecialty(models.Model):
         return f"{self.vendor.name} - {self.name}"
 
 
-class VendorHighlight(models.Model):
-    """Key highlights/features of vendors"""
+class VendorWhyChooseUs(models.Model):
+    """Why Choose Us points for vendors"""
     
     vendor = models.ForeignKey(
         VendorProfile,
         on_delete=models.CASCADE,
-        related_name='highlights'
+        related_name='why_choose_us'
     )
     
     text = models.CharField(
         max_length=200,
-        help_text="Highlight text (e.g., 'Capacity up to 800 guests')"
+        help_text="Why choose us point (e.g., 'Capacity up to 800 guests')"
     )
     
     is_active = models.BooleanField(
         default=True,
-        help_text="Whether this highlight is visible"
+        help_text="Whether this point is visible"
     )
     
     class Meta:
-        verbose_name = "Vendor Highlight"
-        verbose_name_plural = "Vendor Highlights"
+        verbose_name = "Why Choose Us Point"
+        verbose_name_plural = "Why Choose Us Points"
     
     def __str__(self):
         return f"{self.vendor.name} - {self.text[:50]}"
@@ -674,49 +686,3 @@ class VendorTestimonial(models.Model):
         else:
             years = diff.days // 365
             return f"{years} year{'s' if years > 1 else ''} ago"
-
-
-class VendorPortfolio(models.Model):
-    """Portfolio items for vendors"""
-    
-    vendor = models.ForeignKey(
-        VendorProfile,
-        on_delete=models.CASCADE,
-        related_name='portfolio_items'
-    )
-    
-    title = models.CharField(
-        max_length=200,
-        help_text="Portfolio item title (e.g., 'Priya & Arjun Wedding')"
-    )
-    
-    description = models.TextField(
-        blank=True,
-        null=True,
-        help_text="Portfolio item description"
-    )
-    
-    image = models.ImageField(
-        upload_to='vendor_portfolio/',
-        help_text="Portfolio image"
-    )
-    
-    category = models.CharField(
-        max_length=100,
-        help_text="Portfolio category (e.g., 'Wedding', 'Corporate')"
-    )
-    
-    is_active = models.BooleanField(
-        default=True,
-        help_text="Whether this portfolio item is visible"
-    )
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    
-    class Meta:
-        verbose_name = "Vendor Portfolio"
-        verbose_name_plural = "Vendor Portfolio Items"
-        ordering = ['-created_at']
-    
-    def __str__(self):
-        return f"{self.vendor.name} - {self.title}"

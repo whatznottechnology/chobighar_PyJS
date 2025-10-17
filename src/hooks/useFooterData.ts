@@ -44,11 +44,19 @@ export interface FooterCopyright {
   is_active: boolean;
 }
 
+export interface StaticPageLink {
+  id: number;
+  title: string;
+  slug: string;
+  display_order: number;
+}
+
 export interface FooterData {
   brand_info: FooterBrandInfo;
   contact_info: FooterContactInfo;
   social_media: FooterSocialMedia[];
   copyright_info: FooterCopyright;
+  static_pages: StaticPageLink[];
 }
 
 const useFooterData = () => {
