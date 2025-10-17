@@ -186,96 +186,84 @@ export default function BlogDetailPage() {
   const featuredImageUrl = post.featured_image ? getMediaUrl(post.featured_image) : null;
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-gray-50 to-white">
-      {/* Article Header */}
-      <header className="relative overflow-hidden">
-        {featuredImageUrl && (
-          <div className="absolute inset-0 z-0">
+    <main className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+      {/* Hero Section - Same design as Portfolio */}
+      <section className="relative w-full 
+        h-[35vh] sm:h-[45vh] md:h-[55vh] lg:h-[65vh] xl:h-[70vh]
+        min-h-[250px] sm:min-h-[350px] md:min-h-[400px] 
+        max-h-[400px] sm:max-h-[500px] md:max-h-[700px]
+        overflow-hidden"
+      >
+        {/* Background Image */}
+        <div className="absolute inset-0">
+          {featuredImageUrl ? (
             <Image
               src={featuredImageUrl}
               alt={post.featured_image_alt || post.title}
               fill
-              className="object-cover"
+              className="object-cover object-center w-full h-full"
               priority
+              quality={95}
+              sizes="100vw"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20"></div>
-          </div>
-        )}
-        
-        {/* Back Navigation - Over the banner */}
-        <nav className="relative z-20 pt-6">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            <Link 
-              href="/blog"
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg backdrop-blur-md transition-all group ${
-                featuredImageUrl 
-                  ? 'bg-white/20 hover:bg-white/30 text-white border border-white/20' 
-                  : 'bg-white hover:bg-gray-50 text-gray-600 hover:text-red-600 border border-gray-200 shadow-sm'
-              }`}
-            >
-              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              <span className="font-medium">Back to Blog</span>
-            </Link>
-          </div>
-        </nav>
-        
-        <div className={`relative z-10 ${featuredImageUrl ? 'text-white' : 'text-gray-900'} py-12 lg:py-20`}>
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Category */}
-            <div className="mb-6">
-              <span className="inline-flex items-center bg-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+          ) : (
+            <div className="w-full h-full bg-gradient-to-br from-red-600 to-red-800"></div>
+          )}
+          {/* Simplified Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80"></div>
+        </div>
+
+        {/* Content - Positioned at bottom */}
+        <div className="relative h-full flex items-end pb-6 sm:pb-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto w-full">
+            {/* Breadcrumb & Category */}
+            <div className="flex items-center gap-2 mb-2 sm:mb-3">
+              <Link href="/blog" className="text-white/70 hover:text-white text-xs sm:text-sm transition-colors">
+                Blog
+              </Link>
+              <span className="text-white/50">/</span>
+              <span className="inline-flex items-center bg-red-600 text-white px-3 py-1 rounded-full text-xs font-semibold">
                 {post.category_name}
               </span>
             </div>
 
-            {/* Title */}
-            <h1 
-              className="text-3xl md:text-4xl lg:text-6xl font-bold mb-6 leading-tight"
-              style={{ fontFamily: 'Playfair Display, serif' }}
-            >
+            {/* Title & Metadata */}
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-1 sm:mb-2" style={{ fontFamily: 'Playfair Display, serif' }}>
               {post.title}
             </h1>
+            <p className="text-sm sm:text-base md:text-lg text-white/80 mb-2 sm:mb-4">{post.excerpt}</p>
 
-            {/* Excerpt */}
-            <p className={`text-lg md:text-xl leading-relaxed mb-8 max-w-3xl ${
-              featuredImageUrl ? 'text-gray-200' : 'text-gray-600'
-            }`}>
-              {post.excerpt}
-            </p>
-
-            {/* Meta Info */}
-            <div className="flex flex-wrap items-center gap-6 text-sm">
-              <div className="flex items-center gap-2">
-                <UserIcon className="w-4 h-4" />
-                <span className="font-medium">{post.author}</span>
+            {/* Compact Info Bar */}
+            <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm text-white/70">
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <UserIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span>{post.author}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <CalendarIcon className="w-4 h-4" />
-                <span>{formatDate(post.published_date)}</span>
+              <span className="text-white/30">•</span>
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <CalendarIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                <span>{formatDate(post.published_date || post.created_at)}</span>
               </div>
-              <div className="flex items-center gap-2">
-                <ClockIcon className="w-4 h-4" />
+              <span className="text-white/30">•</span>
+              <div className="flex items-center gap-1 sm:gap-1.5">
+                <ClockIcon className="w-3 h-3 sm:w-4 sm:h-4" />
                 <span>{post.reading_time} min read</span>
               </div>
-              <div className="flex items-center gap-2">
-                <EyeIcon className="w-4 h-4" />
-                <span>{post.views_count} views</span>
-              </div>
-              <button
-                onClick={handleShare}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
-                  featuredImageUrl 
-                    ? 'bg-white/20 hover:bg-white/30' 
-                    : 'bg-gray-100 hover:bg-gray-200'
-                }`}
-              >
-                <ShareIcon className="w-4 h-4" />
-                {copied ? 'Copied!' : 'Share'}
-              </button>
             </div>
           </div>
         </div>
-      </header>
+
+        {/* Share Button - Mobile: Top Right, Desktop: Bottom Right */}
+        <div className="absolute top-4 right-4 sm:top-6 sm:right-6 md:bottom-6 md:right-6 md:top-auto z-30">
+          <button
+            onClick={handleShare}
+            className="backdrop-blur-md bg-black/30 border border-white/30 hover:bg-black/40 text-white hover:text-white shadow-xl hover:shadow-2xl transform hover:scale-110 transition-all duration-300 px-4 py-2 rounded-full flex items-center gap-2 text-xs sm:text-sm"
+          >
+            <ShareIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">Share</span>
+          </button>
+        </div>
+      </section>
 
       {/* Article Content */}
       <article className="relative -mt-8">

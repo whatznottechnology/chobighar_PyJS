@@ -196,9 +196,9 @@ export default function AlbumsShowcase() {
                     
                     {/* Photo Count Badge */}
                     <div className="absolute top-3 left-3">
-                      <div className="bg-white/90 backdrop-blur-md px-2.5 py-1 rounded-full shadow-md">
-                        <span className="text-royal-red font-bold text-xs">{portfolio.image_count}</span>
-                        <span className="text-gray-600 text-xs ml-1">photos</span>
+                      <div className="bg-black/80 backdrop-blur-md px-2.5 py-1 rounded-full shadow-lg">
+                        <span className="text-white font-bold text-xs">{portfolio.image_count}</span>
+                        <span className="text-white/90 text-xs ml-1">photos</span>
                       </div>
                     </div>
 

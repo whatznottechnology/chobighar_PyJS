@@ -106,7 +106,7 @@ export default function Vendors() {
         {/* Header Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent mb-4">
-            Wedding Categories
+            Our Associate Vendors
           </h1>
           <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Discover the perfect vendors for your dream wedding. Browse through our curated categories and find trusted professionals.

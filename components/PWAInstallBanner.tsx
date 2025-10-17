@@ -65,6 +65,11 @@ function PWAInstallBanner() {
         // Mark as installed once
         saveBannerState({ ...state, installedOnce: true, dismissed: false, dismissedAt: 0 });
       }
+      setShowBanner(false);
+      // Notify navbar immediately
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
+      }, 0);
       return;
     }
 
@@ -76,6 +81,10 @@ function PWAInstallBanner() {
       
       // If less than 7 days since dismissal, don't show
       if (timeSinceDismiss < DISMISS_DURATION) {
+        setShowBanner(false);
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
+        }, 0);
         return;
       } else {
         // Reset dismissal after 7 days
@@ -88,22 +97,33 @@ function PWAInstallBanner() {
       e.preventDefault();
       setDeferredPrompt(e as BeforeInstallPromptEvent);
       
-      // Only show if not recently dismissed
-      if (!bannerState.dismissed) {
+      // Only show if not recently dismissed and not installed
+      const state = getBannerState();
+      if (!bannerState.dismissed && !state.installedOnce) {
         setShowBanner(true);
         // Notify navbar that banner is shown
-        window.dispatchEvent(new CustomEvent('pwa-banner-shown'));
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('pwa-banner-visible'));
+        }, 0);
       }
     };
 
     // Listen for app installed
     const handleAppInstalled = () => {
       setShowBanner(false);
-      const state = getBannerState();
-      saveBannerState({ ...state, installedOnce: true, dismissed: false, dismissedAt: 0 });
+      
+      // Mark as installed
+      const state: PWABannerState = {
+        dismissed: false,
+        dismissedAt: 0,
+        installedOnce: true
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       
       // Notify navbar
-      window.dispatchEvent(new CustomEvent('pwa-banner-closed'));
+      setTimeout(() => {
+        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
+      }, 0);
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -129,7 +149,19 @@ function PWAInstallBanner() {
       if (outcome === 'accepted') {
         console.log('PWA installation accepted');
         setShowBanner(false);
-        window.dispatchEvent(new CustomEvent('pwa-banner-closed'));
+        
+        // Mark as installed
+        const state: PWABannerState = {
+          dismissed: false,
+          dismissedAt: 0,
+          installedOnce: true
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+        
+        // Notify navbar
+        setTimeout(() => {
+          window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
+        }, 50);
       }
     } catch (error) {
       console.error('Install prompt failed:', error);
@@ -150,7 +182,9 @@ function PWAInstallBanner() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     
     // Notify navbar
-    window.dispatchEvent(new CustomEvent('pwa-banner-closed'));
+    setTimeout(() => {
+      window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
+    }, 50);
   };
 
   // Don't render on server or if not showing
@@ -159,49 +193,47 @@ function PWAInstallBanner() {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] animate-slide-down mb-2">
-      <div className="bg-gradient-to-r from-red-600 via-red-700 to-red-800 text-white shadow-lg border-b border-red-900/30">
-        <div className="container mx-auto px-3 py-1.5 sm:py-2">
-          <div className="flex items-center justify-between gap-2 sm:gap-4">
-            {/* Icon & Text */}
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <div className="flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-lg p-1 shadow-md">
-                <Image 
-                  src="/chabighar.webp" 
-                  alt="Chobighar" 
-                  width={40} 
-                  height={40}
-                  className="w-full h-full object-contain"
-                />
-              </div>
-              <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-[11px] sm:text-xs leading-tight truncate">
-                  Install Chobighar App
-                </h3>
-                <p className="text-[9px] sm:text-[10px] text-white/90 truncate leading-tight hidden sm:block">
-                  Quick access & offline support
-                </p>
-              </div>
+    <div className="fixed top-0 left-0 right-0 z-40 bg-black shadow-lg border-b border-gray-800">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-2.5 text-white">
+        <div className="flex items-center justify-between gap-3 sm:gap-4">
+          {/* Icon & Text */}
+          <div className="flex items-center gap-2.5 flex-1 min-w-0">
+            <div className="flex-shrink-0 w-9 h-9 sm:w-10 sm:h-10 bg-white rounded-lg p-1.5 shadow-lg">
+              <Image 
+                src="/2.png" 
+                alt="Chobighar" 
+                width={40} 
+                height={40}
+                className="w-full h-full object-contain"
+              />
             </div>
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-[11px] sm:text-sm leading-tight truncate text-white">
+                Install Chobighar App
+              </h3>
+              <p className="text-[9px] sm:text-[10px] text-gray-400 truncate leading-tight hidden sm:block">
+                Quick access & offline support
+              </p>
+            </div>
+          </div>
 
-            {/* Buttons */}
-            <div className="flex items-center gap-1 flex-shrink-0">
-              <button
-                onClick={handleInstallClick}
-                className="flex items-center gap-1 sm:gap-1.5 bg-white text-red-600 px-2 sm:px-3 py-1 sm:py-1.5 rounded-md sm:rounded-lg font-semibold text-[10px] sm:text-xs hover:bg-gray-100 transition-all duration-200 shadow-md"
-              >
-                <ArrowDownTrayIcon className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                <span className="hidden sm:inline">Install</span>
-                <span className="sm:hidden">Get</span>
-              </button>
-              <button
-                onClick={handleClose}
-                className="p-1 sm:p-1.5 hover:bg-white/10 rounded-md transition-colors"
-                aria-label="Close"
-              >
-                <XMarkIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              </button>
-            </div>
+          {/* Buttons */}
+          <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+              onClick={handleInstallClick}
+              className="flex items-center gap-1.5 bg-red-600 hover:bg-red-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold text-[10px] sm:text-xs transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105"
+            >
+              <ArrowDownTrayIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">Install</span>
+              <span className="sm:hidden">Get</span>
+            </button>
+            <button
+              onClick={handleClose}
+              className="p-1.5 sm:p-2 hover:bg-gray-800 rounded-lg transition-all duration-200 group"
+              aria-label="Close"
+            >
+              <XMarkIcon className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-gray-400 group-hover:text-white transition-colors" />
+            </button>
           </div>
         </div>
       </div>

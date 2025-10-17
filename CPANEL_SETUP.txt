@@ -1,0 +1,79 @@
+CPANEL NODE.JS APP DEPLOYMENT - app.chobighar.com
+================================================
+
+ZIP FILE: frontend-deploy-app-chobighar.zip (241 MB)
+
+STEP 1: Upload & Extract
+-------------------------
+1. cPanel > File Manager
+2. Go to: public_html/app (or create this folder)
+3. Upload: frontend-deploy-app-chobighar.zip
+4. Right click > Extract
+5. Delete zip after extraction
+
+STEP 2: Setup Node.js App
+--------------------------
+1. cPanel > Setup Node.js App
+2. Click "Create Application"
+3. Settings:
+   - Node.js version: 18.17.1 (or latest 18.x/20.x)
+   - Application mode: Production
+   - Application root: app (or full path like /home/username/public_html/app)
+   - Application URL: app.chobighar.com
+   - Application startup file: node_modules/next/dist/bin/next
+   - Application command: start -p 3000
+
+4. Click "Create"
+
+STEP 3: Environment Variables
+------------------------------
+In Node.js App settings, add:
+- NODE_ENV = production
+- NEXT_PUBLIC_API_URL = https://admin.chobighar.com/api
+
+STEP 4: Domain Setup
+--------------------
+1. cPanel > Domains > Create New Domain
+2. Domain: app.chobighar.com
+3. Document Root: /home/username/public_html/app
+4. Click "Submit"
+
+STEP 5: DNS Configuration (Namecheap)
+--------------------------------------
+1. Go to Namecheap > Domain List > chobighar.com > Manage
+2. Advanced DNS
+3. Add A Record:
+   - Host: app
+   - Value: [Your cPanel Server IP]
+   - TTL: Automatic
+
+STEP 6: Start Application
+--------------------------
+1. Go back to Node.js App settings
+2. Click "Start App" button
+3. Wait for status to show "Running"
+4. Click "Run NPM Install" if needed
+
+STEP 7: Test
+------------
+Visit: https://app.chobighar.com
+(Allow 5-10 minutes for DNS propagation)
+
+TROUBLESHOOTING
+---------------
+- App not starting: Check error logs in cPanel
+- 502 Bad Gateway: Restart Node.js app
+- Images not loading: Check file permissions (755 for folders, 644 for files)
+- CORS errors: Backend settings.py এ app.chobighar.com add করুন
+
+BACKEND UPDATE REQUIRED
+-----------------------
+File: backend/chobighar_backend/settings.py
+
+Add to ALLOWED_HOSTS:
+    'app.chobighar.com',
+    'www.app.chobighar.com',
+
+Add to CORS_ALLOWED_ORIGINS:
+    "https://app.chobighar.com",
+    "https://www.app.chobighar.com",

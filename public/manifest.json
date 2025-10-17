@@ -10,15 +10,15 @@
   "scope": "/",
   "icons": [
     {
-      "src": "/chabighar.webp",
+      "src": "/2.png",
       "sizes": "192x192",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any maskable"
     },
     {
-      "src": "/chabighar.webp",
+      "src": "/2.png",
       "sizes": "512x512",
-      "type": "image/webp",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
@@ -32,7 +32,7 @@
       "url": "/portfolio",
       "icons": [
         {
-          "src": "/chabighar.webp",
+          "src": "/2.png",
           "sizes": "192x192"
         }
       ]
@@ -44,7 +44,7 @@
       "url": "/contact",
       "icons": [
         {
-          "src": "/chabighar.webp",
+          "src": "/2.png",
           "sizes": "192x192"
         }
       ]

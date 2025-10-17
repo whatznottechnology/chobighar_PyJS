@@ -68,6 +68,10 @@ export default function VendorProfile() {
   const servicesRef = useRef<HTMLDivElement>(null);
   const reviewsRef = useRef<HTMLDivElement>(null);
   const contactRef = useRef<HTMLDivElement>(null);
+  
+  // Ref for sticky sidebar
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const [sidebarStyle, setSidebarStyle] = useState<React.CSSProperties>({});
 
   // All hooks must be called before any conditional returns
   useEffect(() => {
@@ -154,6 +158,92 @@ export default function VendorProfile() {
       setLoveCount(vendor.love_count);
     }
   }, [vendor]);
+
+  // Sticky sidebar effect - JavaScript based approach (like FAQ section)
+  useEffect(() => {
+    const handleSidebarSticky = () => {
+      if (!sidebarRef.current) return;
+      
+      const sidebar = sidebarRef.current;
+      const parent = sidebar.parentElement;
+      if (!parent) return;
+      
+      const scrollY = window.scrollY;
+      const navbarHeight = isPWABannerVisible ? 120 : 80; // Navbar + PWA banner height
+      const sidebarHeight = sidebar.offsetHeight;
+      const parentTop = parent.offsetTop;
+      
+      // Get main content container (left column) to know when to stop sticky
+      const mainContent = document.querySelector('.lg\\:col-span-3');
+      const contentBottom = mainContent ? (mainContent as HTMLElement).offsetTop + (mainContent as HTMLElement).offsetHeight : Infinity;
+      
+      // Calculate positions
+      const stickyStart = parentTop - navbarHeight;
+      const stickyStop = contentBottom - sidebarHeight - navbarHeight - 100; // 100px buffer before CTA
+      
+      if (scrollY >= stickyStart && scrollY <= stickyStop) {
+        // Sticky mode - fixed to viewport
+        setSidebarStyle({
+          position: 'fixed',
+          top: `${navbarHeight}px`,
+          width: `${parent.offsetWidth}px`,
+          maxWidth: '100%',
+          zIndex: 10
+        });
+      } else if (scrollY > stickyStop) {
+        // Bottom reached - absolute positioning
+        const offset = stickyStop - parentTop;
+        setSidebarStyle({
+          position: 'absolute',
+          top: `${offset + navbarHeight}px`,
+          width: '100%',
+          maxWidth: '100%',
+          zIndex: 10
+        });
+      } else {
+        // Normal flow - not sticky yet
+        setSidebarStyle({
+          position: 'relative',
+          top: '0',
+          width: '100%',
+          maxWidth: '100%'
+        });
+      }
+    };
+
+    // Check if we're on desktop (lg breakpoint)
+    const isDesktop = () => window.innerWidth >= 1024;
+    
+    const handleScroll = () => {
+      if (isDesktop()) {
+        handleSidebarSticky();
+      }
+    };
+    
+    const handleResize = () => {
+      if (isDesktop()) {
+        handleSidebarSticky();
+      } else {
+        setSidebarStyle({
+          position: 'relative',
+          width: '100%'
+        });
+      }
+    };
+
+    // Initial setup
+    if (isDesktop()) {
+      handleSidebarSticky();
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [isPWABannerVisible, vendor]); // Re-run when vendor data loads
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -631,10 +721,10 @@ export default function VendorProfile() {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 py-6 sm:py-8 md:py-12">
-        <div className="grid lg:grid-cols-4 gap-6 sm:gap-8">
-          {/* Main Content Area */}
-          <div className="lg:col-span-3 space-y-8 sm:space-y-12 order-2 lg:order-1">
+      <div className="container mx-auto px-4 py-6 sm:py-8 md:py-12 overflow-x-hidden">
+        <div className="lg:grid lg:grid-cols-4 lg:gap-8" style={{ alignItems: 'flex-start' }}>
+          {/* Main Content Area - LEFT - Scrollable */}
+          <div className="lg:col-span-3 space-y-8 sm:space-y-12 mb-8 lg:mb-0 order-2 lg:order-1">
             
             {/* Overview Section */}
             <section ref={aboutRef} id="about" className="scroll-mt-24">
@@ -1069,7 +1159,7 @@ export default function VendorProfile() {
 
                       {/* Quick Stats */}
                       <div className="bg-gradient-to-br from-red-600 to-red-700 rounded-2xl p-6 text-white">
-                        <h4 className="font-semibold mb-4">Why Choose Us?</h4>
+                        <h4 className="font-semibold mb-4">Why Choose Chobighar?</h4>
                         <div className="space-y-3">
                           <div className="flex justify-between">
                             <span>Response Time:</span>
@@ -1092,9 +1182,9 @@ export default function VendorProfile() {
             </section>
           </div>
 
-          {/* Sidebar */}
-          <div className="lg:col-span-1 order-1 lg:order-2">
-            <div className="lg:sticky lg:top-32 space-y-6">
+          {/* Sidebar - RIGHT - Sticky */}
+          <div className="lg:col-span-1 order-1 lg:order-2 lg:relative">
+            <aside ref={sidebarRef} style={sidebarStyle} className="mb-8 lg:mb-0">
               {/* Quick Info Card */}
               <div className="bg-white rounded-xl sm:rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
                 <div className="bg-gradient-to-r from-red-600 to-red-700 px-4 sm:px-6 py-2 sm:py-3">
@@ -1157,7 +1247,7 @@ export default function VendorProfile() {
 
 
 
-            </div>
+            </aside>
           </div>
         </div>
       </div>

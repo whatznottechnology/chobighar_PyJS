@@ -467,7 +467,7 @@ export default function PortfolioDetails() {
 
             {/* Sticky Info Sidebar - 45% Width */}
             <div className="lg:col-span-5">
-              <div className="lg:sticky lg:top-24 space-y-4">
+              <div className="lg:sticky lg:space-y-4">
                 {/* CTA Images Card - Vendor Style Grid (Moved Up) */}
                 {(portfolio?.cta_image_1_url || portfolio?.cta_image_2_url || portfolio?.cta_image_3_url || portfolio?.cta_image_4_url) && (
                   <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 relative overflow-hidden">
@@ -487,8 +487,8 @@ export default function PortfolioDetails() {
                       />
                     </div>
 
-                    <h4 className="font-bold text-gray-900 mb-6 text-xl flex items-center gap-2 relative z-10">
-                      <HeartIcon className="w-6 h-6 text-red-600" />
+                    <h4 className="font-bold text-gray-900 mb-6 text-xl flex items-center gap-1 relative z-10">
+                      <HeartIcon className="w-4 h-1 text-red-600" />
                       Memories
                     </h4>
                     

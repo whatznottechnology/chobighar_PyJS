@@ -1,0 +1,53 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block branding %}
+<div style="display: flex; align-items: center; padding: 10px 15px;">
+    <img src="{% static '2.png' %}" alt="Chobighar" style="max-width: 40px; height: auto; margin-right: 12px;">
+    <h1 id="site-name" style="color: #B22222; font-weight: bold; margin: 0; font-size: 20px;">
+        <a href="{% url 'admin:index' %}" style="color: #B22222; text-decoration: none;">
+            Chobighar Admin
+        </a>
+    </h1>
+</div>
+{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<style>
+    /* Admin Dashboard Custom Styling */
+    #header {
+        background: linear-gradient(135deg, #B22222 0%, #8B1A1A 100%);
+        color: white;
+    }
+    
+    #branding h1, #branding h1 a:link, #branding h1 a:visited {
+        color: white !important;
+    }
+    
+    div.breadcrumbs {
+        background: #8B1A1A;
+    }
+    
+    .module h2, .module caption, .inline-group h2 {
+        background: #B22222;
+    }
+    
+    a:link, a:visited {
+        color: #B22222;
+    }
+    
+    .button, input[type=submit], input[type=button], .submit-row input, button {
+        background: #B22222;
+        border-color: #B22222;
+    }
+    
+    .button:hover, input[type=submit]:hover, input[type=button]:hover, .submit-row input:hover, button:hover {
+        background: #8B1A1A;
+    }
+    
+    .selector-chosen h2 {
+        background: #B22222;
+    }
+</style>
+{% endblock %}

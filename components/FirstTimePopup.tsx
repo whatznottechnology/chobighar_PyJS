@@ -186,7 +186,7 @@ export default function FirstTimePopup() {
 
         {/* Main Image - Full Width */}
         {popupImageUrl && (
-          <div className="relative w-full h-48 sm:h-56 md:h-64">
+          <div className="relative w-full h-56 sm:h-64 md:h-72 lg:h-80">
             <Image
               src={popupImageUrl}
               alt={settings.popup_title}

@@ -35,7 +35,7 @@ export default function Navbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const [isPWABannerVisible, setIsPWABannerVisible] = useState(false);
+  const [hasPWABanner, setHasPWABanner] = useState(false);
   const pathname = usePathname();
   
   // Get dynamic header data
@@ -43,54 +43,64 @@ export default function Navbar() {
 
   // Check if PWA banner is visible
   useEffect(() => {
-    const checkPWABanner = () => {
+    // Listen for PWA banner visibility changes
+    const handleBannerVisible = () => {
+      setHasPWABanner(true);
+    };
+    
+    const handleBannerHidden = () => {
+      setHasPWABanner(false);
+    };
+    
+    window.addEventListener('pwa-banner-visible', handleBannerVisible);
+    window.addEventListener('pwa-banner-hidden', handleBannerHidden);
+    window.addEventListener('appinstalled', handleBannerHidden);
+
+    // Check initial state
+    const checkInitialState = () => {
       try {
-        // Check if app is already installed
+        // Check if app is installed
         const isInstalled = 
           window.matchMedia('(display-mode: standalone)').matches || 
           (window.navigator as any).standalone === true ||
           document.referrer.includes('android-app://');
         
         if (isInstalled) {
-          setIsPWABannerVisible(false);
+          setHasPWABanner(false);
           return;
         }
 
-        // Check banner state from localStorage
+        // Check localStorage
         const stored = localStorage.getItem('pwa-banner-state');
         if (!stored) {
-          setIsPWABannerVisible(false);
+          setHasPWABanner(false);
           return;
         }
 
         const state = JSON.parse(stored);
-        const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000; // 7 days
-        
+        if (state.installedOnce) {
+          setHasPWABanner(false);
+          return;
+        }
+
+        const DISMISS_DURATION = 7 * 24 * 60 * 60 * 1000;
         if (state.dismissed) {
           const timeSinceDismiss = Date.now() - state.dismissedAt;
-          setIsPWABannerVisible(timeSinceDismiss >= DISMISS_DURATION);
+          setHasPWABanner(timeSinceDismiss >= DISMISS_DURATION);
         } else {
-          setIsPWABannerVisible(true);
+          setHasPWABanner(true);
         }
       } catch {
-        setIsPWABannerVisible(false);
+        setHasPWABanner(false);
       }
     };
 
-    checkPWABanner();
-
-    // Listen for banner events
-    const handleBannerShown = () => setIsPWABannerVisible(true);
-    const handleBannerClosed = () => setIsPWABannerVisible(false);
-    
-    window.addEventListener('pwa-banner-shown', handleBannerShown);
-    window.addEventListener('pwa-banner-closed', handleBannerClosed);
-    window.addEventListener('appinstalled', handleBannerClosed);
+    checkInitialState();
 
     return () => {
-      window.removeEventListener('pwa-banner-shown', handleBannerShown);
-      window.removeEventListener('pwa-banner-closed', handleBannerClosed);
-      window.removeEventListener('appinstalled', handleBannerClosed);
+      window.removeEventListener('pwa-banner-visible', handleBannerVisible);
+      window.removeEventListener('pwa-banner-hidden', handleBannerHidden);
+      window.removeEventListener('appinstalled', handleBannerHidden);
     };
   }, []);
 
@@ -126,13 +136,15 @@ export default function Navbar() {
   }, [isMobileMenuOpen]);
 
   return (
-    <header className={`sticky z-50 transition-all duration-300 ${
-      isPWABannerVisible ? 'top-[46px]' : 'top-0'
-    }`}>
+    <header 
+      className={`sticky z-50 transition-all duration-300 ease-in-out ${
+        hasPWABanner ? 'top-[52px] sm:top-[58px]' : 'top-0'
+      }`}
+    >
       {/* Royal Red Top Strip - Clean and Simple - Hide on scroll */}
       <div 
-        className={`transition-all duration-300 ${
-          isScrolled ? 'h-0' : 'h-10'
+        className={`transition-all duration-300 ease-in-out overflow-hidden ${
+          isScrolled ? 'h-0 opacity-0' : 'h-8 md:h-9 opacity-100'
         }`}
         style={{ 
           backgroundColor: '#B22222',
@@ -140,13 +152,13 @@ export default function Navbar() {
         }}
       >
         <div 
-          className={`w-full mx-auto px-4 sm:px-6 lg:px-8 h-10 flex items-center justify-between transition-opacity duration-300 ${
+          className={`w-full mx-auto px-4 sm:px-6 lg:px-8 h-8 md:h-9 flex items-center justify-between transition-opacity duration-300 ${
             isScrolled ? 'opacity-0' : 'opacity-100'
           }`}
           style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
         >
           {/* Social Icons - Clean and professional */}
-          <div className="flex items-center gap-3 -translate-y-0.5">
+          <div className="flex items-center gap-2 md:gap-3">
             {headerData?.social_media?.filter(social => social.is_active).map((social) => (
               <a
                 key={social.id}
@@ -157,34 +169,36 @@ export default function Navbar() {
                 aria-label={social.display_name}
                 style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
               >
-                {getSocialMediaIcon(social.name)}
+                <span className="w-4 h-4 md:w-4 md:h-4 flex items-center justify-center">
+                  {getSocialMediaIcon(social.name)}
+                </span>
               </a>
             ))}
           </div>
 
           {/* Contact Info - Red and white styling with text shadow for readability */}
           <div 
-            className="hidden sm:flex items-center gap-4 text-white"
+            className="hidden sm:flex items-center gap-3 md:gap-4 text-white text-sm"
             style={{ textShadow: '0 1px 2px rgba(0,0,0,0.2)' }}
           >
             {headerData?.contact_info && (
               <>
                 <a
                   href={`tel:${headerData.contact_info.phone}`}
-                  className="flex items-center gap-2 hover:text-white/80 transition-colors duration-200"
+                  className="flex items-center gap-1.5 hover:text-white/80 transition-colors duration-200"
                   aria-label="Call us"
                 >
-                  <PhoneIcon className="w-4 h-4" />
-                  <span className="font-bold text-[15px]">{headerData.contact_info.phone}</span>
+                  <PhoneIcon className="w-3.5 h-3.5" />
+                  <span className="font-semibold text-[13px]">{headerData.contact_info.phone}</span>
                 </a>
-                <span className="text-white/60">|</span>
+                <span className="text-white/50">|</span>
                 <a
                   href={`mailto:${headerData.contact_info.email}`}
-                  className="flex items-center gap-2 hover:text-white/80 transition-colors duration-200"
+                  className="flex items-center gap-1.5 hover:text-white/80 transition-colors duration-200"
                   aria-label="Email us"
                 >
-                  <EnvelopeIcon className="w-4 h-4" />
-                  <span className="font-bold text-[15px]">{headerData.contact_info.email}</span>
+                  <EnvelopeIcon className="w-3.5 h-3.5" />
+                  <span className="font-semibold text-[13px]">{headerData.contact_info.email}</span>
                 </a>
               </>
             )}
@@ -194,16 +208,16 @@ export default function Navbar() {
 
       {/* Main Navbar with Soft White Background */}
       <nav
-        className={`border-b transition-all duration-300 ${
-          isScrolled ? 'shadow-md h-12' : 'shadow-sm h-16'
+        className={`border-b transition-all duration-300 ease-in-out ${
+          isScrolled ? 'shadow-md h-12 md:h-14' : 'shadow-sm h-14 md:h-16'
         }`}
         style={{ 
           backgroundColor: '#FAF9F6',
           borderColor: '#707070'
         }}
       >
-        <div className={`w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ${
-          isScrolled ? 'h-12' : 'h-16'
+        <div className={`w-full mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between transition-all duration-300 ease-in-out ${
+          isScrolled ? 'h-12 md:h-14' : 'h-14 md:h-16'
         }`}>
           {/* Brand with Logo - Professional styling */}
           <Link
@@ -216,8 +230,8 @@ export default function Navbar() {
                 <Image
                   src={headerData.brand_info.logo_image_url}
                   alt={`${headerData.brand_info.main_text} Logo`}
-                  width={isScrolled ? 36 : 44}
-                  height={isScrolled ? 36 : 44}
+                  width={isScrolled ? 32 : 40}
+                  height={isScrolled ? 32 : 40}
                   className="rounded-full object-cover border-2 group-hover:opacity-90 transition-all duration-300"
                   style={{ borderColor: 'rgba(178, 34, 34, 0.2)' }}
                   priority
@@ -230,7 +244,7 @@ export default function Navbar() {
               <div className="flex flex-col">
                 <span
                   className={`font-semibold tracking-tight group-hover:opacity-90 transition-all duration-300 ${
-                    isScrolled ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'
+                    isScrolled ? 'text-base md:text-lg' : 'text-lg md:text-xl'
                   }`}
                   style={{ 
                     fontFamily: 'Playfair Display, serif',
@@ -240,8 +254,8 @@ export default function Navbar() {
                   {headerData.brand_info.main_text}
                 </span>
                 <span
-                  className={`font-medium tracking-wide -mt-1 transition-all duration-300 ${
-                    isScrolled ? 'text-[9px] md:text-[10px]' : 'text-[10px] md:text-xs'
+                  className={`font-medium tracking-wide -mt-0.5 transition-all duration-300 ${
+                    isScrolled ? 'text-[8px] md:text-[9px]' : 'text-[9px] md:text-[10px]'
                   }`}
                   style={{ 
                     fontFamily: 'Inter, sans-serif',
@@ -252,7 +266,7 @@ export default function Navbar() {
                 </span>
                 {/* Simple underline accent with Royal Red */}
                 <div 
-                  className="h-0.5 rounded-full transition-opacity group-hover:opacity-80 mt-0.5" 
+                  className="h-0.5 rounded-full transition-opacity group-hover:opacity-80" 
                   style={{ backgroundColor: '#B22222' }}
                 ></div>
               </div>
@@ -260,7 +274,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop Navigation with Bengali-inspired hover effects */}
-          <nav className={`hidden lg:flex items-center gap-6 lg:gap-8 transition-all duration-300 ${
+          <nav className={`hidden lg:flex items-center gap-4 xl:gap-6 transition-all duration-300 ${
             isSearchExpanded ? 'opacity-0 pointer-events-none' : 'opacity-100'
           }`}>
             {desktopMenuItems.map((item) => {
@@ -273,7 +287,7 @@ export default function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="flex items-center gap-2 px-4 py-2 bg-black text-white rounded-lg font-medium transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg transform"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-black text-white rounded-lg font-medium text-sm transition-all duration-300 hover:bg-gray-800 hover:scale-105 hover:shadow-lg transform"
                     style={{ fontFamily: 'Inter, sans-serif' }}
                   >
                     {/* Shopping Bag SVG */}
@@ -284,7 +298,7 @@ export default function Navbar() {
                       strokeWidth="2" 
                       strokeLinecap="round" 
                       strokeLinejoin="round"
-                      className="w-4 h-4"
+                      className="w-3.5 h-3.5"
                     >
                       <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
                       <line x1="3" y1="6" x2="21" y2="6"/>
@@ -300,7 +314,7 @@ export default function Navbar() {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className={`flex items-center gap-2 text-sm md:text-base font-medium transition-all duration-300 relative ${
+                    className={`flex items-center gap-1.5 text-sm font-medium transition-all duration-300 relative ${
                       isActive
                         ? 'font-semibold'
                         : 'hover:opacity-80 bengali-underline'
@@ -318,7 +332,7 @@ export default function Navbar() {
                       strokeWidth="2" 
                       strokeLinecap="round" 
                       strokeLinejoin="round"
-                      className="w-4 h-4"
+                      className="w-3.5 h-3.5"
                     >
                       <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
                       <polyline points="22,6 12,13 2,6"/>
@@ -339,7 +353,7 @@ export default function Navbar() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`text-sm md:text-base font-medium transition-all duration-300 relative ${
+                  className={`text-sm font-medium transition-all duration-300 relative ${
                     isActive
                       ? 'font-semibold'
                       : 'hover:opacity-80 bengali-underline'
