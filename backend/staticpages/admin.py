@@ -2,10 +2,22 @@ from django.contrib import admin
 from unfold.admin import ModelAdmin
 from django.utils.html import format_html
 from .models import StaticPage
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+from django import forms
+
+
+class StaticPageAdminForm(forms.ModelForm):
+    """Custom form to ensure CKEditor widget is properly rendered"""
+    content = forms.CharField(widget=CKEditorUploadingWidget())
+    
+    class Meta:
+        model = StaticPage
+        fields = '__all__'
 
 
 @admin.register(StaticPage)
 class StaticPageAdmin(ModelAdmin):
+    form = StaticPageAdminForm
     list_display = ['title_with_badge', 'slug', 'published_status', 'footer_status', 'display_order', 'updated_at']
     list_filter = ['is_published', 'show_in_footer', 'created_at']
     search_fields = ['title', 'slug', 'content', 'meta_keywords']
@@ -17,7 +29,8 @@ class StaticPageAdmin(ModelAdmin):
     fieldsets = (
         ('📄 Page Information', {
             'fields': ('title', 'slug', 'content'),
-            'description': 'Basic page details and rich content'
+            'description': 'Basic page details and rich content',
+            'classes': ('wide',)
         }),
         ('🔍 SEO Meta Data', {
             'fields': ('meta_title', 'meta_description', 'meta_keywords'),
@@ -81,6 +94,10 @@ class StaticPageAdmin(ModelAdmin):
     
     class Media:
         css = {
-            'all': ('admin/css/custom_admin.css',)
+            'all': (
+                'admin/css/custom_admin.css',
+            )
         }
-        js = ('admin/js/custom_admin.js',)
+        js = (
+            'admin/js/custom_admin.js',
+        )

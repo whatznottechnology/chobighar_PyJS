@@ -450,3 +450,61 @@ img[alt*="Icon"] {
         padding: 2rem;
     }
 }
+
+/* ======================================================================
+   CKEditor Integration with Unfold Admin
+   ====================================================================== */
+
+/* Ensure CKEditor container is visible */
+.django-ckeditor-widget,
+.cke,
+.cke_chrome {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-height: 400px !important;
+}
+
+/* CKEditor wrapper */
+.field-content .django-ckeditor-widget {
+    width: 100% !important;
+    margin: 10px 0 !important;
+}
+
+/* CKEditor toolbar */
+.cke_top {
+    background: #f9fafb !important;
+    border-bottom: 1px solid #e5e7eb !important;
+    padding: 5px !important;
+}
+
+/* CKEditor editing area */
+.cke_contents {
+    min-height: 400px !important;
+    height: auto !important;
+    background: white !important;
+}
+
+/* CKEditor bottom bar */
+.cke_bottom {
+    background: #f9fafb !important;
+    border-top: 1px solid #e5e7eb !important;
+    padding: 5px !important;
+}
+
+/* Rich text field container */
+.field-content {
+    display: block !important;
+    width: 100% !important;
+}
+
+/* Ensure textarea is hidden when CKEditor loads */
+textarea.django-ckeditor {
+    display: none !important;
+}
+
+/* CKEditor iframe content */
+.cke_wysiwyg_frame {
+    min-height: 400px !important;
+}
+
