@@ -5,8 +5,7 @@ from django.db.models import Q
 from django.urls import reverse
 
 from vendor.models import VendorProfile, VendorCategory, VendorSubCategory
-from portfolio.models import Portfolio, Category as PortfolioCategory
-from homepage.models import ShowcaseImage
+from portfolio.models import Portfolio, Category as PortfolioCategory, PortfolioImage
 from photoshootpage.models import PhotoshootService
 
 @api_view(['GET'])

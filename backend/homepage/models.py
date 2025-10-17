@@ -1,6 +1,7 @@
 from django.db import models
+from utils.models import AutoOrderMixin
 
-class HeroSlide(models.Model):
+class HeroSlide(AutoOrderMixin):
     """Hero slider images for homepage"""
     title = models.CharField(
         max_length=200, 
@@ -17,10 +18,6 @@ class HeroSlide(models.Model):
         max_length=200,
         help_text="Alt text for accessibility",
         default="chobighar Photography"
-    )
-    order = models.PositiveIntegerField(
-        default=0, 
-        help_text="Display order (lower numbers first)"
     )
     is_active = models.BooleanField(
         default=True,
@@ -48,37 +45,6 @@ class HeroSlide(models.Model):
     
     def __str__(self):
         return f"{self.title or f'Slide {self.id}'} (Order: {self.order})"
-
-class ShowcaseImage(models.Model):
-    """Showcase images displayed after album slider on homepage"""
-    image = models.ImageField(
-        upload_to='homepage/showcase/', 
-        help_text="Showcase image"
-    )
-    alt_text = models.CharField(
-        max_length=200,
-        help_text="Alt text for accessibility",
-        default="chobighar Photography Showcase"
-    )
-    order = models.PositiveIntegerField(
-        default=0, 
-        help_text="Display order (lower numbers first)"
-    )
-    is_active = models.BooleanField(
-        default=True,
-        help_text="Show this image in the showcase"
-    )
-    
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    
-    class Meta:
-        verbose_name = "Showcase Image"
-        verbose_name_plural = "Showcase Images"
-        ordering = ['order', 'created_at']
-    
-    def __str__(self):
-        return f"Showcase Image {self.id} (Order: {self.order})"
 
 class VideoTestimonial(models.Model):
     """Video testimonials from clients"""

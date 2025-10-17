@@ -1,12 +1,13 @@
 import os
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.conf import settings
-from .models import HeroSlide, ShowcaseImage, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
+from .models import HeroSlide, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
 
 @admin.register(HeroSlide)
-class HeroSlideAdmin(admin.ModelAdmin):
+class HeroSlideAdmin(ModelAdmin):
     list_display = ['image_thumbnail', 'title_or_id', 'alt_text', 'order_badge', 'active_status', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['title', 'alt_text', 'caption']
@@ -134,92 +135,8 @@ class HeroSlideAdmin(admin.ModelAdmin):
         }
         js = ('admin/js/custom_admin.js',)
 
-@admin.register(ShowcaseImage)
-class ShowcaseImageAdmin(admin.ModelAdmin):
-    list_display = ['image_thumbnail', 'alt_text_preview', 'order_badge', 'active_status', 'created_at']
-    list_filter = ['is_active', 'created_at']
-    search_fields = ['alt_text']
-    list_editable = []
-    ordering = ['order', 'created_at']
-    readonly_fields = ['created_at', 'updated_at', 'full_image_preview']
-    
-    def image_thumbnail(self, obj):
-        """Display showcase image thumbnail with error handling"""
-        if obj.image:
-            try:
-                media_url = getattr(settings, 'MEDIA_URL', '/media/')
-                if not obj.image.url.startswith('http'):
-                    image_url = f"{media_url.rstrip('/')}/{obj.image.name}" if not obj.image.url.startswith(media_url) else obj.image.url
-                else:
-                    image_url = obj.image.url
-                
-                return format_html(
-                    '<div style="text-align: center;">'
-                    '<img src="{}" width="70" height="70" style="border-radius: 10px; object-fit: cover; box-shadow: 0 3px 8px rgba(0,0,0,0.2); border: 2px solid #e0e0e0;" />'
-                    '<br><small style="color: #666; font-size: 9px;">🎨 {}</small>'
-                    '</div>',
-                    image_url,
-                    os.path.basename(obj.image.name)[:12] + '...' if len(os.path.basename(obj.image.name)) > 12 else os.path.basename(obj.image.name)
-                )
-            except Exception as e:
-                return format_html('<span style="color: #f44336;">⚠️ Error</span>')
-        return format_html(
-            '<div style="text-align: center; padding: 10px; border: 1px dashed #ccc; border-radius: 8px; color: #999;">'
-            '🎨<br><small>No image</small>'
-            '</div>'
-        )
-    image_thumbnail.short_description = '🎨 Preview'
-    
-    def alt_text_preview(self, obj):
-        """Display alt text with truncation"""
-        if obj.alt_text:
-            return obj.alt_text[:30] + '...' if len(obj.alt_text) > 30 else obj.alt_text
-        return "No alt text"
-    alt_text_preview.short_description = 'Alt Text'
-    
-    def order_badge(self, obj):
-        """Display order with badge styling"""
-        return format_html(
-            '<span style="background: #f3e5f5; padding: 4px 8px; border-radius: 12px; color: #7b1fa2; font-weight: bold; font-size: 11px;">#{}</span>',
-            obj.order
-        )
-    order_badge.short_description = 'Order'
-    
-    def active_status(self, obj):
-        """Display active status with styling"""
-        if obj.is_active:
-            return format_html('<span style="color: #28a745;">✅</span>')
-        return format_html('<span style="color: #dc3545;">❌</span>')
-    active_status.short_description = 'Active'
-    
-    def full_image_preview(self, obj):
-        """Display full image preview in detail view"""
-        if obj.image:
-            return format_html(
-                '<div class="image-preview-container">'
-                '<img src="{}" style="max-width: 300px; max-height: 300px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.15);" />'
-                '</div>',
-                obj.image.url
-            )
-        return "No image available"
-    full_image_preview.short_description = 'Image Preview'
-    
-    fieldsets = (
-        ('🖼️ Showcase Image', {
-            'fields': ('image', 'full_image_preview', 'alt_text'),
-            'classes': ('wide',)
-        }),
-        ('⚙️ Display Settings', {
-            'fields': ('order', 'is_active')
-        }),
-        ('🕒 Timestamps', {
-            'fields': ('created_at', 'updated_at'),
-            'classes': ('collapse',)
-        }),
-    )
-
 @admin.register(VideoTestimonial)
-class VideoTestimonialAdmin(admin.ModelAdmin):
+class VideoTestimonialAdmin(ModelAdmin):
     list_display = ['name', 'event', 'location', 'rating', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'rating', 'created_at']
     search_fields = ['name', 'event', 'location']
@@ -244,7 +161,7 @@ class VideoTestimonialAdmin(admin.ModelAdmin):
     )
 
 @admin.register(TextTestimonial)
-class TextTestimonialAdmin(admin.ModelAdmin):
+class TextTestimonialAdmin(ModelAdmin):
     list_display = ['client_thumbnail', 'name', 'event', 'location', 'rating_stars', 'order_badge', 'active_status', 'created_at']
     list_filter = ['is_active', 'rating', 'created_at']
     search_fields = ['name', 'event', 'location', 'text']
@@ -352,7 +269,7 @@ class TextTestimonialAdmin(admin.ModelAdmin):
     )
 
 @admin.register(FAQ)
-class FAQAdmin(admin.ModelAdmin):
+class FAQAdmin(ModelAdmin):
     list_display = ['question_preview', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['question', 'answer', 'keywords']
@@ -382,7 +299,7 @@ class FAQAdmin(admin.ModelAdmin):
     )
 
 @admin.register(Achievement)
-class AchievementAdmin(admin.ModelAdmin):
+class AchievementAdmin(ModelAdmin):
     list_display = ['title', 'display_count', 'icon_type', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'icon_type', 'created_at']
     search_fields = ['title', 'description']
@@ -408,7 +325,7 @@ class AchievementAdmin(admin.ModelAdmin):
     )
 
 @admin.register(VideoShowcase)
-class VideoShowcaseAdmin(admin.ModelAdmin):
+class VideoShowcaseAdmin(ModelAdmin):
     list_display = ['title', 'youtube_video_id', 'is_active', 'autoplay', 'created_at']
     list_filter = ['is_active', 'autoplay', 'loop_video', 'mute_audio', 'created_at']
     search_fields = ['title', 'description', 'youtube_video_id']
@@ -450,3 +367,4 @@ class VideoShowcaseAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+

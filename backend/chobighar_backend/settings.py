@@ -43,7 +43,9 @@ ALLOWED_HOSTS = [
 # Application definition
 
 INSTALLED_APPS = [
-    'jazzmin',  # Must be before django.contrib.admin
+    'unfold',  # Must be before django.contrib.admin
+    'unfold.contrib.filters',  # Optional: Unfold filters
+    'unfold.contrib.forms',    # Optional: Unfold forms
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -194,203 +196,207 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Static files for production
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Jazzmin Admin Theme Configuration
-JAZZMIN_SETTINGS = {
-    # title of the window (Will default to current_admin_site.site_title if absent or None)
-    "site_title": "chobighar Admin",
+# ============================================================================
+# Django Unfold Admin Theme Configuration
+# ============================================================================
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
 
-    # Title on the login screen (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_header": "chobighar",
-
-    # Title on the brand (19 chars max) (defaults to current_admin_site.site_header if absent or None)
-    "site_brand": "chobighar Admin",
-
-    # Logo to use for your site, must be present in static files, used for brand on top left
-    "site_logo": "admin/img/chobighar.png",
-
-    # Logo to use for your site, must be present in static files, used for login form logo (defaults to site_logo)
-    "login_logo": "admin/img/chobighar.png",
-
-    # CSS classes that are applied to the logo above
-    "site_logo_classes": "img-circle chobighar-logo-small",
-
-    # Relative path to a favicon for your site, will default to site_logo if absent (ideally 32x32 px)
-    "site_icon": "admin/img/chobighar.png",
-
-    # Welcome text on the login screen
-    "welcome_sign": "Welcome to chobighar Admin",
-
-    # Copyright on the footer
-    "copyright": "chobighar Photography & Events",
-
-    # List of model admins to search from the search bar, search bar omitted if excluded
-    "search_model": ["auth.User", "inquiry.Inquiry", "vendor.Vendor", "portfolio.Portfolio"],
-
-    # Field name on user model that contains avatar ImageField/URLField/Charfield or a callable that receives the user
-    "user_avatar": None,
-
-    ############
-    # Top Menu #
-    ############
-
-    # Links to put along the top menu
-    "topmenu_links": [
-        # Url that gets reversed (Permissions can be added)
-        {"name": "Home", "url": "admin:index", "permissions": ["auth.view_user"]},
-        # external url that opens in a new window (Permissions can be added)
-        {"name": "View Main Site", "url": "https://chobighar.com", "new_window": True},
-        {"name": "View Local Dev", "url": "http://localhost:3000", "new_window": True},
-        # model admin to link to (Permissions checked against model)
-        {"model": "inquiry.Inquiry"},
-        # App with dropdown menu to all its models pages (Permissions checked against models)
-        {"app": "vendor"},
-    ],
-
-    #############
-    # User Menu #
-    #############
-
-    # Additional links to include in the user menu on the top right ("app" url type is not allowed)
-    "usermenu_links": [
-        {"name": "View Main Site", "url": "https://chobighar.com", "new_window": True},
-        {"name": "View Local Dev", "url": "http://localhost:3000", "new_window": True},
-        {"model": "auth.user"}
-    ],
-
-    #############
-    # Side Menu #
-    #############
-
-    # Whether to display the side menu
-    "show_sidebar": True,
-
-    # Whether to aut expand the menu
-    "navigation_expanded": True,
-
-    # Hide these apps when generating side menu e.g (auth)
-    "hide_apps": [],
-
-    # Hide these models when generating side menu (e.g auth.user)
-    "hide_models": [],
-
-    # List of apps (and/or models) to base side menu ordering off of (does not need to contain all apps/models)
-    "order_with_respect_to": ["inquiry", "vendor", "portfolio", "homepage", "header", "footer", "contact", "aboutpage", "photoshootpage", "auth"],
-
-    # Custom links to append to app groups, keyed on app name for the app group
-    "custom_links": {
-        "inquiry": [{
-            "name": "View All Inquiries", 
-            "url": "admin:inquiry_inquiry_changelist", 
-            "icon": "fas fa-envelope",
-            "permissions": ["inquiry.view_inquiry"]
-        }],
-        "vendor": [{
-            "name": "Add New Vendor", 
-            "url": "admin:vendor_vendor_add", 
-            "icon": "fas fa-plus",
-            "permissions": ["vendor.add_vendor"]
-        }],
-        "portfolio": [{
-            "name": "Add New Portfolio", 
-            "url": "admin:portfolio_portfolio_add", 
-            "icon": "fas fa-plus",
-            "permissions": ["portfolio.add_portfolio"]
-        }]
+UNFOLD = {
+    "SITE_TITLE": "chobighar Admin",
+    "SITE_HEADER": "chobighar Photography & Events",
+    "SITE_URL": "/",
+    "SITE_ICON": {
+        "light": lambda request: static("admin/img/chobighar.png"),
+        "dark": lambda request: static("admin/img/chobighar.png"),
     },
-
-    # Custom icons for side menu apps/models
-    "icons": {
-        "auth": "fas fa-users-cog",
-        "auth.user": "fas fa-user",
-        "auth.Group": "fas fa-users",
-        "inquiry": "fas fa-envelope",
-        "inquiry.Inquiry": "fas fa-envelope-open",
-        "inquiry.InquiryFollowUp": "fas fa-reply",
-        "vendor": "fas fa-store",
-        "vendor.Vendor": "fas fa-store-alt",
-        "vendor.VendorCategory": "fas fa-tags",
-        "vendor.VendorSubcategory": "fas fa-tag",
-        "vendor.VendorImage": "fas fa-images",
-        "portfolio": "fas fa-camera",
-        "portfolio.Portfolio": "fas fa-camera-retro",
-        "portfolio.PortfolioImage": "fas fa-image",
-        "portfolio.PortfolioVideo": "fas fa-video",
-        "portfolio.Category": "fas fa-folder",
-        "homepage": "fas fa-home",
-        "header": "fas fa-header",
-        "footer": "fas fa-footer",
-        "contact": "fas fa-address-book",
-        "aboutpage": "fas fa-info-circle",
-        "photoshootpage": "fas fa-camera",
+    # "SITE_LOGO": {
+    #     "light": lambda request: static("logo-light.svg"),
+    #     "dark": lambda request: static("logo-dark.svg"),
+    # },
+    "SITE_SYMBOL": "camera_alt",  # Symbol from icon set
+    "SHOW_HISTORY": True,
+    "SHOW_VIEW_ON_SITE": True,
+    "ENVIRONMENT": "chobighar_backend.utils.environment_callback",
+    "DASHBOARD_CALLBACK": "chobighar_backend.utils.dashboard_callback",
+    "LOGIN": {
+        "image": lambda request: static("admin/img/chobighar.png"),
+        "redirect_after": lambda request: reverse_lazy("admin:index"),
     },
-
-    # Icons that are used when one is not manually specified
-    "default_icon_parents": "fas fa-chevron-circle-right",
-    "default_icon_children": "fas fa-circle",
-
-    #################
-    # Related Modal #
-    #################
-    # Use modals instead of popups
-    "related_modal_active": False,
-
-    #############
-    # UI Tweaks #
-    #############
-    # Relative paths to custom CSS/JS scripts (must be present in static files)
-    "custom_css": "admin/css/custom_admin.css",
-    "custom_js": "admin/js/custom_admin.js",
-    # Whether to link font from fonts.googleapis.com (use custom_css to supply font otherwise)
-    "use_google_fonts_cdn": True,
-    # Whether to show the UI customizer on the sidebar
-    "show_ui_builder": True,
-
-    ###############
-    # Change view #
-    ###############
-    # Render out the change view as a single form, or in tabs, current options are
-    # - single
-    # - horizontal_tabs (default)
-    # - vertical_tabs
-    # - collapsible
-    # - carousel
-    "changeform_format": "horizontal_tabs",
-    # override change forms on a per modeladmin basis
-    "changeform_format_overrides": {"auth.user": "collapsible", "auth.group": "vertical_tabs"},
-    # Add a language dropdown into the admin
-    "language_chooser": False,
-}
-
-JAZZMIN_UI_TWEAKS = {
-    "navbar_small_text": False,
-    "footer_small_text": False,
-    "body_small_text": False,
-    "brand_small_text": False,
-    "brand_colour": "navbar-danger",  # Red theme for chobighar branding
-    "accent": "accent-danger",
-    "navbar": "navbar-danger navbar-dark",
-    "no_navbar_border": False,
-    "navbar_fixed": True,
-    "layout_boxed": False,
-    "footer_fixed": False,
-    "sidebar_fixed": True,
-    "sidebar": "sidebar-dark-danger",
-    "sidebar_nav_small_text": False,
-    "sidebar_disable_expand": False,
-    "sidebar_nav_child_indent": False,
-    "sidebar_nav_compact_style": False,
-    "sidebar_nav_legacy_style": False,
-    "sidebar_nav_flat_style": False,
-    "theme": "lux",  # Professional theme
-    "dark_mode_theme": None,
-    "button_classes": {
-        "primary": "btn-danger",  # Red primary buttons for consistency
-        "secondary": "btn-secondary",
-        "info": "btn-info", 
-        "warning": "btn-warning",
-        "danger": "btn-danger",
-        "success": "btn-success"
-    }
+    "STYLES": [
+        lambda request: static("admin/css/custom_admin.css"),
+    ],
+    "SCRIPTS": [
+        lambda request: static("admin/js/custom_admin.js"),
+    ],
+    "COLORS": {
+        "primary": {
+            "50": "255 235 235",
+            "100": "254 202 202",
+            "200": "252 165 165",
+            "300": "248 113 113",
+            "400": "239 68 68",
+            "500": "220 38 38",  # Main red color #B22222
+            "600": "178 34 34",  # chobighar brand red
+            "700": "153 27 27",
+            "800": "127 29 29",
+            "900": "105 29 29",
+            "950": "69 10 10",
+        },
+    },
+    "EXTENSIONS": {
+        "modeltranslation": {
+            "flags": {
+                "en": "🇬🇧",
+                "bn": "🇧🇩",
+            },
+        },
+    },
+    "SIDEBAR": {
+        "show_search": True,
+        "show_all_applications": True,
+        "navigation": [
+            {
+                "title": _("Dashboard"),
+                "separator": True,
+                "items": [
+                    {
+                        "title": _("Dashboard"),
+                        "icon": "dashboard",
+                        "link": reverse_lazy("admin:index"),
+                    },
+                ],
+            },
+            {
+                "title": _("Customer Inquiries"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("All Inquiries"),
+                        "icon": "mail",
+                        "link": reverse_lazy("admin:inquiry_inquiry_changelist"),
+                    },
+                    {
+                        "title": _("Follow Ups"),
+                        "icon": "reply",
+                        "link": reverse_lazy("admin:inquiry_inquiryfollowup_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Vendor Management"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Vendors"),
+                        "icon": "store",
+                        "link": reverse_lazy("admin:vendor_vendorprofile_changelist"),
+                    },
+                    {
+                        "title": _("Categories"),
+                        "icon": "category",
+                        "link": reverse_lazy("admin:vendor_vendorcategory_changelist"),
+                    },
+                    {
+                        "title": _("Subcategories"),
+                        "icon": "label",
+                        "link": reverse_lazy("admin:vendor_vendorsubcategory_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Portfolio"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Portfolios"),
+                        "icon": "photo_camera",
+                        "link": reverse_lazy("admin:portfolio_portfolio_changelist"),
+                    },
+                    {
+                        "title": _("Categories"),
+                        "icon": "folder",
+                        "link": reverse_lazy("admin:portfolio_category_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Content Management"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Homepage"),
+                        "icon": "home",
+                        "link": reverse_lazy("admin:homepage_heroslide_changelist"),
+                    },
+                    {
+                        "title": _("Blog Posts"),
+                        "icon": "article",
+                        "link": reverse_lazy("admin:blog_blogpost_changelist"),
+                    },
+                    {
+                        "title": _("Header"),
+                        "icon": "view_agenda",
+                        "link": reverse_lazy("admin:header_brandinfo_changelist"),
+                    },
+                    {
+                        "title": _("Footer"),
+                        "icon": "view_agenda",
+                        "link": reverse_lazy("admin:footer_footerbrandinfo_changelist"),
+                    },
+                    {
+                        "title": _("Contact Page"),
+                        "icon": "contact_page",
+                        "link": reverse_lazy("admin:contact_contactushero_changelist"),
+                    },
+                    {
+                        "title": _("About Page"),
+                        "icon": "info",
+                        "link": reverse_lazy("admin:aboutpage_abouthero_changelist"),
+                    },
+                ],
+            },
+            {
+                "title": _("Users & Permissions"),
+                "separator": True,
+                "collapsible": True,
+                "items": [
+                    {
+                        "title": _("Users"),
+                        "icon": "person",
+                        "link": reverse_lazy("admin:auth_user_changelist"),
+                    },
+                    {
+                        "title": _("Groups"),
+                        "icon": "group",
+                        "link": reverse_lazy("admin:auth_group_changelist"),
+                    },
+                ],
+            },
+        ],
+    },
+    "TABS": [
+        {
+            "models": [
+                "inquiry.inquiry",
+            ],
+            "items": [
+                {
+                    "title": _("Inquiry Details"),
+                    "link": reverse_lazy("admin:inquiry_inquiry_changelist"),
+                },
+                {
+                    "title": _("Follow Ups"),
+                    "link": reverse_lazy("admin:inquiry_inquiryfollowup_changelist"),
+                },
+            ],
+        },
+    ],
 }
 
 # Security settings

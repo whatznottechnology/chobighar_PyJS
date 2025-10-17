@@ -1,8 +1,9 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from .models import ContactUsHero, ContactUsInfo, WhyChooseUs, ContactTestimonial
 
 @admin.register(ContactUsHero)
-class ContactUsHeroAdmin(admin.ModelAdmin):
+class ContactUsHeroAdmin(ModelAdmin):
     list_display = ['main_title', 'subtitle', 'is_active', 'created_at', 'updated_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['main_title', 'subtitle', 'description']
@@ -23,7 +24,7 @@ class ContactUsHeroAdmin(admin.ModelAdmin):
     )
 
 @admin.register(ContactUsInfo)
-class ContactUsInfoAdmin(admin.ModelAdmin):
+class ContactUsInfoAdmin(ModelAdmin):
     list_display = ['primary_phone', 'primary_email', 'city', 'state', 'is_active', 'updated_at']
     list_filter = ['is_active', 'city', 'state', 'created_at']
     search_fields = ['primary_phone', 'primary_email', 'address_line1', 'city']
@@ -61,7 +62,7 @@ class ContactUsInfoAdmin(admin.ModelAdmin):
     )
 
 @admin.register(WhyChooseUs)
-class WhyChooseUsAdmin(admin.ModelAdmin):
+class WhyChooseUsAdmin(ModelAdmin):
     list_display = ['point_preview', 'order', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['point']
@@ -87,7 +88,7 @@ class WhyChooseUsAdmin(admin.ModelAdmin):
     )
 
 @admin.register(ContactTestimonial)
-class ContactTestimonialAdmin(admin.ModelAdmin):
+class ContactTestimonialAdmin(ModelAdmin):
     list_display = ['name', 'service', 'rating', 'comment_preview', 'order', 'is_active', 'created_at']
     list_filter = ['rating', 'service', 'is_active', 'created_at']
     search_fields = ['name', 'service', 'comment']

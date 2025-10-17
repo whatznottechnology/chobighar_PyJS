@@ -1,11 +1,19 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import HeroSlide, ShowcaseImage, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
+from rest_framework.pagination import PageNumberPagination
+from .models import HeroSlide, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
+from portfolio.models import PortfolioImage
 from .serializers import (
-    HeroSlideSerializer, ShowcaseImageSerializer, 
+    HeroSlideSerializer, 
     VideoTestimonialSerializer, TextTestimonialSerializer, FAQSerializer, AchievementSerializer, VideoShowcaseSerializer
 )
+from portfolio.serializers import PortfolioImageSerializer
+
+class ShowcaseImagePagination(PageNumberPagination):
+    page_size = 12
+    page_size_query_param = 'page_size'
+    max_page_size = 50
 
 @api_view(['GET'])
 def hero_slides(request):
@@ -25,12 +33,26 @@ def hero_slides(request):
 @api_view(['GET'])
 def showcase_images(request):
     """
-    Get all active showcase images
+    Get all featured portfolio images from all albums for homepage showcase
+    Supports pagination with load more functionality
     """
     try:
-        images = ShowcaseImage.objects.filter(is_active=True).order_by('order', 'created_at')
-        serializer = ShowcaseImageSerializer(images, many=True, context={'request': request})
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        # Get all featured portfolio images from all portfolios
+        images = PortfolioImage.objects.filter(
+            is_active=True, 
+            featured=True,
+            portfolio__is_active=True
+        ).select_related('portfolio').order_by('order', 'created_at')
+        
+        # Apply pagination
+        paginator = ShowcaseImagePagination()
+        paginated_images = paginator.paginate_queryset(images, request)
+        
+        serializer = PortfolioImageSerializer(paginated_images, many=True, context={'request': request})
+        
+        # Return paginated response with load more info
+        return paginator.get_paginated_response(serializer.data)
+        
     except Exception as e:
         return Response(
             {'error': f'Failed to fetch showcase images: {str(e)}'}, 

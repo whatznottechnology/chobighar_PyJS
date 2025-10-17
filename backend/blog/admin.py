@@ -1,4 +1,5 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django import forms
@@ -15,7 +16,7 @@ class BlogPostAdminForm(forms.ModelForm):
 
 
 @admin.register(BlogCategory)
-class BlogCategoryAdmin(admin.ModelAdmin):
+class BlogCategoryAdmin(ModelAdmin):
     list_display = ['name', 'slug', 'display_order', 'posts_count', 'is_active', 'created_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['name', 'description']
@@ -42,7 +43,7 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(BlogPost)
-class BlogPostAdmin(admin.ModelAdmin):
+class BlogPostAdmin(ModelAdmin):
     form = BlogPostAdminForm
     list_display = ['image_preview', 'title', 'category', 'author', 'status', 'published_date', 'views_count', 'is_featured', 'created_at']
     list_filter = ['status', 'is_featured', 'category', 'created_at', 'published_date']
@@ -108,7 +109,7 @@ class BlogPostAdmin(admin.ModelAdmin):
 
 
 @admin.register(BlogComment)
-class BlogCommentAdmin(admin.ModelAdmin):
+class BlogCommentAdmin(ModelAdmin):
     list_display = ['name', 'post', 'is_approved', 'created_at']
     list_filter = ['is_approved', 'created_at']
     search_fields = ['name', 'email', 'comment', 'post__title']
@@ -126,7 +127,7 @@ class BlogCommentAdmin(admin.ModelAdmin):
 
 
 @admin.register(PopupInquiry)
-class PopupInquiryAdmin(admin.ModelAdmin):
+class PopupInquiryAdmin(ModelAdmin):
     list_display = ['name', 'email', 'whatsapp_number', 'event_type', 'event_date', 'location', 'submitted_at']
     list_filter = ['event_type', 'event_date', 'submitted_at']
     search_fields = ['name', 'email', 'whatsapp_number', 'location', 'event_type']
@@ -152,7 +153,7 @@ class PopupInquiryAdmin(admin.ModelAdmin):
 
 
 @admin.register(PopupSettings)
-class PopupSettingsAdmin(admin.ModelAdmin):
+class PopupSettingsAdmin(ModelAdmin):
     list_display = ['popup_title', 'is_active', 'show_delay', 'cookie_duration_days', 'image_preview']
     
     fieldsets = (
@@ -192,3 +193,4 @@ class PopupSettingsAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Prevent deletion
         return False
+

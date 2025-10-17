@@ -1,4 +1,5 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from .models import (
@@ -7,7 +8,7 @@ from .models import (
 )
 
 @admin.register(FooterBrandInfo)
-class FooterBrandInfoAdmin(admin.ModelAdmin):
+class FooterBrandInfoAdmin(ModelAdmin):
     list_display = ['logo_preview', 'brand_text_preview', 'active_status', 'updated_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['main_text', 'sub_text', 'description']
@@ -79,7 +80,7 @@ class FooterBrandInfoAdmin(admin.ModelAdmin):
         js = ('admin/js/custom_admin.js',)
 
 @admin.register(FooterContactInfo)
-class FooterContactInfoAdmin(admin.ModelAdmin):
+class FooterContactInfoAdmin(ModelAdmin):
     list_display = ['phone', 'email', 'whatsapp_number', 'is_active', 'updated_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['phone', 'email', 'address_line1', 'address_line2']
@@ -108,7 +109,7 @@ class FooterContactInfoAdmin(admin.ModelAdmin):
     )
 
 @admin.register(FooterSocialMedia)
-class FooterSocialMediaAdmin(admin.ModelAdmin):
+class FooterSocialMediaAdmin(ModelAdmin):
     list_display = ['name', 'url', 'order', 'is_active', 'updated_at']
     list_filter = ['name', 'is_active', 'created_at']
     search_fields = ['name', 'url']
@@ -129,7 +130,7 @@ class FooterSocialMediaAdmin(admin.ModelAdmin):
     )
 
 @admin.register(FooterCopyright)
-class FooterCopyrightAdmin(admin.ModelAdmin):
+class FooterCopyrightAdmin(ModelAdmin):
     list_display = ['text', 'company_name', 'is_active', 'updated_at']
     list_filter = ['is_active', 'created_at']
     search_fields = ['text', 'company_name']
@@ -147,3 +148,4 @@ class FooterCopyrightAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+

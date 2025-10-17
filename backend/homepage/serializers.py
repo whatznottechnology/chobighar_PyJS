@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import HeroSlide, ShowcaseImage, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
+from .models import HeroSlide, VideoTestimonial, TextTestimonial, FAQ, Achievement, VideoShowcase
 
 class HeroSlideSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
@@ -7,20 +7,6 @@ class HeroSlideSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroSlide
         fields = ['id', 'title', 'image', 'image_url', 'alt_text', 'order', 'caption', 'link_url', 'is_active']
-    
-    def get_image_url(self, obj):
-        if obj.image:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.image.url)
-        return None
-
-class ShowcaseImageSerializer(serializers.ModelSerializer):
-    image_url = serializers.SerializerMethodField()
-    
-    class Meta:
-        model = ShowcaseImage
-        fields = ['id', 'image', 'image_url', 'alt_text', 'order', 'is_active']
     
     def get_image_url(self, obj):
         if obj.image:

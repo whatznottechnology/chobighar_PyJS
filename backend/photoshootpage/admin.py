@@ -1,9 +1,10 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from .models import PhotoshootHero, PhotoshootService, PhotoshootPageSettings, PhotoshootTestimonial
 
 @admin.register(PhotoshootHero)
-class PhotoshootHeroAdmin(admin.ModelAdmin):
+class PhotoshootHeroAdmin(ModelAdmin):
     list_display = ['title', 'is_active', 'created_at', 'image_preview']
     list_filter = ['is_active', 'created_at']
     search_fields = ['title', 'subtitle']
@@ -33,7 +34,7 @@ class PhotoshootHeroAdmin(admin.ModelAdmin):
     image_preview.short_description = "Preview"
 
 @admin.register(PhotoshootService)
-class PhotoshootServiceAdmin(admin.ModelAdmin):
+class PhotoshootServiceAdmin(ModelAdmin):
     list_display = ['title', 'price', 'duration', 'is_active', 'is_featured', 'order', 'image_preview']
     list_filter = ['is_active', 'is_featured', 'created_at']
     search_fields = ['title', 'description']
@@ -71,7 +72,7 @@ class PhotoshootServiceAdmin(admin.ModelAdmin):
         }
 
 @admin.register(PhotoshootPageSettings)
-class PhotoshootPageSettingsAdmin(admin.ModelAdmin):
+class PhotoshootPageSettingsAdmin(ModelAdmin):
     list_display = ['__str__', 'is_active', 'updated_at']
     
     fieldsets = [
@@ -97,7 +98,7 @@ class PhotoshootPageSettingsAdmin(admin.ModelAdmin):
 
 
 @admin.register(PhotoshootTestimonial)
-class PhotoshootTestimonialAdmin(admin.ModelAdmin):
+class PhotoshootTestimonialAdmin(ModelAdmin):
     list_display = ['client_name', 'service_type', 'rating_display', 'is_active', 'is_featured', 'order', 'client_image_preview']
     list_filter = ['rating', 'service_type', 'is_active', 'is_featured', 'created_at']
     search_fields = ['client_name', 'service_type', 'testimonial_text']
@@ -133,3 +134,4 @@ class PhotoshootTestimonialAdmin(admin.ModelAdmin):
             )
         return "No image"
     client_image_preview.short_description = "Photo"
+

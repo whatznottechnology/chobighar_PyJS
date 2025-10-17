@@ -3,10 +3,10 @@ from rest_framework.decorators import action, api_view
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from django.db.models import Q
-from .models import Category, Portfolio, PortfolioInquiry, PortfolioImage, PortfolioVideo
+from .models import Category, Portfolio, PortfolioImage, PortfolioVideo
 from .serializers import (
     CategorySerializer, PortfolioListSerializer, PortfolioDetailSerializer, 
-    PortfolioInquirySerializer, PortfolioImageSerializer, PortfolioVideoSerializer
+    PortfolioImageSerializer, PortfolioVideoSerializer
 )
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -103,62 +103,28 @@ class PortfolioViewSet(viewsets.ReadOnlyModelViewSet):
         
         serializer = PortfolioListSerializer(related, many=True)
         return Response(serializer.data)
-
-
-class PortfolioInquiryViewSet(viewsets.ModelViewSet):
-    """
-    ViewSet for portfolio inquiries
-    Handles quote requests from portfolio pages
-    """
-    queryset = PortfolioInquiry.objects.all()
-    serializer_class = PortfolioInquirySerializer
     
-    def get_queryset(self):
-        """Filter inquiries based on permissions"""
-        # For admin users, return all inquiries
-        # For regular users, they shouldn't access this endpoint
-        return super().get_queryset().order_by('-created_at')
-    
-    def create(self, request, *args, **kwargs):
-        """Create new portfolio inquiry"""
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        
-        # Save the inquiry
-        inquiry = serializer.save()
-        
-        # Here you could add email notification logic
-        # send_inquiry_notification(inquiry)
+    @action(detail=True, methods=['post'])
+    def love(self, request, pk=None):
+        """Increment love count for a portfolio"""
+        portfolio = self.get_object()
+        new_count = portfolio.increment_love()
         
         return Response({
-            'message': 'Thank you for your inquiry! We will get back to you soon.',
-            'inquiry_id': inquiry.id
-        }, status=status.HTTP_201_CREATED)
-    
-    @action(detail=False, methods=['get'])
-    def stats(self, request):
-        """Get inquiry statistics for admin dashboard"""
-        total = self.queryset.count()
-        new = self.queryset.filter(status='new').count()
-        contacted = self.queryset.filter(status='contacted').count()
-        converted = self.queryset.filter(status='converted').count()
-        
-        return Response({
-            'total': total,
-            'new': new,
-            'contacted': contacted,
-            'converted': converted,
-            'conversion_rate': round((converted / total * 100), 2) if total > 0 else 0
-        })
+            'success': True,
+            'love_count': new_count,
+            'message': 'Love added successfully!'
+        }, status=status.HTTP_200_OK)
 
 
 @api_view(['GET'])
 def showcase_images(request):
-    """Get all active portfolio images for showcase display"""
+    """Get all featured portfolio images for showcase display"""
     images = PortfolioImage.objects.filter(
         is_active=True,
+        featured=True,
         portfolio__is_active=True
-    ).order_by('?')[:20]  # Random order, limit to 20 images
+    ).order_by('order', 'created_at')  # Order by order field and creation date
     
     serializer = PortfolioImageSerializer(images, many=True)
     return Response(serializer.data)
@@ -166,11 +132,12 @@ def showcase_images(request):
 
 @api_view(['GET'])
 def portfolio_videos(request):
-    """Get all active portfolio videos for video showcase"""
+    """Get all featured portfolio videos for video showcase"""
     videos = PortfolioVideo.objects.filter(
         is_active=True,
+        featured=True,
         portfolio__is_active=True
-    ).order_by('-portfolio__date', 'order')[:8]  # Latest portfolios first, limit to 8 videos
+    ).select_related('portfolio').order_by('-portfolio__date', 'order')  # Latest portfolios first
     
     serializer = PortfolioVideoSerializer(videos, many=True)
     return Response(serializer.data)

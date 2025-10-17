@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.text import slugify
 from django.core.validators import RegexValidator
 from django.core.exceptions import ValidationError
+from utils.models import AutoOrderMixin
 import os
 
 def portfolio_cover_upload_to(instance, filename):
@@ -13,7 +14,7 @@ def portfolio_image_upload_to(instance, filename):
     return f'portfolio/{instance.portfolio.id}/images/{filename}'
 
 
-class Category(models.Model):
+class Category(AutoOrderMixin):
     """Portfolio categories like wedding, prewedding, portrait, event"""
     CATEGORY_CHOICES = [
         ('wedding', 'Weddings'),
@@ -26,7 +27,6 @@ class Category(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
     is_active = models.BooleanField(default=True)
-    order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -38,7 +38,7 @@ class Category(models.Model):
         return self.name
 
 
-class Portfolio(models.Model):
+class Portfolio(AutoOrderMixin):
     """Main portfolio/album model"""
     id = models.SlugField(max_length=100, primary_key=True)
     title = models.CharField(max_length=200)
@@ -89,9 +89,47 @@ class Portfolio(models.Model):
         help_text="Open Graph image for social media sharing (1200x630px recommended)"
     )
     
+    # CTA Section Images (4 images in 2x2 grid)
+    cta_image_1 = models.ImageField(
+        upload_to='portfolio/cta/', 
+        blank=True, 
+        null=True,
+        help_text="CTA section image 1 (top-left)"
+    )
+    cta_image_2 = models.ImageField(
+        upload_to='portfolio/cta/', 
+        blank=True, 
+        null=True,
+        help_text="CTA section image 2 (top-right)"
+    )
+    cta_image_3 = models.ImageField(
+        upload_to='portfolio/cta/', 
+        blank=True, 
+        null=True,
+        help_text="CTA section image 3 (bottom-left)"
+    )
+    cta_image_4 = models.ImageField(
+        upload_to='portfolio/cta/', 
+        blank=True, 
+        null=True,
+        help_text="CTA section image 4 (bottom-right)"
+    )
+    
+    # Promotional Video (YouTube ID only)
+    promotional_video_id = models.CharField(
+        max_length=100,
+        blank=True,
+        help_text="YouTube Video ID (e.g., 'dQw4w9WgXcQ') - Video will autoplay, loop, and be muted in mobile mockup"
+    )
+    
+    # Social interaction fields
+    love_count = models.PositiveIntegerField(
+        default=0,
+        help_text="Number of love reactions (auto-incremented by users)"
+    )
+    
     is_active = models.BooleanField(default=True)
     featured = models.BooleanField(default=False, help_text="Show in featured section")
-    order = models.IntegerField(default=0, help_text="Custom ordering")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -120,12 +158,12 @@ class Portfolio(models.Model):
 
     @property
     def images(self):
-        """Get all images for this portfolio"""
+        """Get all active images for this portfolio"""
         return self.portfolio_images.filter(is_active=True).order_by('order')
 
     @property
     def videos(self):
-        """Get all videos for this portfolio"""
+        """Get all active videos for this portfolio"""
         return self.portfolio_videos.filter(is_active=True).order_by('order')
 
     @property
@@ -137,9 +175,15 @@ class Portfolio(models.Model):
     def services(self):
         """Get all services for this portfolio"""
         return self.portfolio_services.all().order_by('order')
+    
+    def increment_love(self):
+        """Increment love count by 1"""
+        self.love_count += 1
+        self.save(update_fields=['love_count', 'updated_at'])
+        return self.love_count
 
 
-class PortfolioImage(models.Model):
+class PortfolioImage(AutoOrderMixin):
     """Images within each portfolio"""
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='portfolio_images')
     
@@ -157,9 +201,9 @@ class PortfolioImage(models.Model):
     )
     
     caption = models.CharField(max_length=200, blank=True)
-    order = models.IntegerField(default=0)
     is_cover = models.BooleanField(default=False, help_text="Use as cover image")
     is_active = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False, help_text="Show in homepage gallery and portfolio page")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -204,16 +248,15 @@ def portfolio_video_thumbnail_upload_to(instance, filename):
     return f'portfolio/{instance.portfolio.id}/video_thumbnails/{filename}'
 
 
-class PortfolioVideo(models.Model):
+class PortfolioVideo(AutoOrderMixin):
     """Videos within each portfolio"""
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='portfolio_videos')
     video_id = models.CharField(max_length=100, help_text="YouTube video ID")
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    duration = models.CharField(max_length=20, help_text="e.g., '3:45', '2:30'")
     
-    order = models.IntegerField(default=0)
     is_active = models.BooleanField(default=True)
+    featured = models.BooleanField(default=False, help_text="Show in featured wedding videos section")
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -223,11 +266,10 @@ class PortfolioVideo(models.Model):
         return f"{self.portfolio.title} - {self.title}"
 
 
-class PortfolioHighlight(models.Model):
+class PortfolioHighlight(AutoOrderMixin):
     """Highlights/bullet points for each portfolio"""
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='portfolio_highlights')
     highlight_text = models.CharField(max_length=300)
-    order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -237,11 +279,11 @@ class PortfolioHighlight(models.Model):
         return f"{self.portfolio.title} - {self.highlight_text[:50]}"
 
 
-class PortfolioService(models.Model):
+class PortfolioService(AutoOrderMixin):
     """Services provided for each portfolio"""
     portfolio = models.ForeignKey(Portfolio, on_delete=models.CASCADE, related_name='portfolio_services')
     service_name = models.CharField(max_length=200)
-    order = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
@@ -249,30 +291,3 @@ class PortfolioService(models.Model):
 
     def __str__(self):
         return f"{self.portfolio.title} - {self.service_name}"
-
-
-class PortfolioInquiry(models.Model):
-    """Quote requests from portfolio pages"""
-    STATUS_CHOICES = [
-        ('new', 'New'),
-        ('contacted', 'Contacted'),
-        ('converted', 'Converted'),
-        ('closed', 'Closed'),
-    ]
-    
-    portfolio = models.ForeignKey(Portfolio, on_delete=models.SET_NULL, null=True, blank=True, related_name='inquiries')
-    name = models.CharField(max_length=100)
-    phone_regex = RegexValidator(regex=r'^\+?1?\d{9,15}$', message="Phone number must be entered in the format: '+999999999'. Up to 15 digits allowed.")
-    phone = models.CharField(validators=[phone_regex], max_length=17)
-    event_date = models.DateField()
-    message = models.TextField(blank=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='new')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        ordering = ['-created_at']
-
-    def __str__(self):
-        portfolio_name = self.portfolio.title if self.portfolio else "General"
-        return f"{self.name} - {portfolio_name} - {self.status}"

@@ -1,5 +1,6 @@
 import os
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.conf import settings
@@ -11,59 +12,56 @@ from .models import (
 
 
 # Inline classes for related models
-class VendorImageInline(admin.TabularInline):
+class VendorImageInline(TabularInline):
     model = VendorImage
     extra = 1
     fields = ['image', 'title', 'image_type', 'display_order', 'is_active']
     ordering = ['image_type', 'display_order']
 
 
-class VendorVideoInline(admin.TabularInline):
+class VendorVideoInline(TabularInline):
     model = VendorVideo
     extra = 1
     fields = ['title', 'youtube_id', 'display_order', 'is_active']
     ordering = ['display_order']
 
 
-class VendorServiceInline(admin.TabularInline):
+class VendorServiceInline(TabularInline):
     model = VendorService
     extra = 1
     fields = ['name', 'description', 'display_order', 'is_active']
     ordering = ['display_order']
 
 
-class VendorSpecialtyInline(admin.TabularInline):
+class VendorSpecialtyInline(TabularInline):
     model = VendorSpecialty
     extra = 1
     fields = ['name', 'display_order', 'is_active']
     ordering = ['display_order']
 
 
-class VendorHighlightInline(admin.TabularInline):
+class VendorHighlightInline(TabularInline):
     model = VendorHighlight
     extra = 1
     fields = ['text', 'display_order', 'is_active']
     ordering = ['display_order']
 
 
-
-
-
-class VendorTestimonialInline(admin.TabularInline):
+class VendorTestimonialInline(TabularInline):
     model = VendorTestimonial
     extra = 1
     fields = ['client_name', 'rating', 'review', 'event_type', 'date', 'is_featured', 'is_active']
     ordering = ['-is_featured', '-date']
 
 
-class VendorPortfolioInline(admin.TabularInline):
+class VendorPortfolioInline(TabularInline):
     model = VendorPortfolio
     extra = 1
     fields = ['title', 'image', 'category', 'display_order', 'is_active']
     ordering = ['display_order']
 
 
-class VendorSubCategoryInline(admin.TabularInline):
+class VendorSubCategoryInline(TabularInline):
     """Inline admin for subcategories within category admin"""
     model = VendorSubCategory
     extra = 1
@@ -72,7 +70,7 @@ class VendorSubCategoryInline(admin.TabularInline):
 
 
 @admin.register(VendorCategory)
-class VendorCategoryAdmin(admin.ModelAdmin):
+class VendorCategoryAdmin(ModelAdmin):
     """Admin interface for Vendor Categories"""
     
     list_display = [
@@ -140,7 +138,7 @@ class VendorCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(VendorSubCategory)
-class VendorSubCategoryAdmin(admin.ModelAdmin):
+class VendorSubCategoryAdmin(ModelAdmin):
     """Admin interface for Vendor Subcategories"""
     
     list_display = [
@@ -188,12 +186,12 @@ class VendorSubCategoryAdmin(admin.ModelAdmin):
 
 
 @admin.register(VendorProfile)
-class VendorProfileAdmin(admin.ModelAdmin):
+class VendorProfileAdmin(ModelAdmin):
     """Comprehensive admin interface for Vendor Profiles"""
     
     list_display = [
-        'name', 'category', 'subcategory', 'location', 'rating_display', 
-        'reviews_count', 'featured_status', 'active_status', 'created_at'
+        'profile_preview', 'name', 'category', 'subcategory', 'location', 
+        'rating_display', 'reviews_count', 'featured_status', 'active_status'
     ]
     list_filter = [
         'category', 'subcategory', 'is_featured', 'is_active', 
@@ -257,7 +255,38 @@ class VendorProfileAdmin(admin.ModelAdmin):
     ]
     
     def get_queryset(self, request):
-        return super().get_queryset(request).select_related('category', 'subcategory')
+        return super().get_queryset(request).select_related('category', 'subcategory').prefetch_related('images')
+    
+    def profile_preview(self, obj):
+        """Display profile or cover image thumbnail"""
+        # Try to get profile image first, then cover image, then first gallery image
+        image_obj = None
+        
+        # Get the first profile or cover image
+        profile_images = obj.images.filter(image_type='profile').first()
+        cover_images = obj.images.filter(image_type='cover').first()
+        gallery_images = obj.images.filter(image_type='gallery').first()
+        
+        image_obj = profile_images or cover_images or gallery_images
+        
+        if image_obj and image_obj.image:
+            try:
+                return format_html(
+                    '<div style="text-align: center;">'
+                    '<img src="{}" width="60" height="60" style="border-radius: 50%; object-fit: cover; box-shadow: 0 2px 6px rgba(0,0,0,0.15); border: 2px solid #e0e0e0;" />'
+                    '</div>',
+                    image_obj.image.url
+                )
+            except Exception:
+                pass
+        
+        return format_html(
+            '<div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, #B22222 0%, #8B0000 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 18px; box-shadow: 0 2px 6px rgba(0,0,0,0.15);">'
+            '{}'
+            '</div>',
+            obj.name[0].upper() if obj.name else '?'
+        )
+    profile_preview.short_description = '📷'
     
     def duplicate_vendor(self, request, queryset):
         """Duplicate selected vendor profiles for easy modification"""
@@ -361,7 +390,7 @@ class VendorProfileAdmin(admin.ModelAdmin):
 
 
 @admin.register(VendorImage)
-class VendorImageAdmin(admin.ModelAdmin):
+class VendorImageAdmin(ModelAdmin):
     """Admin interface for Vendor Images"""
     
     list_display = ['vendor', 'title', 'image_type', 'image_preview', 'display_order', 'is_active', 'created_at']
@@ -410,7 +439,7 @@ class VendorImageAdmin(admin.ModelAdmin):
 
 
 @admin.register(VendorVideo)
-class VendorVideoAdmin(admin.ModelAdmin):
+class VendorVideoAdmin(ModelAdmin):
     """Admin interface for Vendor Videos"""
     
     list_display = ['vendor', 'title', 'youtube_preview', 'display_order', 'is_active', 'created_at']
@@ -440,7 +469,7 @@ class VendorVideoAdmin(admin.ModelAdmin):
 
 
 @admin.register(VendorTestimonial)
-class VendorTestimonialAdmin(admin.ModelAdmin):
+class VendorTestimonialAdmin(ModelAdmin):
     """Admin interface for Vendor Testimonials"""
     
     list_display = [

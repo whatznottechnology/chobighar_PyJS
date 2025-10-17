@@ -1,12 +1,13 @@
 import os
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from django.utils.safestring import mark_safe
 from django.conf import settings
 from .models import SocialMedia, ContactInfo, BrandInfo
 
 @admin.register(SocialMedia)
-class SocialMediaAdmin(admin.ModelAdmin):
+class SocialMediaAdmin(ModelAdmin):
     list_display = ['platform_icon', 'get_name_display', 'url_preview', 'active_status', 'order_badge']
     list_filter = ['is_active', 'name']
     list_editable = []
@@ -82,7 +83,7 @@ class SocialMediaAdmin(admin.ModelAdmin):
         js = ('admin/js/custom_admin.js',)
 
 @admin.register(ContactInfo)
-class ContactInfoAdmin(admin.ModelAdmin):
+class ContactInfoAdmin(ModelAdmin):
     list_display = ['contact_summary', 'active_status']
     list_filter = ['is_active']
     list_editable = []
@@ -124,7 +125,7 @@ class ContactInfoAdmin(admin.ModelAdmin):
         js = ('admin/js/custom_admin.js',)
 
 @admin.register(BrandInfo)
-class BrandInfoAdmin(admin.ModelAdmin):
+class BrandInfoAdmin(ModelAdmin):
     list_display = ['brand_preview', 'logo_preview', 'active_status']
     list_filter = ['is_active']
     list_editable = []
@@ -222,3 +223,4 @@ class BrandInfoAdmin(admin.ModelAdmin):
             'all': ('admin/css/custom_admin.css',)
         }
         js = ('admin/js/custom_admin.js',)
+

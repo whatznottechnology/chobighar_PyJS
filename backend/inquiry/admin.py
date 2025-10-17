@@ -1,17 +1,18 @@
 from django.contrib import admin
+from unfold.admin import ModelAdmin, TabularInline, StackedInline
 from django.utils.html import format_html
 from django.urls import reverse
 from django.utils import timezone
 from .models import Inquiry, InquiryFollowUp
 
-class InquiryFollowUpInline(admin.TabularInline):
+class InquiryFollowUpInline(TabularInline):
     model = InquiryFollowUp
     extra = 0
     fields = ('follow_up_date', 'method', 'staff_member', 'notes')
     readonly_fields = ('created_at',)
 
 @admin.register(Inquiry)
-class InquiryAdmin(admin.ModelAdmin):
+class InquiryAdmin(ModelAdmin):
     list_display = [
         'customer_info', 'inquiry_type_badge', 'subject_preview', 
         'status_badge', 'priority_badge', 'service_name', 
@@ -182,7 +183,7 @@ class InquiryAdmin(admin.ModelAdmin):
         js = ('admin/js/custom_admin.js',)
 
 @admin.register(InquiryFollowUp)
-class InquiryFollowUpAdmin(admin.ModelAdmin):
+class InquiryFollowUpAdmin(ModelAdmin):
     list_display = ['inquiry', 'follow_up_date', 'method', 'staff_member', 'created_at']
     list_filter = ['method', 'follow_up_date', 'created_at']
     search_fields = ['inquiry__name', 'inquiry__email', 'notes', 'staff_member']
@@ -190,3 +191,4 @@ class InquiryFollowUpAdmin(admin.ModelAdmin):
     
     def get_queryset(self, request):
         return super().get_queryset(request).select_related('inquiry')
+
