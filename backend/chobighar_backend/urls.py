@@ -62,9 +62,11 @@ urlpatterns = [
     path('api/static/', include('staticpages.urls')),  # Static Pages APIs
 ]
 
-# Serve media and static files during development
+# Serve media and static files
+# Media files (uploads) - ALWAYS serve these
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# Serve static files during development
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-    # Serve static files from STATICFILES_DIRS during development
     from django.contrib.staticfiles.urls import staticfiles_urlpatterns
     urlpatterns += staticfiles_urlpatterns()

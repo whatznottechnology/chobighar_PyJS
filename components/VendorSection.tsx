@@ -99,12 +99,12 @@ const VendorSection = () => {
         {/* Enhanced Category Filter */}
         <div className="mb-12 px-4 sm:px-6 lg:px-8">
           <div className="flex justify-center">
-            <div className="inline-flex bg-white p-2 rounded-2xl border border-gray-300 shadow-lg overflow-x-auto">
+            <div className="inline-flex bg-white p-1.5 sm:p-2 rounded-2xl border border-gray-300 shadow-lg overflow-x-auto scrollbar-hide max-w-full">
               {categories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setActiveCategory(category.id)}
-                  className={`px-5 py-3 rounded-xl font-semibold text-sm transition-all duration-300 whitespace-nowrap min-w-0 ${
+                  className={`px-3 sm:px-5 py-2 sm:py-3 rounded-xl font-semibold text-xs sm:text-sm transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                     activeCategory === category.id
                       ? 'bg-white text-red-600 shadow-lg border-2 border-red-600 transform scale-105' 
                       : 'text-gray-800 hover:text-red-600 hover:bg-gray-50 hover:shadow-sm border-2 border-transparent'

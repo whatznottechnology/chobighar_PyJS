@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useHeaderData } from '../hooks/useHeaderData';
 import { useWhatsAppIntegration } from '../hooks/useWhatsAppIntegration';
 import { getApiUrl, API_ENDPOINTS } from '@/config/api';
@@ -16,6 +16,7 @@ interface FormData {
 export default function ContactForm() {
   const { headerData } = useHeaderData();
   const { sendContactFormToWhatsApp } = useWhatsAppIntegration();
+  const [isMounted, setIsMounted] = useState(false);
   const [formData, setFormData] = useState<FormData>({
     shootType: '',
     date: '',
@@ -26,6 +27,11 @@ export default function ContactForm() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  // Prevent hydration mismatch by only setting date constraint after mount
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const shootTypes = [
     'Wedding Photography',
@@ -229,7 +235,7 @@ export default function ContactForm() {
                   required
                   className="w-full px-4 py-3 border border-white/40 rounded-xl bg-white/95 text-gray-900 focus:ring-2 focus:ring-yellow-300 focus:border-yellow-300 transition-all backdrop-blur-sm text-sm font-medium focus:bg-white shadow-sm"
                   style={{ fontFamily: 'Inter, sans-serif' }}
-                  min={new Date().toISOString().split('T')[0]}
+                  {...(isMounted && { min: new Date().toISOString().split('T')[0] })}
                 />
               </div>
 

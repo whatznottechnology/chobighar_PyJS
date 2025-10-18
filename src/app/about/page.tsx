@@ -383,15 +383,13 @@ export default function AboutPage() {
       {/* Back to Top Button */}
       {showBackToTop && (
         <button
-          onClick={scrollToTop}
-          className="fixed bottom-6 right-24 z-[9000] text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90"
-          style={{
-            backgroundColor: '#B22222'
-          }}
-          aria-label="Back to top"
-        >
-          <ArrowUpIcon className="w-6 h-6" />
-        </button>
+            onClick={scrollToTop}
+            className="fixed bottom-24 right-4 md:bottom-6 md:right-24 z-[9999] w-14 h-14 text-white rounded-full shadow-lg transition-all duration-300 hover:scale-110 transform hover:opacity-90 hover:shadow-xl active:scale-95 pointer-events-auto focus:outline-none focus:ring-2 focus:ring-yellow-400 flex items-center justify-center bg-[#B22222]"
+            aria-label="Back to top"
+            tabIndex={0}
+          >
+            <ArrowUpIcon className="w-7 h-7" />
+          </button>
       )}
     </main>
   );

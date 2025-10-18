@@ -1,6 +1,16 @@
 {% extends "admin/base.html" %}
 {% load static %}
 
+{% block extrahead %}
+{{ block.super }}
+<!-- Hardcoded Chobighar Favicon -->
+<link rel="icon" type="image/png" href="/static/favicon.png">
+<link rel="shortcut icon" type="image/png" href="/static/favicon.png">
+<link rel="apple-touch-icon" href="/static/favicon.png">
+<link rel="icon" type="image/png" href="/static/admin/img/chobighar.png">
+<link rel="shortcut icon" type="image/png" href="/static/admin/img/chobighar.png">
+{% endblock %}
+
 {% block branding %}
 <div style="display: flex; align-items: center; padding: 10px 15px;">
     <img src="{% static '2.png' %}" alt="Chobighar" style="max-width: 40px; height: auto; margin-right: 12px;">

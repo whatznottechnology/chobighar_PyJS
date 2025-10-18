@@ -58,7 +58,7 @@ function PWAInstallBanner() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     };
 
-    // If app is installed, don't show banner
+    // If app is installed, don't show banner and notify immediately
     if (isInstalled()) {
       const state = getBannerState();
       if (!state.installedOnce) {
@@ -66,10 +66,8 @@ function PWAInstallBanner() {
         saveBannerState({ ...state, installedOnce: true, dismissed: false, dismissedAt: 0 });
       }
       setShowBanner(false);
-      // Notify navbar immediately
-      setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
-      }, 0);
+      // Notify navbar immediately on mount
+      window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
       return;
     }
 
@@ -82,9 +80,7 @@ function PWAInstallBanner() {
       // If less than 7 days since dismissal, don't show
       if (timeSinceDismiss < DISMISS_DURATION) {
         setShowBanner(false);
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
-        }, 0);
+        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
         return;
       } else {
         // Reset dismissal after 7 days
@@ -102,9 +98,7 @@ function PWAInstallBanner() {
       if (!bannerState.dismissed && !state.installedOnce) {
         setShowBanner(true);
         // Notify navbar that banner is shown
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('pwa-banner-visible'));
-        }, 0);
+        window.dispatchEvent(new CustomEvent('pwa-banner-visible'));
       }
     };
 
@@ -121,9 +115,7 @@ function PWAInstallBanner() {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
       
       // Notify navbar
-      setTimeout(() => {
-        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
-      }, 0);
+      window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
     };
 
     window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
@@ -159,9 +151,7 @@ function PWAInstallBanner() {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
         
         // Notify navbar
-        setTimeout(() => {
-          window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
-        }, 50);
+        window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
       }
     } catch (error) {
       console.error('Install prompt failed:', error);
@@ -182,9 +172,7 @@ function PWAInstallBanner() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
     
     // Notify navbar
-    setTimeout(() => {
-      window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
-    }, 50);
+    window.dispatchEvent(new CustomEvent('pwa-banner-hidden'));
   };
 
   // Don't render on server or if not showing
