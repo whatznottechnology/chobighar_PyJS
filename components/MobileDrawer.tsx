@@ -38,7 +38,7 @@ const menuItems = [
   { name: 'Films/Portfolio', href: '/portfolio' },
   { name: 'Associate Vendors', href: '/vendors' },
   { name: 'Contact Us', href: '/contact' },
-  { name: 'Shopping', href: 'https://shop.chobighar.com' },
+  { name: 'Shopping', href: 'https://store.chobighar.com' },
 ];
 
 export default function MobileDrawer({ isOpen, onClose, headerData: propHeaderData }: MobileDrawerProps) {
