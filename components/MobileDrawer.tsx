@@ -37,6 +37,8 @@ const menuItems = [
   { name: 'Photoshoot', href: '/photoshoot' },
   { name: 'Films/Portfolio', href: '/portfolio' },
   { name: 'Associate Vendors', href: '/vendors' },
+  { name: 'Blog', href: '/blog' },
+  { name: 'About Us', href: '/about' },
   { name: 'Contact Us', href: '/contact' },
   { name: 'Shopping', href: 'https://store.chobighar.com' },
 ];
